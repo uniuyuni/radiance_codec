@@ -241,6 +241,23 @@ deflate の系統。写真や film grain では典型的に 35-55% 程度に縮�
 scripts/probe_signaled_context_tree_mdl.py
 ```
 
+軽量スモーク:
+
+```text
+pixi run python scripts/probe_signaled_context_tree_mdl.py --glob 'ph_abandoned_tiled_room_1k.exr' --crop-size 64 --bit-min 15 --bit-max 20 --max-leaves 8 --no-save
+```
+
+初回スモーク結果:
+
+- `ph_abandoned_tiled_room_1k`, crop64, bits15-20, leaves8:
+  existing `9.837x`, hybrid `10.043x`, gain `1.0210`
+- `ph_belfast_sunset_puresky_1k`, crop64, bits0-14, leaves8:
+  existing `2.802x`, hybrid `2.838x`, gain `1.0130`
+- 同 puresky tail に `--feature-set with_ordered_high` を足しても hybrid `2.840x`
+
+解釈: これは小さな構文・動作確認で、性能結論ではない。ただし現時点の兆候は
+ロードマップ通りで、puresky tail 単独突破より non-puresky main payload 側を優先する。
+
 ### Route B: reversible ordered-body block transform
 
 優先度: 高
@@ -416,4 +433,3 @@ exact で製品主張にするなら、少なくとも次を分けて表示す�
 - non-puresky は main payload を削れば 8x 台から伸びる余地がある。
 - synthetic noise は codec 改善対象ではなく entropy certificate 対象に寄せる。
 - AI は復元器ではなく、最後の entropy context mixer としてだけ戻す。
-

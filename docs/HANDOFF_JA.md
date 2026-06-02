@@ -224,7 +224,7 @@ low15 は float32 mantissa 23 bit のうち下位 15 bit を落とし、上位 8
 true / exact lossless を続ける場合の次手:
 
 - まず `docs/LOSSLESS_12X_ROADMAP_JA.md` を読む。
-- 最優先は side information 込みの MDL-coded signaled context tree。
+- 最優先は side information 込みの MDL-coded signaled context tree。入口は `scripts/probe_signaled_context_tree_mdl.py`。
 - 次に reversible ordered-body block transform と source-precision aware route を試す。
 - puresky low-tail は、12x 主戦場というより certificate と低 support feature 探索として扱う。
 - AI は最後の entropy context mixer としてだけ戻す。完全な画像再構成モデルには戻らない。
