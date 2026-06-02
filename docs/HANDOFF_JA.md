@@ -21,6 +21,10 @@
    - 一度落ち着いて再整理した研究方針。
    - exact lossless の限界、near-lossless を別オプション化する判断、今後の仮説がまとまっている。
 
+5. `docs/LOSSLESS_12X_ROADMAP_JA.md`
+   - 2026-06-02 時点の true/exact lossless 12x 再整理。
+   - near-lossless ではなく、float32 ビット列完全一致だけを対象に、文献・ボトルネック・次の実験順をまとめている。
+
 ## 現在の場所と名前
 
 プロジェクトフォルダは次です。
@@ -217,11 +221,13 @@ low15 は float32 mantissa 23 bit のうち下位 15 bit を落とし、上位 8
 - `test_codec` のソースは `codec/tests/test_passthrough.cpp`。near-lossless の基本 roundtrip もここに入っている。
 - `results/` は履歴が多いので、最新方針は `docs/RESULTS_JA.md`、`docs/PLAN_ML_V2.md` 後半、`docs/LOSSLESS_RESEARCH_REBOOT.md` 後半を優先する。
 
-exact lossless を続ける場合の次手:
+true / exact lossless を続ける場合の次手:
 
-- puresky 専用の low-tail 条件付きモデルをもう一段だけ試す。
-- per-tile の cheap context tree を、side information 予算込みで検証する。
-- AI は tail bit の確率推定器として小さく使う。完全な画像再構成モデルには戻らない。
+- まず `docs/LOSSLESS_12X_ROADMAP_JA.md` を読む。
+- 最優先は side information 込みの MDL-coded signaled context tree。
+- 次に reversible ordered-body block transform と source-precision aware route を試す。
+- puresky low-tail は、12x 主戦場というより certificate と低 support feature 探索として扱う。
+- AI は最後の entropy context mixer としてだけ戻す。完全な画像再構成モデルには戻らない。
 
 ## 注意点
 
@@ -229,7 +235,7 @@ exact lossless を続ける場合の次手:
 - `ml/` の生成データや log / manifest には、古い絶対パスが残っている可能性がある。
 - source / docs / public API では `hdrcodec` ではなく `radiance_codec` を使う。
 - sandbox から MPS が見えない場合がある。GPU 学習を本気で回すなら、sandbox 外または MPS が見える環境で実行する。
-- exact 12x / 16x は夢として追う価値があるが、puresky の low mantissa tail が現在の最大の壁。
+- exact 12x / 16x は夢として追う価値があるが、puresky の low mantissa tail と no-puresky の main payload は別の壁。
 - near-lossless は逃げではなく、HDR 用ライブラリとしてかなり実用的な別モード。
 
 ## 再出発の合言葉
