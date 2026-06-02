@@ -1,0 +1,8 @@
+*.exr binary
+*.dylib binary
+*.so binary
+*.pt binary
+*.npz binary
+*.png binary
+*.jpg binary
+*.jpeg binary

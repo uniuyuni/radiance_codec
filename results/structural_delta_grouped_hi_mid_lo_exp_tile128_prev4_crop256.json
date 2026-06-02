@@ -1,0 +1,56 @@
+[
+  {
+    "image": "ph_belfast_sunset_puresky_1k.exr",
+    "shape": [
+      256,
+      256,
+      4
+    ],
+    "crop_size": 256,
+    "tile_size": 128,
+    "previous_bits": 4,
+    "preset": "hi_mid_lo_exp",
+    "raw_bits": 8388608,
+    "estimated_bits": 3864973.561005602,
+    "ratio": 2.1704179517899274,
+    "mode_histogram": {
+      "lo:xor_zero": 4,
+      "hi_mid_exp:local_delta_float_med": 1,
+      "sign:xor_float_med": 1,
+      "hi_mid_exp:local_delta_med": 3,
+      "sign:xor_west": 2,
+      "sign:xor_north": 1
+    },
+    "carry_histogram": {},
+    "blosc_ratio": 2.1233703149640184,
+    "hybrid_ratio": 2.1704179517899274,
+    "hybrid_pick": "group"
+  },
+  {
+    "image": "ph_kloppenheim_06_puresky_1k.exr",
+    "shape": [
+      256,
+      256,
+      4
+    ],
+    "crop_size": 256,
+    "tile_size": 128,
+    "previous_bits": 4,
+    "preset": "hi_mid_lo_exp",
+    "raw_bits": 8388608,
+    "estimated_bits": 3827907.4507575347,
+    "ratio": 2.1914343823385574,
+    "mode_histogram": {
+      "lo:xor_zero": 4,
+      "hi_mid_exp:local_delta_med": 2,
+      "sign:xor_float_med": 1,
+      "hi_mid_exp:local_delta_west": 2,
+      "sign:xor_west": 2,
+      "sign:xor_north": 1
+    },
+    "carry_histogram": {},
+    "blosc_ratio": 2.0950129917354383,
+    "hybrid_ratio": 2.1914343823385574,
+    "hybrid_pick": "group"
+  }
+]

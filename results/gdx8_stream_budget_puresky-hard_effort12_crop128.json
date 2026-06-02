@@ -1,0 +1,96 @@
+[
+  {
+    "image": "ph_belfast_sunset_puresky_1k",
+    "shape": [
+      128,
+      128,
+      4
+    ],
+    "raw_bytes": 262144,
+    "encoded_bytes": 109031,
+    "ratio": 2.4043070319450432,
+    "top_header_bytes": 21,
+    "gdx_header_bytes": 20,
+    "record_mode_bytes": 2,
+    "channel_mode_bytes": 3,
+    "tail_selector_bytes": 1,
+    "family_bytes": 23,
+    "main_payload_bytes": 17259,
+    "tail_payload_bytes": 91702,
+    "tail_tiles": 1,
+    "body_tiles": 1,
+    "body_tail_tile_fraction": 1.0,
+    "body_half_tiles": 0,
+    "body_half_tile_fraction": 0.0,
+    "body_channel_split_tiles": 1,
+    "body_channel_split_fraction": 1.0,
+    "mode_histogram": {
+      "body:m0": 1,
+      "body:m2": 2,
+      "body:m7": 1,
+      "body:split": 1,
+      "sign:m22": 1
+    },
+    "family_histogram": {
+      "channel_split": 7,
+      "constant_zero": 1,
+      "prev_only": 5,
+      "spatial_hi_channel": 3,
+      "split:base": 1,
+      "split:constant_zero": 6,
+      "split:prev_only": 7,
+      "split:spatial_hi_channel": 8,
+      "split:spatial_hi_neighbors": 1,
+      "split:spatial_prev_pc": 2,
+      "split:wn_prev": 3,
+      "wn_prev": 1
+    }
+  },
+  {
+    "image": "ph_kloppenheim_06_puresky_1k",
+    "shape": [
+      128,
+      128,
+      4
+    ],
+    "raw_bytes": 262144,
+    "encoded_bytes": 114433,
+    "ratio": 2.290807721548854,
+    "top_header_bytes": 21,
+    "gdx_header_bytes": 20,
+    "record_mode_bytes": 2,
+    "channel_mode_bytes": 3,
+    "tail_selector_bytes": 1,
+    "family_bytes": 21,
+    "main_payload_bytes": 22674,
+    "tail_payload_bytes": 91691,
+    "tail_tiles": 1,
+    "body_tiles": 1,
+    "body_tail_tile_fraction": 1.0,
+    "body_half_tiles": 0,
+    "body_half_tile_fraction": 0.0,
+    "body_channel_split_tiles": 1,
+    "body_channel_split_fraction": 1.0,
+    "mode_histogram": {
+      "body:m0": 1,
+      "body:m2": 2,
+      "body:m7": 1,
+      "body:split": 1,
+      "sign:m22": 1
+    },
+    "family_histogram": {
+      "channel_split": 6,
+      "constant_zero": 1,
+      "prev4_channel": 1,
+      "prev_only": 4,
+      "spatial_hi_channel": 5,
+      "split:base": 2,
+      "split:constant_zero": 3,
+      "split:prev_only": 9,
+      "split:spatial_hi_channel": 5,
+      "split:spatial_hi_neighbors": 1,
+      "split:spatial_prev_pc": 1,
+      "split:wn_prev": 3
+    }
+  }
+]

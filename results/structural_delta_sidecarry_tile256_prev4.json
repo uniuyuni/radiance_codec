@@ -1,0 +1,513 @@
+[
+  {
+    "image": "oexr_ScanLines_CandleGlass.exr",
+    "shape": [
+      810,
+      1000,
+      4
+    ],
+    "tile_size": 256,
+    "previous_bits": 4,
+    "raw_bits": 103680000,
+    "estimated_bits": 19433296.440087587,
+    "ratio": 5.335173078825978,
+    "pick_histogram": {
+      "sidecarry_delta": 16
+    },
+    "mode_histogram": {
+      "sign:xor_float_med": 4,
+      "exponent:xor_bit_majority": 6,
+      "mantissa_hi:delta_float_med": 12,
+      "mantissa_mid:xor_northeast": 1,
+      "mantissa_lo:xor_zero": 10,
+      "sign:xor_west": 5,
+      "mantissa_mid:xor_bit_majority": 4,
+      "exponent:xor_float_med": 8,
+      "mantissa_mid:xor_zero": 11,
+      "exponent:xor_zero": 1,
+      "mantissa_lo:xor_bit_majority": 1,
+      "sign:xor_north": 3,
+      "mantissa_hi:delta_med": 1,
+      "mantissa_hi:xor_float_med": 1,
+      "mantissa_lo:xor_channel_previous": 1,
+      "sign:xor_bit_majority": 3,
+      "exponent:xor_north": 1,
+      "mantissa_hi:delta_north": 1,
+      "mantissa_lo:delta_west": 1,
+      "sign:xor_zero": 1,
+      "mantissa_lo:xor_west": 2,
+      "mantissa_hi:xor_west": 1,
+      "mantissa_lo:delta_north": 1
+    },
+    "carry_histogram": {
+      "mantissa_hi:cost_bits": 780497.3722105161,
+      "mantissa_hi:ones": 226724,
+      "mantissa_hi:total": 2934848
+    },
+    "blosc_ratio": 4.36564279542618,
+    "hybrid_ratio": 5.335173078825978,
+    "hybrid_pick": "side"
+  },
+  {
+    "image": "oexr_ScanLines_Cannon.exr",
+    "shape": [
+      566,
+      780,
+      3
+    ],
+    "tile_size": 256,
+    "previous_bits": 4,
+    "raw_bits": 42382080,
+    "estimated_bits": 8535427.989315601,
+    "ratio": 4.965431148039987,
+    "pick_histogram": {
+      "sidecarry_delta": 12
+    },
+    "mode_histogram": {
+      "sign:xor_float_med": 1,
+      "exponent:xor_float_med": 7,
+      "mantissa_hi:delta_planar": 11,
+      "mantissa_mid:delta_planar": 6,
+      "mantissa_lo:xor_zero": 12,
+      "sign:xor_west": 9,
+      "exponent:xor_channel_previous": 2,
+      "mantissa_hi:delta_channel_previous": 1,
+      "mantissa_mid:xor_bit_xor_planar": 4,
+      "exponent:xor_float_planar": 3,
+      "mantissa_mid:delta_west": 1,
+      "sign:xor_north": 2,
+      "mantissa_mid:xor_west": 1
+    },
+    "carry_histogram": {
+      "mantissa_hi:cost_bits": 219558.93476884507,
+      "mantissa_hi:ones": 79379,
+      "mantissa_hi:total": 1324440,
+      "mantissa_mid:cost_bits": 61.75245307262353,
+      "mantissa_mid:ones": 0,
+      "mantissa_mid:total": 723456
+    },
+    "blosc_ratio": 3.847378936062206,
+    "hybrid_ratio": 4.965431148039987,
+    "hybrid_pick": "side"
+  },
+  {
+    "image": "oexr_ScanLines_Tree.exr",
+    "shape": [
+      906,
+      928,
+      4
+    ],
+    "tile_size": 256,
+    "previous_bits": 4,
+    "raw_bits": 107618304,
+    "estimated_bits": 28211566.48470634,
+    "ratio": 3.814687286448292,
+    "pick_histogram": {
+      "sidecarry_delta": 16
+    },
+    "mode_histogram": {
+      "sign:xor_float_med": 1,
+      "exponent:xor_float_med": 8,
+      "mantissa_hi:xor_zero": 11,
+      "mantissa_mid:xor_zero": 15,
+      "mantissa_lo:xor_zero": 16,
+      "sign:xor_west": 12,
+      "mantissa_hi:xor_north": 1,
+      "mantissa_hi:xor_float_med": 3,
+      "mantissa_hi:xor_bit_majority": 1,
+      "sign:xor_north": 3,
+      "exponent:delta_med": 3,
+      "mantissa_mid:xor_north": 1,
+      "exponent:delta_west": 1,
+      "exponent:xor_zero": 4
+    },
+    "carry_histogram": {
+      "exponent:cost_bits": 744205.2837892262,
+      "exponent:ones": 359637,
+      "exponent:total": 950272
+    },
+    "blosc_ratio": 3.4829977062729642,
+    "hybrid_ratio": 3.814687286448292,
+    "hybrid_pick": "side"
+  },
+  {
+    "image": "oexr_TestImages_GrayRampsHorizontal.exr",
+    "shape": [
+      800,
+      800,
+      1
+    ],
+    "tile_size": 256,
+    "previous_bits": 4,
+    "raw_bits": 20480000,
+    "estimated_bits": 48038.38531833332,
+    "ratio": 426.3257364769093,
+    "pick_histogram": {
+      "sidecarry_delta": 16
+    },
+    "mode_histogram": {
+      "sign:xor_float_med": 1,
+      "exponent:delta_float_planar": 1,
+      "mantissa_hi:delta_float_planar": 4,
+      "mantissa_mid:delta_med": 5,
+      "mantissa_lo:xor_zero": 16,
+      "sign:xor_west": 12,
+      "exponent:xor_float_planar": 4,
+      "exponent:xor_float_med": 6,
+      "mantissa_hi:delta_float_med": 2,
+      "mantissa_mid:delta_float_med": 4,
+      "mantissa_hi:delta_med": 4,
+      "sign:xor_north": 3,
+      "mantissa_hi:xor_float_planar": 2,
+      "mantissa_mid:delta_float_planar": 1,
+      "exponent:delta_west": 1,
+      "mantissa_mid:delta_planar": 2,
+      "exponent:xor_north": 1,
+      "mantissa_hi:xor_north": 1,
+      "mantissa_mid:xor_north": 1,
+      "exponent:xor_west": 3,
+      "mantissa_hi:xor_west": 3,
+      "mantissa_mid:xor_west": 3
+    },
+    "carry_histogram": {
+      "exponent:cost_bits": 201.83095063202384,
+      "exponent:ones": 90,
+      "exponent:total": 73728,
+      "mantissa_hi:cost_bits": 16548.565450039703,
+      "mantissa_hi:ones": 2341,
+      "mantissa_hi:total": 483328,
+      "mantissa_mid:cost_bits": 101.40906758419713,
+      "mantissa_mid:ones": 0,
+      "mantissa_mid:total": 614400
+    },
+    "blosc_ratio": 262.16077828981054,
+    "hybrid_ratio": 426.3257364769093,
+    "hybrid_pick": "side"
+  },
+  {
+    "image": "ph_abandoned_tiled_room_1k.exr",
+    "shape": [
+      512,
+      1024,
+      3
+    ],
+    "tile_size": 256,
+    "previous_bits": 4,
+    "raw_bits": 50331648,
+    "estimated_bits": 9363735.594688077,
+    "ratio": 5.375167580399481,
+    "pick_histogram": {
+      "sidecarry_delta": 8
+    },
+    "mode_histogram": {
+      "sign:xor_float_med": 1,
+      "exponent:xor_float_med": 8,
+      "mantissa_hi:delta_med": 8,
+      "mantissa_mid:xor_zero": 8,
+      "mantissa_lo:xor_zero": 8,
+      "sign:xor_west": 6,
+      "sign:xor_north": 1
+    },
+    "carry_histogram": {
+      "mantissa_hi:cost_bits": 76.94584185496142,
+      "mantissa_hi:ones": 0,
+      "mantissa_hi:total": 1572864
+    },
+    "blosc_ratio": 4.1226171839932695,
+    "hybrid_ratio": 5.375167580399481,
+    "hybrid_pick": "side"
+  },
+  {
+    "image": "ph_belfast_sunset_puresky_1k.exr",
+    "shape": [
+      512,
+      1024,
+      4
+    ],
+    "tile_size": 256,
+    "previous_bits": 4,
+    "raw_bits": 67108864,
+    "estimated_bits": 28871378.7396187,
+    "ratio": 2.324408009926799,
+    "pick_histogram": {
+      "sidecarry_delta": 8
+    },
+    "mode_histogram": {
+      "sign:xor_float_med": 1,
+      "exponent:xor_float_med": 3,
+      "mantissa_hi:delta_med": 2,
+      "mantissa_mid:xor_zero": 5,
+      "mantissa_lo:xor_zero": 8,
+      "sign:xor_west": 6,
+      "exponent:xor_zero": 1,
+      "mantissa_mid:xor_north": 1,
+      "mantissa_hi:delta_float_med": 2,
+      "mantissa_mid:xor_northeast": 2,
+      "exponent:xor_float_planar": 4,
+      "sign:xor_north": 1,
+      "mantissa_hi:delta_float_planar": 4
+    },
+    "carry_histogram": {
+      "mantissa_hi:cost_bits": 1719764.9261238524,
+      "mantissa_hi:ones": 785802,
+      "mantissa_hi:total": 2097152
+    },
+    "blosc_ratio": 2.1233703149640184,
+    "hybrid_ratio": 2.324408009926799,
+    "hybrid_pick": "side"
+  },
+  {
+    "image": "ph_kloppenheim_06_puresky_1k.exr",
+    "shape": [
+      512,
+      1024,
+      4
+    ],
+    "tile_size": 256,
+    "previous_bits": 4,
+    "raw_bits": 67108864,
+    "estimated_bits": 29586926.521216746,
+    "ratio": 2.268193147803856,
+    "pick_histogram": {
+      "sidecarry_delta": 8
+    },
+    "mode_histogram": {
+      "sign:xor_float_med": 1,
+      "exponent:xor_float_med": 4,
+      "mantissa_hi:delta_west": 1,
+      "mantissa_mid:xor_zero": 6,
+      "mantissa_lo:xor_zero": 8,
+      "sign:xor_west": 6,
+      "mantissa_hi:delta_med": 2,
+      "mantissa_hi:delta_float_med": 2,
+      "sign:xor_north": 1,
+      "exponent:xor_float_planar": 4,
+      "mantissa_hi:delta_float_planar": 3,
+      "mantissa_mid:xor_northeast": 1,
+      "mantissa_mid:xor_north": 1
+    },
+    "carry_histogram": {
+      "mantissa_hi:cost_bits": 1694297.6026364036,
+      "mantissa_hi:ones": 785742,
+      "mantissa_hi:total": 2097152
+    },
+    "blosc_ratio": 2.0950129917354383,
+    "hybrid_ratio": 2.268193147803856,
+    "hybrid_pick": "side"
+  },
+  {
+    "image": "ph_spruit_sunrise_1k.exr",
+    "shape": [
+      512,
+      1024,
+      3
+    ],
+    "tile_size": 256,
+    "previous_bits": 4,
+    "raw_bits": 50331648,
+    "estimated_bits": 7344106.355026938,
+    "ratio": 6.853338659175148,
+    "pick_histogram": {
+      "sidecarry_delta": 8
+    },
+    "mode_histogram": {
+      "sign:xor_float_med": 1,
+      "exponent:xor_west": 2,
+      "mantissa_hi:delta_west": 6,
+      "mantissa_mid:xor_west": 4,
+      "mantissa_lo:xor_zero": 8,
+      "sign:xor_west": 6,
+      "exponent:xor_float_med": 3,
+      "mantissa_hi:delta_med": 1,
+      "mantissa_hi:delta_planar": 1,
+      "sign:xor_north": 1,
+      "mantissa_mid:xor_zero": 4,
+      "exponent:delta_west": 3
+    },
+    "carry_histogram": {
+      "mantissa_hi:cost_bits": 76.94584185496142,
+      "mantissa_hi:ones": 0,
+      "mantissa_hi:total": 1572864,
+      "exponent:cost_bits": 562472.360192969,
+      "exponent:ones": 281363,
+      "exponent:total": 589824
+    },
+    "blosc_ratio": 5.05101711489087,
+    "hybrid_ratio": 6.853338659175148,
+    "hybrid_pick": "side"
+  },
+  {
+    "image": "ph_studio_small_03_1k.exr",
+    "shape": [
+      512,
+      1024,
+      3
+    ],
+    "tile_size": 256,
+    "previous_bits": 4,
+    "raw_bits": 50331648,
+    "estimated_bits": 7375034.018311649,
+    "ratio": 6.824598757786113,
+    "pick_histogram": {
+      "sidecarry_delta": 8
+    },
+    "mode_histogram": {
+      "sign:xor_float_med": 1,
+      "exponent:xor_float_med": 8,
+      "mantissa_hi:delta_med": 8,
+      "mantissa_mid:xor_zero": 3,
+      "mantissa_lo:xor_zero": 8,
+      "sign:xor_west": 6,
+      "mantissa_mid:xor_channel_previous": 1,
+      "sign:xor_north": 1,
+      "mantissa_mid:xor_west": 4
+    },
+    "carry_histogram": {
+      "mantissa_hi:cost_bits": 76.94584185496142,
+      "mantissa_hi:ones": 0,
+      "mantissa_hi:total": 1572864
+    },
+    "blosc_ratio": 4.764958621102291,
+    "hybrid_ratio": 6.824598757786113,
+    "hybrid_pick": "side"
+  },
+  {
+    "image": "synth_gradient_1k.exr",
+    "shape": [
+      512,
+      1024,
+      3
+    ],
+    "tile_size": 256,
+    "previous_bits": 4,
+    "raw_bits": 50331648,
+    "estimated_bits": 143684.3868446046,
+    "ratio": 350.29309102619436,
+    "pick_histogram": {
+      "sidecarry_delta": 8
+    },
+    "mode_histogram": {
+      "sign:xor_float_med": 1,
+      "exponent:xor_float_planar": 8,
+      "mantissa_hi:xor_float_planar": 8,
+      "mantissa_mid:xor_float_planar": 8,
+      "mantissa_lo:delta_med": 7,
+      "sign:xor_west": 6,
+      "sign:xor_north": 1,
+      "mantissa_lo:delta_planar": 1
+    },
+    "carry_histogram": {},
+    "blosc_ratio": 18.178250091014682,
+    "hybrid_ratio": 350.29309102619436,
+    "hybrid_pick": "side"
+  },
+  {
+    "image": "synth_mixed_1k.exr",
+    "shape": [
+      512,
+      1024,
+      3
+    ],
+    "tile_size": 256,
+    "previous_bits": 4,
+    "raw_bits": 50331648,
+    "estimated_bits": 31716947.343676858,
+    "ratio": 1.586900764900825,
+    "pick_histogram": {
+      "sidecarry_delta": 8
+    },
+    "mode_histogram": {
+      "sign:xor_zero": 4,
+      "exponent:xor_float_med": 1,
+      "mantissa_hi:xor_bit_majority": 2,
+      "mantissa_mid:raw": 8,
+      "mantissa_lo:raw": 8,
+      "exponent:xor_west": 3,
+      "mantissa_hi:delta_west": 6,
+      "sign:xor_northeast": 1,
+      "exponent:xor_north": 1,
+      "sign:xor_west": 3,
+      "exponent:xor_bit_majority": 3
+    },
+    "carry_histogram": {
+      "mantissa_hi:cost_bits": 1084846.8317581203,
+      "mantissa_hi:ones": 589935,
+      "mantissa_hi:total": 1179648
+    },
+    "blosc_ratio": 1.4862663212271214,
+    "hybrid_ratio": 1.586900764900825,
+    "hybrid_pick": "side"
+  },
+  {
+    "image": "synth_noise_1k.exr",
+    "shape": [
+      512,
+      1024,
+      3
+    ],
+    "tile_size": 256,
+    "previous_bits": 4,
+    "raw_bits": 50331648,
+    "estimated_bits": 39082298.30935729,
+    "ratio": 1.2878374654836848,
+    "pick_histogram": {
+      "sidecarry_delta": 8
+    },
+    "mode_histogram": {
+      "sign:xor_zero": 8,
+      "exponent:xor_zero": 8,
+      "mantissa_hi:xor_zero": 8,
+      "mantissa_mid:raw": 8,
+      "mantissa_lo:xor_zero": 8
+    },
+    "carry_histogram": {},
+    "blosc_ratio": 1.242830389949034,
+    "hybrid_ratio": 1.2878374654836848,
+    "hybrid_pick": "side"
+  },
+  {
+    "image": "synth_rgba_hdr_1k.exr",
+    "shape": [
+      512,
+      1024,
+      4
+    ],
+    "tile_size": 256,
+    "previous_bits": 4,
+    "raw_bits": 67108864,
+    "estimated_bits": 33458573.763580423,
+    "ratio": 2.0057299654848957,
+    "pick_histogram": {
+      "sidecarry_delta": 8
+    },
+    "mode_histogram": {
+      "sign:xor_float_med": 1,
+      "exponent:xor_float_med": 3,
+      "mantissa_hi:delta_west": 7,
+      "mantissa_mid:xor_bit_majority": 1,
+      "mantissa_lo:xor_northwest": 1,
+      "sign:xor_west": 6,
+      "exponent:xor_bit_majority": 5,
+      "mantissa_mid:xor_north": 1,
+      "mantissa_lo:xor_bit_majority": 3,
+      "mantissa_hi:delta_float_med": 1,
+      "mantissa_mid:xor_float_planar": 3,
+      "mantissa_lo:xor_north": 1,
+      "mantissa_mid:xor_bit_xor_planar": 1,
+      "mantissa_lo:xor_northeast": 1,
+      "sign:xor_north": 1,
+      "mantissa_mid:xor_west": 1,
+      "mantissa_lo:xor_zero": 1,
+      "mantissa_mid:xor_float_med": 1,
+      "mantissa_lo:delta_north": 1
+    },
+    "carry_histogram": {
+      "mantissa_hi:cost_bits": 1574794.3018991451,
+      "mantissa_hi:ones": 786594,
+      "mantissa_hi:total": 2097152
+    },
+    "blosc_ratio": 1.9946062982951964,
+    "hybrid_ratio": 2.0057299654848957,
+    "hybrid_pick": "side"
+  }
+]

@@ -1,0 +1,134 @@
+[
+  {
+    "image": "ph_abandoned_tiled_room_1k.exr",
+    "shape": [
+      128,
+      128,
+      3
+    ],
+    "crop_size": 128,
+    "raw_bits": 1572864,
+    "bits128": 201289.73439864613,
+    "bits64": 204727.00103658816,
+    "dynamic_bits": 201289.73439864613,
+    "ratio128": 7.813930525065957,
+    "ratio64": 7.682738437217193,
+    "dynamic_ratio": 7.813930525065957,
+    "dynamic_gain": 1.0,
+    "routes128": {
+      "channel_mode": 1
+    },
+    "routes64": {
+      "channel_mode": 4
+    },
+    "split_histogram": {
+      "tile128": 1
+    }
+  },
+  {
+    "image": "ph_belfast_sunset_puresky_1k.exr",
+    "shape": [
+      128,
+      128,
+      4
+    ],
+    "crop_size": 128,
+    "raw_bits": 2097152,
+    "bits128": 877782.3619286009,
+    "bits64": 888149.5621572346,
+    "dynamic_bits": 877782.3619286009,
+    "ratio128": 2.3891480291222607,
+    "ratio64": 2.3612599604352766,
+    "dynamic_ratio": 2.3891480291222607,
+    "dynamic_gain": 1.0,
+    "routes128": {
+      "channel_mode": 1
+    },
+    "routes64": {
+      "channel_mode": 4
+    },
+    "split_histogram": {
+      "tile128": 1
+    }
+  },
+  {
+    "image": "ph_kloppenheim_06_puresky_1k.exr",
+    "shape": [
+      128,
+      128,
+      4
+    ],
+    "crop_size": 128,
+    "raw_bits": 2097152,
+    "bits128": 920877.5297605568,
+    "bits64": 931493.0351520232,
+    "dynamic_bits": 920877.5297605568,
+    "ratio128": 2.2773408322226016,
+    "ratio64": 2.2513877408194864,
+    "dynamic_ratio": 2.2773408322226016,
+    "dynamic_gain": 1.0,
+    "routes128": {
+      "channel_mode": 1
+    },
+    "routes64": {
+      "channel_mode": 3,
+      "shared_mode": 1
+    },
+    "split_histogram": {
+      "tile128": 1
+    }
+  },
+  {
+    "image": "ph_spruit_sunrise_1k.exr",
+    "shape": [
+      128,
+      128,
+      3
+    ],
+    "crop_size": 128,
+    "raw_bits": 1572864,
+    "bits128": 50386.817655363804,
+    "bits64": 52090.41931522258,
+    "dynamic_bits": 50386.817655363804,
+    "ratio128": 31.215783674970087,
+    "ratio64": 30.194880760738204,
+    "dynamic_ratio": 31.215783674970087,
+    "dynamic_gain": 1.0,
+    "routes128": {
+      "channel_mode": 1
+    },
+    "routes64": {
+      "channel_mode": 3,
+      "shared_mode": 1
+    },
+    "split_histogram": {
+      "tile128": 1
+    }
+  },
+  {
+    "image": "ph_studio_small_03_1k.exr",
+    "shape": [
+      128,
+      128,
+      3
+    ],
+    "crop_size": 128,
+    "raw_bits": 1572864,
+    "bits128": 254502.57246266754,
+    "bits64": 255649.44972517333,
+    "dynamic_bits": 254502.57246266754,
+    "ratio128": 6.180149712359863,
+    "ratio64": 6.152424742908113,
+    "dynamic_ratio": 6.180149712359863,
+    "dynamic_gain": 1.0,
+    "routes128": {
+      "channel_mode": 1
+    },
+    "routes64": {
+      "channel_mode": 4
+    },
+    "split_histogram": {
+      "tile128": 1
+    }
+  }
+]

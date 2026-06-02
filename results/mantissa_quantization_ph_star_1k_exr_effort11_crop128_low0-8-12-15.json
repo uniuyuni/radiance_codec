@@ -1,0 +1,302 @@
+[
+  {
+    "image": "ph_abandoned_tiled_room_1k.exr",
+    "shape": [
+      128,
+      128,
+      3
+    ],
+    "crop_size": 128,
+    "effort": 11,
+    "rows": [
+      {
+        "low_bits_zeroed": 0,
+        "encoded_bytes": 25158,
+        "ratio_vs_original": 7.814929644645838,
+        "encode_seconds": 4.106203457995434,
+        "decode_seconds": 0.021429375003208406,
+        "max_abs": 0.0,
+        "rmse": 0.0,
+        "max_rel_nonzero": 0.0,
+        "psnr_peak_abs": Infinity,
+        "changed_rate": 0.0
+      },
+      {
+        "low_bits_zeroed": 8,
+        "encoded_bytes": 25158,
+        "ratio_vs_original": 7.814929644645838,
+        "encode_seconds": 3.7342045420082286,
+        "decode_seconds": 0.023632583004655316,
+        "max_abs": 0.0,
+        "rmse": 0.0,
+        "max_rel_nonzero": 0.0,
+        "psnr_peak_abs": Infinity,
+        "changed_rate": 0.0
+      },
+      {
+        "low_bits_zeroed": 12,
+        "encoded_bytes": 25158,
+        "ratio_vs_original": 7.814929644645838,
+        "encode_seconds": 4.082692707990645,
+        "decode_seconds": 0.024265542000648566,
+        "max_abs": 0.0,
+        "rmse": 0.0,
+        "max_rel_nonzero": 0.0,
+        "psnr_peak_abs": Infinity,
+        "changed_rate": 0.0
+      },
+      {
+        "low_bits_zeroed": 15,
+        "encoded_bytes": 25158,
+        "ratio_vs_original": 7.814929644645838,
+        "encode_seconds": 3.987896082995576,
+        "decode_seconds": 0.020689209006377496,
+        "max_abs": 0.0,
+        "rmse": 0.0,
+        "max_rel_nonzero": 0.0,
+        "psnr_peak_abs": Infinity,
+        "changed_rate": 0.0
+      }
+    ]
+  },
+  {
+    "image": "ph_belfast_sunset_puresky_1k.exr",
+    "shape": [
+      128,
+      128,
+      4
+    ],
+    "crop_size": 128,
+    "effort": 11,
+    "rows": [
+      {
+        "low_bits_zeroed": 0,
+        "encoded_bytes": 109042,
+        "ratio_vs_original": 2.404064488912529,
+        "encode_seconds": 3.2451691669994034,
+        "decode_seconds": 0.05134508300398011,
+        "max_abs": 0.0,
+        "rmse": 0.0,
+        "max_rel_nonzero": 0.0,
+        "psnr_peak_abs": Infinity,
+        "changed_rate": 0.0
+      },
+      {
+        "low_bits_zeroed": 8,
+        "encoded_bytes": 60443,
+        "ratio_vs_original": 4.33704481908575,
+        "encode_seconds": 3.1826987499953248,
+        "decode_seconds": 0.04617658301140182,
+        "max_abs": 3.039836883544922e-05,
+        "rmse": 1.0730642623749894e-05,
+        "max_rel_nonzero": 2.960717905403405e-05,
+        "psnr_peak_abs": 103.12345463153449,
+        "changed_rate": 0.746063232421875
+      },
+      {
+        "low_bits_zeroed": 12,
+        "encoded_bytes": 35750,
+        "ratio_vs_original": 7.332699300699301,
+        "encode_seconds": 3.3374514580063988,
+        "decode_seconds": 0.04063316699466668,
+        "max_abs": 0.0004881620407104492,
+        "rmse": 0.0001728096177607309,
+        "max_rel_nonzero": 0.00047122997657591365,
+        "psnr_peak_abs": 78.9846110649037,
+        "changed_rate": 0.7496337890625
+      },
+      {
+        "low_bits_zeroed": 15,
+        "encoded_bytes": 17612,
+        "ratio_vs_original": 14.88439700204406,
+        "encode_seconds": 4.550581167000928,
+        "decode_seconds": 0.025364957997226156,
+        "max_abs": 0.0039060115814208984,
+        "rmse": 0.0013763029881505037,
+        "max_rel_nonzero": 0.003482680180521448,
+        "psnr_peak_abs": 60.961688200636814,
+        "changed_rate": 0.749908447265625
+      }
+    ]
+  },
+  {
+    "image": "ph_kloppenheim_06_puresky_1k.exr",
+    "shape": [
+      128,
+      128,
+      4
+    ],
+    "crop_size": 128,
+    "effort": 11,
+    "rows": [
+      {
+        "low_bits_zeroed": 0,
+        "encoded_bytes": 114563,
+        "ratio_vs_original": 2.2882082347703885,
+        "encode_seconds": 2.2643411249882774,
+        "decode_seconds": 0.03810950000479352,
+        "max_abs": 0.0,
+        "rmse": 0.0,
+        "max_rel_nonzero": 0.0,
+        "psnr_peak_abs": Infinity,
+        "changed_rate": 0.0
+      },
+      {
+        "low_bits_zeroed": 8,
+        "encoded_bytes": 65971,
+        "ratio_vs_original": 3.9736247745221385,
+        "encode_seconds": 2.351484041995718,
+        "decode_seconds": 0.034246166003867984,
+        "max_abs": 3.0040740966796875e-05,
+        "rmse": 5.464601097752036e-06,
+        "max_rel_nonzero": 3.011217559040395e-05,
+        "psnr_peak_abs": 106.63493642804022,
+        "changed_rate": 0.746337890625
+      },
+      {
+        "low_bits_zeroed": 12,
+        "encoded_bytes": 41270,
+        "ratio_vs_original": 6.351926338744851,
+        "encode_seconds": 2.529671458003577,
+        "decode_seconds": 0.031274249995476566,
+        "max_abs": 0.0004868507385253906,
+        "rmse": 8.792957635227034e-05,
+        "max_rel_nonzero": 0.0004853131326541166,
+        "psnr_peak_abs": 82.50340611427292,
+        "changed_rate": 0.749786376953125
+      },
+      {
+        "low_bits_zeroed": 15,
+        "encoded_bytes": 22910,
+        "ratio_vs_original": 11.442339589698822,
+        "encode_seconds": 3.2923554580047494,
+        "decode_seconds": 0.023332625001785345,
+        "max_abs": 0.0039014816284179688,
+        "rmse": 0.0007032549694193144,
+        "max_rel_nonzero": 0.0038899860319589444,
+        "psnr_peak_abs": 64.4438495344487,
+        "changed_rate": 0.74993896484375
+      }
+    ]
+  },
+  {
+    "image": "ph_spruit_sunrise_1k.exr",
+    "shape": [
+      128,
+      128,
+      3
+    ],
+    "crop_size": 128,
+    "effort": 11,
+    "rows": [
+      {
+        "low_bits_zeroed": 0,
+        "encoded_bytes": 6310,
+        "ratio_vs_original": 31.158161648177497,
+        "encode_seconds": 3.6320173329877434,
+        "decode_seconds": 0.011804292007582262,
+        "max_abs": 0.0,
+        "rmse": 0.0,
+        "max_rel_nonzero": 0.0,
+        "psnr_peak_abs": Infinity,
+        "changed_rate": 0.0
+      },
+      {
+        "low_bits_zeroed": 8,
+        "encoded_bytes": 6310,
+        "ratio_vs_original": 31.158161648177497,
+        "encode_seconds": 3.5672057079937076,
+        "decode_seconds": 0.014990625000791624,
+        "max_abs": 0.0,
+        "rmse": 0.0,
+        "max_rel_nonzero": 0.0,
+        "psnr_peak_abs": Infinity,
+        "changed_rate": 0.0
+      },
+      {
+        "low_bits_zeroed": 12,
+        "encoded_bytes": 6310,
+        "ratio_vs_original": 31.158161648177497,
+        "encode_seconds": 3.278523083004984,
+        "decode_seconds": 0.0139230829954613,
+        "max_abs": 0.0,
+        "rmse": 0.0,
+        "max_rel_nonzero": 0.0,
+        "psnr_peak_abs": Infinity,
+        "changed_rate": 0.0
+      },
+      {
+        "low_bits_zeroed": 15,
+        "encoded_bytes": 6310,
+        "ratio_vs_original": 31.158161648177497,
+        "encode_seconds": 3.223717500004568,
+        "decode_seconds": 0.015427874997840263,
+        "max_abs": 0.0,
+        "rmse": 0.0,
+        "max_rel_nonzero": 0.0,
+        "psnr_peak_abs": Infinity,
+        "changed_rate": 0.0
+      }
+    ]
+  },
+  {
+    "image": "ph_studio_small_03_1k.exr",
+    "shape": [
+      128,
+      128,
+      3
+    ],
+    "crop_size": 128,
+    "effort": 11,
+    "rows": [
+      {
+        "low_bits_zeroed": 0,
+        "encoded_bytes": 31814,
+        "ratio_vs_original": 6.179920789589489,
+        "encode_seconds": 2.595688417000929,
+        "decode_seconds": 0.02411445800680667,
+        "max_abs": 0.0,
+        "rmse": 0.0,
+        "max_rel_nonzero": 0.0,
+        "psnr_peak_abs": Infinity,
+        "changed_rate": 0.0
+      },
+      {
+        "low_bits_zeroed": 8,
+        "encoded_bytes": 31814,
+        "ratio_vs_original": 6.179920789589489,
+        "encode_seconds": 2.999481624996406,
+        "decode_seconds": 0.021223292002105154,
+        "max_abs": 0.0,
+        "rmse": 0.0,
+        "max_rel_nonzero": 0.0,
+        "psnr_peak_abs": Infinity,
+        "changed_rate": 0.0
+      },
+      {
+        "low_bits_zeroed": 12,
+        "encoded_bytes": 31814,
+        "ratio_vs_original": 6.179920789589489,
+        "encode_seconds": 3.334604292002041,
+        "decode_seconds": 0.018935083004180342,
+        "max_abs": 0.0,
+        "rmse": 0.0,
+        "max_rel_nonzero": 0.0,
+        "psnr_peak_abs": Infinity,
+        "changed_rate": 0.0
+      },
+      {
+        "low_bits_zeroed": 15,
+        "encoded_bytes": 31814,
+        "ratio_vs_original": 6.179920789589489,
+        "encode_seconds": 3.5112507500016363,
+        "decode_seconds": 0.017859917003079318,
+        "max_abs": 0.0,
+        "rmse": 0.0,
+        "max_rel_nonzero": 0.0,
+        "psnr_peak_abs": Infinity,
+        "changed_rate": 0.0
+      }
+    ]
+  }
+]

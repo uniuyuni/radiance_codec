@@ -1,0 +1,278 @@
+[
+  {
+    "image": "synth_gradient_1k.exr",
+    "shape": [
+      128,
+      128,
+      3
+    ],
+    "tile_size": 128,
+    "tail_bits": 15,
+    "mid_bits": [
+      15,
+      21
+    ],
+    "class_histogram": {
+      "plane_sparse": 1
+    },
+    "route_histogram": {
+      "gdx2_tail": 1
+    },
+    "current_tail_mid_bits": 16780.423195296782,
+    "routed_tail_mid_bits": 16788.423195296782,
+    "tail_mid_gain": 0.9995234811568104,
+    "totals": {
+      "raw_tail_entropy": 694368.6206307253,
+      "payload_tail_entropy": 148270.21357980598,
+      "payload_tail_bitplane_kt": 216089.9631752215,
+      "gdx2_family_tail": 14567.21527593218,
+      "gdx2_family_mid": 2213.2079193646036,
+      "fixed_grid_raw_tail": Infinity,
+      "plane_sparse_payload_tail": 216013.1868242534,
+      "palette_payload_tail": 86717.29304538695,
+      "current_tail_mid": 16780.423195296782,
+      "routed_tail_mid": 16788.423195296782
+    },
+    "tiles": [
+      {
+        "class": "plane_sparse",
+        "costs": {
+          "raw_tail_entropy": 694368.6206307253,
+          "payload_tail_entropy": 148270.21357980598,
+          "payload_tail_bitplane_kt": 216089.9631752215,
+          "gdx2_family_tail": 14567.21527593218,
+          "gdx2_family_mid": 2213.2079193646036,
+          "fixed_grid_raw_tail": Infinity,
+          "plane_sparse_payload_tail": 216013.1868242534,
+          "palette_payload_tail": 86717.29304538695,
+          "current_tail_mid": 16780.423195296782,
+          "routed_tail_mid": 16788.423195296782
+        },
+        "details": {
+          "fixed_zero_bits": 0,
+          "sparse_planes": 9,
+          "palette_unique": 199,
+          "fixed_metadata_bits": 4,
+          "plane_metadata_bits": 30,
+          "palette_metadata_bits": 8,
+          "tail_route": "gdx2_tail",
+          "tail_route_gain": 0.9995234811568104,
+          "class": "plane_sparse",
+          "raw_tail_entropy_per_bit": 0.9417977167842954,
+          "payload_tail_entropy_per_bit": 0.20110434784587397,
+          "payload_mid_entropy_per_bit": 0.25229681121022024
+        },
+        "samples": 49152,
+        "y": 0,
+        "x": 0
+      }
+    ]
+  },
+  {
+    "image": "synth_mixed_1k.exr",
+    "shape": [
+      128,
+      128,
+      3
+    ],
+    "tile_size": 128,
+    "tail_bits": 15,
+    "mid_bits": [
+      15,
+      21
+    ],
+    "class_histogram": {
+      "random_tail": 1
+    },
+    "route_histogram": {
+      "plane_sparse": 1
+    },
+    "current_tail_mid_bits": 1019529.7625155447,
+    "routed_tail_mid_bits": 1018246.8494703651,
+    "tail_mid_gain": 1.0012599234123305,
+    "totals": {
+      "raw_tail_entropy": 736828.1916886152,
+      "payload_tail_entropy": 737028.2063532397,
+      "payload_tail_bitplane_kt": 737386.6021840048,
+      "gdx2_family_tail": 738600.7416793859,
+      "gdx2_family_mid": 280929.02083615883,
+      "fixed_grid_raw_tail": Infinity,
+      "plane_sparse_payload_tail": 737309.8286342063,
+      "palette_payload_tail": Infinity,
+      "current_tail_mid": 1019529.7625155447,
+      "routed_tail_mid": 1018246.8494703651
+    },
+    "tiles": [
+      {
+        "class": "random_tail",
+        "costs": {
+          "raw_tail_entropy": 736828.1916886152,
+          "payload_tail_entropy": 737028.2063532397,
+          "payload_tail_bitplane_kt": 737386.6021840048,
+          "gdx2_family_tail": 738600.7416793859,
+          "gdx2_family_mid": 280929.02083615883,
+          "fixed_grid_raw_tail": Infinity,
+          "plane_sparse_payload_tail": 737309.8286342063,
+          "palette_payload_tail": Infinity,
+          "current_tail_mid": 1019529.7625155447,
+          "routed_tail_mid": 1018246.8494703651
+        },
+        "details": {
+          "fixed_zero_bits": 0,
+          "sparse_planes": 0,
+          "palette_unique": 25531,
+          "fixed_metadata_bits": 4,
+          "plane_metadata_bits": 30,
+          "palette_metadata_bits": 8,
+          "tail_route": "plane_sparse",
+          "tail_route_gain": 1.0012599234123305,
+          "class": "random_tail",
+          "raw_tail_entropy_per_bit": 0.999387195758213,
+          "payload_tail_entropy_per_bit": 0.999658483009494,
+          "payload_mid_entropy_per_bit": 0.9971892490755869
+        },
+        "samples": 49152,
+        "y": 0,
+        "x": 0
+      }
+    ]
+  },
+  {
+    "image": "synth_noise_1k.exr",
+    "shape": [
+      128,
+      128,
+      3
+    ],
+    "tile_size": 128,
+    "tail_bits": 15,
+    "mid_bits": [
+      15,
+      21
+    ],
+    "class_histogram": {
+      "random_tail": 1
+    },
+    "route_histogram": {
+      "plane_sparse": 1
+    },
+    "current_tail_mid_bits": 1029858.6978382489,
+    "routed_tail_mid_bits": 1029076.9764292466,
+    "tail_mid_gain": 1.00075963356183,
+    "totals": {
+      "raw_tail_entropy": 732164.0484499524,
+      "payload_tail_entropy": 733398.1108943399,
+      "payload_tail_bitplane_kt": 734262.1975190243,
+      "gdx2_family_tail": 734975.1453777642,
+      "gdx2_family_mid": 294883.5524604846,
+      "fixed_grid_raw_tail": Infinity,
+      "plane_sparse_payload_tail": 734185.423968762,
+      "palette_payload_tail": Infinity,
+      "current_tail_mid": 1029858.6978382489,
+      "routed_tail_mid": 1029076.9764292466
+    },
+    "tiles": [
+      {
+        "class": "random_tail",
+        "costs": {
+          "raw_tail_entropy": 732164.0484499524,
+          "payload_tail_entropy": 733398.1108943399,
+          "payload_tail_bitplane_kt": 734262.1975190243,
+          "gdx2_family_tail": 734975.1453777642,
+          "gdx2_family_mid": 294883.5524604846,
+          "fixed_grid_raw_tail": Infinity,
+          "plane_sparse_payload_tail": 734185.423968762,
+          "palette_payload_tail": Infinity,
+          "current_tail_mid": 1029858.6978382489,
+          "routed_tail_mid": 1029076.9764292466
+        },
+        "details": {
+          "fixed_zero_bits": 0,
+          "sparse_planes": 0,
+          "palette_unique": 24643,
+          "fixed_metadata_bits": 4,
+          "plane_metadata_bits": 30,
+          "palette_metadata_bits": 8,
+          "tail_route": "plane_sparse",
+          "tail_route_gain": 1.00075963356183,
+          "class": "random_tail",
+          "raw_tail_entropy_per_bit": 0.9930610466172315,
+          "payload_tail_entropy_per_bit": 0.994734850930908,
+          "payload_mid_entropy_per_bit": 0.9995601271067737
+        },
+        "samples": 49152,
+        "y": 0,
+        "x": 0
+      }
+    ]
+  },
+  {
+    "image": "synth_rgba_hdr_1k.exr",
+    "shape": [
+      128,
+      128,
+      4
+    ],
+    "tile_size": 128,
+    "tail_bits": 15,
+    "mid_bits": [
+      15,
+      21
+    ],
+    "class_histogram": {
+      "mixed_tail": 1
+    },
+    "route_histogram": {
+      "gdx2_tail": 1
+    },
+    "current_tail_mid_bits": 994004.687607609,
+    "routed_tail_mid_bits": 994012.687607609,
+    "tail_mid_gain": 0.9999919518129902,
+    "totals": {
+      "raw_tail_entropy": 839107.2748589464,
+      "payload_tail_entropy": 839266.077891907,
+      "payload_tail_bitplane_kt": 938139.0795127954,
+      "gdx2_family_tail": 761005.3556709724,
+      "gdx2_family_mid": 232999.33193663653,
+      "fixed_grid_raw_tail": Infinity,
+      "plane_sparse_payload_tail": 938059.1932055844,
+      "palette_payload_tail": Infinity,
+      "current_tail_mid": 994004.687607609,
+      "routed_tail_mid": 994012.687607609
+    },
+    "tiles": [
+      {
+        "class": "mixed_tail",
+        "costs": {
+          "raw_tail_entropy": 839107.2748589464,
+          "payload_tail_entropy": 839266.077891907,
+          "payload_tail_bitplane_kt": 938139.0795127954,
+          "gdx2_family_tail": 761005.3556709724,
+          "gdx2_family_mid": 232999.33193663653,
+          "fixed_grid_raw_tail": Infinity,
+          "plane_sparse_payload_tail": 938059.1932055844,
+          "palette_payload_tail": Infinity,
+          "current_tail_mid": 994004.687607609,
+          "routed_tail_mid": 994012.687607609
+        },
+        "details": {
+          "fixed_zero_bits": 0,
+          "sparse_planes": 0,
+          "palette_unique": 25413,
+          "fixed_metadata_bits": 4,
+          "plane_metadata_bits": 30,
+          "palette_metadata_bits": 8,
+          "tail_route": "gdx2_tail",
+          "tail_route_gain": 0.9999919518129902,
+          "class": "mixed_tail",
+          "raw_tail_entropy_per_bit": 0.8535840605254582,
+          "payload_tail_entropy_per_bit": 0.8537456033242868,
+          "payload_mid_entropy_per_bit": 0.822205049747573
+        },
+        "samples": 65536,
+        "y": 0,
+        "x": 0
+      }
+    ]
+  }
+]

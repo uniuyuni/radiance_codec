@@ -1,0 +1,197 @@
+[
+  {
+    "image": "synth_gradient_1k.exr",
+    "shape": [
+      128,
+      128,
+      3
+    ],
+    "crop_size": 128,
+    "tile_size": 128,
+    "previous_bits": 4,
+    "preset": "body",
+    "family_id_bits": 4,
+    "split_flag_bits": 1,
+    "min_gain_bits": 4.0,
+    "raw_bits": 1572864,
+    "baseline_bits": 17206.502532918246,
+    "channel_split_bits": 17076.683409861515,
+    "hybrid_bits": 16676.59308259466,
+    "baseline_ratio": 91.41102307054612,
+    "channel_split_ratio": 92.10594131479277,
+    "hybrid_ratio": 94.31566700764536,
+    "hybrid_gain": 1.0317756419251276,
+    "pick_histogram": {
+      "shared": 23,
+      "channel_split": 9
+    },
+    "shared_family_histogram": {
+      "base": 2,
+      "spatial_prev_pc": 2,
+      "prev_only": 6,
+      "spatial_hi_neighbors": 8,
+      "spatial_hi_channel": 1,
+      "wn_prev": 4
+    },
+    "split_family_histogram": {
+      "prev_only": 6,
+      "spatial_hi_channel": 13,
+      "spatial_prev_pc": 5,
+      "spatial_hi_pc": 1,
+      "wn_prev": 2
+    },
+    "split_bit_histogram": {
+      "14": 1,
+      "10": 1,
+      "9": 1,
+      "8": 1,
+      "7": 1,
+      "5": 1,
+      "2": 1,
+      "1": 1,
+      "0": 1
+    },
+    "split_group_histogram": {
+      "body": 9
+    }
+  },
+  {
+    "image": "synth_mixed_1k.exr",
+    "shape": [
+      128,
+      128,
+      3
+    ],
+    "crop_size": 128,
+    "tile_size": 128,
+    "previous_bits": 4,
+    "preset": "body",
+    "family_id_bits": 4,
+    "split_flag_bits": 1,
+    "min_gain_bits": 4.0,
+    "raw_bits": 1572864,
+    "baseline_bits": 1114300.484385317,
+    "channel_split_bits": 1116930.1412111053,
+    "hybrid_bits": 1114151.04412563,
+    "baseline_ratio": 1.4115259053016036,
+    "channel_split_ratio": 1.4082026636818292,
+    "hybrid_ratio": 1.4117152322325932,
+    "hybrid_gain": 1.0001341292641377,
+    "pick_histogram": {
+      "shared": 31,
+      "channel_split": 1
+    },
+    "shared_family_histogram": {
+      "base": 1,
+      "prev_only": 23,
+      "spatial_hi_channel": 6,
+      "spatial_prev_channel": 1
+    },
+    "split_family_histogram": {
+      "prev_only": 3
+    },
+    "split_bit_histogram": {
+      "19": 1
+    },
+    "split_group_histogram": {
+      "body": 1
+    }
+  },
+  {
+    "image": "synth_noise_1k.exr",
+    "shape": [
+      128,
+      128,
+      3
+    ],
+    "crop_size": 128,
+    "tile_size": 128,
+    "previous_bits": 4,
+    "preset": "body",
+    "family_id_bits": 4,
+    "split_flag_bits": 1,
+    "min_gain_bits": 4.0,
+    "raw_bits": 1572864,
+    "baseline_bits": 1219581.2130305364,
+    "channel_split_bits": 1223008.6849838288,
+    "hybrid_bits": 1219581.2130305364,
+    "baseline_ratio": 1.2896754912217707,
+    "channel_split_ratio": 1.2860611860829076,
+    "hybrid_ratio": 1.2896754912217707,
+    "hybrid_gain": 1.0,
+    "pick_histogram": {
+      "shared": 32
+    },
+    "shared_family_histogram": {
+      "prev_only": 32
+    },
+    "split_family_histogram": {},
+    "split_bit_histogram": {},
+    "split_group_histogram": {}
+  },
+  {
+    "image": "synth_rgba_hdr_1k.exr",
+    "shape": [
+      128,
+      128,
+      4
+    ],
+    "crop_size": 128,
+    "tile_size": 128,
+    "previous_bits": 4,
+    "preset": "body",
+    "family_id_bits": 4,
+    "split_flag_bits": 1,
+    "min_gain_bits": 4.0,
+    "raw_bits": 2097152,
+    "baseline_bits": 1015658.7250940652,
+    "channel_split_bits": 1013629.6450021463,
+    "hybrid_bits": 1013158.9614271823,
+    "baseline_ratio": 2.0648195581697704,
+    "channel_split_ratio": 2.068952906360152,
+    "hybrid_ratio": 2.069914080457676,
+    "hybrid_gain": 1.0024672966060149,
+    "pick_histogram": {
+      "shared": 12,
+      "channel_split": 20
+    },
+    "shared_family_histogram": {
+      "spatial_prev_channel": 1,
+      "prev_only": 9,
+      "spatial_hi_channel": 1,
+      "base": 1
+    },
+    "split_family_histogram": {
+      "spatial_hi_channel": 3,
+      "prev_only": 35,
+      "spatial_hi_neighbors": 1,
+      "base": 19,
+      "prev_xy_channel": 22
+    },
+    "split_bit_histogram": {
+      "20": 1,
+      "18": 1,
+      "17": 1,
+      "16": 1,
+      "15": 1,
+      "14": 1,
+      "13": 1,
+      "12": 1,
+      "11": 1,
+      "10": 1,
+      "9": 1,
+      "8": 1,
+      "7": 1,
+      "6": 1,
+      "5": 1,
+      "4": 1,
+      "3": 1,
+      "2": 1,
+      "1": 1,
+      "0": 1
+    },
+    "split_group_histogram": {
+      "body": 20
+    }
+  }
+]

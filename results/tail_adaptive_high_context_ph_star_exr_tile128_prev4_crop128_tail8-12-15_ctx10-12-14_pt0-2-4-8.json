@@ -1,0 +1,462 @@
+[
+  {
+    "image": "ph_abandoned_tiled_room_1k.exr",
+    "shape": [
+      128,
+      128,
+      3
+    ],
+    "crop_size": 128,
+    "tile_size": 128,
+    "previous_bits": 4,
+    "xy_bits": 3,
+    "use_spatial": true,
+    "use_previous_channel": true,
+    "route_header_bits": 8,
+    "rows": [
+      {
+        "tail_width": 8,
+        "context_bits": 10,
+        "prev_tail_bits": 0,
+        "current_bits": 215499.42430577643,
+        "hybrid_bits": 215499.42430577643,
+        "current_ratio": 7.298692351809868,
+        "hybrid_ratio": 7.298692351809868,
+        "gain": 1.0,
+        "route_histogram": {
+          "current_low": 1
+        },
+        "totals": {
+          "current_total": 215499.42430577643,
+          "hybrid_total": 215499.42430577643,
+          "sign": 8.618232984203791,
+          "high_gdx": 215421.86020891857,
+          "low_gdx": 68.94586387363033,
+          "adaptive_low": 29059.159172410953
+        },
+        "detail_totals": {
+          "mean_active_contexts": 1024.0,
+          "max_active_contexts": 1024.0
+        }
+      },
+      {
+        "tail_width": 12,
+        "context_bits": 10,
+        "prev_tail_bits": 0,
+        "current_bits": 215499.4243057764,
+        "hybrid_bits": 215499.4243057764,
+        "current_ratio": 7.298692351809869,
+        "hybrid_ratio": 7.298692351809869,
+        "gain": 1.0,
+        "route_histogram": {
+          "current_low": 1
+        },
+        "totals": {
+          "current_total": 215499.4243057764,
+          "hybrid_total": 215499.4243057764,
+          "sign": 8.618232984203791,
+          "high_gdx": 215387.38727698172,
+          "low_gdx": 103.41879581044547,
+          "adaptive_low": 43733.30044500806
+        },
+        "detail_totals": {
+          "mean_active_contexts": 1023.6666666666666,
+          "max_active_contexts": 1024.0
+        }
+      },
+      {
+        "tail_width": 15,
+        "context_bits": 10,
+        "prev_tail_bits": 0,
+        "current_bits": 215499.4243057764,
+        "hybrid_bits": 215499.4243057764,
+        "current_ratio": 7.298692351809869,
+        "hybrid_ratio": 7.298692351809869,
+        "gain": 1.0,
+        "route_histogram": {
+          "current_low": 1
+        },
+        "totals": {
+          "current_total": 215499.4243057764,
+          "hybrid_total": 215499.4243057764,
+          "sign": 8.618232984203791,
+          "high_gdx": 215317.5196782028,
+          "low_gdx": 173.28639458938858,
+          "adaptive_low": 54754.056100596754
+        },
+        "detail_totals": {
+          "mean_active_contexts": 1024.0,
+          "max_active_contexts": 1024.0
+        }
+      }
+    ]
+  },
+  {
+    "image": "ph_belfast_sunset_puresky_1k.exr",
+    "shape": [
+      128,
+      128,
+      4
+    ],
+    "crop_size": 128,
+    "tile_size": 128,
+    "previous_bits": 4,
+    "xy_bits": 3,
+    "use_spatial": true,
+    "use_previous_channel": true,
+    "route_header_bits": 8,
+    "rows": [
+      {
+        "tail_width": 8,
+        "context_bits": 10,
+        "prev_tail_bits": 0,
+        "current_bits": 891401.9459574539,
+        "hybrid_bits": 891401.9459574539,
+        "current_ratio": 2.3526446285098146,
+        "hybrid_ratio": 2.3526446285098146,
+        "gain": 1.0,
+        "route_histogram": {
+          "current_low": 1
+        },
+        "totals": {
+          "current_total": 891401.9459574539,
+          "hybrid_total": 891401.9459574539,
+          "sign": 8.825750816519681,
+          "high_gdx": 496588.26497183816,
+          "low_gdx": 394804.8552347993,
+          "adaptive_low": 458738.6097553171
+        },
+        "detail_totals": {
+          "mean_active_contexts": 1024.0,
+          "max_active_contexts": 1024.0
+        }
+      },
+      {
+        "tail_width": 12,
+        "context_bits": 10,
+        "prev_tail_bits": 0,
+        "current_bits": 891401.9459574542,
+        "hybrid_bits": 891401.9459574542,
+        "current_ratio": 2.352644628509814,
+        "hybrid_ratio": 2.352644628509814,
+        "gain": 1.0,
+        "route_histogram": {
+          "current_low": 1
+        },
+        "totals": {
+          "current_total": 891401.9459574542,
+          "hybrid_total": 891401.9459574542,
+          "sign": 8.825750816519681,
+          "high_gdx": 298974.27284477913,
+          "low_gdx": 592418.8473618585,
+          "adaptive_low": 691056.4414303502
+        },
+        "detail_totals": {
+          "mean_active_contexts": 1024.0,
+          "max_active_contexts": 1024.0
+        }
+      },
+      {
+        "tail_width": 15,
+        "context_bits": 10,
+        "prev_tail_bits": 0,
+        "current_bits": 891401.9459574542,
+        "hybrid_bits": 891401.9459574542,
+        "current_ratio": 2.352644628509814,
+        "hybrid_ratio": 2.352644628509814,
+        "gain": 1.0,
+        "route_histogram": {
+          "current_low": 1
+        },
+        "totals": {
+          "current_total": 891401.9459574542,
+          "hybrid_total": 891401.9459574542,
+          "sign": 8.825750816519681,
+          "high_gdx": 151095.310538203,
+          "low_gdx": 740297.8096684347,
+          "adaptive_low": 864932.499255537
+        },
+        "detail_totals": {
+          "mean_active_contexts": 1024.0,
+          "max_active_contexts": 1024.0
+        }
+      }
+    ]
+  },
+  {
+    "image": "ph_kloppenheim_06_puresky_1k.exr",
+    "shape": [
+      128,
+      128,
+      4
+    ],
+    "crop_size": 128,
+    "tile_size": 128,
+    "previous_bits": 4,
+    "xy_bits": 3,
+    "use_spatial": true,
+    "use_previous_channel": true,
+    "route_header_bits": 8,
+    "rows": [
+      {
+        "tail_width": 8,
+        "context_bits": 10,
+        "prev_tail_bits": 0,
+        "current_bits": 933792.9057765303,
+        "hybrid_bits": 933792.9057765303,
+        "current_ratio": 2.2458427206148404,
+        "hybrid_ratio": 2.2458427206148404,
+        "gain": 1.0,
+        "route_histogram": {
+          "current_low": 1
+        },
+        "totals": {
+          "current_total": 933792.9057765303,
+          "hybrid_total": 933792.9057765303,
+          "sign": 8.825750816519681,
+          "high_gdx": 539047.5781202689,
+          "low_gdx": 394736.50190544495,
+          "adaptive_low": 458430.7242806199
+        },
+        "detail_totals": {
+          "mean_active_contexts": 1024.0,
+          "max_active_contexts": 1024.0
+        }
+      },
+      {
+        "tail_width": 12,
+        "context_bits": 10,
+        "prev_tail_bits": 0,
+        "current_bits": 933792.9057765304,
+        "hybrid_bits": 933792.9057765304,
+        "current_ratio": 2.24584272061484,
+        "hybrid_ratio": 2.24584272061484,
+        "gain": 1.0,
+        "route_histogram": {
+          "current_low": 1
+        },
+        "totals": {
+          "current_total": 933792.9057765304,
+          "hybrid_total": 933792.9057765304,
+          "sign": 8.825750816519681,
+          "high_gdx": 341446.27797056525,
+          "low_gdx": 592337.8020551486,
+          "adaptive_low": 690357.5522846697
+        },
+        "detail_totals": {
+          "mean_active_contexts": 1024.0,
+          "max_active_contexts": 1024.0
+        }
+      },
+      {
+        "tail_width": 15,
+        "context_bits": 10,
+        "prev_tail_bits": 0,
+        "current_bits": 933792.9057765303,
+        "hybrid_bits": 933792.9057765303,
+        "current_ratio": 2.2458427206148404,
+        "hybrid_ratio": 2.2458427206148404,
+        "gain": 1.0,
+        "route_histogram": {
+          "current_low": 1
+        },
+        "totals": {
+          "current_total": 933792.9057765303,
+          "hybrid_total": 933792.9057765303,
+          "sign": 8.825750816519681,
+          "high_gdx": 193631.45891450686,
+          "low_gdx": 740152.621111207,
+          "adaptive_low": 864626.9897547005
+        },
+        "detail_totals": {
+          "mean_active_contexts": 1024.0,
+          "max_active_contexts": 1024.0
+        }
+      }
+    ]
+  },
+  {
+    "image": "ph_spruit_sunrise_1k.exr",
+    "shape": [
+      128,
+      128,
+      3
+    ],
+    "crop_size": 128,
+    "tile_size": 128,
+    "previous_bits": 4,
+    "xy_bits": 3,
+    "use_spatial": true,
+    "use_previous_channel": true,
+    "route_header_bits": 8,
+    "rows": [
+      {
+        "tail_width": 8,
+        "context_bits": 10,
+        "prev_tail_bits": 0,
+        "current_bits": 56734.372024396056,
+        "hybrid_bits": 56734.372024396056,
+        "current_ratio": 27.72329971897214,
+        "hybrid_ratio": 27.72329971897214,
+        "gain": 1.0,
+        "route_histogram": {
+          "current_low": 1
+        },
+        "totals": {
+          "current_total": 56734.372024396056,
+          "hybrid_total": 56734.372024396056,
+          "sign": 8.618232984203791,
+          "high_gdx": 56656.80792753822,
+          "low_gdx": 68.94586387363033,
+          "adaptive_low": 28390.651292883278
+        },
+        "detail_totals": {
+          "mean_active_contexts": 1023.75,
+          "max_active_contexts": 1024.0
+        }
+      },
+      {
+        "tail_width": 12,
+        "context_bits": 10,
+        "prev_tail_bits": 0,
+        "current_bits": 56734.372024396056,
+        "hybrid_bits": 56734.372024396056,
+        "current_ratio": 27.72329971897214,
+        "hybrid_ratio": 27.72329971897214,
+        "gain": 1.0,
+        "route_histogram": {
+          "current_low": 1
+        },
+        "totals": {
+          "current_total": 56734.372024396056,
+          "hybrid_total": 56734.372024396056,
+          "sign": 8.618232984203791,
+          "high_gdx": 56622.334995601406,
+          "low_gdx": 103.41879581044547,
+          "adaptive_low": 42798.56504669846
+        },
+        "detail_totals": {
+          "mean_active_contexts": 1023.25,
+          "max_active_contexts": 1024.0
+        }
+      },
+      {
+        "tail_width": 15,
+        "context_bits": 10,
+        "prev_tail_bits": 0,
+        "current_bits": 56734.372024396056,
+        "hybrid_bits": 56734.372024396056,
+        "current_ratio": 27.72329971897214,
+        "hybrid_ratio": 27.72329971897214,
+        "gain": 1.0,
+        "route_histogram": {
+          "current_low": 1
+        },
+        "totals": {
+          "current_total": 56734.372024396056,
+          "hybrid_total": 56734.372024396056,
+          "sign": 8.618232984203791,
+          "high_gdx": 56558.09419268663,
+          "low_gdx": 167.65959872522217,
+          "adaptive_low": 53502.4984672732
+        },
+        "detail_totals": {
+          "mean_active_contexts": 1023.8666666666667,
+          "max_active_contexts": 1024.0
+        }
+      }
+    ]
+  },
+  {
+    "image": "ph_studio_small_03_1k.exr",
+    "shape": [
+      128,
+      128,
+      3
+    ],
+    "crop_size": 128,
+    "tile_size": 128,
+    "previous_bits": 4,
+    "xy_bits": 3,
+    "use_spatial": true,
+    "use_previous_channel": true,
+    "route_header_bits": 8,
+    "rows": [
+      {
+        "tail_width": 8,
+        "context_bits": 10,
+        "prev_tail_bits": 0,
+        "current_bits": 257472.2813518791,
+        "hybrid_bits": 257472.2813518791,
+        "current_ratio": 6.108867299196442,
+        "hybrid_ratio": 6.108867299196442,
+        "gain": 1.0,
+        "route_histogram": {
+          "current_low": 1
+        },
+        "totals": {
+          "current_total": 257472.2813518791,
+          "hybrid_total": 257472.2813518791,
+          "sign": 8.618232984203791,
+          "high_gdx": 257394.71725502124,
+          "low_gdx": 68.94586387363033,
+          "adaptive_low": 29413.074988726235
+        },
+        "detail_totals": {
+          "mean_active_contexts": 1024.0,
+          "max_active_contexts": 1024.0
+        }
+      },
+      {
+        "tail_width": 12,
+        "context_bits": 10,
+        "prev_tail_bits": 0,
+        "current_bits": 257472.28135187912,
+        "hybrid_bits": 257472.28135187912,
+        "current_ratio": 6.108867299196441,
+        "hybrid_ratio": 6.108867299196441,
+        "gain": 1.0,
+        "route_histogram": {
+          "current_low": 1
+        },
+        "totals": {
+          "current_total": 257472.28135187912,
+          "hybrid_total": 257472.28135187912,
+          "sign": 8.618232984203791,
+          "high_gdx": 257360.24432308445,
+          "low_gdx": 103.41879581044547,
+          "adaptive_low": 44178.687752467566
+        },
+        "detail_totals": {
+          "mean_active_contexts": 1023.8333333333334,
+          "max_active_contexts": 1024.0
+        }
+      },
+      {
+        "tail_width": 15,
+        "context_bits": 10,
+        "prev_tail_bits": 0,
+        "current_bits": 257472.28135187906,
+        "hybrid_bits": 257472.28135187906,
+        "current_ratio": 6.108867299196443,
+        "hybrid_ratio": 6.108867299196443,
+        "gain": 1.0,
+        "route_histogram": {
+          "current_low": 1
+        },
+        "totals": {
+          "current_total": 257472.28135187906,
+          "hybrid_total": 257472.28135187906,
+          "sign": 8.618232984203791,
+          "high_gdx": 257286.75325623117,
+          "low_gdx": 176.90986266368225,
+          "adaptive_low": 55270.34603614396
+        },
+        "detail_totals": {
+          "mean_active_contexts": 1024.0,
+          "max_active_contexts": 1024.0
+        }
+      }
+    ]
+  }
+]

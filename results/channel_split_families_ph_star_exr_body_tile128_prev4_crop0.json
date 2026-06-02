@@ -1,0 +1,344 @@
+[
+  {
+    "image": "ph_abandoned_tiled_room_1k.exr",
+    "shape": [
+      512,
+      1024,
+      3
+    ],
+    "crop_size": 0,
+    "tile_size": 128,
+    "previous_bits": 4,
+    "preset": "body",
+    "family_id_bits": 4,
+    "split_flag_bits": 1,
+    "min_gain_bits": 4.0,
+    "raw_bits": 50331648,
+    "baseline_bits": 8429562.860360248,
+    "channel_split_bits": 8160775.240864767,
+    "hybrid_bits": 8135609.316263335,
+    "baseline_ratio": 5.970849121569872,
+    "channel_split_ratio": 6.167508173484085,
+    "hybrid_ratio": 6.186586160103027,
+    "hybrid_gain": 1.0361317183101812,
+    "pick_histogram": {
+      "channel_split": 259,
+      "shared": 765
+    },
+    "shared_family_histogram": {
+      "prev_only": 141,
+      "spatial_hi_pc": 23,
+      "base": 448,
+      "spatial_hi_neighbors": 99,
+      "spatial_hi_channel": 50,
+      "spatial_prev_pc": 1,
+      "wn_prev": 1,
+      "spatial_prev_channel": 2
+    },
+    "split_family_histogram": {
+      "base": 117,
+      "spatial_prev_pc": 80,
+      "spatial_hi_channel": 154,
+      "spatial_hi_pc": 45,
+      "prev_only": 253,
+      "wn_prev": 47,
+      "prev_xy_channel": 21,
+      "spatial_hi_neighbors": 60
+    },
+    "split_bit_histogram": {
+      "30": 22,
+      "20": 18,
+      "19": 29,
+      "18": 27,
+      "17": 32,
+      "16": 32,
+      "23": 20,
+      "22": 14,
+      "21": 15,
+      "29": 17,
+      "25": 17,
+      "24": 14,
+      "26": 2
+    },
+    "split_group_histogram": {
+      "body": 259
+    }
+  },
+  {
+    "image": "ph_belfast_sunset_puresky_1k.exr",
+    "shape": [
+      512,
+      1024,
+      4
+    ],
+    "crop_size": 0,
+    "tile_size": 128,
+    "previous_bits": 4,
+    "preset": "body",
+    "family_id_bits": 4,
+    "split_flag_bits": 1,
+    "min_gain_bits": 4.0,
+    "raw_bits": 67108864,
+    "baseline_bits": 27685254.003614966,
+    "channel_split_bits": 27415944.855775308,
+    "hybrid_bits": 27399014.377145633,
+    "baseline_ratio": 2.4239930755642463,
+    "channel_split_ratio": 2.447804164803869,
+    "hybrid_ratio": 2.4493167190706533,
+    "hybrid_gain": 1.0104470774944405,
+    "pick_histogram": {
+      "channel_split": 619,
+      "shared": 405
+    },
+    "shared_family_histogram": {
+      "prev_only": 320,
+      "spatial_hi_channel": 48,
+      "base": 32,
+      "spatial_hi_neighbors": 2,
+      "spatial_hi_pc": 2,
+      "wn_prev": 1
+    },
+    "split_family_histogram": {
+      "base": 646,
+      "spatial_prev_pc": 101,
+      "spatial_hi_channel": 130,
+      "prev_only": 925,
+      "spatial_hi_neighbors": 1,
+      "prev_xy_channel": 612,
+      "spatial_hi_pc": 57,
+      "wn_prev": 4
+    },
+    "split_bit_histogram": {
+      "30": 32,
+      "19": 19,
+      "16": 22,
+      "15": 31,
+      "14": 32,
+      "13": 32,
+      "12": 32,
+      "11": 32,
+      "10": 32,
+      "9": 32,
+      "8": 32,
+      "7": 32,
+      "6": 32,
+      "5": 32,
+      "4": 32,
+      "3": 32,
+      "2": 32,
+      "1": 32,
+      "0": 32,
+      "18": 13,
+      "17": 10,
+      "20": 8,
+      "22": 2,
+      "21": 2
+    },
+    "split_group_histogram": {
+      "body": 619
+    }
+  },
+  {
+    "image": "ph_kloppenheim_06_puresky_1k.exr",
+    "shape": [
+      512,
+      1024,
+      4
+    ],
+    "crop_size": 0,
+    "tile_size": 128,
+    "previous_bits": 4,
+    "preset": "body",
+    "family_id_bits": 4,
+    "split_flag_bits": 1,
+    "min_gain_bits": 4.0,
+    "raw_bits": 67108864,
+    "baseline_bits": 28232117.254523996,
+    "channel_split_bits": 27999352.64505374,
+    "hybrid_bits": 27983917.212391444,
+    "baseline_ratio": 2.3770397166810535,
+    "channel_split_ratio": 2.3968005564534076,
+    "hybrid_ratio": 2.3981225891521647,
+    "hybrid_gain": 1.0088693816612153,
+    "pick_histogram": {
+      "channel_split": 621,
+      "shared": 403
+    },
+    "shared_family_histogram": {
+      "prev_only": 286,
+      "spatial_hi_channel": 85,
+      "base": 32
+    },
+    "split_family_histogram": {
+      "base": 650,
+      "spatial_prev_pc": 72,
+      "spatial_hi_channel": 163,
+      "prev_only": 970,
+      "spatial_hi_neighbors": 1,
+      "prev_xy_channel": 598,
+      "spatial_hi_pc": 26,
+      "wn_prev": 4
+    },
+    "split_bit_histogram": {
+      "30": 32,
+      "21": 12,
+      "20": 5,
+      "16": 22,
+      "15": 28,
+      "14": 32,
+      "13": 32,
+      "12": 32,
+      "11": 32,
+      "10": 32,
+      "9": 32,
+      "8": 32,
+      "7": 32,
+      "6": 32,
+      "5": 32,
+      "4": 32,
+      "3": 32,
+      "2": 32,
+      "1": 32,
+      "0": 32,
+      "22": 11,
+      "19": 11,
+      "18": 6,
+      "17": 12,
+      "23": 2
+    },
+    "split_group_histogram": {
+      "body": 621
+    }
+  },
+  {
+    "image": "ph_spruit_sunrise_1k.exr",
+    "shape": [
+      512,
+      1024,
+      3
+    ],
+    "crop_size": 0,
+    "tile_size": 128,
+    "previous_bits": 4,
+    "preset": "body",
+    "family_id_bits": 4,
+    "split_flag_bits": 1,
+    "min_gain_bits": 4.0,
+    "raw_bits": 50331648,
+    "baseline_bits": 7202977.63186224,
+    "channel_split_bits": 7098099.179350391,
+    "hybrid_bits": 7068528.272361782,
+    "baseline_ratio": 6.9876168679684465,
+    "channel_split_ratio": 7.090862881491364,
+    "hybrid_ratio": 7.120527224429261,
+    "hybrid_gain": 1.0190208420083937,
+    "pick_histogram": {
+      "shared": 822,
+      "channel_split": 202
+    },
+    "shared_family_histogram": {
+      "base": 465,
+      "spatial_prev_pc": 2,
+      "prev_only": 222,
+      "spatial_prev_channel": 3,
+      "spatial_hi_neighbors": 92,
+      "spatial_hi_channel": 16,
+      "wn_prev": 6,
+      "spatial_hi_pc": 12,
+      "prev_xy_channel": 4
+    },
+    "split_family_histogram": {
+      "spatial_hi_neighbors": 28,
+      "prev_only": 194,
+      "base": 89,
+      "wn_prev": 42,
+      "spatial_hi_channel": 127,
+      "spatial_prev_pc": 83,
+      "spatial_hi_pc": 32,
+      "prev_xy_channel": 11
+    },
+    "split_bit_histogram": {
+      "23": 16,
+      "22": 18,
+      "21": 9,
+      "18": 30,
+      "17": 32,
+      "16": 28,
+      "30": 26,
+      "19": 18,
+      "24": 13,
+      "29": 9,
+      "26": 1,
+      "20": 1,
+      "25": 1
+    },
+    "split_group_histogram": {
+      "body": 202
+    }
+  },
+  {
+    "image": "ph_studio_small_03_1k.exr",
+    "shape": [
+      512,
+      1024,
+      3
+    ],
+    "crop_size": 0,
+    "tile_size": 128,
+    "previous_bits": 4,
+    "preset": "body",
+    "family_id_bits": 4,
+    "split_flag_bits": 1,
+    "min_gain_bits": 4.0,
+    "raw_bits": 50331648,
+    "baseline_bits": 7264863.454533651,
+    "channel_split_bits": 7248987.521301954,
+    "hybrid_bits": 7212197.086815539,
+    "baseline_ratio": 6.928092773524938,
+    "channel_split_ratio": 6.943265918460319,
+    "hybrid_ratio": 6.978684497129203,
+    "hybrid_gain": 1.0073024027330575,
+    "pick_histogram": {
+      "shared": 877,
+      "channel_split": 147
+    },
+    "shared_family_histogram": {
+      "spatial_prev_channel": 7,
+      "prev_only": 176,
+      "spatial_hi_pc": 34,
+      "spatial_hi_channel": 72,
+      "base": 460,
+      "spatial_hi_neighbors": 125,
+      "spatial_prev_pc": 1,
+      "wn_prev": 2
+    },
+    "split_family_histogram": {
+      "prev_only": 183,
+      "spatial_prev_pc": 60,
+      "spatial_hi_neighbors": 39,
+      "spatial_hi_pc": 7,
+      "spatial_hi_channel": 70,
+      "base": 43,
+      "wn_prev": 31,
+      "prev_xy_channel": 8
+    },
+    "split_bit_histogram": {
+      "29": 12,
+      "26": 11,
+      "25": 11,
+      "24": 10,
+      "23": 9,
+      "22": 5,
+      "18": 11,
+      "16": 30,
+      "30": 23,
+      "19": 6,
+      "21": 8,
+      "20": 6,
+      "17": 5
+    },
+    "split_group_histogram": {
+      "body": 147
+    }
+  }
+]

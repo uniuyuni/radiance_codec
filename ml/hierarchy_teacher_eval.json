@@ -1,0 +1,119 @@
+{
+  "oexr_ScanLines_CandleGlass.exr": {
+    "raw_bytes": 12960000.0,
+    "teacher_estimated_bytes": 4800077.678916931,
+    "blosc_bytes": 2968635,
+    "teacher_ratio": 2.699956306316326,
+    "blosc_ratio": 4.36564279542618,
+    "teacher_bytes_vs_blosc": 1.6169309055902565,
+    "hybrid_ratio": 4.36564279542618
+  },
+  "oexr_ScanLines_Cannon.exr": {
+    "raw_bytes": 5297760.0,
+    "teacher_estimated_bytes": 2900350.910495758,
+    "blosc_bytes": 1376979,
+    "teacher_ratio": 1.8265927687675736,
+    "blosc_ratio": 3.847378936062206,
+    "teacher_bytes_vs_blosc": 2.106314555629213,
+    "hybrid_ratio": 3.847378936062206
+  },
+  "oexr_ScanLines_Tree.exr": {
+    "raw_bytes": 13452288.0,
+    "teacher_estimated_bytes": 6639310.8736047745,
+    "blosc_bytes": 3862273,
+    "teacher_ratio": 2.0261572708518405,
+    "blosc_ratio": 3.4829977062729642,
+    "teacher_bytes_vs_blosc": 1.7190164635189626,
+    "hybrid_ratio": 3.4829977062729642
+  },
+  "oexr_TestImages_GrayRampsHorizontal.exr": {
+    "raw_bytes": 2560000.0,
+    "teacher_estimated_bytes": 1328589.3908014297,
+    "blosc_bytes": 9765,
+    "teacher_ratio": 1.926855669422259,
+    "blosc_ratio": 262.16077828981054,
+    "teacher_bytes_vs_blosc": 136.0562612187844,
+    "hybrid_ratio": 262.16077828981054
+  },
+  "ph_abandoned_tiled_room_1k.exr": {
+    "raw_bytes": 6291456.0,
+    "teacher_estimated_bytes": 1789713.1022644043,
+    "blosc_bytes": 1526083,
+    "teacher_ratio": 3.5153433206919265,
+    "blosc_ratio": 4.1226171839932695,
+    "teacher_bytes_vs_blosc": 1.1727495177289862,
+    "hybrid_ratio": 4.1226171839932695
+  },
+  "ph_belfast_sunset_puresky_1k.exr": {
+    "raw_bytes": 8388608.0,
+    "teacher_estimated_bytes": 4558921.4814453125,
+    "blosc_bytes": 3950610,
+    "teacher_ratio": 1.8400422192269397,
+    "blosc_ratio": 2.1233703149640184,
+    "teacher_bytes_vs_blosc": 1.1539791276398612,
+    "hybrid_ratio": 2.1233703149640184
+  },
+  "ph_kloppenheim_06_puresky_1k.exr": {
+    "raw_bytes": 8388608.0,
+    "teacher_estimated_bytes": 4588771.741516113,
+    "blosc_bytes": 4004084,
+    "teacher_ratio": 1.8280726243376915,
+    "blosc_ratio": 2.0950129917354383,
+    "teacher_bytes_vs_blosc": 1.146022846053208,
+    "hybrid_ratio": 2.0950129917354383
+  },
+  "ph_spruit_sunrise_1k.exr": {
+    "raw_bytes": 6291456.0,
+    "teacher_estimated_bytes": 1660898.495300293,
+    "blosc_bytes": 1245582,
+    "teacher_ratio": 3.787983442577865,
+    "blosc_ratio": 5.05101711489087,
+    "teacher_bytes_vs_blosc": 1.3334316771599886,
+    "hybrid_ratio": 5.05101711489087
+  },
+  "ph_studio_small_03_1k.exr": {
+    "raw_bytes": 6291456.0,
+    "teacher_estimated_bytes": 1666076.38671875,
+    "blosc_bytes": 1320359,
+    "teacher_ratio": 3.77621101298404,
+    "blosc_ratio": 4.764958621102291,
+    "teacher_bytes_vs_blosc": 1.2618358997202654,
+    "hybrid_ratio": 4.764958621102291
+  },
+  "synth_gradient_1k.exr": {
+    "raw_bytes": 6291456.0,
+    "teacher_estimated_bytes": 4321892.526245117,
+    "blosc_bytes": 346098,
+    "teacher_ratio": 1.4557178277327618,
+    "blosc_ratio": 18.178250091014682,
+    "teacher_bytes_vs_blosc": 12.487481945128597,
+    "hybrid_ratio": 18.178250091014682
+  },
+  "synth_mixed_1k.exr": {
+    "raw_bytes": 6291456.0,
+    "teacher_estimated_bytes": 4679924.567749023,
+    "blosc_bytes": 4233061,
+    "teacher_ratio": 1.3443498733626171,
+    "blosc_ratio": 1.4862663212271214,
+    "teacher_bytes_vs_blosc": 1.105565114168925,
+    "hybrid_ratio": 1.4862663212271214
+  },
+  "synth_noise_1k.exr": {
+    "raw_bytes": 6291456.0,
+    "teacher_estimated_bytes": 6052167.866882324,
+    "blosc_bytes": 5062200,
+    "teacher_ratio": 1.0395375902289605,
+    "blosc_ratio": 1.242830389949034,
+    "teacher_bytes_vs_blosc": 1.1955607970610256,
+    "hybrid_ratio": 1.242830389949034
+  },
+  "synth_rgba_hdr_1k.exr": {
+    "raw_bytes": 8388608.0,
+    "teacher_estimated_bytes": 4662018.323974609,
+    "blosc_bytes": 4205646,
+    "teacher_ratio": 1.7993511430148739,
+    "blosc_ratio": 1.9946062982951964,
+    "teacher_bytes_vs_blosc": 1.1085142030438628,
+    "hybrid_ratio": 1.9946062982951964
+  }
+}

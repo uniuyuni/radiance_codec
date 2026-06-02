@@ -1,0 +1,218 @@
+[
+  {
+    "image": "ph_belfast_sunset_puresky_1k.exr",
+    "shape": [
+      128,
+      128,
+      4
+    ],
+    "crop_size": 128,
+    "tile_size": 128,
+    "previous_bits": 4,
+    "probability_bits": 12,
+    "route_header_bits": 24,
+    "entry_extra_bits": 2,
+    "rows": [
+      {
+        "tail_width": 8,
+        "context_mode": "payload_high",
+        "xy_bits": 0,
+        "context_bits": 6,
+        "previous_tail_bits": 0,
+        "current_bits": 891401.9459574539,
+        "hybrid_bits": 891401.9459574539,
+        "current_low_bits": 394804.8552347993,
+        "static_low_bits": 412553.8595921539,
+        "current_ratio": 2.3526446285098146,
+        "hybrid_ratio": 2.3526446285098146,
+        "gain": 1.0,
+        "route": "current_low",
+        "details": {
+          "selected_entries": 453.0,
+          "active_contexts_per_bit": 64.0,
+          "global_model_bits": 491204.28142998077,
+          "selected_savings": 78770.42183782686,
+          "entropy_after_selection": 412433.8595921539,
+          "table_bits": 9180.0
+        }
+      },
+      {
+        "tail_width": 10,
+        "context_mode": "payload_high",
+        "xy_bits": 0,
+        "context_bits": 6,
+        "previous_tail_bits": 0,
+        "current_bits": 891401.9459574539,
+        "hybrid_bits": 891401.9459574539,
+        "current_low_bits": 493619.88421978103,
+        "static_low_bits": 516704.7544186621,
+        "current_ratio": 2.3526446285098146,
+        "hybrid_ratio": 2.3526446285098146,
+        "gain": 1.0,
+        "route": "current_low",
+        "details": {
+          "selected_entries": 522.0,
+          "active_contexts_per_bit": 64.0,
+          "global_model_bits": 616315.6358996158,
+          "selected_savings": 99754.88148095373,
+          "entropy_after_selection": 516560.7544186621,
+          "table_bits": 10584.0
+        }
+      },
+      {
+        "tail_width": 12,
+        "context_mode": "payload_high",
+        "xy_bits": 0,
+        "context_bits": 6,
+        "previous_tail_bits": 0,
+        "current_bits": 891401.9459574542,
+        "hybrid_bits": 891401.9459574542,
+        "current_low_bits": 592418.8473618585,
+        "static_low_bits": 619123.7233582353,
+        "current_ratio": 2.352644628509814,
+        "hybrid_ratio": 2.352644628509814,
+        "gain": 1.0,
+        "route": "current_low",
+        "details": {
+          "selected_entries": 521.0,
+          "active_contexts_per_bit": 64.0,
+          "global_model_bits": 741460.660946948,
+          "selected_savings": 122504.93758871274,
+          "entropy_after_selection": 618955.7233582353,
+          "table_bits": 10588.0
+        }
+      },
+      {
+        "tail_width": 15,
+        "context_mode": "payload_high",
+        "xy_bits": 0,
+        "context_bits": 6,
+        "previous_tail_bits": 0,
+        "current_bits": 891401.9459574542,
+        "hybrid_bits": 891401.9459574542,
+        "current_low_bits": 740297.8096684347,
+        "static_low_bits": 764427.6252140638,
+        "current_ratio": 2.352644628509814,
+        "hybrid_ratio": 2.352644628509814,
+        "gain": 1.0,
+        "route": "current_low",
+        "details": {
+          "selected_entries": 308.0,
+          "active_contexts_per_bit": 54.86666666666667,
+          "global_model_bits": 929088.5815261714,
+          "selected_savings": 164864.95631210745,
+          "entropy_after_selection": 764223.6252140638,
+          "table_bits": 6364.0
+        }
+      }
+    ]
+  },
+  {
+    "image": "ph_kloppenheim_06_puresky_1k.exr",
+    "shape": [
+      128,
+      128,
+      4
+    ],
+    "crop_size": 128,
+    "tile_size": 128,
+    "previous_bits": 4,
+    "probability_bits": 12,
+    "route_header_bits": 24,
+    "entry_extra_bits": 2,
+    "rows": [
+      {
+        "tail_width": 8,
+        "context_mode": "payload_high",
+        "xy_bits": 0,
+        "context_bits": 6,
+        "previous_tail_bits": 0,
+        "current_bits": 933792.9057765303,
+        "hybrid_bits": 933792.9057765303,
+        "current_low_bits": 394736.50190544495,
+        "static_low_bits": 412122.85376098496,
+        "current_ratio": 2.2458427206148404,
+        "hybrid_ratio": 2.2458427206148404,
+        "gain": 1.0,
+        "route": "current_low",
+        "details": {
+          "selected_entries": 446.0,
+          "active_contexts_per_bit": 64.0,
+          "global_model_bits": 490998.7977278589,
+          "selected_savings": 78995.9439668739,
+          "entropy_after_selection": 412002.85376098496,
+          "table_bits": 9040.0
+        }
+      },
+      {
+        "tail_width": 10,
+        "context_mode": "payload_high",
+        "xy_bits": 0,
+        "context_bits": 6,
+        "previous_tail_bits": 0,
+        "current_bits": 933792.9057765304,
+        "hybrid_bits": 933792.9057765304,
+        "current_low_bits": 493539.03616009105,
+        "static_low_bits": 516925.25205886917,
+        "current_ratio": 2.24584272061484,
+        "hybrid_ratio": 2.24584272061484,
+        "gain": 1.0,
+        "route": "current_low",
+        "details": {
+          "selected_entries": 546.0,
+          "active_contexts_per_bit": 64.0,
+          "global_model_bits": 616177.0741318807,
+          "selected_savings": 99395.8220730115,
+          "entropy_after_selection": 516781.25205886917,
+          "table_bits": 11064.0
+        }
+      },
+      {
+        "tail_width": 12,
+        "context_mode": "payload_high",
+        "xy_bits": 0,
+        "context_bits": 6,
+        "previous_tail_bits": 0,
+        "current_bits": 933792.9057765304,
+        "hybrid_bits": 933792.9057765304,
+        "current_low_bits": 592337.8020551486,
+        "static_low_bits": 619311.9063386483,
+        "current_ratio": 2.24584272061484,
+        "hybrid_ratio": 2.24584272061484,
+        "gain": 1.0,
+        "route": "current_low",
+        "details": {
+          "selected_entries": 553.0,
+          "active_contexts_per_bit": 64.0,
+          "global_model_bits": 741218.2602756091,
+          "selected_savings": 122074.35393696083,
+          "entropy_after_selection": 619143.9063386483,
+          "table_bits": 11228.0
+        }
+      },
+      {
+        "tail_width": 15,
+        "context_mode": "payload_high",
+        "xy_bits": 0,
+        "context_bits": 6,
+        "previous_tail_bits": 0,
+        "current_bits": 933792.9057765303,
+        "hybrid_bits": 933792.9057765303,
+        "current_low_bits": 740152.621111207,
+        "static_low_bits": 769482.5203313193,
+        "current_ratio": 2.2458427206148404,
+        "hybrid_ratio": 2.2458427206148404,
+        "gain": 1.0,
+        "route": "current_low",
+        "details": {
+          "selected_entries": 369.0,
+          "active_contexts_per_bit": 63.86666666666667,
+          "global_model_bits": 928926.6227599708,
+          "selected_savings": 159648.1024286512,
+          "entropy_after_selection": 769278.5203313193,
+          "table_bits": 7584.0
+        }
+      }
+    ]
+  }
+]

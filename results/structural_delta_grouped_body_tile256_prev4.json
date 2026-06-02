@@ -1,0 +1,27 @@
+[
+  {
+    "image": "ph_spruit_sunrise_1k.exr",
+    "shape": [
+      512,
+      1024,
+      3
+    ],
+    "tile_size": 256,
+    "previous_bits": 4,
+    "preset": "body",
+    "raw_bits": 50331648,
+    "estimated_bits": 7765320.060889672,
+    "ratio": 6.481593495868541,
+    "mode_histogram": {
+      "body:delta_west": 7,
+      "sign:xor_float_med": 1,
+      "sign:xor_west": 6,
+      "sign:xor_north": 1,
+      "body:delta_med": 1
+    },
+    "carry_histogram": {},
+    "blosc_ratio": 5.05101711489087,
+    "hybrid_ratio": 6.481593495868541,
+    "hybrid_pick": "group"
+  }
+]

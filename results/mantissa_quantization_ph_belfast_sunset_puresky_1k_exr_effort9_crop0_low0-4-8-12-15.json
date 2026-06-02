@@ -1,0 +1,69 @@
+[
+  {
+    "image": "ph_belfast_sunset_puresky_1k.exr",
+    "shape": [
+      512,
+      1024,
+      4
+    ],
+    "crop_size": 0,
+    "effort": 9,
+    "rows": [
+      {
+        "low_bits_zeroed": 0,
+        "encoded_bytes": 3460857,
+        "ratio_vs_original": 2.4238528202696616,
+        "encode_seconds": 6.107985791999454,
+        "max_abs": 0.0,
+        "rmse": 0.0,
+        "max_rel_nonzero": 0.0,
+        "psnr_peak_abs": Infinity,
+        "changed_rate": 0.0
+      },
+      {
+        "low_bits_zeroed": 4,
+        "encoded_bytes": 2675564,
+        "ratio_vs_original": 3.135267181050425,
+        "encode_seconds": 6.27156987500166,
+        "max_abs": 5.7220458984375e-05,
+        "rmse": 1.2255306853032717e-06,
+        "max_rel_nonzero": 1.7881225035574697e-06,
+        "psnr_peak_abs": 151.2023379796247,
+        "changed_rate": 0.6875829696655273
+      },
+      {
+        "low_bits_zeroed": 8,
+        "encoded_bytes": 1885330,
+        "ratio_vs_original": 4.4494109784493965,
+        "encode_seconds": 6.746168749999924,
+        "max_abs": 0.000972747802734375,
+        "rmse": 2.081619729760718e-05,
+        "max_rel_nonzero": 3.0388171350675566e-05,
+        "psnr_peak_abs": 126.60079386440948,
+        "changed_rate": 0.746091365814209
+      },
+      {
+        "low_bits_zeroed": 12,
+        "encoded_bytes": 1097870,
+        "ratio_vs_original": 7.6408026451219175,
+        "encode_seconds": 6.797281875000408,
+        "max_abs": 0.01551055908203125,
+        "rmse": 0.00033297705001743706,
+        "max_rel_nonzero": 0.00048780476180376714,
+        "psnr_peak_abs": 102.52053574688827,
+        "changed_rate": 0.7497539520263672
+      },
+      {
+        "low_bits_zeroed": 15,
+        "encoded_bytes": 544289,
+        "ratio_vs_original": 15.412047643806874,
+        "encode_seconds": 4.527221207999901,
+        "max_abs": 0.12444305419921875,
+        "rmse": 0.0026737936795235067,
+        "max_rel_nonzero": 0.0038905774498502145,
+        "psnr_peak_abs": 84.42626392787611,
+        "changed_rate": 0.7499685287475586
+      }
+    ]
+  }
+]

@@ -1,0 +1,69 @@
+[
+  {
+    "image": "synth_noise_1k.exr",
+    "shape": [
+      512,
+      1024,
+      3
+    ],
+    "crop_size": 0,
+    "effort": 9,
+    "rows": [
+      {
+        "low_bits_zeroed": 0,
+        "encoded_bytes": 4880581,
+        "ratio_vs_original": 1.2890793124834932,
+        "encode_seconds": 4.664021458000207,
+        "max_abs": 0.0,
+        "rmse": 0.0,
+        "max_rel_nonzero": 0.0,
+        "psnr_peak_abs": Infinity,
+        "changed_rate": 0.0
+      },
+      {
+        "low_bits_zeroed": 4,
+        "encoded_bytes": 4138209,
+        "ratio_vs_original": 1.5203330716259136,
+        "encode_seconds": 4.481478249999782,
+        "max_abs": 4.57763671875e-05,
+        "rmse": 8.541525067710599e-06,
+        "max_rel_nonzero": 1.7881293246652772e-06,
+        "psnr_peak_abs": 132.25962528625234,
+        "changed_rate": 0.883087158203125
+      },
+      {
+        "low_bits_zeroed": 8,
+        "encoded_bytes": 3351051,
+        "ratio_vs_original": 1.8774575498850958,
+        "encode_seconds": 4.893551915998614,
+        "max_abs": 0.000896453857421875,
+        "rmse": 0.00014492311185730207,
+        "max_rel_nonzero": 3.0395589659539596e-05,
+        "psnr_peak_abs": 107.66758066537335,
+        "changed_rate": 0.9894377390543619
+      },
+      {
+        "low_bits_zeroed": 12,
+        "encoded_bytes": 2563519,
+        "ratio_vs_original": 2.454226397385781,
+        "encode_seconds": 5.054420915999799,
+        "max_abs": 0.0151214599609375,
+        "rmse": 0.0023262218899480856,
+        "max_rel_nonzero": 0.00048780476180376714,
+        "psnr_peak_abs": 83.55731091896794,
+        "changed_rate": 0.9991366068522135
+      },
+      {
+        "low_bits_zeroed": 15,
+        "encoded_bytes": 1972849,
+        "ratio_vs_original": 3.1890205484555585,
+        "encode_seconds": 5.265184291998594,
+        "max_abs": 0.11514663696289062,
+        "rmse": 0.018582391367931904,
+        "max_rel_nonzero": 0.0038899860319589444,
+        "psnr_peak_abs": 65.50830162992426,
+        "changed_rate": 0.9998849232991537
+      }
+    ]
+  }
+]

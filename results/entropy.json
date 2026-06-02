@@ -1,0 +1,353 @@
+[
+  {
+    "image": "oexr_ScanLines_CandleGlass.exr",
+    "width": 1000,
+    "height": 810,
+    "channels": 4,
+    "raw_bpp": 128.0,
+    "h_raw_bits_per_byte": 3.7873619057733077,
+    "h_raw_bpp": 60.59779049237292,
+    "h_planes_bits_per_byte": 2.798681874978922,
+    "h_planes_bpp": 44.77890999966275,
+    "h_resid_bits_per_byte": 4.710889300520288,
+    "h_resid_bpp": 75.3742288083246,
+    "h_planes_resid_bits_per_byte": 3.4685420827491855,
+    "h_planes_resid_bpp": 55.49667332398697,
+    "per_plane_h": [
+      -0.0,
+      1.6066500463374234,
+      6.861187786176961,
+      2.726889667401303
+    ],
+    "per_plane_h_resid": [
+      0.3176849486520379,
+      2.2572337014928965,
+      7.598844248105887,
+      3.7004054327459204
+    ]
+  },
+  {
+    "image": "oexr_ScanLines_Cannon.exr",
+    "width": 780,
+    "height": 566,
+    "channels": 3,
+    "raw_bpp": 96.0,
+    "h_raw_bits_per_byte": 4.844536016083336,
+    "h_raw_bpp": 58.13443219300004,
+    "h_planes_bits_per_byte": 3.067824856129109,
+    "h_planes_bpp": 36.813898273549306,
+    "h_resid_bits_per_byte": 4.413842853644932,
+    "h_resid_bpp": 52.966114243739185,
+    "h_planes_resid_bits_per_byte": 2.9923216112871183,
+    "h_planes_resid_bpp": 35.90785933544542,
+    "per_plane_h": [
+      -0.0,
+      2.99997164017143,
+      7.965315220000257,
+      1.3060125643447482
+    ],
+    "per_plane_h_resid": [
+      -0.0,
+      1.270579587006314,
+      7.80355836204638,
+      2.89514849609578
+    ]
+  },
+  {
+    "image": "oexr_ScanLines_Tree.exr",
+    "width": 928,
+    "height": 906,
+    "channels": 4,
+    "raw_bpp": 128.0,
+    "h_raw_bits_per_byte": 4.431198252656709,
+    "h_raw_bpp": 70.89917204250735,
+    "h_planes_bits_per_byte": 3.025405951094336,
+    "h_planes_bpp": 48.406495217509374,
+    "h_resid_bits_per_byte": 5.4896223634263634,
+    "h_resid_bpp": 87.83395781482182,
+    "h_planes_resid_bits_per_byte": 4.262405491700699,
+    "h_planes_resid_bpp": 68.19848786721118,
+    "per_plane_h": [
+      -0.0,
+      2.699076700906506,
+      6.653851578831503,
+      2.748695524639335
+    ],
+    "per_plane_h_resid": [
+      0.757007650634427,
+      5.47433346058682,
+      7.378196935231169,
+      3.4400839203503786
+    ]
+  },
+  {
+    "image": "oexr_TestImages_GrayRampsHorizontal.exr",
+    "width": 800,
+    "height": 800,
+    "channels": 1,
+    "raw_bpp": 32.0,
+    "h_raw_bits_per_byte": 4.939558466136718,
+    "h_raw_bpp": 19.75823386454687,
+    "h_planes_bits_per_byte": 3.1974471677276566,
+    "h_planes_bpp": 12.789788670910626,
+    "h_resid_bits_per_byte": 2.743465252201616,
+    "h_resid_bpp": 10.973861008806464,
+    "h_planes_resid_bits_per_byte": 1.6362000262452412,
+    "h_planes_resid_bpp": 6.544800104980965,
+    "per_plane_h": [
+      -0.0,
+      2.954716694779618,
+      7.608476559938487,
+      2.226595416192521
+    ],
+    "per_plane_h_resid": [
+      0.009000799875489966,
+      0.01454605588869567,
+      3.933882793150434,
+      2.587370456066345
+    ]
+  },
+  {
+    "image": "ph_abandoned_tiled_room_1k.exr",
+    "width": 1024,
+    "height": 512,
+    "channels": 3,
+    "raw_bpp": 96.0,
+    "h_raw_bits_per_byte": 3.8882993110823687,
+    "h_raw_bpp": 46.659591732988424,
+    "h_planes_bits_per_byte": 2.4511449121418334,
+    "h_planes_bpp": 29.413738945702,
+    "h_resid_bits_per_byte": 3.9959885322163573,
+    "h_resid_bpp": 47.95186238659629,
+    "h_planes_resid_bits_per_byte": 2.590297073906717,
+    "h_planes_resid_bpp": 31.083564886880602,
+    "per_plane_h": [
+      -0.0,
+      -0.0,
+      7.543054527084154,
+      2.26152512148318
+    ],
+    "per_plane_h_resid": [
+      -0.0,
+      0.08918633674428687,
+      7.3543975278152836,
+      2.917604431067297
+    ]
+  },
+  {
+    "image": "ph_belfast_sunset_puresky_1k.exr",
+    "width": 1024,
+    "height": 512,
+    "channels": 4,
+    "raw_bpp": 128.0,
+    "h_raw_bits_per_byte": 6.28550136792327,
+    "h_raw_bpp": 100.56802188677231,
+    "h_planes_bits_per_byte": 5.331718209577418,
+    "h_planes_bpp": 85.30749135323869,
+    "h_resid_bits_per_byte": 7.315201551092822,
+    "h_resid_bpp": 117.04322481748515,
+    "h_planes_resid_bits_per_byte": 6.460666826589541,
+    "h_planes_resid_bpp": 103.37066922543265,
+    "per_plane_h": [
+      6.721657435760071,
+      6.788189933447434,
+      6.6817843564552035,
+      1.1352411126469628
+    ],
+    "per_plane_h_resid": [
+      6.864569386399138,
+      7.999821397154723,
+      7.810389506328443,
+      3.1678870164758584
+    ]
+  },
+  {
+    "image": "ph_kloppenheim_06_puresky_1k.exr",
+    "width": 1024,
+    "height": 512,
+    "channels": 4,
+    "raw_bpp": 128.0,
+    "h_raw_bits_per_byte": 6.325560352508446,
+    "h_raw_bpp": 101.20896564013513,
+    "h_planes_bits_per_byte": 5.383240921859549,
+    "h_planes_bpp": 86.13185474975279,
+    "h_resid_bits_per_byte": 7.251498357411251,
+    "h_resid_bpp": 116.02397371858001,
+    "h_planes_resid_bits_per_byte": 6.419382495610796,
+    "h_planes_resid_bpp": 102.71011992977273,
+    "per_plane_h": [
+      6.721508605039382,
+      6.787960712312373,
+      6.737288195543071,
+      1.2862061745433726
+    ],
+    "per_plane_h_resid": [
+      7.30543620812589,
+      7.999894162994395,
+      7.899952527149991,
+      2.4722470841729054
+    ]
+  },
+  {
+    "image": "ph_spruit_sunrise_1k.exr",
+    "width": 1024,
+    "height": 512,
+    "channels": 3,
+    "raw_bpp": 96.0,
+    "h_raw_bits_per_byte": 3.8967097320349326,
+    "h_raw_bpp": 46.760516784419195,
+    "h_planes_bits_per_byte": 2.4598578405574676,
+    "h_planes_bpp": 29.51829408668961,
+    "h_resid_bits_per_byte": 3.9826932204445775,
+    "h_resid_bpp": 47.79231864533493,
+    "h_planes_resid_bits_per_byte": 2.592769663884979,
+    "h_planes_resid_bpp": 31.113235966619747,
+    "per_plane_h": [
+      -0.0,
+      -0.0,
+      7.653737839016805,
+      2.1856935232130663
+    ],
+    "per_plane_h_resid": [
+      -0.0,
+      0.06958503338919332,
+      7.302511447086522,
+      2.998982175064201
+    ]
+  },
+  {
+    "image": "ph_studio_small_03_1k.exr",
+    "width": 1024,
+    "height": 512,
+    "channels": 3,
+    "raw_bpp": 96.0,
+    "h_raw_bits_per_byte": 4.016150964366108,
+    "h_raw_bpp": 48.1938115723933,
+    "h_planes_bits_per_byte": 2.5704642466054084,
+    "h_planes_bpp": 30.8455709592649,
+    "h_resid_bits_per_byte": 3.765937347934875,
+    "h_resid_bpp": 45.1912481752185,
+    "h_planes_resid_bits_per_byte": 2.3848582472429802,
+    "h_planes_resid_bpp": 28.618298966915763,
+    "per_plane_h": [
+      -0.0,
+      -0.0,
+      7.820101340625879,
+      2.461755645795754
+    ],
+    "per_plane_h_resid": [
+      -0.0,
+      0.06016915640426782,
+      6.016181818624878,
+      3.4630820139427763
+    ]
+  },
+  {
+    "image": "synth_gradient_1k.exr",
+    "width": 1024,
+    "height": 512,
+    "channels": 3,
+    "raw_bpp": 96.0,
+    "h_raw_bits_per_byte": 7.079468228104571,
+    "h_raw_bpp": 84.95361873725486,
+    "h_planes_bits_per_byte": 6.269478887443789,
+    "h_planes_bpp": 75.23374664932547,
+    "h_resid_bits_per_byte": 7.278186036232033,
+    "h_resid_bpp": 87.3382324347844,
+    "h_planes_resid_bits_per_byte": 6.504953106286347,
+    "h_planes_resid_bpp": 78.05943727543617,
+    "per_plane_h": [
+      7.90060009288261,
+      7.943838398214341,
+      7.845038374092887,
+      1.3884386845853183
+    ],
+    "per_plane_h_resid": [
+      7.315824404436814,
+      7.9996741932551005,
+      7.9713584905181385,
+      2.732955336935336
+    ]
+  },
+  {
+    "image": "synth_mixed_1k.exr",
+    "width": 1024,
+    "height": 512,
+    "channels": 3,
+    "raw_bpp": 96.0,
+    "h_raw_bits_per_byte": 7.089023775277031,
+    "h_raw_bpp": 85.06828530332437,
+    "h_planes_bits_per_byte": 6.317795622250413,
+    "h_planes_bpp": 75.81354746700495,
+    "h_resid_bits_per_byte": 7.2850262401961015,
+    "h_resid_bpp": 87.42031488235321,
+    "h_planes_resid_bits_per_byte": 6.518859447867028,
+    "h_planes_resid_bpp": 78.22631337440433,
+    "per_plane_h": [
+      7.999649854439886,
+      7.9998902387336726,
+      7.878818385016082,
+      1.3928240108120116
+    ],
+    "per_plane_h_resid": [
+      7.3699517246651896,
+      7.999857597324868,
+      7.973434318904645,
+      2.7321941505734095
+    ]
+  },
+  {
+    "image": "synth_noise_1k.exr",
+    "width": 1024,
+    "height": 512,
+    "channels": 3,
+    "raw_bpp": 96.0,
+    "h_raw_bits_per_byte": 7.039133326228557,
+    "h_raw_bpp": 84.46959991474267,
+    "h_planes_bits_per_byte": 6.272766861884149,
+    "h_planes_bpp": 75.27320234260978,
+    "h_resid_bits_per_byte": 7.295785213419057,
+    "h_resid_bpp": 87.54942256102868,
+    "h_planes_resid_bits_per_byte": 6.528075786333859,
+    "h_planes_resid_bpp": 78.33690943600631,
+    "per_plane_h": [
+      7.902601638527615,
+      7.999886045414024,
+      7.918176173113611,
+      1.2704035904813444
+    ],
+    "per_plane_h_resid": [
+      7.423954037426736,
+      7.99987919450326,
+      7.969067293297012,
+      2.7194026201084287
+    ]
+  },
+  {
+    "image": "synth_rgba_hdr_1k.exr",
+    "width": 1024,
+    "height": 512,
+    "channels": 4,
+    "raw_bpp": 128.0,
+    "h_raw_bits_per_byte": 6.0560083583842825,
+    "h_raw_bpp": 96.89613373414852,
+    "h_planes_bits_per_byte": 5.065815890091084,
+    "h_planes_bpp": 81.05305424145735,
+    "h_resid_bits_per_byte": 7.239925847208596,
+    "h_resid_bpp": 115.83881355533754,
+    "h_planes_resid_bits_per_byte": 6.341114322407341,
+    "h_planes_resid_bpp": 101.45782915851746,
+    "per_plane_h": [
+      6.787507785483479,
+      6.788172859453054,
+      6.494923400475493,
+      0.19265951495230962
+    ],
+    "per_plane_h_resid": [
+      6.555072602222297,
+      7.999825043382945,
+      7.979561842296475,
+      2.8299978017276484
+    ]
+  }
+]

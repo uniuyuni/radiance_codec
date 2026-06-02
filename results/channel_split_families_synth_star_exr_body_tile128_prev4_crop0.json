@@ -1,0 +1,232 @@
+[
+  {
+    "image": "synth_gradient_1k.exr",
+    "shape": [
+      512,
+      1024,
+      3
+    ],
+    "crop_size": 0,
+    "tile_size": 128,
+    "previous_bits": 4,
+    "preset": "body",
+    "family_id_bits": 4,
+    "split_flag_bits": 1,
+    "min_gain_bits": 4.0,
+    "raw_bits": 50331648,
+    "baseline_bits": 121215.45153144062,
+    "channel_split_bits": 139855.76967823203,
+    "hybrid_bits": 119943.29377643643,
+    "baseline_ratio": 415.2246876459069,
+    "channel_split_ratio": 359.88252837761837,
+    "hybrid_ratio": 419.6286963222278,
+    "hybrid_gain": 1.01060632666446,
+    "pick_histogram": {
+      "shared": 964,
+      "channel_split": 60
+    },
+    "shared_family_histogram": {
+      "base": 635,
+      "spatial_prev_pc": 8,
+      "prev_only": 195,
+      "spatial_hi_neighbors": 64,
+      "spatial_hi_channel": 26,
+      "wn_prev": 23,
+      "spatial_prev_channel": 13
+    },
+    "split_family_histogram": {
+      "prev_only": 57,
+      "spatial_hi_channel": 19,
+      "spatial_prev_pc": 11,
+      "spatial_hi_pc": 1,
+      "wn_prev": 9,
+      "base": 78,
+      "prev_xy_channel": 3,
+      "spatial_hi_neighbors": 2
+    },
+    "split_bit_histogram": {
+      "14": 5,
+      "10": 1,
+      "9": 2,
+      "8": 2,
+      "7": 2,
+      "5": 2,
+      "2": 8,
+      "1": 6,
+      "0": 6,
+      "4": 4,
+      "3": 3,
+      "13": 11,
+      "6": 3,
+      "12": 4,
+      "11": 1
+    },
+    "split_group_histogram": {
+      "body": 60
+    }
+  },
+  {
+    "image": "synth_mixed_1k.exr",
+    "shape": [
+      512,
+      1024,
+      3
+    ],
+    "crop_size": 0,
+    "tile_size": 128,
+    "previous_bits": 4,
+    "preset": "body",
+    "family_id_bits": 4,
+    "split_flag_bits": 1,
+    "min_gain_bits": 4.0,
+    "raw_bits": 50331648,
+    "baseline_bits": 31203609.964187242,
+    "channel_split_bits": 31248143.39475748,
+    "hybrid_bits": 31169620.604482684,
+    "baseline_ratio": 1.613007214798744,
+    "channel_split_ratio": 1.6107084303909132,
+    "hybrid_ratio": 1.6147661416437489,
+    "hybrid_gain": 1.0010904643382046,
+    "pick_histogram": {
+      "shared": 857,
+      "channel_split": 167
+    },
+    "shared_family_histogram": {
+      "base": 24,
+      "prev_only": 768,
+      "spatial_hi_channel": 60,
+      "spatial_prev_channel": 5
+    },
+    "split_family_histogram": {
+      "prev_only": 351,
+      "spatial_hi_channel": 121,
+      "base": 13,
+      "prev_xy_channel": 2,
+      "wn_prev": 1,
+      "spatial_prev_pc": 2,
+      "spatial_hi_neighbors": 11
+    },
+    "split_bit_histogram": {
+      "19": 21,
+      "26": 9,
+      "25": 6,
+      "24": 10,
+      "23": 10,
+      "22": 10,
+      "21": 10,
+      "18": 17,
+      "31": 8,
+      "20": 12,
+      "17": 22,
+      "16": 21,
+      "27": 3,
+      "15": 7,
+      "30": 1
+    },
+    "split_group_histogram": {
+      "body": 159,
+      "sign": 8
+    }
+  },
+  {
+    "image": "synth_noise_1k.exr",
+    "shape": [
+      512,
+      1024,
+      3
+    ],
+    "crop_size": 0,
+    "tile_size": 128,
+    "previous_bits": 4,
+    "preset": "body",
+    "family_id_bits": 4,
+    "split_flag_bits": 1,
+    "min_gain_bits": 4.0,
+    "raw_bits": 50331648,
+    "baseline_bits": 39042243.946946256,
+    "channel_split_bits": 39150559.3009619,
+    "hybrid_bits": 39042243.946946256,
+    "baseline_ratio": 1.2891586884297608,
+    "channel_split_ratio": 1.2855920553544529,
+    "hybrid_ratio": 1.2891586884297608,
+    "hybrid_gain": 1.0,
+    "pick_histogram": {
+      "shared": 1024
+    },
+    "shared_family_histogram": {
+      "prev_only": 1024
+    },
+    "split_family_histogram": {},
+    "split_bit_histogram": {},
+    "split_group_histogram": {}
+  },
+  {
+    "image": "synth_rgba_hdr_1k.exr",
+    "shape": [
+      512,
+      1024,
+      4
+    ],
+    "crop_size": 0,
+    "tile_size": 128,
+    "previous_bits": 4,
+    "preset": "body",
+    "family_id_bits": 4,
+    "split_flag_bits": 1,
+    "min_gain_bits": 4.0,
+    "raw_bits": 67108864,
+    "baseline_bits": 32371554.494830325,
+    "channel_split_bits": 32310469.98998914,
+    "hybrid_bits": 32294060.038567744,
+    "baseline_ratio": 2.0730812914998307,
+    "channel_split_ratio": 2.0770005518580374,
+    "hybrid_ratio": 2.07805596198973,
+    "hybrid_gain": 1.0023996504673005,
+    "pick_histogram": {
+      "shared": 390,
+      "channel_split": 634
+    },
+    "shared_family_histogram": {
+      "spatial_prev_channel": 5,
+      "prev_only": 287,
+      "spatial_hi_channel": 61,
+      "base": 32,
+      "wn_prev": 1,
+      "spatial_hi_neighbors": 4
+    },
+    "split_family_histogram": {
+      "spatial_hi_channel": 88,
+      "prev_only": 1051,
+      "spatial_hi_neighbors": 1,
+      "base": 637,
+      "prev_xy_channel": 752,
+      "spatial_prev_pc": 7
+    },
+    "split_bit_histogram": {
+      "20": 28,
+      "18": 32,
+      "17": 31,
+      "16": 31,
+      "15": 31,
+      "14": 31,
+      "13": 31,
+      "12": 32,
+      "11": 32,
+      "10": 32,
+      "9": 32,
+      "8": 32,
+      "7": 32,
+      "6": 32,
+      "5": 32,
+      "4": 32,
+      "3": 32,
+      "2": 32,
+      "1": 32,
+      "0": 32,
+      "30": 3
+    },
+    "split_group_histogram": {
+      "body": 634
+    }
+  }
+]

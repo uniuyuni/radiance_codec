@@ -1,0 +1,137 @@
+[
+  {
+    "image": "oexr_ScanLines_CandleGlass.exr",
+    "shape": [
+      128,
+      128,
+      4
+    ],
+    "raw_bits": 2097152,
+    "encoded_bits": 293120,
+    "ratio": 7.154585152838428,
+    "target_ratio": 12.0,
+    "target8_bits": 262144.0,
+    "target_bits": 174762.66666666666,
+    "bits_to_remove_for_8x": 30976.0,
+    "bits_to_remove_for_target": 118357.33333333334,
+    "current_over_target_budget": 1.67724609375,
+    "region_bits": {
+      "body_high_21_30": 71484.07827515798,
+      "body_mid_15_20": 241852.1474869777,
+      "body_low_0_14": 249.21117055230567,
+      "sign": 8.825750816519681
+    },
+    "region_bits_per_sample": {
+      "body_high_21_30": 1.0907604717278745,
+      "body_mid_15_20": 3.690370902816432,
+      "body_low_0_14": 0.003802660683476344,
+      "sign": 0.00013467027002746096
+    },
+    "source_precision": {
+      "class": "half_like",
+      "low_zero_bits": 15,
+      "half_exact_rate": 1.0,
+      "best_decimal_power": 0,
+      "best_decimal_exact_rate": 0.25,
+      "decimal_exact_rates": {
+        "0": 0.25,
+        "1": 0.25,
+        "2": 0.25,
+        "3": 0.25,
+        "4": 0.25,
+        "5": 0.25,
+        "6": 0.25
+      }
+    }
+  },
+  {
+    "image": "oexr_ScanLines_Cannon.exr",
+    "shape": [
+      128,
+      128,
+      3
+    ],
+    "raw_bits": 1572864,
+    "encoded_bits": 288632,
+    "ratio": 5.449374982676903,
+    "target_ratio": 12.0,
+    "target8_bits": 196608.0,
+    "target_bits": 131072.0,
+    "bits_to_remove_for_8x": 92024.0,
+    "bits_to_remove_for_target": 157560.0,
+    "current_over_target_budget": 2.20208740234375,
+    "region_bits": {
+      "body_high_21_30": 55179.34665023205,
+      "body_mid_15_20": 227624.41534084457,
+      "body_low_0_14": 12447.240036989884,
+      "sign": 8.618232984203791
+    },
+    "region_bits_per_sample": {
+      "body_high_21_30": 1.1226266815232757,
+      "body_mid_15_20": 4.631030585547782,
+      "body_low_0_14": 0.2532397468463111,
+      "sign": 0.0001753383989299274
+    },
+    "source_precision": {
+      "class": "half_like",
+      "low_zero_bits": 13,
+      "half_exact_rate": 1.0,
+      "best_decimal_power": 6,
+      "best_decimal_exact_rate": 0.01654052734375,
+      "decimal_exact_rates": {
+        "0": 0.0,
+        "1": 0.0004475911458333333,
+        "2": 0.0008341471354166666,
+        "3": 0.001708984375,
+        "4": 0.004109700520833333,
+        "5": 0.008524576822916666,
+        "6": 0.01654052734375
+      }
+    }
+  },
+  {
+    "image": "oexr_ScanLines_Tree.exr",
+    "shape": [
+      128,
+      128,
+      4
+    ],
+    "raw_bits": 2097152,
+    "encoded_bits": 463648,
+    "ratio": 4.523155497273794,
+    "target_ratio": 12.0,
+    "target8_bits": 262144.0,
+    "target_bits": 174762.66666666666,
+    "bits_to_remove_for_8x": 201504.0,
+    "bits_to_remove_for_target": 288885.3333333334,
+    "current_over_target_budget": 2.65301513671875,
+    "region_bits": {
+      "body_high_21_30": 141082.32695379344,
+      "body_mid_15_20": 262840.7173786561,
+      "body_low_0_14": 87025.5186023853,
+      "sign": 8.825750816519681
+    },
+    "region_bits_per_sample": {
+      "body_high_21_30": 2.1527454674345923,
+      "body_mid_15_20": 4.010631063517091,
+      "body_low_0_14": 1.3279040314084671,
+      "sign": 0.00013467027002746096
+    },
+    "source_precision": {
+      "class": "half_like",
+      "low_zero_bits": 13,
+      "half_exact_rate": 1.0,
+      "best_decimal_power": 6,
+      "best_decimal_exact_rate": 0.381683349609375,
+      "decimal_exact_rates": {
+        "0": 0.37237548828125,
+        "1": 0.3725128173828125,
+        "2": 0.3728179931640625,
+        "3": 0.3736114501953125,
+        "4": 0.3748016357421875,
+        "5": 0.3772735595703125,
+        "6": 0.381683349609375
+      }
+    }
+  }
+]

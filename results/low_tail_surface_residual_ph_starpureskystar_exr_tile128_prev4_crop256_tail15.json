@@ -1,0 +1,100 @@
+[
+  {
+    "image": "ph_belfast_sunset_puresky_1k.exr",
+    "shape": [
+      256,
+      256,
+      4
+    ],
+    "crop_size": 256,
+    "tile_size": 128,
+    "previous_bits": 4,
+    "rows": [
+      {
+        "tail_width": 15,
+        "current_bits": 3705257.1491174423,
+        "hybrid_bits": 3677250.047500748,
+        "current_ratio": 2.263974580549177,
+        "hybrid_ratio": 2.2812177283677886,
+        "gain": 1.0076163168821575,
+        "selected": {
+          "zero_mask_raw_tail": 4
+        },
+        "totals": {
+          "current_total": 3705257.1491174423,
+          "hybrid_total": 3677250.047500748,
+          "sign": 35.303003266078726,
+          "high": 743410.891591242,
+          "current_low": 2961810.954522934
+        },
+        "candidate_ratios": {
+          "zero_mask_raw_tail": 2.2812177283677886,
+          "trailing_zero_raw_tail": 2.155482036190169,
+          "high_corner_affine": 2.2632474506713005,
+          "high_corner_bilinear": 2.2632908539645924,
+          "high_row_affine": 2.2632300167856174,
+          "high_column_affine": 2.2632581377848577,
+          "progressive_high_affine": 2.2730426279265865,
+          "progressive_high_quadratic": 2.2730758685386045,
+          "high_ordered_affine": 2.2730547332887006,
+          "ordered_affine": 2.2721185236862764,
+          "float_affine": 2.262375218254281,
+          "log_affine": 2.262362865609805,
+          "high_ordered_quadratic": 2.273117165457698,
+          "ordered_quadratic": 2.271206544127338,
+          "float_quadratic": 2.2614690625253053,
+          "log_quadratic": 2.261487000930124
+        }
+      }
+    ]
+  },
+  {
+    "image": "ph_kloppenheim_06_puresky_1k.exr",
+    "shape": [
+      256,
+      256,
+      4
+    ],
+    "crop_size": 256,
+    "tile_size": 128,
+    "previous_bits": 4,
+    "rows": [
+      {
+        "tail_width": 15,
+        "current_bits": 3647463.2780334884,
+        "hybrid_bits": 3621768.485501335,
+        "current_ratio": 2.2998471432240644,
+        "hybrid_ratio": 2.3161635078501783,
+        "gain": 1.0070945430761284,
+        "selected": {
+          "zero_mask_raw_tail": 4
+        },
+        "totals": {
+          "current_total": 3647463.2780334884,
+          "hybrid_total": 3621768.485501335,
+          "sign": 35.303003266078726,
+          "high": 687967.2066036253,
+          "current_low": 2959460.768426597
+        },
+        "candidate_ratios": {
+          "zero_mask_raw_tail": 2.3161635078501783,
+          "trailing_zero_raw_tail": 2.1865913309149563,
+          "high_corner_affine": 2.2976430038220093,
+          "high_corner_bilinear": 2.297681936270473,
+          "high_row_affine": 2.2976527667118765,
+          "high_column_affine": 2.2976116957540427,
+          "progressive_high_affine": 2.3077245178653465,
+          "progressive_high_quadratic": 2.3077313188006268,
+          "high_ordered_affine": 2.307732348373804,
+          "ordered_affine": 2.30675228358616,
+          "float_affine": 2.2967389890526486,
+          "log_affine": 2.296618827165071,
+          "high_ordered_quadratic": 2.30772605031941,
+          "ordered_quadratic": 2.3057615348039593,
+          "float_quadratic": 2.2957442696635963,
+          "log_quadratic": 2.295719112181264
+        }
+      }
+    ]
+  }
+]

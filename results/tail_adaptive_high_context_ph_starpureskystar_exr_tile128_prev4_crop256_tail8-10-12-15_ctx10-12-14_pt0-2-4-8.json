@@ -1,0 +1,236 @@
+[
+  {
+    "image": "ph_belfast_sunset_puresky_1k.exr",
+    "shape": [
+      256,
+      256,
+      4
+    ],
+    "crop_size": 256,
+    "tile_size": 128,
+    "previous_bits": 4,
+    "xy_bits": 3,
+    "use_spatial": true,
+    "use_previous_channel": true,
+    "route_header_bits": 8,
+    "rows": [
+      {
+        "tail_width": 8,
+        "context_bits": 10,
+        "prev_tail_bits": 0,
+        "current_bits": 3705257.1491174423,
+        "hybrid_bits": 3705257.1491174423,
+        "current_ratio": 2.263974580549177,
+        "hybrid_ratio": 2.263974580549177,
+        "gain": 1.0,
+        "route_histogram": {
+          "current_low": 4
+        },
+        "totals": {
+          "current_total": 3705257.1491174423,
+          "hybrid_total": 3705257.1491174423,
+          "sign": 35.303003266078726,
+          "high_gdx": 2126186.2849585614,
+          "low_gdx": 1579035.561155615,
+          "adaptive_low": 1833281.8053785544
+        },
+        "detail_totals": {
+          "mean_active_contexts": 4096.0,
+          "max_active_contexts": 4096.0
+        }
+      },
+      {
+        "tail_width": 10,
+        "context_bits": 10,
+        "prev_tail_bits": 0,
+        "current_bits": 3705257.1491174423,
+        "hybrid_bits": 3705257.1491174423,
+        "current_ratio": 2.263974580549177,
+        "hybrid_ratio": 2.263974580549177,
+        "gain": 1.0,
+        "route_histogram": {
+          "current_low": 4
+        },
+        "totals": {
+          "current_total": 3705257.1491174423,
+          "hybrid_total": 3705257.1491174423,
+          "sign": 35.303003266078726,
+          "high_gdx": 1730984.0846447495,
+          "low_gdx": 1974237.761469427,
+          "adaptive_low": 2297983.283284655
+        },
+        "detail_totals": {
+          "mean_active_contexts": 4096.0,
+          "max_active_contexts": 4096.0
+        }
+      },
+      {
+        "tail_width": 12,
+        "context_bits": 10,
+        "prev_tail_bits": 0,
+        "current_bits": 3705257.1491174423,
+        "hybrid_bits": 3705257.1491174423,
+        "current_ratio": 2.263974580549177,
+        "hybrid_ratio": 2.263974580549177,
+        "gain": 1.0,
+        "route_histogram": {
+          "current_low": 4
+        },
+        "totals": {
+          "current_total": 3705257.1491174423,
+          "hybrid_total": 3705257.1491174423,
+          "sign": 35.303003266078726,
+          "high_gdx": 1335790.2032416933,
+          "low_gdx": 2369431.6428724835,
+          "adaptive_low": 2764666.4919428444
+        },
+        "detail_totals": {
+          "mean_active_contexts": 4096.0,
+          "max_active_contexts": 4096.0
+        }
+      },
+      {
+        "tail_width": 15,
+        "context_bits": 10,
+        "prev_tail_bits": 0,
+        "current_bits": 3705257.1491174423,
+        "hybrid_bits": 3705257.1491174423,
+        "current_ratio": 2.263974580549177,
+        "hybrid_ratio": 2.263974580549177,
+        "gain": 1.0,
+        "route_histogram": {
+          "current_low": 4
+        },
+        "totals": {
+          "current_total": 3705257.1491174423,
+          "hybrid_total": 3705257.1491174423,
+          "sign": 35.303003266078726,
+          "high_gdx": 743410.891591242,
+          "low_gdx": 2961810.954522934,
+          "adaptive_low": 3459094.274071714
+        },
+        "detail_totals": {
+          "mean_active_contexts": 4096.0,
+          "max_active_contexts": 4096.0
+        }
+      }
+    ]
+  },
+  {
+    "image": "ph_kloppenheim_06_puresky_1k.exr",
+    "shape": [
+      256,
+      256,
+      4
+    ],
+    "crop_size": 256,
+    "tile_size": 128,
+    "previous_bits": 4,
+    "xy_bits": 3,
+    "use_spatial": true,
+    "use_previous_channel": true,
+    "route_header_bits": 8,
+    "rows": [
+      {
+        "tail_width": 8,
+        "context_bits": 10,
+        "prev_tail_bits": 0,
+        "current_bits": 3647463.2780334884,
+        "hybrid_bits": 3647463.2780334884,
+        "current_ratio": 2.2998471432240644,
+        "hybrid_ratio": 2.2998471432240644,
+        "gain": 1.0,
+        "route_histogram": {
+          "current_low": 4
+        },
+        "totals": {
+          "current_total": 3647463.2780334884,
+          "hybrid_total": 3647463.2780334884,
+          "sign": 35.303003266078726,
+          "high_gdx": 2068491.6122631326,
+          "low_gdx": 1578936.36276709,
+          "adaptive_low": 1833696.4856234847
+        },
+        "detail_totals": {
+          "mean_active_contexts": 4096.0,
+          "max_active_contexts": 4096.0
+        }
+      },
+      {
+        "tail_width": 10,
+        "context_bits": 10,
+        "prev_tail_bits": 0,
+        "current_bits": 3647463.2780334884,
+        "hybrid_bits": 3647463.2780334884,
+        "current_ratio": 2.2998471432240644,
+        "hybrid_ratio": 2.2998471432240644,
+        "gain": 1.0,
+        "route_histogram": {
+          "current_low": 4
+        },
+        "totals": {
+          "current_total": 3647463.2780334884,
+          "hybrid_total": 3647463.2780334884,
+          "sign": 35.303003266078726,
+          "high_gdx": 1673318.5777894724,
+          "low_gdx": 1974109.3972407503,
+          "adaptive_low": 2299191.0683828937
+        },
+        "detail_totals": {
+          "mean_active_contexts": 4096.0,
+          "max_active_contexts": 4096.0
+        }
+      },
+      {
+        "tail_width": 12,
+        "context_bits": 10,
+        "prev_tail_bits": 0,
+        "current_bits": 3647463.2780334884,
+        "hybrid_bits": 3647463.2780334884,
+        "current_ratio": 2.2998471432240644,
+        "hybrid_ratio": 2.2998471432240644,
+        "gain": 1.0,
+        "route_histogram": {
+          "current_low": 4
+        },
+        "totals": {
+          "current_total": 3647463.2780334884,
+          "hybrid_total": 3647463.2780334884,
+          "sign": 35.303003266078726,
+          "high_gdx": 1278118.1801522125,
+          "low_gdx": 2369309.7948780097,
+          "adaptive_low": 2762977.722424234
+        },
+        "detail_totals": {
+          "mean_active_contexts": 4096.0,
+          "max_active_contexts": 4096.0
+        }
+      },
+      {
+        "tail_width": 15,
+        "context_bits": 10,
+        "prev_tail_bits": 0,
+        "current_bits": 3647463.2780334884,
+        "hybrid_bits": 3647463.2780334884,
+        "current_ratio": 2.2998471432240644,
+        "hybrid_ratio": 2.2998471432240644,
+        "gain": 1.0,
+        "route_histogram": {
+          "current_low": 4
+        },
+        "totals": {
+          "current_total": 3647463.2780334884,
+          "hybrid_total": 3647463.2780334884,
+          "sign": 35.303003266078726,
+          "high_gdx": 687967.2066036253,
+          "low_gdx": 2959460.768426597,
+          "adaptive_low": 3459722.8798449584
+        },
+        "detail_totals": {
+          "mean_active_contexts": 4096.0,
+          "max_active_contexts": 4096.0
+        }
+      }
+    ]
+  }
+]

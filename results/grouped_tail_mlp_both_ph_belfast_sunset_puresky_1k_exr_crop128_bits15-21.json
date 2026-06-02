@@ -1,0 +1,88 @@
+{
+  "args": {
+    "train_glob": "ph_*_1k.exr",
+    "eval_glob": "ph_belfast_sunset_puresky_1k.exr",
+    "train_limit": 5,
+    "eval_limit": 1,
+    "allow_train_eval_overlap": false,
+    "crop_size": 128,
+    "tile_size": 128,
+    "previous_bits": 4,
+    "bits": "15:21",
+    "feature_set": "both",
+    "train_samples": 12000,
+    "eval_samples": 6000,
+    "epochs": 3,
+    "batch_size": 1024,
+    "hidden": 64,
+    "lr": 0.002,
+    "seed": 11
+  },
+  "mode_to_id": {
+    "delta_channel_green": 0,
+    "delta_float_med": 1,
+    "delta_paeth": 2,
+    "xor_float_med": 3,
+    "xor_west": 4
+  },
+  "results": {
+    "strict": {
+      "samples_train": 12000,
+      "samples_eval": 6000,
+      "positive_rate_train": 0.2723333239555359,
+      "positive_rate_eval": 0.3544999957084656,
+      "bit_prior_bits_per_sample": 0.9612859487533569,
+      "tabular_strict_bits_per_sample": 0.45491270362180813,
+      "tabular_oracle_bits_per_sample": null,
+      "mlp_bits_per_sample": 0.4281207983503865,
+      "gain_vs_bit_prior": 2.245361478483025,
+      "gain_vs_tabular_strict": 1.0625802469178205,
+      "history": [
+        {
+          "epoch": 0.0,
+          "train_bits_per_sample": 0.9333339736669767,
+          "eval_bits_per_sample": 0.9030502867687545
+        },
+        {
+          "epoch": 1.0,
+          "train_bits_per_sample": 0.7730486439772202,
+          "eval_bits_per_sample": 0.4857326216279781
+        },
+        {
+          "epoch": 2.0,
+          "train_bits_per_sample": 0.6217146637165994,
+          "eval_bits_per_sample": 0.4281207983503865
+        }
+      ]
+    },
+    "oracle": {
+      "samples_train": 12000,
+      "samples_eval": 6000,
+      "positive_rate_train": 0.2723333239555359,
+      "positive_rate_eval": 0.3544999957084656,
+      "bit_prior_bits_per_sample": 0.9612859487533569,
+      "tabular_strict_bits_per_sample": 0.45491270362180813,
+      "tabular_oracle_bits_per_sample": 0.8294495899535995,
+      "mlp_bits_per_sample": 0.4279767198846262,
+      "gain_vs_bit_prior": 2.2461173799652,
+      "gain_vs_tabular_strict": 1.0629379648137014,
+      "history": [
+        {
+          "epoch": 0.0,
+          "train_bits_per_sample": 0.9589983642137869,
+          "eval_bits_per_sample": 0.9272428282916496
+        },
+        {
+          "epoch": 1.0,
+          "train_bits_per_sample": 0.8061804137353369,
+          "eval_bits_per_sample": 0.7318952164218978
+        },
+        {
+          "epoch": 2.0,
+          "train_bits_per_sample": 0.6587183326381688,
+          "eval_bits_per_sample": 0.4279767198846262
+        }
+      ]
+    }
+  }
+}

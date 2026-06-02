@@ -1,0 +1,138 @@
+[
+  {
+    "image": "synth_gradient_1k.exr",
+    "shape": [
+      128,
+      128,
+      3
+    ],
+    "crop_size": 128,
+    "tile_size": 128,
+    "previous_bits": 4,
+    "max_levels": 4,
+    "mode_overhead_bits": 16.0,
+    "raw_bits": 1572864,
+    "sign_bits": 8.618232984203791,
+    "baseline_bits": 17078.502532918246,
+    "lorenzo_bits": 42387.25476182096,
+    "hybrid_bits": 17078.502532918246,
+    "baseline_ratio": 92.09613061615659,
+    "lorenzo_ratio": 37.10700324515259,
+    "hybrid_ratio": 92.09613061615659,
+    "hybrid_gain": 1.0,
+    "selected": {
+      "gdx3": 1
+    },
+    "level_histogram": {
+      "4": 1
+    },
+    "family_histogram": {
+      "base": 1,
+      "spatial_prev_pc": 4,
+      "prev_only": 6,
+      "spatial_hi_neighbors": 8,
+      "spatial_hi_channel": 3,
+      "wn_prev": 4,
+      "spatial_hi_pc": 2,
+      "spatial_prev_channel": 3
+    }
+  },
+  {
+    "image": "synth_mixed_1k.exr",
+    "shape": [
+      128,
+      128,
+      3
+    ],
+    "crop_size": 128,
+    "tile_size": 128,
+    "previous_bits": 4,
+    "max_levels": 4,
+    "mode_overhead_bits": 16.0,
+    "raw_bits": 1572864,
+    "sign_bits": 2377.483355388462,
+    "baseline_bits": 1114292.5207018142,
+    "lorenzo_bits": 1129156.1953739976,
+    "hybrid_bits": 1114292.5207018142,
+    "baseline_ratio": 1.411535993268055,
+    "lorenzo_ratio": 1.3929552053505212,
+    "hybrid_ratio": 1.411535993268055,
+    "hybrid_gain": 1.0,
+    "selected": {
+      "gdx3": 1
+    },
+    "level_histogram": {
+      "4": 1
+    },
+    "family_histogram": {
+      "base": 1,
+      "prev_only": 24,
+      "spatial_hi_channel": 6
+    }
+  },
+  {
+    "image": "synth_noise_1k.exr",
+    "shape": [
+      128,
+      128,
+      3
+    ],
+    "crop_size": 128,
+    "tile_size": 128,
+    "previous_bits": 4,
+    "max_levels": 4,
+    "mode_overhead_bits": 16.0,
+    "raw_bits": 1572864,
+    "sign_bits": 7607.2449753941355,
+    "baseline_bits": 1219497.059966817,
+    "lorenzo_bits": 1270103.7955842286,
+    "hybrid_bits": 1219497.059966817,
+    "baseline_ratio": 1.2897644870441904,
+    "lorenzo_ratio": 1.2383743796911546,
+    "hybrid_ratio": 1.2897644870441904,
+    "hybrid_gain": 1.0,
+    "selected": {
+      "gdx3": 1
+    },
+    "level_histogram": {
+      "4": 1
+    },
+    "family_histogram": {
+      "prev_only": 31
+    }
+  },
+  {
+    "image": "synth_rgba_hdr_1k.exr",
+    "shape": [
+      128,
+      128,
+      4
+    ],
+    "crop_size": 128,
+    "tile_size": 128,
+    "previous_bits": 4,
+    "max_levels": 4,
+    "mode_overhead_bits": 16.0,
+    "raw_bits": 2097152,
+    "sign_bits": 8.825750816519681,
+    "baseline_bits": 1015530.7250940652,
+    "lorenzo_bits": 1029077.5981153941,
+    "hybrid_bits": 1015530.7250940652,
+    "baseline_ratio": 2.065079813125051,
+    "lorenzo_ratio": 2.0378949107828492,
+    "hybrid_ratio": 2.065079813125051,
+    "hybrid_gain": 1.0,
+    "selected": {
+      "gdx3": 1
+    },
+    "level_histogram": {
+      "4": 1
+    },
+    "family_histogram": {
+      "spatial_prev_channel": 2,
+      "prev_only": 9,
+      "spatial_hi_channel": 2,
+      "prev_xy_channel": 18
+    }
+  }
+]

@@ -1,0 +1,46 @@
+[
+  {
+    "image": "ph_belfast_sunset_puresky_1k.exr",
+    "shape": [
+      512,
+      1024,
+      4
+    ],
+    "raw_bits": 67108864,
+    "encoded_bits": 27686856,
+    "ratio": 2.4238528202696616,
+    "target8_bits": 8388608.0,
+    "target16_bits": 4194304.0,
+    "bits_to_remove_for_8x": 19298248.0,
+    "bits_to_remove_for_16x": 23492552.0,
+    "current_over_16_budget": 6.60106086730957,
+    "region_bits": {
+      "body_high_21_30": 1228260.6932007673,
+      "body_mid_15_20": 2858312.8444268643,
+      "body_low_0_14": 23594302.041961197,
+      "sign": 282.42402612862975
+    },
+    "region_bits_per_sample": {
+      "body_high_21_30": 0.5856803384784542,
+      "body_mid_15_20": 1.362949773991997,
+      "body_low_0_14": 11.250639935474966,
+      "sign": 0.00013467027002746093
+    },
+    "source_precision": {
+      "class": "true_or_dithered_float",
+      "low_zero_bits": 0,
+      "half_exact_rate": 0.2501235008239746,
+      "best_decimal_power": 6,
+      "best_decimal_exact_rate": 0.31208086013793945,
+      "decimal_exact_rates": {
+        "0": 0.2500004768371582,
+        "1": 0.2500009536743164,
+        "2": 0.25000953674316406,
+        "3": 0.25007057189941406,
+        "4": 0.25065088272094727,
+        "5": 0.2563633918762207,
+        "6": 0.31208086013793945
+      }
+    }
+  }
+]

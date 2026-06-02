@@ -1,0 +1,746 @@
+[
+  {
+    "image": "oexr_ScanLines_CandleGlass.exr",
+    "shape": [
+      810,
+      1000,
+      4
+    ],
+    "tile_size": 64,
+    "previous_bits": 2,
+    "tile_count": 208,
+    "raw_bits": 103680000,
+    "estimated_bits": 20451391.80244411,
+    "estimated_bytes": 2556424,
+    "ratio": 5.069581620729078,
+    "mode_histogram": {
+      "zero": 673,
+      "float_med": 251,
+      "channel_green": 35,
+      "west": 22,
+      "northeast": 7,
+      "north": 44,
+      "float_planar": 5,
+      "northwest": 3
+    },
+    "field_mode_histogram": {
+      "sign": {
+        "zero": 201,
+        "channel_green": 2,
+        "float_planar": 1,
+        "west": 2,
+        "float_med": 2
+      },
+      "exponent": {
+        "float_med": 119,
+        "zero": 52,
+        "west": 10,
+        "north": 22,
+        "float_planar": 1,
+        "northeast": 2,
+        "northwest": 2
+      },
+      "mantissa_hi": {
+        "zero": 51,
+        "float_med": 129,
+        "channel_green": 3,
+        "north": 17,
+        "float_planar": 2,
+        "northwest": 1,
+        "west": 5
+      },
+      "mantissa_mid": {
+        "channel_green": 30,
+        "zero": 161,
+        "west": 5,
+        "northeast": 5,
+        "float_med": 1,
+        "north": 5,
+        "float_planar": 1
+      },
+      "mantissa_lo": {
+        "zero": 208
+      }
+    },
+    "blosc_ratio": 4.36564279542618,
+    "hybrid_ratio": 5.069581620729078,
+    "hybrid_pick": "ctx"
+  },
+  {
+    "image": "oexr_ScanLines_Cannon.exr",
+    "shape": [
+      566,
+      780,
+      3
+    ],
+    "tile_size": 64,
+    "previous_bits": 2,
+    "tile_count": 117,
+    "raw_bits": 42382080,
+    "estimated_bits": 9351164.372469086,
+    "estimated_bytes": 1168896,
+    "ratio": 4.532278367897987,
+    "mode_histogram": {
+      "zero": 242,
+      "float_med": 63,
+      "north": 61,
+      "float_planar": 34,
+      "west": 134,
+      "channel_previous": 30,
+      "channel_green": 21
+    },
+    "field_mode_histogram": {
+      "sign": {
+        "zero": 117
+      },
+      "exponent": {
+        "float_med": 55,
+        "float_planar": 21,
+        "channel_previous": 28,
+        "zero": 7,
+        "channel_green": 6
+      },
+      "mantissa_hi": {
+        "float_med": 8,
+        "west": 48,
+        "channel_green": 15,
+        "north": 30,
+        "float_planar": 13,
+        "channel_previous": 2,
+        "zero": 1
+      },
+      "mantissa_mid": {
+        "north": 31,
+        "west": 86
+      },
+      "mantissa_lo": {
+        "zero": 117
+      }
+    },
+    "blosc_ratio": 3.847378936062206,
+    "hybrid_ratio": 4.532278367897987,
+    "hybrid_pick": "ctx"
+  },
+  {
+    "image": "oexr_ScanLines_Tree.exr",
+    "shape": [
+      906,
+      928,
+      4
+    ],
+    "tile_size": 64,
+    "previous_bits": 2,
+    "tile_count": 225,
+    "raw_bits": 107618304,
+    "estimated_bits": 29240406.24122841,
+    "estimated_bytes": 3655051,
+    "ratio": 3.680465418714336,
+    "mode_histogram": {
+      "zero": 740,
+      "float_med": 237,
+      "north": 69,
+      "west": 32,
+      "northeast": 17,
+      "northwest": 16,
+      "channel_green": 14
+    },
+    "field_mode_histogram": {
+      "sign": {
+        "zero": 225
+      },
+      "exponent": {
+        "float_med": 153,
+        "zero": 41,
+        "north": 15,
+        "northeast": 5,
+        "west": 10,
+        "northwest": 1
+      },
+      "mantissa_hi": {
+        "north": 38,
+        "float_med": 84,
+        "zero": 87,
+        "west": 13,
+        "channel_green": 2,
+        "northeast": 1
+      },
+      "mantissa_mid": {
+        "zero": 162,
+        "north": 16,
+        "west": 9,
+        "northeast": 11,
+        "northwest": 15,
+        "channel_green": 12
+      },
+      "mantissa_lo": {
+        "zero": 225
+      }
+    },
+    "blosc_ratio": 3.4829977062729642,
+    "hybrid_ratio": 3.680465418714336,
+    "hybrid_pick": "ctx"
+  },
+  {
+    "image": "oexr_TestImages_GrayRampsHorizontal.exr",
+    "shape": [
+      800,
+      800,
+      1
+    ],
+    "tile_size": 64,
+    "previous_bits": 2,
+    "tile_count": 169,
+    "raw_bits": 20480000,
+    "estimated_bits": 98910.33298489901,
+    "estimated_bytes": 12364,
+    "ratio": 207.05622336876323,
+    "mode_histogram": {
+      "zero": 338,
+      "north": 126,
+      "float_planar": 79,
+      "float_med": 216,
+      "west": 86
+    },
+    "field_mode_histogram": {
+      "sign": {
+        "zero": 169
+      },
+      "exponent": {
+        "north": 24,
+        "float_planar": 20,
+        "float_med": 63,
+        "west": 62
+      },
+      "mantissa_hi": {
+        "north": 42,
+        "float_planar": 57,
+        "float_med": 58,
+        "west": 12
+      },
+      "mantissa_mid": {
+        "north": 60,
+        "float_med": 95,
+        "float_planar": 2,
+        "west": 12
+      },
+      "mantissa_lo": {
+        "zero": 169
+      }
+    },
+    "blosc_ratio": 262.16077828981054,
+    "hybrid_ratio": 262.16077828981054,
+    "hybrid_pick": "Blosc"
+  },
+  {
+    "image": "ph_abandoned_tiled_room_1k.exr",
+    "shape": [
+      512,
+      1024,
+      3
+    ],
+    "tile_size": 64,
+    "previous_bits": 2,
+    "tile_count": 128,
+    "raw_bits": 50331648,
+    "estimated_bits": 10331992.113065274,
+    "estimated_bytes": 1291500,
+    "ratio": 4.87143693580189,
+    "mode_histogram": {
+      "zero": 352,
+      "west": 127,
+      "northwest": 9,
+      "float_med": 97,
+      "north": 38,
+      "northeast": 11,
+      "channel_green": 6
+    },
+    "field_mode_histogram": {
+      "sign": {
+        "zero": 128
+      },
+      "exponent": {
+        "west": 41,
+        "float_med": 81,
+        "northwest": 1,
+        "northeast": 2,
+        "north": 1,
+        "zero": 2
+      },
+      "mantissa_hi": {
+        "west": 68,
+        "float_med": 16,
+        "northwest": 1,
+        "northeast": 2,
+        "north": 33,
+        "zero": 2,
+        "channel_green": 6
+      },
+      "mantissa_mid": {
+        "northwest": 7,
+        "west": 18,
+        "zero": 92,
+        "north": 4,
+        "northeast": 7
+      },
+      "mantissa_lo": {
+        "zero": 128
+      }
+    },
+    "blosc_ratio": 4.1226171839932695,
+    "hybrid_ratio": 4.87143693580189,
+    "hybrid_pick": "ctx"
+  },
+  {
+    "image": "ph_belfast_sunset_puresky_1k.exr",
+    "shape": [
+      512,
+      1024,
+      4
+    ],
+    "tile_size": 64,
+    "previous_bits": 2,
+    "tile_count": 128,
+    "raw_bits": 67108864,
+    "estimated_bits": 30355132.015112516,
+    "estimated_bytes": 3794392,
+    "ratio": 2.2107913734847005,
+    "mode_histogram": {
+      "zero": 270,
+      "west": 62,
+      "float_med": 138,
+      "northeast": 19,
+      "float_planar": 94,
+      "northwest": 18,
+      "north": 19,
+      "channel_green": 20
+    },
+    "field_mode_histogram": {
+      "sign": {
+        "zero": 128
+      },
+      "exponent": {
+        "west": 25,
+        "northeast": 9,
+        "float_planar": 43,
+        "float_med": 41,
+        "north": 6,
+        "zero": 3,
+        "northwest": 1
+      },
+      "mantissa_hi": {
+        "float_med": 79,
+        "west": 18,
+        "float_planar": 31
+      },
+      "mantissa_mid": {
+        "float_med": 18,
+        "float_planar": 20,
+        "northwest": 17,
+        "northeast": 10,
+        "north": 13,
+        "channel_green": 20,
+        "west": 19,
+        "zero": 11
+      },
+      "mantissa_lo": {
+        "zero": 128
+      }
+    },
+    "blosc_ratio": 2.1233703149640184,
+    "hybrid_ratio": 2.2107913734847005,
+    "hybrid_pick": "ctx"
+  },
+  {
+    "image": "ph_kloppenheim_06_puresky_1k.exr",
+    "shape": [
+      512,
+      1024,
+      4
+    ],
+    "tile_size": 64,
+    "previous_bits": 2,
+    "tile_count": 128,
+    "raw_bits": 67108864,
+    "estimated_bits": 30936108.77261544,
+    "estimated_bytes": 3867014,
+    "ratio": 2.1692729519817497,
+    "mode_histogram": {
+      "zero": 273,
+      "float_planar": 99,
+      "west": 75,
+      "north": 31,
+      "float_med": 113,
+      "northwest": 16,
+      "channel_green": 16,
+      "northeast": 17
+    },
+    "field_mode_histogram": {
+      "sign": {
+        "zero": 128
+      },
+      "exponent": {
+        "float_planar": 47,
+        "float_med": 47,
+        "west": 26,
+        "north": 3,
+        "northeast": 5
+      },
+      "mantissa_hi": {
+        "west": 35,
+        "float_med": 56,
+        "float_planar": 37
+      },
+      "mantissa_mid": {
+        "west": 14,
+        "north": 28,
+        "zero": 17,
+        "northwest": 16,
+        "channel_green": 16,
+        "float_planar": 15,
+        "float_med": 10,
+        "northeast": 12
+      },
+      "mantissa_lo": {
+        "zero": 128
+      }
+    },
+    "blosc_ratio": 2.0950129917354383,
+    "hybrid_ratio": 2.1692729519817497,
+    "hybrid_pick": "ctx"
+  },
+  {
+    "image": "ph_spruit_sunrise_1k.exr",
+    "shape": [
+      512,
+      1024,
+      3
+    ],
+    "tile_size": 64,
+    "previous_bits": 2,
+    "tile_count": 128,
+    "raw_bits": 50331648,
+    "estimated_bits": 8084784.834951274,
+    "estimated_bytes": 1010599,
+    "ratio": 6.225477737194888,
+    "mode_histogram": {
+      "zero": 364,
+      "west": 192,
+      "northeast": 4,
+      "float_med": 61,
+      "float_planar": 10,
+      "north": 2,
+      "northwest": 2,
+      "channel_previous": 2,
+      "channel_green": 3
+    },
+    "field_mode_histogram": {
+      "sign": {
+        "zero": 128
+      },
+      "exponent": {
+        "west": 62,
+        "northeast": 4,
+        "float_planar": 5,
+        "north": 2,
+        "northwest": 1,
+        "float_med": 46,
+        "channel_green": 3,
+        "zero": 5
+      },
+      "mantissa_hi": {
+        "west": 84,
+        "float_med": 13,
+        "float_planar": 5,
+        "zero": 26
+      },
+      "mantissa_mid": {
+        "west": 46,
+        "float_med": 2,
+        "zero": 77,
+        "northwest": 1,
+        "channel_previous": 2
+      },
+      "mantissa_lo": {
+        "zero": 128
+      }
+    },
+    "blosc_ratio": 5.05101711489087,
+    "hybrid_ratio": 6.225477737194888,
+    "hybrid_pick": "ctx"
+  },
+  {
+    "image": "ph_studio_small_03_1k.exr",
+    "shape": [
+      512,
+      1024,
+      3
+    ],
+    "tile_size": 64,
+    "previous_bits": 2,
+    "tile_count": 128,
+    "raw_bits": 50331648,
+    "estimated_bits": 8526993.186814962,
+    "estimated_bytes": 1065875,
+    "ratio": 5.902625567688543,
+    "mode_histogram": {
+      "zero": 334,
+      "west": 130,
+      "channel_previous": 49,
+      "northeast": 1,
+      "float_med": 57,
+      "northwest": 1,
+      "channel_green": 10,
+      "north": 52,
+      "float_planar": 6
+    },
+    "field_mode_histogram": {
+      "sign": {
+        "zero": 128
+      },
+      "exponent": {
+        "zero": 21,
+        "west": 34,
+        "northeast": 1,
+        "float_med": 42,
+        "channel_previous": 2,
+        "channel_green": 10,
+        "float_planar": 2,
+        "north": 16
+      },
+      "mantissa_hi": {
+        "west": 73,
+        "northwest": 1,
+        "north": 35,
+        "float_med": 15,
+        "float_planar": 4
+      },
+      "mantissa_mid": {
+        "channel_previous": 47,
+        "zero": 57,
+        "west": 23,
+        "north": 1
+      },
+      "mantissa_lo": {
+        "zero": 128
+      }
+    },
+    "blosc_ratio": 4.764958621102291,
+    "hybrid_ratio": 5.902625567688543,
+    "hybrid_pick": "ctx"
+  },
+  {
+    "image": "synth_gradient_1k.exr",
+    "shape": [
+      512,
+      1024,
+      3
+    ],
+    "tile_size": 64,
+    "previous_bits": 2,
+    "tile_count": 128,
+    "raw_bits": 50331648,
+    "estimated_bits": 370870.41575441783,
+    "estimated_bytes": 46359,
+    "ratio": 135.71222147125508,
+    "mode_histogram": {
+      "zero": 128,
+      "float_planar": 427,
+      "float_med": 20,
+      "west": 55,
+      "north": 10
+    },
+    "field_mode_histogram": {
+      "sign": {
+        "zero": 128
+      },
+      "exponent": {
+        "float_planar": 45,
+        "west": 55,
+        "float_med": 18,
+        "north": 10
+      },
+      "mantissa_hi": {
+        "float_planar": 128
+      },
+      "mantissa_mid": {
+        "float_planar": 128
+      },
+      "mantissa_lo": {
+        "float_med": 2,
+        "float_planar": 126
+      }
+    },
+    "blosc_ratio": 18.178250091014682,
+    "hybrid_ratio": 135.71222147125508,
+    "hybrid_pick": "ctx"
+  },
+  {
+    "image": "synth_mixed_1k.exr",
+    "shape": [
+      512,
+      1024,
+      3
+    ],
+    "tile_size": 64,
+    "previous_bits": 2,
+    "tile_count": 128,
+    "raw_bits": 50331648,
+    "estimated_bits": 32049407.47667161,
+    "estimated_bytes": 4006176,
+    "ratio": 1.570439267454034,
+    "mode_histogram": {
+      "northwest": 21,
+      "west": 184,
+      "raw": 256,
+      "zero": 111,
+      "north": 19,
+      "northeast": 24,
+      "float_med": 22,
+      "channel_green": 3
+    },
+    "field_mode_histogram": {
+      "sign": {
+        "northwest": 13,
+        "zero": 107,
+        "northeast": 4,
+        "north": 2,
+        "west": 2
+      },
+      "exponent": {
+        "west": 65,
+        "north": 13,
+        "northeast": 16,
+        "northwest": 7,
+        "float_med": 20,
+        "zero": 4,
+        "channel_green": 3
+      },
+      "mantissa_hi": {
+        "west": 117,
+        "north": 4,
+        "northeast": 4,
+        "float_med": 2,
+        "northwest": 1
+      },
+      "mantissa_mid": {
+        "raw": 128
+      },
+      "mantissa_lo": {
+        "raw": 128
+      }
+    },
+    "blosc_ratio": 1.4862663212271214,
+    "hybrid_ratio": 1.570439267454034,
+    "hybrid_pick": "ctx"
+  },
+  {
+    "image": "synth_noise_1k.exr",
+    "shape": [
+      512,
+      1024,
+      3
+    ],
+    "tile_size": 64,
+    "previous_bits": 2,
+    "tile_count": 128,
+    "raw_bits": 50331648,
+    "estimated_bits": 39407566.46529545,
+    "estimated_bytes": 4925946,
+    "ratio": 1.2772077170592333,
+    "mode_histogram": {
+      "zero": 256,
+      "raw": 384
+    },
+    "field_mode_histogram": {
+      "sign": {
+        "zero": 128
+      },
+      "exponent": {
+        "zero": 128
+      },
+      "mantissa_hi": {
+        "raw": 128
+      },
+      "mantissa_mid": {
+        "raw": 128
+      },
+      "mantissa_lo": {
+        "raw": 128
+      }
+    },
+    "blosc_ratio": 1.242830389949034,
+    "hybrid_ratio": 1.2772077170592333,
+    "hybrid_pick": "ctx"
+  },
+  {
+    "image": "synth_rgba_hdr_1k.exr",
+    "shape": [
+      512,
+      1024,
+      4
+    ],
+    "tile_size": 64,
+    "previous_bits": 2,
+    "tile_count": 128,
+    "raw_bits": 67108864,
+    "estimated_bits": 34629134.3755668,
+    "estimated_bytes": 4328642,
+    "ratio": 1.937930739826689,
+    "mode_histogram": {
+      "zero": 249,
+      "north": 58,
+      "northeast": 43,
+      "northwest": 53,
+      "west": 121,
+      "channel_green": 36,
+      "float_planar": 40,
+      "float_med": 40
+    },
+    "field_mode_histogram": {
+      "sign": {
+        "zero": 128
+      },
+      "exponent": {
+        "north": 13,
+        "northeast": 5,
+        "northwest": 11,
+        "west": 73,
+        "float_planar": 6,
+        "float_med": 11,
+        "zero": 9
+      },
+      "mantissa_hi": {
+        "north": 9,
+        "northwest": 13,
+        "west": 7,
+        "northeast": 4,
+        "zero": 90,
+        "float_med": 2,
+        "float_planar": 3
+      },
+      "mantissa_mid": {
+        "north": 19,
+        "northwest": 13,
+        "northeast": 19,
+        "channel_green": 20,
+        "west": 16,
+        "float_med": 14,
+        "float_planar": 17,
+        "zero": 10
+      },
+      "mantissa_lo": {
+        "zero": 12,
+        "northeast": 15,
+        "channel_green": 16,
+        "west": 25,
+        "float_planar": 14,
+        "float_med": 13,
+        "north": 17,
+        "northwest": 16
+      }
+    },
+    "blosc_ratio": 1.9946062982951964,
+    "hybrid_ratio": 1.9946062982951964,
+    "hybrid_pick": "Blosc"
+  }
+]

@@ -1,0 +1,198 @@
+[
+  {
+    "image": "ph_belfast_sunset_puresky_1k.exr",
+    "shape": [
+      256,
+      256,
+      4
+    ],
+    "crop_size": 256,
+    "tile_size": 128,
+    "previous_bits": 4,
+    "hash_bits": 12,
+    "rows": [
+      {
+        "tail_width": 8,
+        "samples": 262144,
+        "gdx_low_bits": 1579035.561155615,
+        "gdx_bits_per_sample": 6.023542637464962,
+        "best_context": "hash12_exp_high_channel",
+        "best_conditional_bits": 714063.0946881755,
+        "best_conditional_bits_per_sample": 2.7239345347907085,
+        "conditional_bits_per_sample": {
+          "channel": 5.930435461406288,
+          "exp_high4_channel": 5.657141586758313,
+          "exp_high8_channel": 3.939533774143866,
+          "exponent": 6.339530710040275,
+          "exponent_channel": 5.920353647618261,
+          "hash12_exp_high_channel": 2.7239345347907085,
+          "hash12_exp_high_xy_channel": 2.7646677134506827,
+          "high4_channel": 5.792503027090687,
+          "high8_channel": 4.311266142764642,
+          "none": 6.718721020771839
+        }
+      },
+      {
+        "tail_width": 10,
+        "samples": 262144,
+        "gdx_low_bits": 1974237.761469427,
+        "gdx_bits_per_sample": 7.531119390371044,
+        "best_context": "hash12_exp_high_xy_channel",
+        "best_conditional_bits": 732833.3928752218,
+        "best_conditional_bits_per_sample": 2.7955375399598,
+        "conditional_bits_per_sample": {
+          "channel": 7.40416839865806,
+          "exp_high4_channel": 6.542522137413114,
+          "exp_high8_channel": 4.053356689538748,
+          "exponent": 7.8215124889327825,
+          "exponent_channel": 7.363491381546653,
+          "hash12_exp_high_channel": 2.8760976112634955,
+          "hash12_exp_high_xy_channel": 2.7955375399598,
+          "high4_channel": 6.830109263583031,
+          "high8_channel": 4.456731026848638,
+          "none": 8.229615897412371
+        }
+      },
+      {
+        "tail_width": 12,
+        "samples": 262144,
+        "gdx_low_bits": 2369431.6428724835,
+        "gdx_bits_per_sample": 9.038664409151014,
+        "best_context": "hash12_exp_high_xy_channel",
+        "best_conditional_bits": 735851.6455388198,
+        "best_conditional_bits_per_sample": 2.8070512601425928,
+        "conditional_bits_per_sample": {
+          "channel": 8.791974204459747,
+          "exp_high4_channel": 6.921511557123463,
+          "exp_high8_channel": 4.091750318627417,
+          "exponent": 9.219500256898998,
+          "exponent_channel": 8.655932585200578,
+          "hash12_exp_high_channel": 3.3435363669602682,
+          "hash12_exp_high_xy_channel": 2.8070512601425928,
+          "high4_channel": 7.3032193010213,
+          "high8_channel": 4.49907539070725,
+          "none": 9.700764354098188
+        }
+      },
+      {
+        "tail_width": 15,
+        "samples": 262144,
+        "gdx_low_bits": 2961810.954522934,
+        "gdx_bits_per_sample": 11.298412149516807,
+        "best_context": "hash12_exp_high_xy_channel",
+        "best_conditional_bits": 757434.1271475661,
+        "best_conditional_bits_per_sample": 2.889381893720879,
+        "conditional_bits_per_sample": {
+          "channel": 10.126502048339882,
+          "exp_high4_channel": 7.056434083476409,
+          "exp_high8_channel": 4.732974746430368,
+          "exponent": 10.714652649181083,
+          "exponent_channel": 9.781198261331928,
+          "hash12_exp_high_channel": 4.871498921033481,
+          "hash12_exp_high_xy_channel": 2.889381893720879,
+          "high4_channel": 7.47444385471221,
+          "high8_channel": 5.025792563321518,
+          "none": 11.585809960518445
+        }
+      }
+    ]
+  },
+  {
+    "image": "ph_kloppenheim_06_puresky_1k.exr",
+    "shape": [
+      256,
+      256,
+      4
+    ],
+    "crop_size": 256,
+    "tile_size": 128,
+    "previous_bits": 4,
+    "hash_bits": 12,
+    "rows": [
+      {
+        "tail_width": 8,
+        "samples": 262144,
+        "gdx_low_bits": 1578936.36276709,
+        "gdx_bits_per_sample": 6.023164225643502,
+        "best_context": "hash12_exp_high_channel",
+        "best_conditional_bits": 713380.6926749183,
+        "best_conditional_bits_per_sample": 2.7213313776966794,
+        "conditional_bits_per_sample": {
+          "channel": 5.930071423436635,
+          "exp_high4_channel": 5.603373194444922,
+          "exp_high8_channel": 3.7652373747200487,
+          "exponent": 6.2239624390569315,
+          "exponent_channel": 5.913774999068823,
+          "hash12_exp_high_channel": 2.7213313776966794,
+          "hash12_exp_high_xy_channel": 2.763456271604133,
+          "high4_channel": 5.793687283730781,
+          "high8_channel": 4.311337844743171,
+          "none": 6.7185211788610815
+        }
+      },
+      {
+        "tail_width": 10,
+        "samples": 262144,
+        "gdx_low_bits": 1974109.3972407503,
+        "gdx_bits_per_sample": 7.530629719698907,
+        "best_context": "hash12_exp_high_xy_channel",
+        "best_conditional_bits": 732328.9000315291,
+        "best_conditional_bits_per_sample": 2.793613052488438,
+        "conditional_bits_per_sample": {
+          "channel": 7.404523121297844,
+          "exp_high4_channel": 6.416459544793958,
+          "exp_high8_channel": 3.861136361468486,
+          "exponent": 7.698921189212052,
+          "exponent_channel": 7.345644942786053,
+          "hash12_exp_high_channel": 2.8349888929831244,
+          "hash12_exp_high_xy_channel": 2.793613052488438,
+          "high4_channel": 6.833889938792215,
+          "high8_channel": 4.457093507760071,
+          "none": 8.229904327619543
+        }
+      },
+      {
+        "tail_width": 12,
+        "samples": 262144,
+        "gdx_low_bits": 2369309.7948780097,
+        "gdx_bits_per_sample": 9.038199595939673,
+        "best_context": "hash12_exp_high_xy_channel",
+        "best_conditional_bits": 735351.2538796287,
+        "best_conditional_bits_per_sample": 2.805142417448535,
+        "conditional_bits_per_sample": {
+          "channel": 8.793289283985573,
+          "exp_high4_channel": 6.742149457141708,
+          "exp_high8_channel": 3.9010178276618657,
+          "exponent": 9.07902346486337,
+          "exponent_channel": 8.601968817558785,
+          "hash12_exp_high_channel": 3.187721387593385,
+          "hash12_exp_high_xy_channel": 2.805142417448535,
+          "high4_channel": 7.303660392247684,
+          "high8_channel": 4.5058242208740005,
+          "none": 9.701465996242703
+        }
+      },
+      {
+        "tail_width": 15,
+        "samples": 262144,
+        "gdx_low_bits": 2959460.768426597,
+        "gdx_bits_per_sample": 11.289446901041401,
+        "best_context": "hash12_exp_high_xy_channel",
+        "best_conditional_bits": 753122.6555168028,
+        "best_conditional_bits_per_sample": 2.8729349346801865,
+        "conditional_bits_per_sample": {
+          "channel": 10.129762691845958,
+          "exp_high4_channel": 6.858925393939796,
+          "exp_high8_channel": 4.4150963260559575,
+          "exponent": 10.432395188575047,
+          "exponent_channel": 9.623386564883818,
+          "hash12_exp_high_channel": 4.571323329688404,
+          "hash12_exp_high_xy_channel": 2.8729349346801865,
+          "high4_channel": 7.478059735141111,
+          "high8_channel": 4.776979735111895,
+          "none": 11.587325184603872
+        }
+      }
+    ]
+  }
+]

@@ -1,0 +1,102 @@
+[
+  {
+    "image": "ph_belfast_sunset_puresky_1k.exr",
+    "shape": [
+      512,
+      1024,
+      4
+    ],
+    "crop_size": 0,
+    "tile_size": 128,
+    "previous_bits": 4,
+    "rows": [
+      {
+        "tail_width": 15,
+        "current_bits": 27681158.003614936,
+        "hybrid_bits": 27540805.104517955,
+        "current_ratio": 2.4243517554878347,
+        "hybrid_ratio": 2.436706688323758,
+        "gain": 1.0050961799614913,
+        "selected": {
+          "zero_mask_raw_tail": 25,
+          "current": 7
+        },
+        "totals": {
+          "current_total": 27681158.003614936,
+          "hybrid_total": 27540805.104517955,
+          "sign": 282.42402612862975,
+          "high": 4086573.53762763,
+          "current_low": 23594302.04196118
+        },
+        "candidate_ratios": {
+          "zero_mask_raw_tail": 2.4351096537827273,
+          "trailing_zero_raw_tail": 2.292330800412551,
+          "high_corner_affine": 2.414808238037605,
+          "high_corner_bilinear": 2.4147975639582695,
+          "high_row_affine": 2.414827482003103,
+          "high_column_affine": 2.4148146538791013,
+          "progressive_high_affine": 2.425877176037486,
+          "progressive_high_quadratic": 2.4258594196981393,
+          "high_ordered_affine": 2.4258779018797965,
+          "ordered_affine": 2.4248108031677083,
+          "float_affine": 2.413767607741105,
+          "log_affine": 2.4137498815772247,
+          "high_ordered_quadratic": 2.4258882667340185,
+          "ordered_quadratic": 2.4237372611177332,
+          "float_quadratic": 2.412690323620588,
+          "log_quadratic": 2.4126887924010183
+        }
+      }
+    ]
+  },
+  {
+    "image": "ph_kloppenheim_06_puresky_1k.exr",
+    "shape": [
+      512,
+      1024,
+      4
+    ],
+    "crop_size": 0,
+    "tile_size": 128,
+    "previous_bits": 4,
+    "rows": [
+      {
+        "tail_width": 15,
+        "current_bits": 28228021.254523963,
+        "hybrid_bits": 28060136.776230138,
+        "current_ratio": 2.377384634753483,
+        "hybrid_ratio": 2.3916085846327095,
+        "gain": 1.0059830242322996,
+        "selected": {
+          "zero_mask_raw_tail": 30,
+          "current": 2
+        },
+        "totals": {
+          "current_total": 28228021.254523963,
+          "hybrid_total": 28060136.776230138,
+          "sign": 282.42402612862975,
+          "high": 4590376.632186585,
+          "current_low": 23637362.19831126
+        },
+        "candidate_ratios": {
+          "zero_mask_raw_tail": 2.3914578612015935,
+          "trailing_zero_raw_tail": 2.253597206648501,
+          "high_corner_affine": 2.371802346317506,
+          "high_corner_bilinear": 2.371817625020761,
+          "high_row_affine": 2.371815623189181,
+          "high_column_affine": 2.3718165713682993,
+          "progressive_high_affine": 2.382510444450935,
+          "progressive_high_quadratic": 2.3825219746251114,
+          "high_ordered_affine": 2.3825216956416067,
+          "ordered_affine": 2.3814782988035703,
+          "float_affine": 2.3708460700644576,
+          "log_affine": 2.37078755215045,
+          "high_ordered_quadratic": 2.3825103152422114,
+          "ordered_quadratic": 2.3804399614288307,
+          "float_quadratic": 2.3697707239252064,
+          "log_quadratic": 2.3697506000106676
+        }
+      }
+    ]
+  }
+]

@@ -1,0 +1,74 @@
+[
+  {
+    "image": "ph_belfast_sunset_puresky_1k",
+    "shape": [
+      512,
+      1024,
+      4
+    ],
+    "raw_bytes": 8388608,
+    "encoded_bytes": 3378347,
+    "ratio": 2.483051030577972,
+    "top_header_bytes": 21,
+    "gdx_header_bytes": 20,
+    "record_mode_bytes": 64,
+    "channel_mode_bytes": 69,
+    "tail_selector_bytes": 32,
+    "family_bytes": 1056,
+    "main_payload_bytes": 1635031,
+    "tail_payload_bytes": 1742054,
+    "tail_tiles": 19,
+    "body_tiles": 32,
+    "body_tail_tile_fraction": 0.59375,
+    "body_half_tiles": 0,
+    "body_half_tile_fraction": 0.0,
+    "body_channel_split_tiles": 23,
+    "body_channel_split_fraction": 0.71875,
+    "mode_histogram": {
+      "body:m0": 23,
+      "body:m10": 8,
+      "body:m11": 10,
+      "body:m2": 27,
+      "body:m7": 33,
+      "body:split": 23,
+      "sign:m21": 1,
+      "sign:m22": 31
+    }
+  },
+  {
+    "image": "ph_kloppenheim_06_puresky_1k",
+    "shape": [
+      512,
+      1024,
+      4
+    ],
+    "raw_bytes": 8388608,
+    "encoded_bytes": 3470773,
+    "ratio": 2.416927871687373,
+    "top_header_bytes": 21,
+    "gdx_header_bytes": 20,
+    "record_mode_bytes": 64,
+    "channel_mode_bytes": 69,
+    "tail_selector_bytes": 32,
+    "family_bytes": 687,
+    "main_payload_bytes": 719347,
+    "tail_payload_bytes": 2750533,
+    "tail_tiles": 30,
+    "body_tiles": 32,
+    "body_tail_tile_fraction": 0.9375,
+    "body_half_tiles": 0,
+    "body_half_tile_fraction": 0.0,
+    "body_channel_split_tiles": 23,
+    "body_channel_split_fraction": 0.71875,
+    "mode_histogram": {
+      "body:m0": 23,
+      "body:m10": 7,
+      "body:m11": 8,
+      "body:m2": 40,
+      "body:m7": 23,
+      "body:split": 23,
+      "sign:m21": 5,
+      "sign:m22": 27
+    }
+  }
+]

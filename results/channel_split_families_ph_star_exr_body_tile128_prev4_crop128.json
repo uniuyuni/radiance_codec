@@ -1,0 +1,292 @@
+[
+  {
+    "image": "ph_abandoned_tiled_room_1k.exr",
+    "shape": [
+      128,
+      128,
+      3
+    ],
+    "crop_size": 128,
+    "tile_size": 128,
+    "previous_bits": 4,
+    "preset": "body",
+    "family_id_bits": 4,
+    "split_flag_bits": 1,
+    "min_gain_bits": 4.0,
+    "raw_bits": 1572864,
+    "baseline_bits": 215627.4243057765,
+    "channel_split_bits": 211084.27572863203,
+    "hybrid_bits": 210005.47742162002,
+    "baseline_ratio": 7.294359727497167,
+    "channel_split_ratio": 7.451355599893472,
+    "hybrid_ratio": 7.489633219624175,
+    "hybrid_gain": 1.026770477385547,
+    "pick_histogram": {
+      "channel_split": 6,
+      "shared": 26
+    },
+    "shared_family_histogram": {
+      "prev_only": 6,
+      "spatial_hi_pc": 3,
+      "base": 14,
+      "spatial_hi_neighbors": 3
+    },
+    "split_family_histogram": {
+      "base": 3,
+      "spatial_prev_pc": 2,
+      "spatial_hi_channel": 4,
+      "spatial_hi_pc": 1,
+      "prev_only": 5,
+      "wn_prev": 3
+    },
+    "split_bit_histogram": {
+      "30": 1,
+      "20": 1,
+      "19": 1,
+      "18": 1,
+      "17": 1,
+      "16": 1
+    },
+    "split_group_histogram": {
+      "body": 6
+    }
+  },
+  {
+    "image": "ph_belfast_sunset_puresky_1k.exr",
+    "shape": [
+      128,
+      128,
+      4
+    ],
+    "crop_size": 128,
+    "tile_size": 128,
+    "previous_bits": 4,
+    "preset": "body",
+    "family_id_bits": 4,
+    "split_flag_bits": 1,
+    "min_gain_bits": 4.0,
+    "raw_bits": 2097152,
+    "baseline_bits": 891529.9459574538,
+    "channel_split_bits": 885880.3458088043,
+    "hybrid_bits": 885350.1509830793,
+    "baseline_ratio": 2.3523068512833576,
+    "channel_split_ratio": 2.3673084180294244,
+    "hybrid_ratio": 2.3687260883971777,
+    "hybrid_gain": 1.0069800575145467,
+    "pick_histogram": {
+      "channel_split": 19,
+      "shared": 13
+    },
+    "shared_family_histogram": {
+      "prev_only": 10,
+      "spatial_hi_channel": 2,
+      "base": 1
+    },
+    "split_family_histogram": {
+      "base": 19,
+      "spatial_prev_pc": 2,
+      "spatial_hi_channel": 3,
+      "prev_only": 33,
+      "spatial_hi_neighbors": 1,
+      "prev_xy_channel": 18
+    },
+    "split_bit_histogram": {
+      "30": 1,
+      "19": 1,
+      "16": 1,
+      "15": 1,
+      "14": 1,
+      "13": 1,
+      "12": 1,
+      "11": 1,
+      "10": 1,
+      "9": 1,
+      "8": 1,
+      "7": 1,
+      "6": 1,
+      "5": 1,
+      "4": 1,
+      "3": 1,
+      "2": 1,
+      "1": 1,
+      "0": 1
+    },
+    "split_group_histogram": {
+      "body": 19
+    }
+  },
+  {
+    "image": "ph_kloppenheim_06_puresky_1k.exr",
+    "shape": [
+      128,
+      128,
+      4
+    ],
+    "crop_size": 128,
+    "tile_size": 128,
+    "previous_bits": 4,
+    "preset": "body",
+    "family_id_bits": 4,
+    "split_flag_bits": 1,
+    "min_gain_bits": 4.0,
+    "raw_bits": 2097152,
+    "baseline_bits": 933920.9057765303,
+    "channel_split_bits": 926993.651255821,
+    "hybrid_bits": 926557.1174386193,
+    "baseline_ratio": 2.245534913105167,
+    "channel_split_ratio": 2.2623153860427596,
+    "hybrid_ratio": 2.2633812428071147,
+    "hybrid_gain": 1.00794747371675,
+    "pick_histogram": {
+      "channel_split": 20,
+      "shared": 12
+    },
+    "shared_family_histogram": {
+      "prev_only": 8,
+      "spatial_hi_channel": 3,
+      "base": 1
+    },
+    "split_family_histogram": {
+      "base": 20,
+      "spatial_prev_pc": 2,
+      "spatial_hi_channel": 5,
+      "prev_only": 31,
+      "spatial_hi_neighbors": 1,
+      "prev_xy_channel": 21
+    },
+    "split_bit_histogram": {
+      "30": 1,
+      "21": 1,
+      "20": 1,
+      "16": 1,
+      "15": 1,
+      "14": 1,
+      "13": 1,
+      "12": 1,
+      "11": 1,
+      "10": 1,
+      "9": 1,
+      "8": 1,
+      "7": 1,
+      "6": 1,
+      "5": 1,
+      "4": 1,
+      "3": 1,
+      "2": 1,
+      "1": 1,
+      "0": 1
+    },
+    "split_group_histogram": {
+      "body": 20
+    }
+  },
+  {
+    "image": "ph_spruit_sunrise_1k.exr",
+    "shape": [
+      128,
+      128,
+      3
+    ],
+    "crop_size": 128,
+    "tile_size": 128,
+    "previous_bits": 4,
+    "preset": "body",
+    "family_id_bits": 4,
+    "split_flag_bits": 1,
+    "min_gain_bits": 4.0,
+    "raw_bits": 1572864,
+    "baseline_bits": 56862.37202439606,
+    "channel_split_bits": 56919.05875502845,
+    "hybrid_bits": 56291.750615121695,
+    "baseline_ratio": 27.660893205882847,
+    "channel_split_ratio": 27.633345216922567,
+    "hybrid_ratio": 27.94128771645415,
+    "hybrid_gain": 1.0101368566981657,
+    "pick_histogram": {
+      "shared": 26,
+      "channel_split": 6
+    },
+    "shared_family_histogram": {
+      "base": 16,
+      "spatial_prev_pc": 1,
+      "prev_only": 4,
+      "spatial_prev_channel": 1,
+      "spatial_hi_neighbors": 3,
+      "spatial_hi_channel": 1
+    },
+    "split_family_histogram": {
+      "spatial_hi_neighbors": 4,
+      "prev_only": 3,
+      "base": 4,
+      "wn_prev": 1,
+      "spatial_hi_channel": 6
+    },
+    "split_bit_histogram": {
+      "23": 1,
+      "22": 1,
+      "21": 1,
+      "18": 1,
+      "17": 1,
+      "16": 1
+    },
+    "split_group_histogram": {
+      "body": 6
+    }
+  },
+  {
+    "image": "ph_studio_small_03_1k.exr",
+    "shape": [
+      128,
+      128,
+      3
+    ],
+    "crop_size": 128,
+    "tile_size": 128,
+    "previous_bits": 4,
+    "preset": "body",
+    "family_id_bits": 4,
+    "split_flag_bits": 1,
+    "min_gain_bits": 4.0,
+    "raw_bits": 1572864,
+    "baseline_bits": 257600.2813518792,
+    "channel_split_bits": 256274.97470161473,
+    "hybrid_bits": 255498.06839459742,
+    "baseline_ratio": 6.105831840499757,
+    "channel_split_ratio": 6.137407688094837,
+    "hybrid_ratio": 6.156070023867385,
+    "hybrid_gain": 1.008227901566892,
+    "pick_histogram": {
+      "shared": 24,
+      "channel_split": 8
+    },
+    "shared_family_histogram": {
+      "spatial_prev_channel": 1,
+      "prev_only": 3,
+      "spatial_hi_pc": 1,
+      "spatial_hi_channel": 2,
+      "base": 14,
+      "spatial_hi_neighbors": 3
+    },
+    "split_family_histogram": {
+      "prev_only": 13,
+      "spatial_prev_pc": 2,
+      "spatial_hi_neighbors": 4,
+      "spatial_hi_pc": 1,
+      "spatial_hi_channel": 3,
+      "base": 1
+    },
+    "split_bit_histogram": {
+      "29": 1,
+      "26": 1,
+      "25": 1,
+      "24": 1,
+      "23": 1,
+      "22": 1,
+      "18": 1,
+      "16": 1
+    },
+    "split_group_histogram": {
+      "body": 8
+    }
+  }
+]

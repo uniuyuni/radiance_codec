@@ -1,0 +1,781 @@
+[
+  {
+    "image": "oexr_ScanLines_CandleGlass.exr",
+    "shape": [
+      810,
+      1000,
+      4
+    ],
+    "crop_size": 0,
+    "tile_size": 128,
+    "previous_bits": 4,
+    "family_id_bits": 4,
+    "split_flag_bits": 1,
+    "min_split_gain_bits": 4.0,
+    "extra_mode_bits_per_channel": 8,
+    "mode_policy": "green_order",
+    "mode_score": "base",
+    "raw_bits": 103680000,
+    "baseline_bits": 17537970.32391331,
+    "channel_mode_bits": 17336971.93933041,
+    "hybrid_bits": 17322816.366877973,
+    "baseline_ratio": 5.911744522604798,
+    "channel_mode_ratio": 5.980283083044797,
+    "hybrid_ratio": 5.985169951823825,
+    "gain": 1.0115936269197574,
+    "hybrid_gain": 1.0124202642618045,
+    "mode_histogram": {
+      "c0:delta_channel_green": 44,
+      "c1:delta_float_med": 23,
+      "c2:delta_channel_green": 40,
+      "c3:raw": 50,
+      "c1:raw": 10,
+      "c0:delta_med": 6,
+      "c2:delta_float_med": 6,
+      "c1:delta_med": 21,
+      "c3:delta_west": 2,
+      "c0:delta_planar": 1,
+      "c2:delta_med": 6,
+      "c3:delta_north": 1,
+      "c0:delta_north": 1,
+      "c1:delta_north": 2,
+      "c2:delta_north": 3,
+      "c3:delta_select": 3,
+      "c0:delta_float_med": 3,
+      "c0:raw": 1,
+      "c2:delta_west": 1
+    },
+    "shared_mode_histogram": {
+      "delta_float_med": 11,
+      "delta_channel_green": 24,
+      "delta_med": 12,
+      "delta_north": 5,
+      "xor_zero": 3,
+      "delta_west": 1
+    },
+    "route_histogram": {
+      "channel_mode": 38,
+      "shared_mode": 18
+    },
+    "pick_histogram": {
+      "channel_split": 1159,
+      "shared:prev_only": 850,
+      "shared:spatial_hi_channel": 130,
+      "shared:spatial_prev_channel": 58,
+      "shared:base": 981,
+      "shared:spatial_hi_neighbors": 296,
+      "shared:spatial_prev_pc": 32,
+      "shared:wn_prev": 22
+    }
+  },
+  {
+    "image": "oexr_ScanLines_Cannon.exr",
+    "shape": [
+      566,
+      780,
+      3
+    ],
+    "crop_size": 0,
+    "tile_size": 128,
+    "previous_bits": 4,
+    "family_id_bits": 4,
+    "split_flag_bits": 1,
+    "min_split_gain_bits": 4.0,
+    "extra_mode_bits_per_channel": 8,
+    "mode_policy": "green_order",
+    "mode_score": "base",
+    "raw_bits": 42382080,
+    "baseline_bits": 8080555.073090542,
+    "channel_mode_bits": 7734524.502351506,
+    "hybrid_bits": 7732744.255980004,
+    "baseline_ratio": 5.24494661773158,
+    "channel_mode_ratio": 5.479597354318898,
+    "hybrid_ratio": 5.480858877134653,
+    "gain": 1.0447384413397143,
+    "hybrid_gain": 1.0449789629136597,
+    "mode_histogram": {
+      "c0:delta_planar": 10,
+      "c1:delta_planar": 27,
+      "c2:delta_channel_green": 26,
+      "c0:delta_channel_green": 24,
+      "c1:delta_west": 6,
+      "c2:delta_planar": 9,
+      "c1:delta_north": 1,
+      "c0:xor_float_planar": 1,
+      "c1:xor_float_planar": 1
+    },
+    "shared_mode_histogram": {
+      "delta_planar": 27,
+      "delta_west": 5,
+      "delta_channel_previous": 2,
+      "delta_north": 1
+    },
+    "route_histogram": {
+      "channel_mode": 25,
+      "shared_mode": 10
+    },
+    "pick_histogram": {
+      "channel_split": 334,
+      "shared:prev_only": 590,
+      "shared:spatial_hi_channel": 59,
+      "shared:base": 761,
+      "shared:spatial_prev_pc": 63,
+      "shared:prev_xy_channel": 48,
+      "shared:spatial_hi_neighbors": 258,
+      "shared:wn_prev": 32,
+      "shared:spatial_hi_pc": 41,
+      "shared:spatial_prev_channel": 19
+    }
+  },
+  {
+    "image": "oexr_ScanLines_Tree.exr",
+    "shape": [
+      906,
+      928,
+      4
+    ],
+    "crop_size": 0,
+    "tile_size": 128,
+    "previous_bits": 4,
+    "family_id_bits": 4,
+    "split_flag_bits": 1,
+    "min_split_gain_bits": 4.0,
+    "extra_mode_bits_per_channel": 8,
+    "mode_policy": "green_order",
+    "mode_score": "base",
+    "raw_bits": 107618304,
+    "baseline_bits": 26214687.175586544,
+    "channel_mode_bits": 25834423.764368355,
+    "hybrid_bits": 25823255.785013665,
+    "baseline_ratio": 4.10526752728996,
+    "channel_mode_ratio": 4.165693997341274,
+    "hybrid_ratio": 4.1674955666301186,
+    "gain": 1.0147192526795454,
+    "hybrid_gain": 1.0151580960135957,
+    "mode_histogram": {
+      "c0:delta_channel_green": 35,
+      "c1:delta_med": 45,
+      "c2:raw": 29,
+      "c3:xor_bit_xor_planar": 15,
+      "c2:delta_channel_green": 30,
+      "c0:delta_med": 16,
+      "c2:delta_med": 2,
+      "c1:raw": 11,
+      "c3:xor_bit_majority": 49,
+      "c1:delta_west": 3,
+      "c0:delta_north": 2,
+      "c1:delta_north": 2,
+      "c2:delta_north": 3,
+      "c0:raw": 7,
+      "c0:delta_paeth": 3,
+      "c1:delta_paeth": 3,
+      "c0:xor_west": 1
+    },
+    "shared_mode_histogram": {
+      "delta_med": 30,
+      "delta_channel_green": 5,
+      "delta_north": 3,
+      "delta_west": 4,
+      "xor_zero": 22
+    },
+    "route_histogram": {
+      "channel_mode": 52,
+      "shared_mode": 12
+    },
+    "pick_histogram": {
+      "channel_split": 1610,
+      "shared:prev_only": 431,
+      "shared:base": 1408,
+      "shared:spatial_hi_neighbors": 347,
+      "shared:spatial_hi_channel": 155,
+      "shared:spatial_prev_channel": 16,
+      "shared:prev_xy_channel": 7,
+      "shared:spatial_prev_pc": 4,
+      "shared:wn_prev": 49,
+      "shared:spatial_hi_pc": 5
+    }
+  },
+  {
+    "image": "oexr_TestImages_GrayRampsHorizontal.exr",
+    "shape": [
+      800,
+      800,
+      1
+    ],
+    "crop_size": 0,
+    "tile_size": 128,
+    "previous_bits": 4,
+    "family_id_bits": 4,
+    "split_flag_bits": 1,
+    "min_split_gain_bits": 4.0,
+    "extra_mode_bits_per_channel": 8,
+    "mode_policy": "green_order",
+    "mode_score": "base",
+    "raw_bits": 20480000,
+    "baseline_bits": 40653.93772106026,
+    "channel_mode_bits": 40653.93772106026,
+    "hybrid_bits": 40653.93772106026,
+    "baseline_ratio": 503.76423903927497,
+    "channel_mode_ratio": 503.76423903927497,
+    "hybrid_ratio": 503.76423903927497,
+    "gain": 1.0,
+    "hybrid_gain": 1.0,
+    "mode_histogram": {
+      "c0:delta_float_med": 16,
+      "c0:delta_paeth": 16,
+      "c0:delta_float_planar": 5,
+      "c0:delta_west": 2,
+      "c0:xor_float_med": 3,
+      "c0:xor_bit_xor_planar": 1,
+      "c0:xor_bit_majority": 6
+    },
+    "shared_mode_histogram": {
+      "delta_med": 14,
+      "delta_float_med": 2,
+      "delta_select": 16,
+      "delta_float_planar": 5,
+      "delta_west": 2,
+      "xor_float_med": 3,
+      "xor_north": 1,
+      "xor_west": 6
+    },
+    "route_histogram": {
+      "shared_mode": 49
+    },
+    "pick_histogram": {
+      "shared:base": 2303,
+      "shared:prev_only": 358,
+      "shared:spatial_hi_channel": 96,
+      "shared:wn_prev": 112,
+      "shared:spatial_hi_neighbors": 218
+    }
+  },
+  {
+    "image": "ph_abandoned_tiled_room_1k.exr",
+    "shape": [
+      512,
+      1024,
+      3
+    ],
+    "crop_size": 0,
+    "tile_size": 128,
+    "previous_bits": 4,
+    "family_id_bits": 4,
+    "split_flag_bits": 1,
+    "min_split_gain_bits": 4.0,
+    "extra_mode_bits_per_channel": 8,
+    "mode_policy": "green_order",
+    "mode_score": "base",
+    "raw_bits": 50331648,
+    "baseline_bits": 8135609.3162633795,
+    "channel_mode_bits": 8017727.6784680085,
+    "hybrid_bits": 7977959.430254897,
+    "baseline_ratio": 6.186586160102993,
+    "channel_mode_ratio": 6.277545212113908,
+    "hybrid_ratio": 6.308837296054274,
+    "gain": 1.0147026242998933,
+    "hybrid_gain": 1.019760677825789,
+    "mode_histogram": {
+      "c0:delta_channel_green": 32,
+      "c1:delta_paeth": 5,
+      "c2:delta_paeth": 3,
+      "c1:delta_west": 12,
+      "c2:delta_west": 4,
+      "c1:delta_med": 15,
+      "c2:delta_med": 7,
+      "c2:delta_channel_green": 18
+    },
+    "shared_mode_histogram": {
+      "delta_paeth": 2,
+      "delta_west": 4,
+      "delta_med": 9,
+      "delta_channel_green": 17
+    },
+    "route_histogram": {
+      "channel_mode": 17,
+      "shared_mode": 15
+    },
+    "pick_histogram": {
+      "channel_split": 513,
+      "shared:prev_only": 321,
+      "shared:spatial_hi_pc": 23,
+      "shared:base": 864,
+      "shared:spatial_hi_neighbors": 195,
+      "shared:spatial_hi_channel": 95,
+      "shared:spatial_prev_pc": 1,
+      "shared:wn_prev": 1,
+      "shared:spatial_prev_channel": 3
+    }
+  },
+  {
+    "image": "ph_belfast_sunset_puresky_1k.exr",
+    "shape": [
+      512,
+      1024,
+      4
+    ],
+    "crop_size": 0,
+    "tile_size": 128,
+    "previous_bits": 4,
+    "family_id_bits": 4,
+    "split_flag_bits": 1,
+    "min_split_gain_bits": 4.0,
+    "extra_mode_bits_per_channel": 8,
+    "mode_policy": "green_order",
+    "mode_score": "base",
+    "raw_bits": 67108864,
+    "baseline_bits": 27399014.377145655,
+    "channel_mode_bits": 27171971.825356584,
+    "hybrid_bits": 27168491.303564515,
+    "baseline_ratio": 2.449316719070651,
+    "channel_mode_ratio": 2.4697826286340674,
+    "hybrid_ratio": 2.4700990294295546,
+    "gain": 1.0083557628150195,
+    "hybrid_gain": 1.008484942023663,
+    "mode_histogram": {
+      "c0:delta_channel_green": 16,
+      "c1:delta_float_med": 15,
+      "c2:delta_float_med": 11,
+      "c3:xor_bit_xor_planar": 11,
+      "c0:delta_float_med": 5,
+      "c2:delta_channel_green": 6,
+      "c1:delta_west": 7,
+      "c2:delta_west": 4,
+      "c3:xor_bit_majority": 21,
+      "c2:delta_med": 1,
+      "c0:delta_west": 2,
+      "c0:delta_float_planar": 9,
+      "c1:delta_float_planar": 10,
+      "c2:delta_float_planar": 10
+    },
+    "shared_mode_histogram": {
+      "delta_float_med": 14,
+      "delta_west": 8,
+      "delta_float_planar": 8,
+      "delta_north": 2
+    },
+    "route_histogram": {
+      "channel_mode": 17,
+      "shared_mode": 15
+    },
+    "pick_histogram": {
+      "channel_split": 1245,
+      "shared:prev_only": 621,
+      "shared:spatial_hi_channel": 110,
+      "shared:base": 32,
+      "shared:spatial_prev_channel": 3,
+      "shared:spatial_hi_neighbors": 2,
+      "shared:spatial_hi_pc": 2,
+      "shared:wn_prev": 1
+    }
+  },
+  {
+    "image": "ph_kloppenheim_06_puresky_1k.exr",
+    "shape": [
+      512,
+      1024,
+      4
+    ],
+    "crop_size": 0,
+    "tile_size": 128,
+    "previous_bits": 4,
+    "family_id_bits": 4,
+    "split_flag_bits": 1,
+    "min_split_gain_bits": 4.0,
+    "extra_mode_bits_per_channel": 8,
+    "mode_policy": "green_order",
+    "mode_score": "base",
+    "raw_bits": 67108864,
+    "baseline_bits": 27983917.212391432,
+    "channel_mode_bits": 27936612.133384388,
+    "hybrid_bits": 27925205.728254955,
+    "baseline_ratio": 2.3981225891521656,
+    "channel_mode_ratio": 2.402183331306826,
+    "hybrid_ratio": 2.4031645336133978,
+    "gain": 1.0016933004897368,
+    "hybrid_gain": 1.002102454846987,
+    "mode_histogram": {
+      "c0:delta_channel_green": 10,
+      "c1:delta_float_med": 14,
+      "c2:delta_float_med": 12,
+      "c3:xor_bit_xor_planar": 11,
+      "c2:delta_west": 11,
+      "c0:delta_float_med": 10,
+      "c1:delta_west": 9,
+      "c0:delta_west": 4,
+      "c3:xor_bit_majority": 21,
+      "c1:delta_med": 1,
+      "c2:delta_med": 1,
+      "c0:delta_float_planar": 8,
+      "c1:delta_float_planar": 8,
+      "c2:delta_float_planar": 8
+    },
+    "shared_mode_histogram": {
+      "delta_float_med": 9,
+      "delta_west": 13,
+      "delta_med": 2,
+      "delta_float_planar": 8
+    },
+    "route_histogram": {
+      "channel_mode": 11,
+      "shared_mode": 21
+    },
+    "pick_histogram": {
+      "channel_split": 1227,
+      "shared:prev_only": 566,
+      "shared:spatial_hi_channel": 191,
+      "shared:base": 32
+    }
+  },
+  {
+    "image": "ph_spruit_sunrise_1k.exr",
+    "shape": [
+      512,
+      1024,
+      3
+    ],
+    "crop_size": 0,
+    "tile_size": 128,
+    "previous_bits": 4,
+    "family_id_bits": 4,
+    "split_flag_bits": 1,
+    "min_split_gain_bits": 4.0,
+    "extra_mode_bits_per_channel": 8,
+    "mode_policy": "green_order",
+    "mode_score": "base",
+    "raw_bits": 50331648,
+    "baseline_bits": 7068528.272361814,
+    "channel_mode_bits": 6850044.186119759,
+    "hybrid_bits": 6844367.407200105,
+    "baseline_ratio": 7.120527224429229,
+    "channel_mode_ratio": 7.347638443265372,
+    "hybrid_ratio": 7.35373263963772,
+    "gain": 1.0318952813012168,
+    "hybrid_gain": 1.0327511443827369,
+    "mode_histogram": {
+      "c0:xor_west": 2,
+      "c1:xor_west": 1,
+      "c2:delta_west": 22,
+      "c1:delta_west": 20,
+      "c0:delta_west": 10,
+      "c0:delta_med": 4,
+      "c1:delta_med": 9,
+      "c2:delta_med": 4,
+      "c1:delta_north": 2,
+      "c0:delta_channel_green": 16,
+      "c2:raw": 6
+    },
+    "shared_mode_histogram": {
+      "xor_west": 1,
+      "delta_west": 23,
+      "delta_med": 8
+    },
+    "route_histogram": {
+      "channel_mode": 17,
+      "shared_mode": 15
+    },
+    "pick_histogram": {
+      "shared:base": 896,
+      "shared:spatial_prev_pc": 3,
+      "shared:prev_only": 402,
+      "shared:spatial_prev_channel": 7,
+      "channel_split": 436,
+      "shared:spatial_hi_neighbors": 182,
+      "shared:spatial_hi_channel": 50,
+      "shared:wn_prev": 9,
+      "shared:spatial_hi_pc": 22,
+      "shared:prev_xy_channel": 9
+    }
+  },
+  {
+    "image": "ph_studio_small_03_1k.exr",
+    "shape": [
+      512,
+      1024,
+      3
+    ],
+    "crop_size": 0,
+    "tile_size": 128,
+    "previous_bits": 4,
+    "family_id_bits": 4,
+    "split_flag_bits": 1,
+    "min_split_gain_bits": 4.0,
+    "extra_mode_bits_per_channel": 8,
+    "mode_policy": "green_order",
+    "mode_score": "base",
+    "raw_bits": 50331648,
+    "baseline_bits": 7212197.086815583,
+    "channel_mode_bits": 7009500.821712204,
+    "hybrid_bits": 7009385.528366164,
+    "baseline_ratio": 6.97868449712916,
+    "channel_mode_ratio": 7.180489635452462,
+    "hybrid_ratio": 7.180607743191425,
+    "gain": 1.0289173609161324,
+    "hybrid_gain": 1.0289342849852763,
+    "mode_histogram": {
+      "c0:delta_channel_green": 22,
+      "c1:delta_west": 14,
+      "c2:delta_channel_green": 24,
+      "c1:delta_paeth": 4,
+      "c0:delta_med": 3,
+      "c1:delta_med": 9,
+      "c1:delta_select": 5,
+      "c2:delta_med": 2,
+      "c0:delta_float_med": 1,
+      "c0:delta_west": 6,
+      "c2:delta_west": 6
+    },
+    "shared_mode_histogram": {
+      "delta_channel_green": 2,
+      "delta_west": 10,
+      "delta_channel_previous": 9,
+      "delta_med": 7,
+      "delta_paeth": 1,
+      "delta_select": 3
+    },
+    "route_histogram": {
+      "channel_mode": 24,
+      "shared_mode": 8
+    },
+    "pick_histogram": {
+      "shared:spatial_prev_channel": 22,
+      "channel_split": 316,
+      "shared:prev_only": 360,
+      "shared:spatial_hi_pc": 40,
+      "shared:spatial_hi_channel": 155,
+      "shared:base": 884,
+      "shared:spatial_hi_neighbors": 235,
+      "shared:spatial_prev_pc": 1,
+      "shared:wn_prev": 3
+    }
+  },
+  {
+    "image": "synth_gradient_1k.exr",
+    "shape": [
+      512,
+      1024,
+      3
+    ],
+    "crop_size": 0,
+    "tile_size": 128,
+    "previous_bits": 4,
+    "family_id_bits": 4,
+    "split_flag_bits": 1,
+    "min_split_gain_bits": 4.0,
+    "extra_mode_bits_per_channel": 8,
+    "mode_policy": "green_order",
+    "mode_score": "base",
+    "raw_bits": 50331648,
+    "baseline_bits": 119943.2937764385,
+    "channel_mode_bits": 120421.61490703168,
+    "hybrid_bits": 119797.92664435136,
+    "baseline_ratio": 419.62869632222055,
+    "channel_mode_ratio": 417.961908573118,
+    "hybrid_ratio": 420.1378889421139,
+    "gain": 0.996027946220764,
+    "hybrid_gain": 1.0012134361266427,
+    "mode_histogram": {
+      "c0:delta_float_med": 4,
+      "c1:delta_float_med": 4,
+      "c2:delta_float_med": 29,
+      "c1:xor_bit_xor_planar": 28,
+      "c0:delta_west": 4,
+      "c0:xor_bit_xor_planar": 24,
+      "c2:delta_northeast": 3
+    },
+    "shared_mode_histogram": {
+      "delta_med": 32
+    },
+    "route_histogram": {
+      "shared_mode": 30,
+      "channel_mode": 2
+    },
+    "pick_histogram": {
+      "shared:base": 1235,
+      "shared:spatial_prev_pc": 15,
+      "shared:prev_only": 383,
+      "shared:spatial_hi_neighbors": 122,
+      "shared:spatial_hi_channel": 51,
+      "channel_split": 133,
+      "shared:wn_prev": 49,
+      "shared:spatial_prev_channel": 25,
+      "shared:spatial_hi_pc": 3
+    }
+  },
+  {
+    "image": "synth_mixed_1k.exr",
+    "shape": [
+      512,
+      1024,
+      3
+    ],
+    "crop_size": 0,
+    "tile_size": 128,
+    "previous_bits": 4,
+    "family_id_bits": 4,
+    "split_flag_bits": 1,
+    "min_split_gain_bits": 4.0,
+    "extra_mode_bits_per_channel": 8,
+    "mode_policy": "green_order",
+    "mode_score": "base",
+    "raw_bits": 50331648,
+    "baseline_bits": 31169771.76470202,
+    "channel_mode_bits": 31169163.710370343,
+    "hybrid_bits": 31153792.31532155,
+    "baseline_ratio": 1.6147583107104335,
+    "channel_mode_ratio": 1.6147898117412138,
+    "hybrid_ratio": 1.6155865549391466,
+    "gain": 1.000019508201674,
+    "hybrid_gain": 1.000512921483803,
+    "mode_histogram": {
+      "c0:xor_northeast": 1,
+      "c1:delta_float_med": 1,
+      "c2:delta_float_med": 1,
+      "c0:delta_west": 13,
+      "c1:delta_west": 16,
+      "c2:delta_west": 14,
+      "c0:delta_float_med": 1,
+      "c0:delta_northeast": 8,
+      "c1:delta_north": 6,
+      "c2:delta_northeast": 7,
+      "c0:delta_north": 7,
+      "c1:delta_northwest": 6,
+      "c2:delta_north": 8,
+      "c2:delta_northwest": 2,
+      "c1:delta_northeast": 3,
+      "c0:delta_northwest": 2
+    },
+    "shared_mode_histogram": {
+      "delta_float_med": 1,
+      "delta_west": 23,
+      "delta_north": 3,
+      "delta_northwest": 3,
+      "delta_northeast": 1,
+      "xor_bit_majority": 1
+    },
+    "route_histogram": {
+      "shared_mode": 23,
+      "channel_mode": 9
+    },
+    "pick_histogram": {
+      "shared:base": 24,
+      "shared:prev_only": 1532,
+      "shared:spatial_hi_channel": 85,
+      "channel_split": 359,
+      "shared:spatial_prev_channel": 16
+    }
+  },
+  {
+    "image": "synth_noise_1k.exr",
+    "shape": [
+      512,
+      1024,
+      3
+    ],
+    "crop_size": 0,
+    "tile_size": 128,
+    "previous_bits": 4,
+    "family_id_bits": 4,
+    "split_flag_bits": 1,
+    "min_split_gain_bits": 4.0,
+    "extra_mode_bits_per_channel": 8,
+    "mode_policy": "green_order",
+    "mode_score": "base",
+    "raw_bits": 50331648,
+    "baseline_bits": 39042243.94694631,
+    "channel_mode_bits": 39042755.94694631,
+    "hybrid_bits": 39042243.94694631,
+    "baseline_ratio": 1.289158688429759,
+    "channel_mode_ratio": 1.2891417826239964,
+    "hybrid_ratio": 1.289158688429759,
+    "gain": 0.9999868861716449,
+    "hybrid_gain": 1.0,
+    "mode_histogram": {
+      "c0:raw": 32,
+      "c1:raw": 32,
+      "c2:raw": 32
+    },
+    "shared_mode_histogram": {
+      "xor_zero": 32
+    },
+    "route_histogram": {
+      "shared_mode": 32
+    },
+    "pick_histogram": {
+      "shared:prev_only": 2016
+    }
+  },
+  {
+    "image": "synth_rgba_hdr_1k.exr",
+    "shape": [
+      512,
+      1024,
+      4
+    ],
+    "crop_size": 0,
+    "tile_size": 128,
+    "previous_bits": 4,
+    "family_id_bits": 4,
+    "split_flag_bits": 1,
+    "min_split_gain_bits": 4.0,
+    "extra_mode_bits_per_channel": 8,
+    "mode_policy": "green_order",
+    "mode_score": "base",
+    "raw_bits": 67108864,
+    "baseline_bits": 32294060.038567778,
+    "channel_mode_bits": 32302837.210126806,
+    "hybrid_bits": 32289897.59983281,
+    "baseline_ratio": 2.0780559619897283,
+    "channel_mode_ratio": 2.0774913226186102,
+    "hybrid_ratio": 2.078323840839541,
+    "gain": 0.9997282848097232,
+    "hybrid_gain": 1.0001289083906846,
+    "mode_histogram": {
+      "c0:delta_channel_green": 5,
+      "c1:delta_float_med": 5,
+      "c2:delta_float_med": 4,
+      "c3:xor_bit_xor_planar": 11,
+      "c1:delta_west": 9,
+      "c2:delta_west": 11,
+      "c0:delta_west": 8,
+      "c0:delta_float_med": 1,
+      "c0:delta_northeast": 7,
+      "c1:raw": 5,
+      "c2:delta_north": 10,
+      "c2:delta_northeast": 2,
+      "c3:xor_bit_majority": 21,
+      "c0:delta_north": 6,
+      "c2:delta_northwest": 3,
+      "c0:delta_med": 1,
+      "c2:delta_med": 1,
+      "c0:delta_float_planar": 1,
+      "c1:delta_float_planar": 1,
+      "c2:delta_float_planar": 1,
+      "c0:delta_northwest": 3,
+      "c1:delta_north": 6,
+      "c1:delta_northwest": 3,
+      "c1:delta_northeast": 2,
+      "c1:delta_med": 1
+    },
+    "shared_mode_histogram": {
+      "delta_float_med": 4,
+      "delta_west": 25,
+      "delta_med": 1,
+      "delta_float_planar": 1,
+      "delta_north": 1
+    },
+    "route_histogram": {
+      "shared_mode": 18,
+      "channel_mode": 14
+    },
+    "pick_histogram": {
+      "shared:spatial_prev_channel": 9,
+      "shared:prev_only": 554,
+      "channel_split": 1320,
+      "shared:spatial_hi_channel": 91,
+      "shared:base": 32,
+      "shared:wn_prev": 2,
+      "shared:spatial_hi_neighbors": 8
+    }
+  }
+]

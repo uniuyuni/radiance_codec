@@ -1,0 +1,27 @@
+[
+  {
+    "image": "ph_spruit_sunrise_1k.exr",
+    "shape": [
+      512,
+      1024,
+      3
+    ],
+    "tile_size": 256,
+    "previous_bits": 4,
+    "raw_bits": 50331648,
+    "estimated_bits": 7881604.755281193,
+    "ratio": 6.385964478398195,
+    "mode_histogram": {
+      "sign:zero": 8,
+      "exponent:west": 8,
+      "mantissa_hi:west": 4,
+      "mantissa_mid:zero": 6,
+      "mantissa_lo:zero": 8,
+      "mantissa_mid:channel_previous": 2,
+      "mantissa_hi:zero": 4
+    },
+    "blosc_ratio": 5.05101711489087,
+    "hybrid_ratio": 6.385964478398195,
+    "hybrid_pick": "align"
+  }
+]

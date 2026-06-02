@@ -1,0 +1,730 @@
+[
+  {
+    "image": "oexr_ScanLines_CandleGlass.exr",
+    "shape": [
+      810,
+      1000,
+      4
+    ],
+    "crop_size": 0,
+    "effort": 9,
+    "rows": [
+      {
+        "low_bits_zeroed": 0,
+        "encoded_bytes": 2244466,
+        "ratio_vs_original": 5.774201970535531,
+        "encode_seconds": 5.679986916999042,
+        "max_abs": 0.0,
+        "rmse": 0.0,
+        "max_rel_nonzero": 0.0,
+        "psnr_peak_abs": Infinity,
+        "changed_rate": 0.0
+      },
+      {
+        "low_bits_zeroed": 8,
+        "encoded_bytes": 2244466,
+        "ratio_vs_original": 5.774201970535531,
+        "encode_seconds": 5.668757792000179,
+        "max_abs": 0.0,
+        "rmse": 0.0,
+        "max_rel_nonzero": 0.0,
+        "psnr_peak_abs": Infinity,
+        "changed_rate": 0.0
+      },
+      {
+        "low_bits_zeroed": 12,
+        "encoded_bytes": 2244466,
+        "ratio_vs_original": 5.774201970535531,
+        "encode_seconds": 5.690850417000547,
+        "max_abs": 0.0,
+        "rmse": 0.0,
+        "max_rel_nonzero": 0.0,
+        "psnr_peak_abs": Infinity,
+        "changed_rate": 0.0
+      },
+      {
+        "low_bits_zeroed": 15,
+        "encoded_bytes": 2026416,
+        "ratio_vs_original": 6.395527867920506,
+        "encode_seconds": 5.6825742080000055,
+        "max_abs": 0.75,
+        "rmse": 0.004501645908232762,
+        "max_rel_nonzero": 0.0029211295034079843,
+        "psnr_peak_abs": 99.25683062193278,
+        "changed_rate": 0.18217345679012345
+      }
+    ]
+  },
+  {
+    "image": "oexr_ScanLines_Cannon.exr",
+    "shape": [
+      566,
+      780,
+      3
+    ],
+    "crop_size": 0,
+    "effort": 9,
+    "rows": [
+      {
+        "low_bits_zeroed": 0,
+        "encoded_bytes": 1020338,
+        "ratio_vs_original": 5.1921618130462655,
+        "encode_seconds": 2.367048750000322,
+        "max_abs": 0.0,
+        "rmse": 0.0,
+        "max_rel_nonzero": 0.0,
+        "psnr_peak_abs": Infinity,
+        "changed_rate": 0.0
+      },
+      {
+        "low_bits_zeroed": 8,
+        "encoded_bytes": 1020338,
+        "ratio_vs_original": 5.1921618130462655,
+        "encode_seconds": 3.0024484999994456,
+        "max_abs": 0.0,
+        "rmse": 0.0,
+        "max_rel_nonzero": 0.0,
+        "psnr_peak_abs": Infinity,
+        "changed_rate": 0.0
+      },
+      {
+        "low_bits_zeroed": 12,
+        "encoded_bytes": 1020338,
+        "ratio_vs_original": 5.1921618130462655,
+        "encode_seconds": 4.091822417000003,
+        "max_abs": 0.0,
+        "rmse": 0.0,
+        "max_rel_nonzero": 0.0,
+        "psnr_peak_abs": Infinity,
+        "changed_rate": 0.0
+      },
+      {
+        "low_bits_zeroed": 15,
+        "encoded_bytes": 970135,
+        "ratio_vs_original": 5.460848232462492,
+        "encode_seconds": 3.0260592499998893,
+        "max_abs": 0.005859375,
+        "rmse": 0.0005895091952594772,
+        "max_rel_nonzero": 0.0029211295034079843,
+        "psnr_peak_abs": 73.03074503884999,
+        "changed_rate": 0.7498882546585727
+      }
+    ]
+  },
+  {
+    "image": "oexr_ScanLines_Tree.exr",
+    "shape": [
+      906,
+      928,
+      4
+    ],
+    "crop_size": 0,
+    "effort": 9,
+    "rows": [
+      {
+        "low_bits_zeroed": 0,
+        "encoded_bytes": 3328498,
+        "ratio_vs_original": 4.041549071082512,
+        "encode_seconds": 10.356531999999788,
+        "max_abs": 0.0,
+        "rmse": 0.0,
+        "max_rel_nonzero": 0.0,
+        "psnr_peak_abs": Infinity,
+        "changed_rate": 0.0
+      },
+      {
+        "low_bits_zeroed": 8,
+        "encoded_bytes": 3328498,
+        "ratio_vs_original": 4.041549071082512,
+        "encode_seconds": 12.346558791999996,
+        "max_abs": 0.0,
+        "rmse": 0.0,
+        "max_rel_nonzero": 0.0,
+        "psnr_peak_abs": Infinity,
+        "changed_rate": 0.0
+      },
+      {
+        "low_bits_zeroed": 12,
+        "encoded_bytes": 3328498,
+        "ratio_vs_original": 4.041549071082512,
+        "encode_seconds": 8.275172208001095,
+        "max_abs": 0.0,
+        "rmse": 0.0,
+        "max_rel_nonzero": 0.0,
+        "psnr_peak_abs": Infinity,
+        "changed_rate": 0.0
+      },
+      {
+        "low_bits_zeroed": 15,
+        "encoded_bytes": 2727419,
+        "ratio_vs_original": 4.932241067470748,
+        "encode_seconds": 11.99164812500021,
+        "max_abs": 0.046875,
+        "rmse": 0.002748038328876077,
+        "max_rel_nonzero": 0.0029211295034079843,
+        "psnr_peak_abs": 75.46163097187926,
+        "changed_rate": 0.5382575811638882
+      }
+    ]
+  },
+  {
+    "image": "oexr_TestImages_GrayRampsHorizontal.exr",
+    "shape": [
+      800,
+      800,
+      1
+    ],
+    "crop_size": 0,
+    "effort": 9,
+    "rows": [
+      {
+        "low_bits_zeroed": 0,
+        "encoded_bytes": 5246,
+        "ratio_vs_original": 487.99085017155926,
+        "encode_seconds": 2.6350894999995944,
+        "max_abs": 0.0,
+        "rmse": 0.0,
+        "max_rel_nonzero": 0.0,
+        "psnr_peak_abs": Infinity,
+        "changed_rate": 0.0
+      },
+      {
+        "low_bits_zeroed": 8,
+        "encoded_bytes": 5246,
+        "ratio_vs_original": 487.99085017155926,
+        "encode_seconds": 2.6005995830000757,
+        "max_abs": 0.0,
+        "rmse": 0.0,
+        "max_rel_nonzero": 0.0,
+        "psnr_peak_abs": Infinity,
+        "changed_rate": 0.0
+      },
+      {
+        "low_bits_zeroed": 12,
+        "encoded_bytes": 5246,
+        "ratio_vs_original": 487.99085017155926,
+        "encode_seconds": 2.7831169159999263,
+        "max_abs": 0.0,
+        "rmse": 0.0,
+        "max_rel_nonzero": 0.0,
+        "psnr_peak_abs": Infinity,
+        "changed_rate": 0.0
+      },
+      {
+        "low_bits_zeroed": 15,
+        "encoded_bytes": 5265,
+        "ratio_vs_original": 486.2298195631529,
+        "encode_seconds": 2.194474916999752,
+        "max_abs": 0.046875,
+        "rmse": 0.0024671163612201095,
+        "max_rel_nonzero": 0.0029211295034079843,
+        "psnr_peak_abs": 77.26165743376274,
+        "changed_rate": 0.7724453125
+      }
+    ]
+  },
+  {
+    "image": "ph_abandoned_tiled_room_1k.exr",
+    "shape": [
+      512,
+      1024,
+      3
+    ],
+    "crop_size": 0,
+    "effort": 9,
+    "rows": [
+      {
+        "low_bits_zeroed": 0,
+        "encoded_bytes": 1053957,
+        "ratio_vs_original": 5.969366871703494,
+        "encode_seconds": 4.533015875000274,
+        "max_abs": 0.0,
+        "rmse": 0.0,
+        "max_rel_nonzero": 0.0,
+        "psnr_peak_abs": Infinity,
+        "changed_rate": 0.0
+      },
+      {
+        "low_bits_zeroed": 8,
+        "encoded_bytes": 1053957,
+        "ratio_vs_original": 5.969366871703494,
+        "encode_seconds": 3.403233209000973,
+        "max_abs": 0.0,
+        "rmse": 0.0,
+        "max_rel_nonzero": 0.0,
+        "psnr_peak_abs": Infinity,
+        "changed_rate": 0.0
+      },
+      {
+        "low_bits_zeroed": 12,
+        "encoded_bytes": 1053957,
+        "ratio_vs_original": 5.969366871703494,
+        "encode_seconds": 3.412217082999632,
+        "max_abs": 0.0,
+        "rmse": 0.0,
+        "max_rel_nonzero": 0.0,
+        "psnr_peak_abs": Infinity,
+        "changed_rate": 0.0
+      },
+      {
+        "low_bits_zeroed": 15,
+        "encoded_bytes": 1053957,
+        "ratio_vs_original": 5.969366871703494,
+        "encode_seconds": 3.3588698330004263,
+        "max_abs": 0.0,
+        "rmse": 0.0,
+        "max_rel_nonzero": 0.0,
+        "psnr_peak_abs": Infinity,
+        "changed_rate": 0.0
+      }
+    ]
+  },
+  {
+    "image": "ph_belfast_sunset_puresky_1k.exr",
+    "shape": [
+      512,
+      1024,
+      4
+    ],
+    "crop_size": 0,
+    "effort": 9,
+    "rows": [
+      {
+        "low_bits_zeroed": 0,
+        "encoded_bytes": 3460857,
+        "ratio_vs_original": 2.4238528202696616,
+        "encode_seconds": 4.356618499999968,
+        "max_abs": 0.0,
+        "rmse": 0.0,
+        "max_rel_nonzero": 0.0,
+        "psnr_peak_abs": Infinity,
+        "changed_rate": 0.0
+      },
+      {
+        "low_bits_zeroed": 8,
+        "encoded_bytes": 1885330,
+        "ratio_vs_original": 4.4494109784493965,
+        "encode_seconds": 4.761529875000633,
+        "max_abs": 0.000972747802734375,
+        "rmse": 2.081619729760718e-05,
+        "max_rel_nonzero": 3.0388171350675566e-05,
+        "psnr_peak_abs": 126.60079386440948,
+        "changed_rate": 0.746091365814209
+      },
+      {
+        "low_bits_zeroed": 12,
+        "encoded_bytes": 1097870,
+        "ratio_vs_original": 7.6408026451219175,
+        "encode_seconds": 4.874145375000808,
+        "max_abs": 0.01551055908203125,
+        "rmse": 0.00033297705001743706,
+        "max_rel_nonzero": 0.00048780476180376714,
+        "psnr_peak_abs": 102.52053574688827,
+        "changed_rate": 0.7497539520263672
+      },
+      {
+        "low_bits_zeroed": 15,
+        "encoded_bytes": 544289,
+        "ratio_vs_original": 15.412047643806874,
+        "encode_seconds": 4.648564791999888,
+        "max_abs": 0.12444305419921875,
+        "rmse": 0.0026737936795235067,
+        "max_rel_nonzero": 0.0038905774498502145,
+        "psnr_peak_abs": 84.42626392787611,
+        "changed_rate": 0.7499685287475586
+      }
+    ]
+  },
+  {
+    "image": "ph_kloppenheim_06_puresky_1k.exr",
+    "shape": [
+      512,
+      1024,
+      4
+    ],
+    "crop_size": 0,
+    "effort": 9,
+    "rows": [
+      {
+        "low_bits_zeroed": 0,
+        "encoded_bytes": 3529207,
+        "ratio_vs_original": 2.3769101670715265,
+        "encode_seconds": 5.9449413340007595,
+        "max_abs": 0.0,
+        "rmse": 0.0,
+        "max_rel_nonzero": 0.0,
+        "psnr_peak_abs": Infinity,
+        "changed_rate": 0.0
+      },
+      {
+        "low_bits_zeroed": 8,
+        "encoded_bytes": 1953142,
+        "ratio_vs_original": 4.294929912930038,
+        "encode_seconds": 12.395697750000181,
+        "max_abs": 0.000812530517578125,
+        "rmse": 9.627273064251926e-06,
+        "max_rel_nonzero": 3.0393734742792126e-05,
+        "psnr_peak_abs": 130.61389099494315,
+        "changed_rate": 0.7461299896240234
+      },
+      {
+        "low_bits_zeroed": 12,
+        "encoded_bytes": 1164963,
+        "ratio_vs_original": 7.200750581778133,
+        "encode_seconds": 13.148016875000394,
+        "max_abs": 0.007480621337890625,
+        "rmse": 0.00015465851604200078,
+        "max_rel_nonzero": 0.00048709159677762855,
+        "psnr_peak_abs": 106.49648002236303,
+        "changed_rate": 0.7497549057006836
+      },
+      {
+        "low_bits_zeroed": 15,
+        "encoded_bytes": 602691,
+        "ratio_vs_original": 13.91858846407197,
+        "encode_seconds": 13.421947958000601,
+        "max_abs": 0.062168121337890625,
+        "rmse": 0.0012450128756514326,
+        "max_rel_nonzero": 0.0038899860319589444,
+        "psnr_peak_abs": 88.38047994128223,
+        "changed_rate": 0.7499752044677734
+      }
+    ]
+  },
+  {
+    "image": "ph_spruit_sunrise_1k.exr",
+    "shape": [
+      512,
+      1024,
+      3
+    ],
+    "crop_size": 0,
+    "effort": 9,
+    "rows": [
+      {
+        "low_bits_zeroed": 0,
+        "encoded_bytes": 900648,
+        "ratio_vs_original": 6.985477123138008,
+        "encode_seconds": 9.182803542000329,
+        "max_abs": 0.0,
+        "rmse": 0.0,
+        "max_rel_nonzero": 0.0,
+        "psnr_peak_abs": Infinity,
+        "changed_rate": 0.0
+      },
+      {
+        "low_bits_zeroed": 8,
+        "encoded_bytes": 900648,
+        "ratio_vs_original": 6.985477123138008,
+        "encode_seconds": 7.177967624998928,
+        "max_abs": 0.0,
+        "rmse": 0.0,
+        "max_rel_nonzero": 0.0,
+        "psnr_peak_abs": Infinity,
+        "changed_rate": 0.0
+      },
+      {
+        "low_bits_zeroed": 12,
+        "encoded_bytes": 900648,
+        "ratio_vs_original": 6.985477123138008,
+        "encode_seconds": 7.030630041999757,
+        "max_abs": 0.0,
+        "rmse": 0.0,
+        "max_rel_nonzero": 0.0,
+        "psnr_peak_abs": Infinity,
+        "changed_rate": 0.0
+      },
+      {
+        "low_bits_zeroed": 15,
+        "encoded_bytes": 900648,
+        "ratio_vs_original": 6.985477123138008,
+        "encode_seconds": 7.934822832999998,
+        "max_abs": 0.0,
+        "rmse": 0.0,
+        "max_rel_nonzero": 0.0,
+        "psnr_peak_abs": Infinity,
+        "changed_rate": 0.0
+      }
+    ]
+  },
+  {
+    "image": "ph_studio_small_03_1k.exr",
+    "shape": [
+      512,
+      1024,
+      3
+    ],
+    "crop_size": 0,
+    "effort": 9,
+    "rows": [
+      {
+        "low_bits_zeroed": 0,
+        "encoded_bytes": 908370,
+        "ratio_vs_original": 6.926093992536081,
+        "encode_seconds": 8.601883833000102,
+        "max_abs": 0.0,
+        "rmse": 0.0,
+        "max_rel_nonzero": 0.0,
+        "psnr_peak_abs": Infinity,
+        "changed_rate": 0.0
+      },
+      {
+        "low_bits_zeroed": 8,
+        "encoded_bytes": 908370,
+        "ratio_vs_original": 6.926093992536081,
+        "encode_seconds": 8.276144540999667,
+        "max_abs": 0.0,
+        "rmse": 0.0,
+        "max_rel_nonzero": 0.0,
+        "psnr_peak_abs": Infinity,
+        "changed_rate": 0.0
+      },
+      {
+        "low_bits_zeroed": 12,
+        "encoded_bytes": 908370,
+        "ratio_vs_original": 6.926093992536081,
+        "encode_seconds": 8.261127291998491,
+        "max_abs": 0.0,
+        "rmse": 0.0,
+        "max_rel_nonzero": 0.0,
+        "psnr_peak_abs": Infinity,
+        "changed_rate": 0.0
+      },
+      {
+        "low_bits_zeroed": 15,
+        "encoded_bytes": 908370,
+        "ratio_vs_original": 6.926093992536081,
+        "encode_seconds": 9.230170791999626,
+        "max_abs": 0.0,
+        "rmse": 0.0,
+        "max_rel_nonzero": 0.0,
+        "psnr_peak_abs": Infinity,
+        "changed_rate": 0.0
+      }
+    ]
+  },
+  {
+    "image": "synth_gradient_1k.exr",
+    "shape": [
+      512,
+      1024,
+      3
+    ],
+    "crop_size": 0,
+    "effort": 9,
+    "rows": [
+      {
+        "low_bits_zeroed": 0,
+        "encoded_bytes": 15471,
+        "ratio_vs_original": 406.66123715338375,
+        "encode_seconds": 6.697097708000001,
+        "max_abs": 0.0,
+        "rmse": 0.0,
+        "max_rel_nonzero": 0.0,
+        "psnr_peak_abs": Infinity,
+        "changed_rate": 0.0
+      },
+      {
+        "low_bits_zeroed": 8,
+        "encoded_bytes": 23324,
+        "ratio_vs_original": 269.7417252615332,
+        "encode_seconds": 8.825102082999365,
+        "max_abs": 0.00024318695068359375,
+        "rmse": 7.569151978338965e-05,
+        "max_rel_nonzero": 3.0385390418306735e-05,
+        "psnr_peak_abs": 102.41905549258291,
+        "changed_rate": 0.9951464335123698
+      },
+      {
+        "low_bits_zeroed": 12,
+        "encoded_bytes": 7753,
+        "ratio_vs_original": 811.486650328905,
+        "encode_seconds": 7.265989707999324,
+        "max_abs": 0.0039043426513671875,
+        "rmse": 0.0012130619465740363,
+        "max_rel_nonzero": 0.00048685375874421235,
+        "psnr_peak_abs": 78.32234041517728,
+        "changed_rate": 0.997948964436849
+      },
+      {
+        "low_bits_zeroed": 15,
+        "encoded_bytes": 28015,
+        "ratio_vs_original": 224.57454934856327,
+        "encode_seconds": 6.1321221250000235,
+        "max_abs": 0.031248092651367188,
+        "rmse": 0.009706789193388701,
+        "max_rel_nonzero": 0.003888684910126113,
+        "psnr_peak_abs": 60.25848804075578,
+        "changed_rate": 0.9980347951253256
+      }
+    ]
+  },
+  {
+    "image": "synth_mixed_1k.exr",
+    "shape": [
+      512,
+      1024,
+      3
+    ],
+    "crop_size": 0,
+    "effort": 9,
+    "rows": [
+      {
+        "low_bits_zeroed": 0,
+        "encoded_bytes": 3900595,
+        "ratio_vs_original": 1.612947768225104,
+        "encode_seconds": 6.8427895000004355,
+        "max_abs": 0.0,
+        "rmse": 0.0,
+        "max_rel_nonzero": 0.0,
+        "psnr_peak_abs": Infinity,
+        "changed_rate": 0.0
+      },
+      {
+        "low_bits_zeroed": 8,
+        "encoded_bytes": 2329134,
+        "ratio_vs_original": 2.7011996733549895,
+        "encode_seconds": 7.658123249999335,
+        "max_abs": 0.00024318695068359375,
+        "rmse": 7.591985733633065e-05,
+        "max_rel_nonzero": 3.039744480271045e-05,
+        "psnr_peak_abs": 102.53528035410993,
+        "changed_rate": 0.9960060119628906
+      },
+      {
+        "low_bits_zeroed": 12,
+        "encoded_bytes": 1541237,
+        "ratio_vs_original": 4.0820821197518615,
+        "encode_seconds": 5.5649096249999275,
+        "max_abs": 0.0039052963256835938,
+        "rmse": 0.0012178105048705709,
+        "max_rel_nonzero": 0.0004875668082047466,
+        "psnr_peak_abs": 78.43079370110756,
+        "changed_rate": 0.9997596740722656
+      },
+      {
+        "low_bits_zeroed": 15,
+        "encoded_bytes": 950858,
+        "ratio_vs_original": 6.61660942012372,
+        "encode_seconds": 6.932266416999482,
+        "max_abs": 0.031249046325683594,
+        "rmse": 0.009730468277613567,
+        "max_rel_nonzero": 0.003890104315593381,
+        "psnr_peak_abs": 60.3797131977318,
+        "changed_rate": 0.9999650319417318
+      }
+    ]
+  },
+  {
+    "image": "synth_noise_1k.exr",
+    "shape": [
+      512,
+      1024,
+      3
+    ],
+    "crop_size": 0,
+    "effort": 9,
+    "rows": [
+      {
+        "low_bits_zeroed": 0,
+        "encoded_bytes": 4880581,
+        "ratio_vs_original": 1.2890793124834932,
+        "encode_seconds": 5.393002083001193,
+        "max_abs": 0.0,
+        "rmse": 0.0,
+        "max_rel_nonzero": 0.0,
+        "psnr_peak_abs": Infinity,
+        "changed_rate": 0.0
+      },
+      {
+        "low_bits_zeroed": 8,
+        "encoded_bytes": 3351051,
+        "ratio_vs_original": 1.8774575498850958,
+        "encode_seconds": 5.838819665999836,
+        "max_abs": 0.000896453857421875,
+        "rmse": 0.00014492311185730207,
+        "max_rel_nonzero": 3.0395589659539596e-05,
+        "psnr_peak_abs": 107.66758066537335,
+        "changed_rate": 0.9894377390543619
+      },
+      {
+        "low_bits_zeroed": 12,
+        "encoded_bytes": 2563519,
+        "ratio_vs_original": 2.454226397385781,
+        "encode_seconds": 4.953131999998732,
+        "max_abs": 0.0151214599609375,
+        "rmse": 0.0023262218899480856,
+        "max_rel_nonzero": 0.00048780476180376714,
+        "psnr_peak_abs": 83.55731091896794,
+        "changed_rate": 0.9991366068522135
+      },
+      {
+        "low_bits_zeroed": 15,
+        "encoded_bytes": 1972849,
+        "ratio_vs_original": 3.1890205484555585,
+        "encode_seconds": 4.9693794169998,
+        "max_abs": 0.11514663696289062,
+        "rmse": 0.018582391367931904,
+        "max_rel_nonzero": 0.0038899860319589444,
+        "psnr_peak_abs": 65.50830162992426,
+        "changed_rate": 0.9998849232991537
+      }
+    ]
+  },
+  {
+    "image": "synth_rgba_hdr_1k.exr",
+    "shape": [
+      512,
+      1024,
+      4
+    ],
+    "crop_size": 0,
+    "effort": 9,
+    "rows": [
+      {
+        "low_bits_zeroed": 0,
+        "encoded_bytes": 4046644,
+        "ratio_vs_original": 2.0729789919745842,
+        "encode_seconds": 8.995219125001313,
+        "max_abs": 0.0,
+        "rmse": 0.0,
+        "max_rel_nonzero": 0.0,
+        "psnr_peak_abs": Infinity,
+        "changed_rate": 0.0
+      },
+      {
+        "low_bits_zeroed": 8,
+        "encoded_bytes": 2468251,
+        "ratio_vs_original": 3.398604112790798,
+        "encode_seconds": 10.601420958000745,
+        "max_abs": 0.01556396484375,
+        "rmse": 0.00039751434145284155,
+        "max_rel_nonzero": 3.039651720281951e-05,
+        "psnr_peak_abs": 128.01553863687914,
+        "changed_rate": 0.7470054626464844
+      },
+      {
+        "low_bits_zeroed": 12,
+        "encoded_bytes": 1678363,
+        "ratio_vs_original": 4.998089209545253,
+        "encode_seconds": 10.145642749999752,
+        "max_abs": 0.24993896484375,
+        "rmse": 0.00631677153901564,
+        "max_rel_nonzero": 0.00048792385480577594,
+        "psnr_peak_abs": 103.99269127256429,
+        "changed_rate": 0.7498178482055664
+      },
+      {
+        "low_bits_zeroed": 15,
+        "encoded_bytes": 1088220,
+        "ratio_vs_original": 7.708558931098491,
+        "encode_seconds": 9.588358625000183,
+        "max_abs": 1.9998779296875,
+        "rmse": 0.05073496443255161,
+        "max_rel_nonzero": 0.003890932300247881,
+        "psnr_peak_abs": 85.89644746536642,
+        "changed_rate": 0.7499818801879883
+      }
+    ]
+  }
+]

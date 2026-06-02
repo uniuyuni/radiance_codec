@@ -1,0 +1,227 @@
+[
+  {
+    "image": "ph_abandoned_tiled_room_1k.exr",
+    "shape": [
+      128,
+      128,
+      3
+    ],
+    "crop_size": 128,
+    "tile_size": 128,
+    "previous_bits": 4,
+    "family_id_bits": 4,
+    "split_flag_bits": 1,
+    "min_split_gain_bits": 4.0,
+    "extra_mode_bits_per_channel": 8,
+    "mode_policy": "green_order",
+    "mode_score": "base",
+    "raw_bits": 1572864,
+    "baseline_bits": 210005.47742162002,
+    "channel_mode_bits": 203172.86487781606,
+    "hybrid_bits": 203172.86487781606,
+    "baseline_ratio": 7.489633219624175,
+    "channel_mode_ratio": 7.741506233846177,
+    "hybrid_ratio": 7.741506233846177,
+    "gain": 1.0336295525877088,
+    "hybrid_gain": 1.0336295525877088,
+    "mode_histogram": {
+      "c0:delta_channel_green": 1,
+      "c1:delta_paeth": 1,
+      "c2:delta_paeth": 1
+    },
+    "shared_mode_histogram": {
+      "delta_paeth": 1
+    },
+    "route_histogram": {
+      "channel_mode": 1
+    },
+    "pick_histogram": {
+      "channel_split": 14,
+      "shared:prev_only": 12,
+      "shared:spatial_hi_pc": 3,
+      "shared:base": 27,
+      "shared:spatial_hi_neighbors": 6,
+      "shared:spatial_hi_channel": 1
+    }
+  },
+  {
+    "image": "ph_belfast_sunset_puresky_1k.exr",
+    "shape": [
+      128,
+      128,
+      4
+    ],
+    "crop_size": 128,
+    "tile_size": 128,
+    "previous_bits": 4,
+    "family_id_bits": 4,
+    "split_flag_bits": 1,
+    "min_split_gain_bits": 4.0,
+    "extra_mode_bits_per_channel": 8,
+    "mode_policy": "green_order",
+    "mode_score": "base",
+    "raw_bits": 2097152,
+    "baseline_bits": 885350.1509830793,
+    "channel_mode_bits": 877906.6539996023,
+    "hybrid_bits": 877906.6539996023,
+    "baseline_ratio": 2.3687260883971777,
+    "channel_mode_ratio": 2.3888097788594163,
+    "hybrid_ratio": 2.3888097788594163,
+    "gain": 1.0084786884226993,
+    "hybrid_gain": 1.0084786884226993,
+    "mode_histogram": {
+      "c0:delta_channel_green": 1,
+      "c1:delta_float_med": 1,
+      "c2:delta_float_med": 1,
+      "c3:xor_bit_xor_planar": 1
+    },
+    "shared_mode_histogram": {
+      "delta_float_med": 1
+    },
+    "route_histogram": {
+      "channel_mode": 1
+    },
+    "pick_histogram": {
+      "channel_split": 39,
+      "shared:prev_only": 19,
+      "shared:spatial_hi_channel": 4,
+      "shared:base": 1
+    }
+  },
+  {
+    "image": "ph_kloppenheim_06_puresky_1k.exr",
+    "shape": [
+      128,
+      128,
+      4
+    ],
+    "crop_size": 128,
+    "tile_size": 128,
+    "previous_bits": 4,
+    "family_id_bits": 4,
+    "split_flag_bits": 1,
+    "min_split_gain_bits": 4.0,
+    "extra_mode_bits_per_channel": 8,
+    "mode_policy": "green_order",
+    "mode_score": "base",
+    "raw_bits": 2097152,
+    "baseline_bits": 926557.1174386193,
+    "channel_mode_bits": 922128.6662276989,
+    "hybrid_bits": 922128.6662276989,
+    "baseline_ratio": 2.2633812428071147,
+    "channel_mode_ratio": 2.274250955215566,
+    "hybrid_ratio": 2.274250955215566,
+    "gain": 1.0048024222357566,
+    "hybrid_gain": 1.0048024222357566,
+    "mode_histogram": {
+      "c0:delta_channel_green": 1,
+      "c1:delta_float_med": 1,
+      "c2:delta_float_med": 1,
+      "c3:xor_bit_xor_planar": 1
+    },
+    "shared_mode_histogram": {
+      "delta_float_med": 1
+    },
+    "route_histogram": {
+      "channel_mode": 1
+    },
+    "pick_histogram": {
+      "channel_split": 40,
+      "shared:prev_only": 15,
+      "shared:spatial_hi_channel": 7,
+      "shared:base": 1
+    }
+  },
+  {
+    "image": "ph_spruit_sunrise_1k.exr",
+    "shape": [
+      128,
+      128,
+      3
+    ],
+    "crop_size": 128,
+    "tile_size": 128,
+    "previous_bits": 4,
+    "family_id_bits": 4,
+    "split_flag_bits": 1,
+    "min_split_gain_bits": 4.0,
+    "extra_mode_bits_per_channel": 8,
+    "mode_policy": "green_order",
+    "mode_score": "base",
+    "raw_bits": 1572864,
+    "baseline_bits": 56291.750615121695,
+    "channel_mode_bits": 53034.880126147524,
+    "hybrid_bits": 53034.880126147524,
+    "baseline_ratio": 27.94128771645415,
+    "channel_mode_ratio": 29.657161405075726,
+    "hybrid_ratio": 29.657161405075726,
+    "gain": 1.0614099717247867,
+    "hybrid_gain": 1.0614099717247867,
+    "mode_histogram": {
+      "c0:xor_west": 1,
+      "c1:xor_west": 1,
+      "c2:delta_west": 1
+    },
+    "shared_mode_histogram": {
+      "xor_west": 1
+    },
+    "route_histogram": {
+      "channel_mode": 1
+    },
+    "pick_histogram": {
+      "shared:base": 30,
+      "shared:spatial_prev_pc": 1,
+      "shared:prev_only": 7,
+      "shared:spatial_prev_channel": 1,
+      "channel_split": 15,
+      "shared:spatial_hi_neighbors": 5,
+      "shared:spatial_hi_channel": 4
+    }
+  },
+  {
+    "image": "ph_studio_small_03_1k.exr",
+    "shape": [
+      128,
+      128,
+      3
+    ],
+    "crop_size": 128,
+    "tile_size": 128,
+    "previous_bits": 4,
+    "family_id_bits": 4,
+    "split_flag_bits": 1,
+    "min_split_gain_bits": 4.0,
+    "extra_mode_bits_per_channel": 8,
+    "mode_policy": "green_order",
+    "mode_score": "base",
+    "raw_bits": 1572864,
+    "baseline_bits": 255498.06839459742,
+    "channel_mode_bits": 254502.57246266754,
+    "hybrid_bits": 254502.57246266754,
+    "baseline_ratio": 6.156070023867385,
+    "channel_mode_ratio": 6.180149712359863,
+    "hybrid_ratio": 6.180149712359863,
+    "gain": 1.0039115358335953,
+    "hybrid_gain": 1.0039115358335953,
+    "mode_histogram": {
+      "c0:delta_channel_green": 1,
+      "c1:delta_west": 1,
+      "c2:delta_channel_green": 1
+    },
+    "shared_mode_histogram": {
+      "delta_channel_green": 1
+    },
+    "route_histogram": {
+      "channel_mode": 1
+    },
+    "pick_histogram": {
+      "shared:spatial_prev_channel": 2,
+      "channel_split": 17,
+      "shared:prev_only": 7,
+      "shared:spatial_hi_pc": 1,
+      "shared:spatial_hi_channel": 3,
+      "shared:base": 27,
+      "shared:spatial_hi_neighbors": 6
+    }
+  }
+]

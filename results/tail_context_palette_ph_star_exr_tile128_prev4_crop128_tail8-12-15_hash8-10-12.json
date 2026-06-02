@@ -1,0 +1,597 @@
+[
+  {
+    "image": "ph_abandoned_tiled_room_1k.exr",
+    "shape": [
+      128,
+      128,
+      3
+    ],
+    "crop_size": 128,
+    "tile_size": 128,
+    "previous_bits": 4,
+    "xy_bits": 3,
+    "context_header_bits": 16,
+    "route_header_bits": 8,
+    "max_palette": 256,
+    "rows": [
+      {
+        "tail_width": 8,
+        "hash_bits": 8,
+        "current_bits": 215499.42430577643,
+        "hybrid_bits": 215499.42430577643,
+        "current_ratio": 7.298692351809868,
+        "hybrid_ratio": 7.298692351809868,
+        "gain": 1.0,
+        "route_histogram": {
+          "current_low": 1
+        },
+        "totals": {
+          "current_total": 215499.42430577643,
+          "hybrid_total": 215499.42430577643,
+          "gdx_low": 68.94586387363033,
+          "palette_low": 6152.0,
+          "adaptive_low": 5428.031672300998,
+          "high": 215421.86020891857,
+          "sign": 8.618232984203791
+        },
+        "detail_totals": {
+          "raw_cost": 393216.0,
+          "used_palette_contexts": 256.0,
+          "raw_contexts": 0.0,
+          "dictionary_values": 256.0,
+          "unique_contexts": 256.0,
+          "adaptive_contexts": 256.0,
+          "adaptive_repeats": 48896.0,
+          "adaptive_raw_values": 256.0,
+          "adaptive_flag_bits": 3372.0316723009987,
+          "adaptive_raw_value_bits": 2048.0,
+          "adaptive_index_bits": 0.0
+        }
+      },
+      {
+        "tail_width": 12,
+        "hash_bits": 8,
+        "current_bits": 215499.4243057764,
+        "hybrid_bits": 215499.4243057764,
+        "current_ratio": 7.298692351809869,
+        "hybrid_ratio": 7.298692351809869,
+        "gain": 1.0,
+        "route_histogram": {
+          "current_low": 1
+        },
+        "totals": {
+          "current_total": 215499.4243057764,
+          "hybrid_total": 215499.4243057764,
+          "gdx_low": 103.41879581044547,
+          "palette_low": 7176.0,
+          "adaptive_low": 6443.02454458385,
+          "high": 215387.38727698172,
+          "sign": 8.618232984203791
+        },
+        "detail_totals": {
+          "raw_cost": 589824.0,
+          "used_palette_contexts": 256.0,
+          "raw_contexts": 0.0,
+          "dictionary_values": 256.0,
+          "unique_contexts": 256.0,
+          "adaptive_contexts": 256.0,
+          "adaptive_repeats": 48896.0,
+          "adaptive_raw_values": 256.0,
+          "adaptive_flag_bits": 3363.0245445838495,
+          "adaptive_raw_value_bits": 3072.0,
+          "adaptive_index_bits": 0.0
+        }
+      },
+      {
+        "tail_width": 15,
+        "hash_bits": 8,
+        "current_bits": 215499.4243057764,
+        "hybrid_bits": 215499.4243057764,
+        "current_ratio": 7.298692351809869,
+        "hybrid_ratio": 7.298692351809869,
+        "gain": 1.0,
+        "route_histogram": {
+          "current_low": 1
+        },
+        "totals": {
+          "current_total": 215499.4243057764,
+          "hybrid_total": 215499.4243057764,
+          "gdx_low": 173.28639458938858,
+          "palette_low": 7944.0,
+          "adaptive_low": 7222.25824124718,
+          "high": 215317.5196782028,
+          "sign": 8.618232984203791
+        },
+        "detail_totals": {
+          "raw_cost": 737280.0,
+          "used_palette_contexts": 256.0,
+          "raw_contexts": 0.0,
+          "dictionary_values": 256.0,
+          "unique_contexts": 256.0,
+          "adaptive_contexts": 256.0,
+          "adaptive_repeats": 48896.0,
+          "adaptive_raw_values": 256.0,
+          "adaptive_flag_bits": 3374.2582412471806,
+          "adaptive_raw_value_bits": 3840.0,
+          "adaptive_index_bits": 0.0
+        }
+      }
+    ]
+  },
+  {
+    "image": "ph_belfast_sunset_puresky_1k.exr",
+    "shape": [
+      128,
+      128,
+      4
+    ],
+    "crop_size": 128,
+    "tile_size": 128,
+    "previous_bits": 4,
+    "xy_bits": 3,
+    "context_header_bits": 16,
+    "route_header_bits": 8,
+    "max_palette": 256,
+    "rows": [
+      {
+        "tail_width": 8,
+        "hash_bits": 8,
+        "current_bits": 891401.9459574539,
+        "hybrid_bits": 891401.9459574539,
+        "current_ratio": 2.3526446285098146,
+        "hybrid_ratio": 2.3526446285098146,
+        "gain": 1.0,
+        "route_histogram": {
+          "current_low": 1
+        },
+        "totals": {
+          "current_total": 891401.9459574539,
+          "hybrid_total": 891401.9459574539,
+          "gdx_low": 394804.8552347993,
+          "palette_low": 475891.7545059797,
+          "adaptive_low": 525272.2880003671,
+          "high": 496588.26497183816,
+          "sign": 8.825750816519681
+        },
+        "detail_totals": {
+          "raw_cost": 524288.0,
+          "used_palette_contexts": 64.0,
+          "raw_contexts": 192.0,
+          "dictionary_values": 8448.0,
+          "unique_contexts": 256.0,
+          "adaptive_contexts": 256.0,
+          "adaptive_repeats": 31921.0,
+          "adaptive_raw_values": 33615.0,
+          "adaptive_flag_bits": 59178.093536673005,
+          "adaptive_raw_value_bits": 268920.0,
+          "adaptive_index_bits": 197166.19446369412
+        }
+      },
+      {
+        "tail_width": 12,
+        "hash_bits": 8,
+        "current_bits": 891401.9459574542,
+        "hybrid_bits": 891401.9459574542,
+        "current_ratio": 2.352644628509814,
+        "hybrid_ratio": 2.352644628509814,
+        "gain": 1.0,
+        "route_histogram": {
+          "current_low": 1
+        },
+        "totals": {
+          "current_total": 891401.9459574542,
+          "hybrid_total": 891401.9459574542,
+          "gdx_low": 592418.8473618585,
+          "palette_low": 707181.1702505826,
+          "adaptive_low": 719753.6362712175,
+          "high": 298974.27284477913,
+          "sign": 8.825750816519681
+        },
+        "detail_totals": {
+          "raw_cost": 786432.0,
+          "used_palette_contexts": 64.0,
+          "raw_contexts": 192.0,
+          "dictionary_values": 11889.0,
+          "unique_contexts": 256.0,
+          "adaptive_contexts": 256.0,
+          "adaptive_repeats": 17567.0,
+          "adaptive_raw_values": 47969.0,
+          "adaptive_flag_bits": 35171.660543438324,
+          "adaptive_raw_value_bits": 575628.0,
+          "adaptive_index_bits": 108945.97572777925
+        }
+      },
+      {
+        "tail_width": 15,
+        "hash_bits": 8,
+        "current_bits": 891401.9459574542,
+        "hybrid_bits": 891401.9459574542,
+        "current_ratio": 2.352644628509814,
+        "hybrid_ratio": 2.352644628509814,
+        "gain": 1.0,
+        "route_histogram": {
+          "current_low": 1
+        },
+        "totals": {
+          "current_total": 891401.9459574542,
+          "hybrid_total": 891401.9459574542,
+          "gdx_low": 740297.8096684347,
+          "palette_low": 862489.3019476511,
+          "adaptive_low": 868417.5302860925,
+          "high": 151095.310538203,
+          "sign": 8.825750816519681
+        },
+        "detail_totals": {
+          "raw_cost": 983040.0,
+          "used_palette_contexts": 64.0,
+          "raw_contexts": 192.0,
+          "dictionary_values": 12546.0,
+          "unique_contexts": 256.0,
+          "adaptive_contexts": 256.0,
+          "adaptive_repeats": 16480.0,
+          "adaptive_raw_values": 49056.0,
+          "adaptive_flag_bits": 30594.209485355343,
+          "adaptive_raw_value_bits": 735840.0,
+          "adaptive_index_bits": 101975.32080073726
+        }
+      }
+    ]
+  },
+  {
+    "image": "ph_kloppenheim_06_puresky_1k.exr",
+    "shape": [
+      128,
+      128,
+      4
+    ],
+    "crop_size": 128,
+    "tile_size": 128,
+    "previous_bits": 4,
+    "xy_bits": 3,
+    "context_header_bits": 16,
+    "route_header_bits": 8,
+    "max_palette": 256,
+    "rows": [
+      {
+        "tail_width": 8,
+        "hash_bits": 8,
+        "current_bits": 933792.9057765303,
+        "hybrid_bits": 933792.9057765303,
+        "current_ratio": 2.2458427206148404,
+        "hybrid_ratio": 2.2458427206148404,
+        "gain": 1.0,
+        "route_histogram": {
+          "current_low": 1
+        },
+        "totals": {
+          "current_total": 933792.9057765303,
+          "hybrid_total": 933792.9057765303,
+          "gdx_low": 394736.50190544495,
+          "palette_low": 475334.9607577936,
+          "adaptive_low": 525252.0254204816,
+          "high": 539047.5781202689,
+          "sign": 8.825750816519681
+        },
+        "detail_totals": {
+          "raw_cost": 524288.0,
+          "used_palette_contexts": 64.0,
+          "raw_contexts": 192.0,
+          "dictionary_values": 8396.0,
+          "unique_contexts": 256.0,
+          "adaptive_contexts": 256.0,
+          "adaptive_repeats": 31884.0,
+          "adaptive_raw_values": 33652.0,
+          "adaptive_flag_bits": 59142.24650215251,
+          "adaptive_raw_value_bits": 269216.0,
+          "adaptive_index_bits": 196885.77891832904
+        }
+      },
+      {
+        "tail_width": 12,
+        "hash_bits": 8,
+        "current_bits": 933792.9057765304,
+        "hybrid_bits": 933792.9057765304,
+        "current_ratio": 2.24584272061484,
+        "hybrid_ratio": 2.24584272061484,
+        "gain": 1.0,
+        "route_histogram": {
+          "current_low": 1
+        },
+        "totals": {
+          "current_total": 933792.9057765304,
+          "hybrid_total": 933792.9057765304,
+          "gdx_low": 592337.8020551486,
+          "palette_low": 709534.350197229,
+          "adaptive_low": 720430.3832674685,
+          "high": 341446.27797056525,
+          "sign": 8.825750816519681
+        },
+        "detail_totals": {
+          "raw_cost": 786432.0,
+          "used_palette_contexts": 64.0,
+          "raw_contexts": 192.0,
+          "dictionary_values": 12119.0,
+          "unique_contexts": 256.0,
+          "adaptive_contexts": 256.0,
+          "adaptive_repeats": 17612.0,
+          "adaptive_raw_values": 47924.0,
+          "adaptive_flag_bits": 35714.09759801111,
+          "adaptive_raw_value_bits": 575088.0,
+          "adaptive_index_bits": 109620.2856694574
+        }
+      },
+      {
+        "tail_width": 15,
+        "hash_bits": 8,
+        "current_bits": 933792.9057765303,
+        "hybrid_bits": 933792.9057765303,
+        "current_ratio": 2.2458427206148404,
+        "hybrid_ratio": 2.2458427206148404,
+        "gain": 1.0,
+        "route_histogram": {
+          "current_low": 1
+        },
+        "totals": {
+          "current_total": 933792.9057765303,
+          "hybrid_total": 933792.9057765303,
+          "gdx_low": 740152.621111207,
+          "palette_low": 857780.1849827762,
+          "adaptive_low": 866536.0447022098,
+          "high": 193631.45891450686,
+          "sign": 8.825750816519681
+        },
+        "detail_totals": {
+          "raw_cost": 983040.0,
+          "used_palette_contexts": 64.0,
+          "raw_contexts": 192.0,
+          "dictionary_values": 12075.0,
+          "unique_contexts": 256.0,
+          "adaptive_contexts": 256.0,
+          "adaptive_repeats": 16444.0,
+          "adaptive_raw_values": 49092.0,
+          "adaptive_flag_bits": 29894.8859669664,
+          "adaptive_raw_value_bits": 736380.0,
+          "adaptive_index_bits": 100253.15873524339
+        }
+      }
+    ]
+  },
+  {
+    "image": "ph_spruit_sunrise_1k.exr",
+    "shape": [
+      128,
+      128,
+      3
+    ],
+    "crop_size": 128,
+    "tile_size": 128,
+    "previous_bits": 4,
+    "xy_bits": 3,
+    "context_header_bits": 16,
+    "route_header_bits": 8,
+    "max_palette": 256,
+    "rows": [
+      {
+        "tail_width": 8,
+        "hash_bits": 8,
+        "current_bits": 56734.372024396056,
+        "hybrid_bits": 56734.372024396056,
+        "current_ratio": 27.72329971897214,
+        "hybrid_ratio": 27.72329971897214,
+        "gain": 1.0,
+        "route_histogram": {
+          "current_low": 1
+        },
+        "totals": {
+          "current_total": 56734.372024396056,
+          "hybrid_total": 56734.372024396056,
+          "gdx_low": 68.94586387363033,
+          "palette_low": 6152.0,
+          "adaptive_low": 5407.176894569728,
+          "high": 56656.80792753822,
+          "sign": 8.618232984203791
+        },
+        "detail_totals": {
+          "raw_cost": 393216.0,
+          "used_palette_contexts": 256.0,
+          "raw_contexts": 0.0,
+          "dictionary_values": 256.0,
+          "unique_contexts": 256.0,
+          "adaptive_contexts": 256.0,
+          "adaptive_repeats": 48896.0,
+          "adaptive_raw_values": 256.0,
+          "adaptive_flag_bits": 3351.176894569727,
+          "adaptive_raw_value_bits": 2048.0,
+          "adaptive_index_bits": 0.0
+        }
+      },
+      {
+        "tail_width": 12,
+        "hash_bits": 8,
+        "current_bits": 56734.372024396056,
+        "hybrid_bits": 56734.372024396056,
+        "current_ratio": 27.72329971897214,
+        "hybrid_ratio": 27.72329971897214,
+        "gain": 1.0,
+        "route_histogram": {
+          "current_low": 1
+        },
+        "totals": {
+          "current_total": 56734.372024396056,
+          "hybrid_total": 56734.372024396056,
+          "gdx_low": 103.41879581044547,
+          "palette_low": 7176.0,
+          "adaptive_low": 6425.47335794463,
+          "high": 56622.334995601406,
+          "sign": 8.618232984203791
+        },
+        "detail_totals": {
+          "raw_cost": 589824.0,
+          "used_palette_contexts": 256.0,
+          "raw_contexts": 0.0,
+          "dictionary_values": 256.0,
+          "unique_contexts": 256.0,
+          "adaptive_contexts": 256.0,
+          "adaptive_repeats": 48896.0,
+          "adaptive_raw_values": 256.0,
+          "adaptive_flag_bits": 3345.47335794463,
+          "adaptive_raw_value_bits": 3072.0,
+          "adaptive_index_bits": 0.0
+        }
+      },
+      {
+        "tail_width": 15,
+        "hash_bits": 8,
+        "current_bits": 56734.372024396056,
+        "hybrid_bits": 56734.372024396056,
+        "current_ratio": 27.72329971897214,
+        "hybrid_ratio": 27.72329971897214,
+        "gain": 1.0,
+        "route_histogram": {
+          "current_low": 1
+        },
+        "totals": {
+          "current_total": 56734.372024396056,
+          "hybrid_total": 56734.372024396056,
+          "gdx_low": 167.65959872522217,
+          "palette_low": 7944.0,
+          "adaptive_low": 7196.447114179169,
+          "high": 56558.09419268663,
+          "sign": 8.618232984203791
+        },
+        "detail_totals": {
+          "raw_cost": 737280.0,
+          "used_palette_contexts": 256.0,
+          "raw_contexts": 0.0,
+          "dictionary_values": 256.0,
+          "unique_contexts": 256.0,
+          "adaptive_contexts": 256.0,
+          "adaptive_repeats": 48896.0,
+          "adaptive_raw_values": 256.0,
+          "adaptive_flag_bits": 3348.4471141791687,
+          "adaptive_raw_value_bits": 3840.0,
+          "adaptive_index_bits": 0.0
+        }
+      }
+    ]
+  },
+  {
+    "image": "ph_studio_small_03_1k.exr",
+    "shape": [
+      128,
+      128,
+      3
+    ],
+    "crop_size": 128,
+    "tile_size": 128,
+    "previous_bits": 4,
+    "xy_bits": 3,
+    "context_header_bits": 16,
+    "route_header_bits": 8,
+    "max_palette": 256,
+    "rows": [
+      {
+        "tail_width": 8,
+        "hash_bits": 8,
+        "current_bits": 257472.2813518791,
+        "hybrid_bits": 257472.2813518791,
+        "current_ratio": 6.108867299196442,
+        "hybrid_ratio": 6.108867299196442,
+        "gain": 1.0,
+        "route_histogram": {
+          "current_low": 1
+        },
+        "totals": {
+          "current_total": 257472.2813518791,
+          "hybrid_total": 257472.2813518791,
+          "gdx_low": 68.94586387363033,
+          "palette_low": 6152.0,
+          "adaptive_low": 5432.2095523294975,
+          "high": 257394.71725502124,
+          "sign": 8.618232984203791
+        },
+        "detail_totals": {
+          "raw_cost": 393216.0,
+          "used_palette_contexts": 256.0,
+          "raw_contexts": 0.0,
+          "dictionary_values": 256.0,
+          "unique_contexts": 256.0,
+          "adaptive_contexts": 256.0,
+          "adaptive_repeats": 48896.0,
+          "adaptive_raw_values": 256.0,
+          "adaptive_flag_bits": 3376.209552329497,
+          "adaptive_raw_value_bits": 2048.0,
+          "adaptive_index_bits": 0.0
+        }
+      },
+      {
+        "tail_width": 12,
+        "hash_bits": 8,
+        "current_bits": 257472.28135187912,
+        "hybrid_bits": 257472.28135187912,
+        "current_ratio": 6.108867299196441,
+        "hybrid_ratio": 6.108867299196441,
+        "gain": 1.0,
+        "route_histogram": {
+          "current_low": 1
+        },
+        "totals": {
+          "current_total": 257472.28135187912,
+          "hybrid_total": 257472.28135187912,
+          "gdx_low": 103.41879581044547,
+          "palette_low": 7176.0,
+          "adaptive_low": 6456.393368059936,
+          "high": 257360.24432308445,
+          "sign": 8.618232984203791
+        },
+        "detail_totals": {
+          "raw_cost": 589824.0,
+          "used_palette_contexts": 256.0,
+          "raw_contexts": 0.0,
+          "dictionary_values": 256.0,
+          "unique_contexts": 256.0,
+          "adaptive_contexts": 256.0,
+          "adaptive_repeats": 48896.0,
+          "adaptive_raw_values": 256.0,
+          "adaptive_flag_bits": 3376.3933680599357,
+          "adaptive_raw_value_bits": 3072.0,
+          "adaptive_index_bits": 0.0
+        }
+      },
+      {
+        "tail_width": 15,
+        "hash_bits": 8,
+        "current_bits": 257472.28135187906,
+        "hybrid_bits": 257472.28135187906,
+        "current_ratio": 6.108867299196443,
+        "hybrid_ratio": 6.108867299196443,
+        "gain": 1.0,
+        "route_histogram": {
+          "current_low": 1
+        },
+        "totals": {
+          "current_total": 257472.28135187906,
+          "hybrid_total": 257472.28135187906,
+          "gdx_low": 176.90986266368225,
+          "palette_low": 7944.0,
+          "adaptive_low": 7223.644583449795,
+          "high": 257286.75325623117,
+          "sign": 8.618232984203791
+        },
+        "detail_totals": {
+          "raw_cost": 737280.0,
+          "used_palette_contexts": 256.0,
+          "raw_contexts": 0.0,
+          "dictionary_values": 256.0,
+          "unique_contexts": 256.0,
+          "adaptive_contexts": 256.0,
+          "adaptive_repeats": 48896.0,
+          "adaptive_raw_values": 256.0,
+          "adaptive_flag_bits": 3375.644583449796,
+          "adaptive_raw_value_bits": 3840.0,
+          "adaptive_index_bits": 0.0
+        }
+      }
+    ]
+  }
+]

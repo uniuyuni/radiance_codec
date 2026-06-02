@@ -1,0 +1,236 @@
+[
+  {
+    "image": "oexr_ScanLines_CandleGlass.exr",
+    "shape": [
+      810,
+      1000,
+      4
+    ],
+    "tile_size": 16,
+    "prob_bins": 16,
+    "raw_bits": 103680000,
+    "oracle_bits": 26483205.72665722,
+    "binned_bits": 32930058.34649733,
+    "oracle_ratio": 3.9149339045325147,
+    "binned_ratio": 3.14849123281399,
+    "raw_fallback_bits": 8195.0,
+    "blosc_ratio": 4.36564279542618,
+    "hybrid_ratio": 4.36564279542618
+  },
+  {
+    "image": "oexr_ScanLines_Cannon.exr",
+    "shape": [
+      566,
+      780,
+      3
+    ],
+    "tile_size": 16,
+    "prob_bins": 16,
+    "raw_bits": 42382080,
+    "oracle_bits": 11857454.466793971,
+    "binned_bits": 14363069.782258367,
+    "oracle_ratio": 3.574298355409102,
+    "binned_ratio": 2.9507675338562676,
+    "raw_fallback_bits": 0.0,
+    "blosc_ratio": 3.847378936062206,
+    "hybrid_ratio": 3.847378936062206
+  },
+  {
+    "image": "oexr_ScanLines_Tree.exr",
+    "shape": [
+      906,
+      928,
+      4
+    ],
+    "tile_size": 16,
+    "prob_bins": 16,
+    "raw_bits": 107618304,
+    "oracle_bits": 38388202.73578119,
+    "binned_bits": 43757675.979766965,
+    "oracle_ratio": 2.8034212682661033,
+    "binned_ratio": 2.4594154417561263,
+    "raw_fallback_bits": 0.0,
+    "blosc_ratio": 3.4829977062729642,
+    "hybrid_ratio": 3.4829977062729642
+  },
+  {
+    "image": "oexr_TestImages_GrayRampsHorizontal.exr",
+    "shape": [
+      800,
+      800,
+      1
+    ],
+    "tile_size": 16,
+    "prob_bins": 16,
+    "raw_bits": 20480000,
+    "oracle_bits": 130941.2713605383,
+    "binned_bits": 2204750.988807311,
+    "oracle_ratio": 156.40599626995868,
+    "binned_ratio": 9.289030871952994,
+    "raw_fallback_bits": 0.0,
+    "blosc_ratio": 262.16077828981054,
+    "hybrid_ratio": 262.16077828981054
+  },
+  {
+    "image": "ph_abandoned_tiled_room_1k.exr",
+    "shape": [
+      512,
+      1024,
+      3
+    ],
+    "tile_size": 16,
+    "prob_bins": 16,
+    "raw_bits": 50331648,
+    "oracle_bits": 11905666.927994136,
+    "binned_bits": 15186505.281053115,
+    "oracle_ratio": 4.227537046383664,
+    "binned_ratio": 3.3142350441081683,
+    "raw_fallback_bits": 0.0,
+    "blosc_ratio": 4.1226171839932695,
+    "hybrid_ratio": 4.1226171839932695
+  },
+  {
+    "image": "ph_belfast_sunset_puresky_1k.exr",
+    "shape": [
+      512,
+      1024,
+      4
+    ],
+    "tile_size": 16,
+    "prob_bins": 16,
+    "raw_bits": 67108864,
+    "oracle_bits": 37408513.32752339,
+    "binned_bits": 39588316.58812455,
+    "oracle_ratio": 1.7939462980643104,
+    "binned_ratio": 1.6951684179501305,
+    "raw_fallback_bits": 0.0,
+    "blosc_ratio": 2.1233703149640184,
+    "hybrid_ratio": 2.1233703149640184
+  },
+  {
+    "image": "ph_kloppenheim_06_puresky_1k.exr",
+    "shape": [
+      512,
+      1024,
+      4
+    ],
+    "tile_size": 16,
+    "prob_bins": 16,
+    "raw_bits": 67108864,
+    "oracle_bits": 38107517.740086965,
+    "binned_bits": 40190165.31045939,
+    "oracle_ratio": 1.761040025165566,
+    "binned_ratio": 1.66978322884716,
+    "raw_fallback_bits": 0.0,
+    "blosc_ratio": 2.0950129917354383,
+    "hybrid_ratio": 2.0950129917354383
+  },
+  {
+    "image": "ph_spruit_sunrise_1k.exr",
+    "shape": [
+      512,
+      1024,
+      3
+    ],
+    "tile_size": 16,
+    "prob_bins": 16,
+    "raw_bits": 50331648,
+    "oracle_bits": 9548152.082751887,
+    "binned_bits": 13014094.089908926,
+    "oracle_ratio": 5.271349635383462,
+    "binned_ratio": 3.867472269086094,
+    "raw_fallback_bits": 0.0,
+    "blosc_ratio": 5.05101711489087,
+    "hybrid_ratio": 5.05101711489087
+  },
+  {
+    "image": "ph_studio_small_03_1k.exr",
+    "shape": [
+      512,
+      1024,
+      3
+    ],
+    "tile_size": 16,
+    "prob_bins": 16,
+    "raw_bits": 50331648,
+    "oracle_bits": 9981181.680655599,
+    "binned_bits": 13412468.183593532,
+    "oracle_ratio": 5.0426542277601385,
+    "binned_ratio": 3.752601483265171,
+    "raw_fallback_bits": 0.0,
+    "blosc_ratio": 4.764958621102291,
+    "hybrid_ratio": 4.764958621102291
+  },
+  {
+    "image": "synth_gradient_1k.exr",
+    "shape": [
+      512,
+      1024,
+      3
+    ],
+    "tile_size": 16,
+    "prob_bins": 16,
+    "raw_bits": 50331648,
+    "oracle_bits": 1452295.6025080055,
+    "binned_bits": 5715885.451019462,
+    "oracle_ratio": 34.65661392424588,
+    "binned_ratio": 8.805573245178147,
+    "raw_fallback_bits": 0.0,
+    "blosc_ratio": 18.178250091014682,
+    "hybrid_ratio": 18.178250091014682
+  },
+  {
+    "image": "synth_mixed_1k.exr",
+    "shape": [
+      512,
+      1024,
+      3
+    ],
+    "tile_size": 16,
+    "prob_bins": 16,
+    "raw_bits": 50331648,
+    "oracle_bits": 33810671.70249581,
+    "binned_bits": 35159848.31271648,
+    "oracle_ratio": 1.488632004796422,
+    "binned_ratio": 1.4315092474900197,
+    "raw_fallback_bits": 23618310.0,
+    "blosc_ratio": 1.4862663212271214,
+    "hybrid_ratio": 1.4862663212271214
+  },
+  {
+    "image": "synth_noise_1k.exr",
+    "shape": [
+      512,
+      1024,
+      3
+    ],
+    "tile_size": 16,
+    "prob_bins": 16,
+    "raw_bits": 50331648,
+    "oracle_bits": 41671510.06760808,
+    "binned_bits": 41950853.93808218,
+    "oracle_ratio": 1.2078191531418387,
+    "binned_ratio": 1.1997764830791655,
+    "raw_fallback_bits": 24761655.0,
+    "blosc_ratio": 1.242830389949034,
+    "hybrid_ratio": 1.242830389949034
+  },
+  {
+    "image": "synth_rgba_hdr_1k.exr",
+    "shape": [
+      512,
+      1024,
+      4
+    ],
+    "tile_size": 16,
+    "prob_bins": 16,
+    "raw_bits": 67108864,
+    "oracle_bits": 42942765.34051712,
+    "binned_bits": 44944249.69625388,
+    "oracle_ratio": 1.5627513381557154,
+    "binned_ratio": 1.4931579557683337,
+    "raw_fallback_bits": 0.0,
+    "blosc_ratio": 1.9946062982951964,
+    "hybrid_ratio": 1.9946062982951964
+  }
+]

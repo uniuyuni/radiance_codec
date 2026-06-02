@@ -1,0 +1,382 @@
+[
+  {
+    "image": "ph_abandoned_tiled_room_1k.exr",
+    "shape": [
+      128,
+      128,
+      3
+    ],
+    "crop_size": 128,
+    "tile_size": 128,
+    "previous_bits": 4,
+    "preset": "body",
+    "word_bits": 8,
+    "route_header_bits": 4,
+    "search_candidates": true,
+    "raw_bits": 1572864,
+    "current_bits": 212726.11014298553,
+    "hybrid_bits": 212726.11014298553,
+    "typed_byte_entropy_lower_bits": 307161.3024012812,
+    "current_ratio": 7.393845536604731,
+    "hybrid_ratio": 7.393845536604731,
+    "hybrid_gain": 1.0,
+    "typed_byte_lower_gain": 0.6925550467456875,
+    "route_histogram": {
+      "body:delta_west/gdx2": 1,
+      "sign:raw/gdx2": 1
+    },
+    "raw_mantissa_low_zero_histogram": {
+      "16": 1
+    },
+    "totals": {
+      "current_bits": 212726.11014298553,
+      "hybrid_bits": 212726.11014298553,
+      "typed_byte_entropy_lower": 307161.3024012812,
+      "route_gdx2": 212726.11014298553,
+      "route_raw": 1572872.0,
+      "route_bitmatrix_zero_kt": 722377.0421419919,
+      "route_bitmatrix_const_kt": 662336.5910537627,
+      "route_bitmatrix_fixed_mask": 861184.0,
+      "route_typed_byte_entropy_lower": 307161.3024012812
+    },
+    "tiles": [
+      {
+        "y": 0,
+        "x": 0,
+        "raw_mantissa_low_zero_bits": 16,
+        "groups": {
+          "body": {
+            "route": "delta_west/gdx2",
+            "current_mode": "delta_west",
+            "gain": 1.0,
+            "costs": {
+              "gdx2": 212717.49191000132,
+              "raw": 1523716.0,
+              "bitmatrix_zero_kt": 673213.9238833251,
+              "bitmatrix_const_kt": 662319.0059738599,
+              "bitmatrix_fixed_mask": 805884.0,
+              "typed_byte_entropy_lower": 307161.3024012812
+            }
+          },
+          "sign": {
+            "route": "raw/gdx2",
+            "current_mode": "raw",
+            "gain": 1.0,
+            "costs": {
+              "gdx2": 8.618232984203791,
+              "raw": 49156.0,
+              "bitmatrix_zero_kt": 49163.118258666786,
+              "bitmatrix_const_kt": 17.58507990277425,
+              "bitmatrix_fixed_mask": 55300.0,
+              "typed_byte_entropy_lower": 0.0
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "image": "ph_belfast_sunset_puresky_1k.exr",
+    "shape": [
+      128,
+      128,
+      4
+    ],
+    "crop_size": 128,
+    "tile_size": 128,
+    "previous_bits": 4,
+    "preset": "body",
+    "word_bits": 8,
+    "route_header_bits": 4,
+    "search_candidates": true,
+    "raw_bits": 2097152,
+    "current_bits": 910387.0215423555,
+    "hybrid_bits": 910387.0215423555,
+    "typed_byte_entropy_lower_bits": 1090422.4107514163,
+    "current_ratio": 2.3035829272335806,
+    "hybrid_ratio": 2.3035829272335806,
+    "hybrid_gain": 1.0,
+    "typed_byte_lower_gain": 0.8348939021851198,
+    "route_histogram": {
+      "body:delta_west/gdx2": 1,
+      "sign:raw/gdx2": 1
+    },
+    "raw_mantissa_low_zero_histogram": {
+      "0": 1
+    },
+    "totals": {
+      "current_bits": 910387.0215423555,
+      "hybrid_bits": 910387.0215423555,
+      "typed_byte_entropy_lower": 1090422.4107514163,
+      "route_gdx2": 910387.0215423555,
+      "route_raw": 2097160.0,
+      "route_bitmatrix_zero_kt": 1992934.4800605495,
+      "route_bitmatrix_const_kt": 1927612.0582357144,
+      "route_bitmatrix_fixed_mask": 2153912.0,
+      "route_typed_byte_entropy_lower": 1090422.4107514163
+    },
+    "tiles": [
+      {
+        "y": 0,
+        "x": 0,
+        "raw_mantissa_low_zero_bits": 0,
+        "groups": {
+          "body": {
+            "route": "delta_west/gdx2",
+            "current_mode": "delta_west",
+            "gain": 1.0,
+            "costs": {
+              "gdx2": 910378.195791539,
+              "raw": 2031620.0,
+              "bitmatrix_zero_kt": 1927387.154290471,
+              "bitmatrix_const_kt": 1927594.058147662,
+              "bitmatrix_fixed_mask": 2080180.0,
+              "typed_byte_entropy_lower": 1090422.4107514163
+            }
+          },
+          "sign": {
+            "route": "raw/gdx2",
+            "current_mode": "raw",
+            "gain": 1.0,
+            "costs": {
+              "gdx2": 8.825750816519681,
+              "raw": 65540.0,
+              "bitmatrix_zero_kt": 65547.3257700785,
+              "bitmatrix_const_kt": 18.000088052417752,
+              "bitmatrix_fixed_mask": 73732.0,
+              "typed_byte_entropy_lower": 0.0
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "image": "ph_kloppenheim_06_puresky_1k.exr",
+    "shape": [
+      128,
+      128,
+      4
+    ],
+    "crop_size": 128,
+    "tile_size": 128,
+    "previous_bits": 4,
+    "preset": "body",
+    "word_bits": 8,
+    "route_header_bits": 4,
+    "search_candidates": true,
+    "raw_bits": 2097152,
+    "current_bits": 952319.4738480295,
+    "hybrid_bits": 952319.4738480295,
+    "typed_byte_entropy_lower_bits": 1141615.203037212,
+    "current_ratio": 2.202151754312085,
+    "hybrid_ratio": 2.202151754312085,
+    "hybrid_gain": 1.0,
+    "typed_byte_lower_gain": 0.8341860473778114,
+    "route_histogram": {
+      "body:delta_west/gdx2": 1,
+      "sign:raw/gdx2": 1
+    },
+    "raw_mantissa_low_zero_histogram": {
+      "0": 1
+    },
+    "totals": {
+      "current_bits": 952319.4738480295,
+      "hybrid_bits": 952319.4738480295,
+      "typed_byte_entropy_lower": 1141615.203037212,
+      "route_gdx2": 952319.4738480295,
+      "route_raw": 2097160.0,
+      "route_bitmatrix_zero_kt": 2022855.660388875,
+      "route_bitmatrix_const_kt": 1957533.2385640398,
+      "route_bitmatrix_fixed_mask": 2197192.0,
+      "route_typed_byte_entropy_lower": 1141615.203037212
+    },
+    "tiles": [
+      {
+        "y": 0,
+        "x": 0,
+        "raw_mantissa_low_zero_bits": 0,
+        "groups": {
+          "body": {
+            "route": "delta_west/gdx2",
+            "current_mode": "delta_west",
+            "gain": 1.0,
+            "costs": {
+              "gdx2": 952310.648097213,
+              "raw": 2031620.0,
+              "bitmatrix_zero_kt": 1957308.3346187966,
+              "bitmatrix_const_kt": 1957515.2384759875,
+              "bitmatrix_fixed_mask": 2123460.0,
+              "typed_byte_entropy_lower": 1141615.203037212
+            }
+          },
+          "sign": {
+            "route": "raw/gdx2",
+            "current_mode": "raw",
+            "gain": 1.0,
+            "costs": {
+              "gdx2": 8.825750816519681,
+              "raw": 65540.0,
+              "bitmatrix_zero_kt": 65547.3257700785,
+              "bitmatrix_const_kt": 18.000088052417752,
+              "bitmatrix_fixed_mask": 73732.0,
+              "typed_byte_entropy_lower": 0.0
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "image": "ph_spruit_sunrise_1k.exr",
+    "shape": [
+      128,
+      128,
+      3
+    ],
+    "crop_size": 128,
+    "tile_size": 128,
+    "previous_bits": 4,
+    "preset": "body",
+    "word_bits": 8,
+    "route_header_bits": 4,
+    "search_candidates": true,
+    "raw_bits": 1572864,
+    "current_bits": 51997.86480716882,
+    "hybrid_bits": 51997.86480716882,
+    "typed_byte_entropy_lower_bits": 95206.62543219687,
+    "current_ratio": 30.24862666636175,
+    "hybrid_ratio": 30.24862666636175,
+    "hybrid_gain": 1.0,
+    "typed_byte_lower_gain": 0.5461580490971193,
+    "route_histogram": {
+      "body:delta_west/gdx2": 1,
+      "sign:raw/gdx2": 1
+    },
+    "raw_mantissa_low_zero_histogram": {
+      "16": 1
+    },
+    "totals": {
+      "current_bits": 51997.86480716882,
+      "hybrid_bits": 51997.86480716882,
+      "typed_byte_entropy_lower": 95206.62543219687,
+      "route_gdx2": 51997.86480716882,
+      "route_raw": 1572872.0,
+      "route_bitmatrix_zero_kt": 533753.7924638279,
+      "route_bitmatrix_const_kt": 484808.7307433796,
+      "route_bitmatrix_fixed_mask": 638632.0,
+      "route_typed_byte_entropy_lower": 95206.62543219687
+    },
+    "tiles": [
+      {
+        "y": 0,
+        "x": 0,
+        "raw_mantissa_low_zero_bits": 16,
+        "groups": {
+          "body": {
+            "route": "delta_west/gdx2",
+            "current_mode": "delta_west",
+            "gain": 1.0,
+            "costs": {
+              "gdx2": 51989.24657418462,
+              "raw": 1523716.0,
+              "bitmatrix_zero_kt": 484590.67420516105,
+              "bitmatrix_const_kt": 484791.14566347684,
+              "bitmatrix_fixed_mask": 583332.0,
+              "typed_byte_entropy_lower": 95206.62543219687
+            }
+          },
+          "sign": {
+            "route": "raw/gdx2",
+            "current_mode": "raw",
+            "gain": 1.0,
+            "costs": {
+              "gdx2": 8.618232984203791,
+              "raw": 49156.0,
+              "bitmatrix_zero_kt": 49163.118258666786,
+              "bitmatrix_const_kt": 17.58507990277425,
+              "bitmatrix_fixed_mask": 55300.0,
+              "typed_byte_entropy_lower": 0.0
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "image": "ph_studio_small_03_1k.exr",
+    "shape": [
+      128,
+      128,
+      3
+    ],
+    "crop_size": 128,
+    "tile_size": 128,
+    "previous_bits": 4,
+    "preset": "body",
+    "word_bits": 8,
+    "route_header_bits": 4,
+    "search_candidates": true,
+    "raw_bits": 1572864,
+    "current_bits": 257472.2813518791,
+    "hybrid_bits": 257472.2813518791,
+    "typed_byte_entropy_lower_bits": 455771.3116628914,
+    "current_ratio": 6.108867299196442,
+    "hybrid_ratio": 6.108867299196442,
+    "hybrid_gain": 1.0,
+    "typed_byte_lower_gain": 0.5649155064466124,
+    "route_histogram": {
+      "body:delta_channel_green/gdx2": 1,
+      "sign:raw/gdx2": 1
+    },
+    "raw_mantissa_low_zero_histogram": {
+      "16": 1
+    },
+    "totals": {
+      "current_bits": 257472.2813518791,
+      "hybrid_bits": 257472.2813518791,
+      "typed_byte_entropy_lower": 455771.3116628914,
+      "route_gdx2": 257472.2813518791,
+      "route_raw": 1572872.0,
+      "route_bitmatrix_zero_kt": 785220.8546987926,
+      "route_bitmatrix_const_kt": 732966.8291032579,
+      "route_bitmatrix_fixed_mask": 974008.0,
+      "route_typed_byte_entropy_lower": 455771.3116628914
+    },
+    "tiles": [
+      {
+        "y": 0,
+        "x": 0,
+        "raw_mantissa_low_zero_bits": 16,
+        "groups": {
+          "body": {
+            "route": "delta_channel_green/gdx2",
+            "current_mode": "delta_channel_green",
+            "gain": 1.0,
+            "costs": {
+              "gdx2": 257463.66311889488,
+              "raw": 1523716.0,
+              "bitmatrix_zero_kt": 736057.7364401257,
+              "bitmatrix_const_kt": 732949.2440233551,
+              "bitmatrix_fixed_mask": 918708.0,
+              "typed_byte_entropy_lower": 455771.3116628914
+            }
+          },
+          "sign": {
+            "route": "raw/gdx2",
+            "current_mode": "raw",
+            "gain": 1.0,
+            "costs": {
+              "gdx2": 8.618232984203791,
+              "raw": 49156.0,
+              "bitmatrix_zero_kt": 49163.118258666786,
+              "bitmatrix_const_kt": 17.58507990277425,
+              "bitmatrix_fixed_mask": 55300.0,
+              "typed_byte_entropy_lower": 0.0
+            }
+          }
+        }
+      }
+    ]
+  }
+]

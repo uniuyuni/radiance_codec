@@ -1,0 +1,59 @@
+{
+  "model_best": {
+    "per_file": {
+      "oexr_ScanLines_CandleGlass": {
+        "bpb": 1.8394349411597684,
+        "ratio": 4.3491617023192894
+      },
+      "oexr_ScanLines_Cannon": {
+        "bpb": 2.32865265849727,
+        "ratio": 3.435462979336117
+      },
+      "oexr_ScanLines_Tree": {
+        "bpb": 2.521557515922115,
+        "ratio": 3.1726422853672087
+      },
+      "oexr_TestImages_GrayRampsHorizontal": {
+        "bpb": 0.025390571486489155,
+        "ratio": 315.0775871372948
+      },
+      "ph_abandoned_tiled_room_1k": {
+        "bpb": 1.917633916216147,
+        "ratio": 4.171807732617447
+      },
+      "ph_belfast_sunset_puresky_1k": {
+        "bpb": 3.6787795619660666,
+        "ratio": 2.1746342408525625
+      },
+      "ph_kloppenheim_06_puresky_1k": {
+        "bpb": 3.7434978604726212,
+        "ratio": 2.137038753106163
+      },
+      "ph_spruit_sunrise_1k": {
+        "bpb": 1.5706593850601511,
+        "ratio": 5.0934022208090814
+      },
+      "ph_studio_small_03_1k": {
+        "bpb": 1.652260649723557,
+        "ratio": 4.841851073157553
+      },
+      "synth_gradient_1k": {
+        "bpb": 1.420464956097131,
+        "ratio": 5.631958722854239
+      },
+      "synth_mixed_1k": {
+        "bpb": 5.359071022311653,
+        "ratio": 1.4927960399653695
+      },
+      "synth_noise_1k": {
+        "bpb": 7.025720212192099,
+        "ratio": 1.1386732973108127
+      },
+      "synth_rgba_hdr_1k": {
+        "bpb": 4.126141731563943,
+        "ratio": 1.9388572958611718
+      }
+    },
+    "geomean": 4.215006080588038
+  }
+}

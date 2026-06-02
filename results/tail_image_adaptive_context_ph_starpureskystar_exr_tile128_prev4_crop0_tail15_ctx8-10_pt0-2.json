@@ -1,0 +1,88 @@
+[
+  {
+    "image": "ph_belfast_sunset_puresky_1k.exr",
+    "shape": [
+      512,
+      1024,
+      4
+    ],
+    "crop_size": 0,
+    "tile_size": 128,
+    "previous_bits": 4,
+    "xy_bits": 3,
+    "use_spatial": true,
+    "use_previous_channel": true,
+    "route_header_bits": 8,
+    "rows": [
+      {
+        "tail_width": 15,
+        "context_bits": 8,
+        "prev_tail_bits": 0,
+        "feature_mode": "channel",
+        "current_bits": 27681158.003614936,
+        "hybrid_bits": 27681158.003614936,
+        "gain": 1.0,
+        "route_histogram": {
+          "current_low": 32
+        },
+        "totals": {
+          "current_total": 27681158.003614936,
+          "hybrid_total": 27681158.003614936,
+          "low_gdx": 23594302.04196118,
+          "adaptive_low": 28769964.875670955,
+          "sign": 282.42402612862975,
+          "high_gdx": 4086573.53762763
+        },
+        "detail_totals": {
+          "mean_active_contexts": 8192.0,
+          "mean_learned_active_contexts": 7936.0
+        },
+        "current_ratio": 2.4243517554878347,
+        "hybrid_ratio": 2.4243517554878347
+      }
+    ]
+  },
+  {
+    "image": "ph_kloppenheim_06_puresky_1k.exr",
+    "shape": [
+      512,
+      1024,
+      4
+    ],
+    "crop_size": 0,
+    "tile_size": 128,
+    "previous_bits": 4,
+    "xy_bits": 3,
+    "use_spatial": true,
+    "use_previous_channel": true,
+    "route_header_bits": 8,
+    "rows": [
+      {
+        "tail_width": 15,
+        "context_bits": 8,
+        "prev_tail_bits": 0,
+        "feature_mode": "channel",
+        "current_bits": 28228021.254523963,
+        "hybrid_bits": 28228021.254523963,
+        "gain": 1.0,
+        "route_histogram": {
+          "current_low": 32
+        },
+        "totals": {
+          "current_total": 28228021.254523963,
+          "hybrid_total": 28228021.254523963,
+          "low_gdx": 23637362.19831126,
+          "adaptive_low": 28773374.971631035,
+          "sign": 282.42402612862975,
+          "high_gdx": 4590376.632186585
+        },
+        "detail_totals": {
+          "mean_active_contexts": 8192.0,
+          "mean_learned_active_contexts": 7936.0
+        },
+        "current_ratio": 2.377384634753483,
+        "hybrid_ratio": 2.377384634753483
+      }
+    ]
+  }
+]

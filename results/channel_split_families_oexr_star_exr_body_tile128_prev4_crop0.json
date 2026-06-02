@@ -1,0 +1,246 @@
+[
+  {
+    "image": "oexr_ScanLines_CandleGlass.exr",
+    "shape": [
+      810,
+      1000,
+      4
+    ],
+    "crop_size": 0,
+    "tile_size": 128,
+    "previous_bits": 4,
+    "preset": "body",
+    "family_id_bits": 4,
+    "split_flag_bits": 1,
+    "min_gain_bits": 4.0,
+    "raw_bits": 103680000,
+    "baseline_bits": 17951677.3211659,
+    "channel_split_bits": 17599070.846402686,
+    "hybrid_bits": 17537872.383903712,
+    "baseline_ratio": 5.775504881527491,
+    "channel_split_ratio": 5.891220105020065,
+    "hybrid_ratio": 5.911777536661612,
+    "hybrid_gain": 1.0235949337641423,
+    "pick_histogram": {
+      "channel_split": 570,
+      "shared": 1222
+    },
+    "shared_family_histogram": {
+      "prev_only": 434,
+      "spatial_hi_channel": 70,
+      "spatial_prev_channel": 29,
+      "base": 513,
+      "spatial_hi_neighbors": 152,
+      "spatial_prev_pc": 16,
+      "wn_prev": 8
+    },
+    "split_family_histogram": {
+      "base": 440,
+      "spatial_prev_pc": 129,
+      "prev_only": 933,
+      "prev_xy_channel": 108,
+      "spatial_hi_channel": 362,
+      "spatial_hi_neighbors": 108,
+      "spatial_hi_pc": 105,
+      "wn_prev": 95
+    },
+    "split_bit_histogram": {
+      "30": 31,
+      "22": 32,
+      "20": 44,
+      "19": 53,
+      "18": 56,
+      "17": 56,
+      "16": 50,
+      "29": 38,
+      "24": 32,
+      "23": 35,
+      "15": 31,
+      "27": 18,
+      "21": 33,
+      "13": 12,
+      "25": 17,
+      "14": 19,
+      "26": 9,
+      "31": 2,
+      "28": 2
+    },
+    "split_group_histogram": {
+      "body": 568,
+      "sign": 2
+    }
+  },
+  {
+    "image": "oexr_ScanLines_Cannon.exr",
+    "shape": [
+      566,
+      780,
+      3
+    ],
+    "crop_size": 0,
+    "tile_size": 128,
+    "previous_bits": 4,
+    "preset": "body",
+    "family_id_bits": 4,
+    "split_flag_bits": 1,
+    "min_gain_bits": 4.0,
+    "raw_bits": 42382080,
+    "baseline_bits": 8160899.906353601,
+    "channel_split_bits": 8169477.927517254,
+    "hybrid_bits": 8080555.0730904685,
+    "baseline_ratio": 5.193309621038702,
+    "channel_split_ratio": 5.187856601857559,
+    "hybrid_ratio": 5.244946617731628,
+    "hybrid_gain": 1.0099429844282224,
+    "pick_histogram": {
+      "channel_split": 101,
+      "shared": 1019
+    },
+    "shared_family_histogram": {
+      "prev_only": 318,
+      "spatial_hi_channel": 19,
+      "base": 394,
+      "spatial_prev_pc": 52,
+      "prev_xy_channel": 44,
+      "spatial_hi_neighbors": 141,
+      "spatial_hi_pc": 33,
+      "wn_prev": 16,
+      "spatial_prev_channel": 2
+    },
+    "split_family_histogram": {
+      "base": 28,
+      "spatial_prev_pc": 103,
+      "prev_only": 82,
+      "spatial_hi_channel": 54,
+      "spatial_hi_pc": 15,
+      "prev_xy_channel": 14,
+      "spatial_hi_neighbors": 6,
+      "wn_prev": 1
+    },
+    "split_bit_histogram": {
+      "30": 28,
+      "22": 13,
+      "21": 17,
+      "20": 11,
+      "15": 4,
+      "18": 4,
+      "19": 9,
+      "14": 2,
+      "29": 2,
+      "25": 2,
+      "24": 2,
+      "23": 2,
+      "13": 4,
+      "17": 1
+    },
+    "split_group_histogram": {
+      "body": 101
+    }
+  },
+  {
+    "image": "oexr_ScanLines_Tree.exr",
+    "shape": [
+      906,
+      928,
+      4
+    ],
+    "crop_size": 0,
+    "tile_size": 128,
+    "previous_bits": 4,
+    "preset": "body",
+    "family_id_bits": 4,
+    "split_flag_bits": 1,
+    "min_gain_bits": 4.0,
+    "raw_bits": 107618304,
+    "baseline_bits": 26624137.176752537,
+    "channel_split_bits": 26270532.335075617,
+    "hybrid_bits": 26214687.175586738,
+    "baseline_ratio": 4.042133019580794,
+    "channel_split_ratio": 4.096540664930163,
+    "hybrid_ratio": 4.1052675272899295,
+    "hybrid_gain": 1.0156191068931433,
+    "pick_histogram": {
+      "channel_split": 801,
+      "shared": 1247
+    },
+    "shared_family_histogram": {
+      "prev_only": 213,
+      "base": 746,
+      "spatial_hi_neighbors": 169,
+      "spatial_hi_channel": 84,
+      "prev_xy_channel": 4,
+      "spatial_prev_channel": 4,
+      "spatial_prev_pc": 1,
+      "wn_prev": 23,
+      "spatial_hi_pc": 3
+    },
+    "split_family_histogram": {
+      "base": 764,
+      "spatial_prev_pc": 165,
+      "spatial_hi_channel": 246,
+      "prev_only": 1427,
+      "spatial_hi_neighbors": 40,
+      "wn_prev": 220,
+      "prev_xy_channel": 293,
+      "spatial_hi_pc": 49
+    },
+    "split_bit_histogram": {
+      "30": 43,
+      "29": 35,
+      "25": 29,
+      "24": 56,
+      "23": 35,
+      "22": 31,
+      "21": 52,
+      "20": 62,
+      "19": 63,
+      "18": 63,
+      "17": 63,
+      "16": 62,
+      "15": 62,
+      "14": 58,
+      "13": 59,
+      "26": 25,
+      "27": 3
+    },
+    "split_group_histogram": {
+      "body": 801
+    }
+  },
+  {
+    "image": "oexr_TestImages_GrayRampsHorizontal.exr",
+    "shape": [
+      800,
+      800,
+      1
+    ],
+    "crop_size": 0,
+    "tile_size": 128,
+    "previous_bits": 4,
+    "preset": "body",
+    "family_id_bits": 4,
+    "split_flag_bits": 1,
+    "min_gain_bits": 4.0,
+    "raw_bits": 20480000,
+    "baseline_bits": 40653.93772106024,
+    "channel_split_bits": 42221.93772106019,
+    "hybrid_bits": 40653.93772106024,
+    "baseline_ratio": 503.76423903927525,
+    "channel_split_ratio": 485.0558999755388,
+    "hybrid_ratio": 503.76423903927525,
+    "hybrid_gain": 1.0,
+    "pick_histogram": {
+      "shared": 1568
+    },
+    "shared_family_histogram": {
+      "base": 1176,
+      "prev_only": 179,
+      "spatial_hi_channel": 48,
+      "wn_prev": 56,
+      "spatial_hi_neighbors": 109
+    },
+    "split_family_histogram": {},
+    "split_bit_histogram": {},
+    "split_group_histogram": {}
+  }
+]

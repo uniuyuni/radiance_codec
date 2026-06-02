@@ -1,0 +1,54 @@
+[
+  {
+    "image": "oexr_ScanLines_CandleGlass.exr",
+    "shape": [
+      128,
+      128,
+      4
+    ],
+    "crop_size": 128,
+    "tile_size": 128,
+    "whole_image": {
+      "class": "half_like",
+      "low_zero_bits": 15,
+      "half_exact_rate": 1.0,
+      "best_decimal_power": 0,
+      "best_decimal_exact_rate": 0.25,
+      "decimal_exact_rates": {
+        "0": 0.25,
+        "1": 0.25,
+        "2": 0.25,
+        "3": 0.25,
+        "4": 0.25,
+        "5": 0.25,
+        "6": 0.25
+      }
+    },
+    "class_histogram": {
+      "half_like": 1
+    },
+    "low_zero_histogram": {
+      "15": 1
+    },
+    "tiles": [
+      {
+        "class": "half_like",
+        "low_zero_bits": 15,
+        "half_exact_rate": 1.0,
+        "best_decimal_power": 0,
+        "best_decimal_exact_rate": 0.25,
+        "decimal_exact_rates": {
+          "0": 0.25,
+          "1": 0.25,
+          "2": 0.25,
+          "3": 0.25,
+          "4": 0.25,
+          "5": 0.25,
+          "6": 0.25
+        },
+        "y": 0,
+        "x": 0
+      }
+    ]
+  }
+]

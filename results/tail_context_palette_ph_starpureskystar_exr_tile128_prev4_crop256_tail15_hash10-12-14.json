@@ -1,0 +1,91 @@
+[
+  {
+    "image": "ph_belfast_sunset_puresky_1k.exr",
+    "shape": [
+      256,
+      256,
+      4
+    ],
+    "crop_size": 256,
+    "tile_size": 128,
+    "previous_bits": 4,
+    "xy_bits": 3,
+    "context_header_bits": 0,
+    "route_header_bits": 0,
+    "max_palette": 4096,
+    "rows": [
+      {
+        "tail_width": 15,
+        "hash_bits": 14,
+        "current_bits": 3705257.1491174423,
+        "hybrid_bits": 3703330.5073268674,
+        "current_ratio": 2.263974580549177,
+        "hybrid_ratio": 2.2651524036009016,
+        "gain": 1.0005202457049844,
+        "route_histogram": {
+          "context_palette": 4
+        },
+        "totals": {
+          "current_total": 3705257.1491174423,
+          "hybrid_total": 3703330.5073268674,
+          "gdx_low": 2961810.954522934,
+          "palette_low": 2959884.3127323594,
+          "high": 743410.891591242,
+          "sign": 35.303003266078726
+        },
+        "detail_totals": {
+          "raw_cost": 3932160.0,
+          "used_palette_contexts": 263.0,
+          "raw_contexts": 51104.0,
+          "dictionary_values": 1020.0,
+          "unique_contexts": 51367.0
+        }
+      }
+    ]
+  },
+  {
+    "image": "ph_kloppenheim_06_puresky_1k.exr",
+    "shape": [
+      256,
+      256,
+      4
+    ],
+    "crop_size": 256,
+    "tile_size": 128,
+    "previous_bits": 4,
+    "xy_bits": 3,
+    "context_header_bits": 0,
+    "route_header_bits": 0,
+    "max_palette": 4096,
+    "rows": [
+      {
+        "tail_width": 15,
+        "hash_bits": 14,
+        "current_bits": 3647463.2780334884,
+        "hybrid_bits": 3647208.5878871065,
+        "current_ratio": 2.2998471432240644,
+        "hybrid_ratio": 2.3000077450628265,
+        "gain": 1.0000698315273844,
+        "route_histogram": {
+          "context_palette": 2,
+          "current_low": 2
+        },
+        "totals": {
+          "current_total": 3647463.2780334884,
+          "hybrid_total": 3647208.5878871065,
+          "gdx_low": 2959460.768426597,
+          "palette_low": 2959560.441944461,
+          "high": 687967.2066036253,
+          "sign": 35.303003266078726
+        },
+        "detail_totals": {
+          "raw_cost": 3932160.0,
+          "used_palette_contexts": 260.0,
+          "raw_contexts": 54018.0,
+          "dictionary_values": 971.0,
+          "unique_contexts": 54278.0
+        }
+      }
+    ]
+  }
+]

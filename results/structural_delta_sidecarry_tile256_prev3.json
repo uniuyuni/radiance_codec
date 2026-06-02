@@ -1,0 +1,37 @@
+[
+  {
+    "image": "ph_studio_small_03_1k.exr",
+    "shape": [
+      512,
+      1024,
+      3
+    ],
+    "tile_size": 256,
+    "previous_bits": 3,
+    "raw_bits": 50331648,
+    "estimated_bits": 7386372.515698954,
+    "ratio": 6.814122614723994,
+    "pick_histogram": {
+      "sidecarry_delta": 8
+    },
+    "mode_histogram": {
+      "sign:xor_float_med": 1,
+      "exponent:xor_float_med": 8,
+      "mantissa_hi:delta_med": 8,
+      "mantissa_mid:xor_zero": 3,
+      "mantissa_lo:xor_zero": 8,
+      "sign:xor_west": 6,
+      "mantissa_mid:xor_channel_previous": 1,
+      "sign:xor_north": 1,
+      "mantissa_mid:xor_west": 4
+    },
+    "carry_histogram": {
+      "mantissa_hi:cost_bits": 76.94584185496142,
+      "mantissa_hi:ones": 0,
+      "mantissa_hi:total": 1572864
+    },
+    "blosc_ratio": 4.764958621102291,
+    "hybrid_ratio": 6.814122614723994,
+    "hybrid_pick": "side"
+  }
+]

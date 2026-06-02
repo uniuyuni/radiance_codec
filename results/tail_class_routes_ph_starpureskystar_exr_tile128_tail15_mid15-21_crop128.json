@@ -1,0 +1,140 @@
+[
+  {
+    "image": "ph_belfast_sunset_puresky_1k.exr",
+    "shape": [
+      128,
+      128,
+      4
+    ],
+    "tile_size": 128,
+    "tail_bits": 15,
+    "mid_bits": [
+      15,
+      21
+    ],
+    "class_histogram": {
+      "mixed_tail": 1
+    },
+    "route_histogram": {
+      "gdx2_tail": 1
+    },
+    "current_tail_mid_bits": 843908.3276742972,
+    "routed_tail_mid_bits": 843916.3276742972,
+    "tail_mid_gain": 0.999990520387226,
+    "totals": {
+      "raw_tail_entropy": 834955.9379320096,
+      "payload_tail_entropy": 838573.1925003411,
+      "payload_tail_bitplane_kt": 936716.042332903,
+      "gdx2_family_tail": 740297.8096684347,
+      "gdx2_family_mid": 103610.51800586247,
+      "fixed_grid_raw_tail": Infinity,
+      "plane_sparse_payload_tail": 936636.1560255603,
+      "palette_payload_tail": Infinity,
+      "current_tail_mid": 843908.3276742972,
+      "routed_tail_mid": 843916.3276742972
+    },
+    "tiles": [
+      {
+        "class": "mixed_tail",
+        "costs": {
+          "raw_tail_entropy": 834955.9379320096,
+          "payload_tail_entropy": 838573.1925003411,
+          "payload_tail_bitplane_kt": 936716.042332903,
+          "gdx2_family_tail": 740297.8096684347,
+          "gdx2_family_mid": 103610.51800586247,
+          "fixed_grid_raw_tail": Infinity,
+          "plane_sparse_payload_tail": 936636.1560255603,
+          "palette_payload_tail": Infinity,
+          "current_tail_mid": 843908.3276742972,
+          "routed_tail_mid": 843916.3276742972
+        },
+        "details": {
+          "fixed_zero_bits": 0,
+          "sparse_planes": 0,
+          "palette_unique": 25361,
+          "fixed_metadata_bits": 4,
+          "plane_metadata_bits": 30,
+          "palette_metadata_bits": 8,
+          "tail_route": "gdx2_tail",
+          "tail_route_gain": 0.999990520387226,
+          "class": "mixed_tail",
+          "raw_tail_entropy_per_bit": 0.8493611022257584,
+          "payload_tail_entropy_per_bit": 0.8530407638553275,
+          "payload_mid_entropy_per_bit": 0.4628304226836188
+        },
+        "samples": 65536,
+        "y": 0,
+        "x": 0
+      }
+    ]
+  },
+  {
+    "image": "ph_kloppenheim_06_puresky_1k.exr",
+    "shape": [
+      128,
+      128,
+      4
+    ],
+    "tile_size": 128,
+    "tail_bits": 15,
+    "mid_bits": [
+      15,
+      21
+    ],
+    "class_histogram": {
+      "mixed_tail": 1
+    },
+    "route_histogram": {
+      "gdx2_tail": 1
+    },
+    "current_tail_mid_bits": 884736.9300663851,
+    "routed_tail_mid_bits": 884744.9300663851,
+    "tail_mid_gain": 0.9999909578458964,
+    "totals": {
+      "raw_tail_entropy": 834903.7763057373,
+      "payload_tail_entropy": 838672.6717845306,
+      "payload_tail_bitplane_kt": 935949.1835197497,
+      "gdx2_family_tail": 740152.621111207,
+      "gdx2_family_mid": 144584.30895517807,
+      "fixed_grid_raw_tail": Infinity,
+      "plane_sparse_payload_tail": 935869.2972123395,
+      "palette_payload_tail": Infinity,
+      "current_tail_mid": 884736.9300663851,
+      "routed_tail_mid": 884744.9300663851
+    },
+    "tiles": [
+      {
+        "class": "mixed_tail",
+        "costs": {
+          "raw_tail_entropy": 834903.7763057373,
+          "payload_tail_entropy": 838672.6717845306,
+          "payload_tail_bitplane_kt": 935949.1835197497,
+          "gdx2_family_tail": 740152.621111207,
+          "gdx2_family_mid": 144584.30895517807,
+          "fixed_grid_raw_tail": Infinity,
+          "plane_sparse_payload_tail": 935869.2972123395,
+          "palette_payload_tail": Infinity,
+          "current_tail_mid": 884736.9300663851,
+          "routed_tail_mid": 884744.9300663851
+        },
+        "details": {
+          "fixed_zero_bits": 0,
+          "sparse_planes": 0,
+          "palette_unique": 25277,
+          "fixed_metadata_bits": 4,
+          "plane_metadata_bits": 30,
+          "palette_metadata_bits": 8,
+          "tail_route": "gdx2_tail",
+          "tail_route_gain": 0.9999909578458964,
+          "class": "mixed_tail",
+          "raw_tail_entropy_per_bit": 0.8493080406755954,
+          "payload_tail_entropy_per_bit": 0.8531419594162298,
+          "payload_mid_entropy_per_bit": 0.5813842931984435
+        },
+        "samples": 65536,
+        "y": 0,
+        "x": 0
+      }
+    ]
+  }
+]

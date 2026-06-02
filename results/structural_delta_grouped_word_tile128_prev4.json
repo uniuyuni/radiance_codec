@@ -1,0 +1,25 @@
+[
+  {
+    "image": "ph_abandoned_tiled_room_1k.exr",
+    "shape": [
+      512,
+      1024,
+      3
+    ],
+    "tile_size": 128,
+    "previous_bits": 4,
+    "preset": "word",
+    "raw_bits": 50331648,
+    "estimated_bits": 9466402.522896368,
+    "ratio": 5.3168717343534615,
+    "mode_histogram": {
+      "word:delta_med": 14,
+      "word:delta_west": 4,
+      "word:delta_channel_previous": 14
+    },
+    "carry_histogram": {},
+    "blosc_ratio": 4.1226171839932695,
+    "hybrid_ratio": 5.3168717343534615,
+    "hybrid_pick": "group"
+  }
+]

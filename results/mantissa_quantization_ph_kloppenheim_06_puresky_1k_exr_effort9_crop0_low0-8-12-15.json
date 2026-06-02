@@ -1,0 +1,58 @@
+[
+  {
+    "image": "ph_kloppenheim_06_puresky_1k.exr",
+    "shape": [
+      512,
+      1024,
+      4
+    ],
+    "crop_size": 0,
+    "effort": 9,
+    "rows": [
+      {
+        "low_bits_zeroed": 0,
+        "encoded_bytes": 3529207,
+        "ratio_vs_original": 2.3769101670715265,
+        "encode_seconds": 4.813501541999358,
+        "max_abs": 0.0,
+        "rmse": 0.0,
+        "max_rel_nonzero": 0.0,
+        "psnr_peak_abs": Infinity,
+        "changed_rate": 0.0
+      },
+      {
+        "low_bits_zeroed": 8,
+        "encoded_bytes": 1953142,
+        "ratio_vs_original": 4.294929912930038,
+        "encode_seconds": 7.805165333000332,
+        "max_abs": 0.000812530517578125,
+        "rmse": 9.627273064251926e-06,
+        "max_rel_nonzero": 3.0393734742792126e-05,
+        "psnr_peak_abs": 130.61389099494315,
+        "changed_rate": 0.7461299896240234
+      },
+      {
+        "low_bits_zeroed": 12,
+        "encoded_bytes": 1164963,
+        "ratio_vs_original": 7.200750581778133,
+        "encode_seconds": 9.319181666998702,
+        "max_abs": 0.007480621337890625,
+        "rmse": 0.00015465851604200078,
+        "max_rel_nonzero": 0.00048709159677762855,
+        "psnr_peak_abs": 106.49648002236303,
+        "changed_rate": 0.7497549057006836
+      },
+      {
+        "low_bits_zeroed": 15,
+        "encoded_bytes": 602691,
+        "ratio_vs_original": 13.91858846407197,
+        "encode_seconds": 8.382918499999505,
+        "max_abs": 0.062168121337890625,
+        "rmse": 0.0012450128756514326,
+        "max_rel_nonzero": 0.0038899860319589444,
+        "psnr_peak_abs": 88.38047994128223,
+        "changed_rate": 0.7499752044677734
+      }
+    ]
+  }
+]

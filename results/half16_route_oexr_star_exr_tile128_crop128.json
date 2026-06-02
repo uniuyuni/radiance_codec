@@ -1,0 +1,86 @@
+[
+  {
+    "image": "oexr_ScanLines_CandleGlass.exr",
+    "shape": [
+      128,
+      128,
+      4
+    ],
+    "crop_size": 128,
+    "tile_size": 128,
+    "raw_bits": 2097152,
+    "current_bits": 313722.26268350444,
+    "routed_bits": 295216.8964382271,
+    "current_ratio": 6.68474077058309,
+    "routed_ratio": 7.103766841606982,
+    "gain": 1.0626839671730968,
+    "half_tiles": 1,
+    "used_half_tiles": 1,
+    "mode_histogram": {
+      "delta_channel_green": 1
+    }
+  },
+  {
+    "image": "oexr_ScanLines_Cannon.exr",
+    "shape": [
+      128,
+      128,
+      3
+    ],
+    "crop_size": 128,
+    "tile_size": 128,
+    "raw_bits": 1572864,
+    "current_bits": 295387.62026105076,
+    "routed_bits": 293753.4780942507,
+    "current_ratio": 5.324745832645156,
+    "routed_ratio": 5.354367240871773,
+    "gain": 1.0055629712962095,
+    "half_tiles": 1,
+    "used_half_tiles": 1,
+    "mode_histogram": {
+      "delta_west": 1
+    }
+  },
+  {
+    "image": "oexr_ScanLines_Tree.exr",
+    "shape": [
+      128,
+      128,
+      4
+    ],
+    "crop_size": 128,
+    "tile_size": 128,
+    "raw_bits": 2097152,
+    "current_bits": 491085.38868565124,
+    "routed_bits": 479755.7757138923,
+    "current_ratio": 4.270442673142549,
+    "routed_ratio": 4.371290782022101,
+    "gain": 1.0236153758751525,
+    "half_tiles": 1,
+    "used_half_tiles": 1,
+    "mode_histogram": {
+      "raw": 1
+    }
+  },
+  {
+    "image": "oexr_TestImages_GrayRampsHorizontal.exr",
+    "shape": [
+      128,
+      128,
+      1
+    ],
+    "crop_size": 128,
+    "tile_size": 128,
+    "raw_bits": 524288,
+    "current_bits": 1298.3555156831987,
+    "routed_bits": 1062.0348448532702,
+    "current_ratio": 403.8092754002882,
+    "routed_ratio": 493.66365194207464,
+    "gain": 1.2225168712450092,
+    "half_tiles": 1,
+    "used_half_tiles": 1,
+    "mode_histogram": {
+      "delta_med": 1
+    }
+  }
+]

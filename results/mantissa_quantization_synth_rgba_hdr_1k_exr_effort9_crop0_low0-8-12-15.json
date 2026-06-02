@@ -1,0 +1,58 @@
+[
+  {
+    "image": "synth_rgba_hdr_1k.exr",
+    "shape": [
+      512,
+      1024,
+      4
+    ],
+    "crop_size": 0,
+    "effort": 9,
+    "rows": [
+      {
+        "low_bits_zeroed": 0,
+        "encoded_bytes": 4046644,
+        "ratio_vs_original": 2.0729789919745842,
+        "encode_seconds": 4.776901417000772,
+        "max_abs": 0.0,
+        "rmse": 0.0,
+        "max_rel_nonzero": 0.0,
+        "psnr_peak_abs": Infinity,
+        "changed_rate": 0.0
+      },
+      {
+        "low_bits_zeroed": 8,
+        "encoded_bytes": 2468251,
+        "ratio_vs_original": 3.398604112790798,
+        "encode_seconds": 7.7184553330007475,
+        "max_abs": 0.01556396484375,
+        "rmse": 0.00039751434145284155,
+        "max_rel_nonzero": 3.039651720281951e-05,
+        "psnr_peak_abs": 128.01553863687914,
+        "changed_rate": 0.7470054626464844
+      },
+      {
+        "low_bits_zeroed": 12,
+        "encoded_bytes": 1678363,
+        "ratio_vs_original": 4.998089209545253,
+        "encode_seconds": 9.251377000000502,
+        "max_abs": 0.24993896484375,
+        "rmse": 0.00631677153901564,
+        "max_rel_nonzero": 0.00048792385480577594,
+        "psnr_peak_abs": 103.99269127256429,
+        "changed_rate": 0.7498178482055664
+      },
+      {
+        "low_bits_zeroed": 15,
+        "encoded_bytes": 1088220,
+        "ratio_vs_original": 7.708558931098491,
+        "encode_seconds": 8.37454762499874,
+        "max_abs": 1.9998779296875,
+        "rmse": 0.05073496443255161,
+        "max_rel_nonzero": 0.003890932300247881,
+        "psnr_peak_abs": 85.89644746536642,
+        "changed_rate": 0.7499818801879883
+      }
+    ]
+  }
+]

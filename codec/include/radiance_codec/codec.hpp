@@ -1,0 +1,97 @@
+// C++ public API for the HDR codec.
+//
+// The codec is built from a pipeline of independent stages. Most stages are
+// bit-exact reversible; StageMantissaQuantize is intentionally near-lossless
+// and decodes to the quantized pixels. The classic pipeline order (encoding
+// direction):
+//
+//   raw float32 bytes
+//      -> color_transform (RCT)
+//      -> log_magnitude
+//      -> spatial_predictor (MED-like)
+//      -> bitshuffle
+//      -> rans (entropy coder)
+//      -> compressed bytes
+//
+// Decoding runs the inverse stages in reverse order.
+//
+// Stages can be individually enabled/disabled via PipelineConfig.stages,
+// which is essential for ablation studies. StageGroupedDelta and
+// StageStructuralContext are self-contained research codecs and should normally
+// be used as alternatives to the classic transform stack.
+
+#pragma once
+
+#include <cstddef>
+#include <cstdint>
+#include <span>
+#include <vector>
+
+namespace radiance_codec {
+
+enum class PixelFormat : uint8_t {
+    Float32 = 1,   // IEEE 754 binary32, little-endian, interleaved
+};
+
+struct ImageMeta {
+    uint32_t width    = 0;
+    uint32_t height   = 0;
+    uint8_t  channels = 0;          // 1..4
+    PixelFormat format = PixelFormat::Float32;
+
+    constexpr std::size_t raw_size() const noexcept {
+        return std::size_t(width) * height * channels * 4;
+    }
+};
+
+// Bitmask of pipeline stages to enable.
+enum Stage : uint32_t {
+    StageNone           = 0x0000,
+    StageColorTransform = 0x0001,
+    StageLogMagnitude   = 0x0002,
+    StageSpatialPredict = 0x0004,
+    StageBitshuffle     = 0x0008,
+    StageRans           = 0x0010,
+    StageStructuralContext = 0x0020,
+    StageGroupedDelta   = 0x0040,
+    StageMantissaQuantize = 0x0080,
+
+    // Convenience presets
+    StageAll = StageColorTransform | StageLogMagnitude
+             | StageSpatialPredict | StageBitshuffle | StageRans,
+};
+
+struct PipelineConfig {
+    uint32_t stages = StageNone;    // bitmask of Stage values
+    uint8_t  effort = 5;            // codec-specific search level
+    uint8_t  rans_mode = 1;         // 0=Static, 1=Order0, 2=Order1
+    uint8_t  near_lossless_bits = 0; // low mantissa bits to zero before coding
+};
+
+enum class Status : int32_t {
+    Ok                  = 0,
+    InvalidArg          = -1,
+    UnsupportedFormat   = -2,
+    UnimplementedStage  = -3,
+    DecompressFailed    = -4,
+    SizeMismatch        = -5,
+};
+
+// Encode raw pixels into compressed buffer.
+// On success returns Status::Ok and out is resized to the compressed size.
+Status encode(std::span<const std::uint8_t> raw,
+              const ImageMeta& meta,
+              const PipelineConfig& config,
+              std::vector<std::uint8_t>& out) noexcept;
+
+// Decode compressed buffer back into raw pixels.
+// On success returns Status::Ok and out is resized to meta.raw_size().
+Status decode(std::span<const std::uint8_t> compressed,
+              const ImageMeta& meta,
+              const PipelineConfig& config,
+              std::vector<std::uint8_t>& out) noexcept;
+
+// Library identification
+const char* version() noexcept;
+
+} // namespace radiance_codec

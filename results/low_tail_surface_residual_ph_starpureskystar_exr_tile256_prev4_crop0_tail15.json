@@ -1,0 +1,81 @@
+[
+  {
+    "image": "ph_belfast_sunset_puresky_1k.exr",
+    "shape": [
+      512,
+      1024,
+      4
+    ],
+    "crop_size": 0,
+    "tile_size": 256,
+    "previous_bits": 4,
+    "rows": [
+      {
+        "tail_width": 15,
+        "current_bits": 27692569.6136275,
+        "hybrid_bits": 27634551.384010233,
+        "current_ratio": 2.4233527237203645,
+        "hybrid_ratio": 2.4284405079515854,
+        "gain": 1.0020994815081687,
+        "selected": {
+          "ordered_affine": 5,
+          "current": 3
+        },
+        "totals": {
+          "current_total": 27692569.6136275,
+          "hybrid_total": 27634551.384010233,
+          "sign": 78.60599001290251,
+          "high": 4168196.309082544,
+          "current_low": 23524294.698554944
+        },
+        "candidate_ratios": {
+          "ordered_affine": 2.4252460485037397,
+          "float_affine": 2.4141861300193415,
+          "log_affine": 2.414194581353057,
+          "ordered_quadratic": 2.4249760280947954,
+          "float_quadratic": 2.4139260496771424,
+          "log_quadratic": 2.413916268801605
+        }
+      }
+    ]
+  },
+  {
+    "image": "ph_kloppenheim_06_puresky_1k.exr",
+    "shape": [
+      512,
+      1024,
+      4
+    ],
+    "crop_size": 0,
+    "tile_size": 256,
+    "previous_bits": 4,
+    "rows": [
+      {
+        "tail_width": 15,
+        "current_bits": 28256463.03157227,
+        "hybrid_bits": 28190745.21257203,
+        "current_ratio": 2.374991658546086,
+        "hybrid_ratio": 2.380528201506072,
+        "gain": 1.002331184170716,
+        "selected": {
+          "ordered_affine": 8
+        },
+        "totals": {
+          "current_total": 28256463.03157227,
+          "hybrid_total": 28190745.21257203,
+          "sign": 78.60599001290251,
+          "high": 4688718.068158721,
+          "current_low": 23567666.357423533
+        },
+        "candidate_ratios": {
+          "ordered_affine": 2.380528201506072,
+          "float_affine": 2.3698202592826916,
+          "log_affine": 2.369817576436715,
+          "ordered_quadratic": 2.3802685002899606,
+          "float_quadratic": 2.3695548149640087,
+          "log_quadratic": 2.3695590014319774
+        }
+      }
+    ]
+  }
+]

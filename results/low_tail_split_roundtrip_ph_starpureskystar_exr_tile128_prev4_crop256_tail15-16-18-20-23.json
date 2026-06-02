@@ -1,0 +1,250 @@
+[
+  {
+    "image": "ph_belfast_sunset_puresky_1k.exr",
+    "shape": [
+      256,
+      256,
+      4
+    ],
+    "crop_size": 256,
+    "tile_size": 128,
+    "previous_bits": 4,
+    "route_header_bits": 8,
+    "rows": [
+      {
+        "tail_width": 15,
+        "current_bits": 3705257.1491174423,
+        "split_bits": 3677250.047500748,
+        "current_ratio": 2.263974580549177,
+        "split_ratio": 2.2812177283677886,
+        "gain": 1.0076163168821575,
+        "route_histogram": {
+          "zero_mask_ordered_tail": 4
+        },
+        "totals": {
+          "sign": 35.303003266078726,
+          "current_high": 743410.891591242,
+          "current_low": 5923621.909045869,
+          "split_low": 2933803.8529062397,
+          "current_total": 3705257.1491174423,
+          "split_total": 3677250.047500748,
+          "zero_mask_ordered_tail": 2933803.8529062397,
+          "zero_mask_context_ordered_tail": 2975652.7727477793,
+          "trailing_zero_ordered_tail": 3148308.8092314242
+        }
+      },
+      {
+        "tail_width": 16,
+        "current_bits": 3705257.1491174423,
+        "split_bits": 3681180.1870546658,
+        "current_ratio": 2.263974580549177,
+        "split_ratio": 2.278782231171296,
+        "gain": 1.006540555158763,
+        "route_histogram": {
+          "zero_mask_ordered_tail": 4
+        },
+        "totals": {
+          "sign": 35.303003266078726,
+          "current_high": 550706.4996768724,
+          "current_low": 6309030.692874607,
+          "split_low": 3130438.3843745273,
+          "current_total": 3705257.1491174423,
+          "split_total": 3681180.1870546658,
+          "zero_mask_ordered_tail": 3130438.3843745273,
+          "zero_mask_context_ordered_tail": 3175740.593250785,
+          "trailing_zero_ordered_tail": 3345199.023846306
+        }
+      },
+      {
+        "tail_width": 18,
+        "current_bits": 3705257.1491174423,
+        "split_bits": 3705257.1491174423,
+        "current_ratio": 2.263974580549177,
+        "split_ratio": 2.263974580549177,
+        "gain": 1.0,
+        "route_histogram": {
+          "current_low": 4
+        },
+        "totals": {
+          "sign": 35.303003266078726,
+          "current_high": 270544.7646683699,
+          "current_low": 6869354.162891613,
+          "split_low": 3434677.0814458067,
+          "current_total": 3705257.1491174423,
+          "split_total": 3705257.1491174423,
+          "zero_mask_ordered_tail": 3523706.5266581983,
+          "zero_mask_context_ordered_tail": 3563323.48426063,
+          "trailing_zero_ordered_tail": 3738978.897607606
+        }
+      },
+      {
+        "tail_width": 20,
+        "current_bits": 3705257.1491174423,
+        "split_bits": 3705257.1491174423,
+        "current_ratio": 2.263974580549177,
+        "split_ratio": 2.263974580549177,
+        "gain": 1.0,
+        "route_histogram": {
+          "current_low": 4
+        },
+        "totals": {
+          "sign": 35.303003266078726,
+          "current_high": 184157.95647000516,
+          "current_low": 7042127.779288343,
+          "split_low": 3521063.889644171,
+          "current_total": 3705257.1491174423,
+          "split_total": 3705257.1491174423,
+          "zero_mask_ordered_tail": 3916840.273617222,
+          "zero_mask_context_ordered_tail": 3842696.7480367897,
+          "trailing_zero_ordered_tail": 4132557.701348209
+        }
+      },
+      {
+        "tail_width": 23,
+        "current_bits": 3705257.1491174423,
+        "split_bits": 3705257.1491174423,
+        "current_ratio": 2.263974580549177,
+        "split_ratio": 2.263974580549177,
+        "gain": 1.0,
+        "route_histogram": {
+          "current_low": 4
+        },
+        "totals": {
+          "sign": 35.303003266078726,
+          "current_high": 176885.03302816045,
+          "current_low": 7056673.626172032,
+          "split_low": 3528336.8130860156,
+          "current_total": 3705257.1491174423,
+          "split_total": 3705257.1491174423,
+          "zero_mask_ordered_tail": 4494328.035846504,
+          "zero_mask_context_ordered_tail": 3980961.907665865,
+          "trailing_zero_ordered_tail": 4710680.883335221
+        }
+      }
+    ]
+  },
+  {
+    "image": "ph_kloppenheim_06_puresky_1k.exr",
+    "shape": [
+      256,
+      256,
+      4
+    ],
+    "crop_size": 256,
+    "tile_size": 128,
+    "previous_bits": 4,
+    "route_header_bits": 8,
+    "rows": [
+      {
+        "tail_width": 15,
+        "current_bits": 3647463.2780334884,
+        "split_bits": 3621768.485501335,
+        "current_ratio": 2.2998471432240644,
+        "split_ratio": 2.3161635078501783,
+        "gain": 1.0070945430761284,
+        "route_histogram": {
+          "zero_mask_ordered_tail": 4
+        },
+        "totals": {
+          "sign": 35.303003266078726,
+          "current_high": 687967.2066036253,
+          "current_low": 5918921.536853194,
+          "split_low": 2933765.9758944437,
+          "current_total": 3647463.2780334884,
+          "split_total": 3621768.485501335,
+          "zero_mask_ordered_tail": 2933765.9758944437,
+          "zero_mask_context_ordered_tail": 2975592.577692157,
+          "trailing_zero_ordered_tail": 3148383.321342998
+        }
+      },
+      {
+        "tail_width": 16,
+        "current_bits": 3647463.2780334884,
+        "split_bits": 3638064.3425780125,
+        "current_ratio": 2.2998471432240644,
+        "split_ratio": 2.3057887959330725,
+        "gain": 1.0025834989627522,
+        "route_histogram": {
+          "zero_mask_ordered_tail": 4
+        },
+        "totals": {
+          "sign": 35.303003266078726,
+          "current_high": 507626.8507703644,
+          "current_low": 6279602.248519717,
+          "split_low": 3130402.1888043825,
+          "current_total": 3647463.2780334884,
+          "split_total": 3638064.3425780125,
+          "zero_mask_ordered_tail": 3130402.1888043825,
+          "zero_mask_context_ordered_tail": 3175473.0499970303,
+          "trailing_zero_ordered_tail": 3345247.6194639886
+        }
+      },
+      {
+        "tail_width": 18,
+        "current_bits": 3647463.2780334884,
+        "split_bits": 3647463.2780334884,
+        "current_ratio": 2.2998471432240644,
+        "split_ratio": 2.2998471432240644,
+        "gain": 1.0,
+        "route_histogram": {
+          "current_low": 4
+        },
+        "totals": {
+          "sign": 35.303003266078726,
+          "current_high": 296029.4154184486,
+          "current_low": 6702797.119223548,
+          "split_low": 3351398.5596117736,
+          "current_total": 3647463.2780334884,
+          "split_total": 3647463.2780334884,
+          "zero_mask_ordered_tail": 3523676.7398470775,
+          "zero_mask_context_ordered_tail": 3538181.836970014,
+          "trailing_zero_ordered_tail": 3738965.78566939
+        }
+      },
+      {
+        "tail_width": 20,
+        "current_bits": 3647463.2780334884,
+        "split_bits": 3647463.2780334884,
+        "current_ratio": 2.2998471432240644,
+        "split_ratio": 2.2998471432240644,
+        "gain": 1.0,
+        "route_histogram": {
+          "current_low": 4
+        },
+        "totals": {
+          "sign": 35.303003266078726,
+          "current_high": 207586.41105976672,
+          "current_low": 6879683.127940912,
+          "split_low": 3439841.5639704554,
+          "current_total": 3647463.2780334884,
+          "split_total": 3647463.2780334884,
+          "zero_mask_ordered_tail": 3916736.446036421,
+          "zero_mask_context_ordered_tail": 3758495.371641201,
+          "trailing_zero_ordered_tail": 4132458.2689625714
+        }
+      },
+      {
+        "tail_width": 23,
+        "current_bits": 3647463.2780334884,
+        "split_bits": 3647463.2780334884,
+        "current_ratio": 2.2998471432240644,
+        "split_ratio": 2.2998471432240644,
+        "gain": 1.0,
+        "route_histogram": {
+          "current_low": 4
+        },
+        "totals": {
+          "sign": 35.303003266078726,
+          "current_high": 176882.24724141727,
+          "current_low": 6941091.45557761,
+          "split_low": 3470545.727788805,
+          "current_total": 3647463.2780334884,
+          "split_total": 3647463.2780334884,
+          "zero_mask_ordered_tail": 4498383.639083782,
+          "zero_mask_context_ordered_tail": 3900753.3504693746,
+          "trailing_zero_ordered_tail": 4714744.167276513
+        }
+      }
+    ]
+  }
+]

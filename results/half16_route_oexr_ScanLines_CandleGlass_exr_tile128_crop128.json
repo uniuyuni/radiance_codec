@@ -1,0 +1,23 @@
+[
+  {
+    "image": "oexr_ScanLines_CandleGlass.exr",
+    "shape": [
+      128,
+      128,
+      4
+    ],
+    "crop_size": 128,
+    "tile_size": 128,
+    "raw_bits": 2097152,
+    "current_bits": 313722.26268350444,
+    "routed_bits": 295216.8964382271,
+    "current_ratio": 6.68474077058309,
+    "routed_ratio": 7.103766841606982,
+    "gain": 1.0626839671730968,
+    "half_tiles": 1,
+    "used_half_tiles": 1,
+    "mode_histogram": {
+      "delta_channel_green": 1
+    }
+  }
+]

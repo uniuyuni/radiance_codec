@@ -1,0 +1,182 @@
+[
+  {
+    "image": "ph_abandoned_tiled_room_1k.exr",
+    "shape": [
+      128,
+      128,
+      3
+    ],
+    "crop_size": 128,
+    "tile_size": 128,
+    "previous_bits": 4,
+    "raw_bits": 1572864,
+    "current_bits": 215499.4243057765,
+    "hybrid_bits": 215499.4243057765,
+    "current_ratio": 7.298692351809865,
+    "hybrid_ratio": 7.298692351809865,
+    "gain": 1.0,
+    "selected": {
+      "current": 1
+    },
+    "candidate_ratios": {
+      "ordered_affine": 4.672817747189553,
+      "float_affine": 3.6354511111580288,
+      "log_affine": 1.723267625325381,
+      "ordered_quadratic": 2.5146979566461587,
+      "float_quadratic": 1.543630770778947,
+      "log_quadratic": 1.5294570011906792
+    },
+    "family_picks": {
+      "current:spatial_prev_pc": 1,
+      "current:prev_only": 6,
+      "current:spatial_hi_pc": 3,
+      "current:spatial_hi_channel": 2,
+      "current:spatial_prev_channel": 2,
+      "current:prev_xy_channel": 1,
+      "current:base": 13,
+      "current:spatial_hi_neighbors": 3
+    }
+  },
+  {
+    "image": "ph_belfast_sunset_puresky_1k.exr",
+    "shape": [
+      128,
+      128,
+      4
+    ],
+    "crop_size": 128,
+    "tile_size": 128,
+    "previous_bits": 4,
+    "raw_bits": 2097152,
+    "current_bits": 891401.9459574538,
+    "hybrid_bits": 891401.9459574538,
+    "current_ratio": 2.352644628509815,
+    "hybrid_ratio": 2.352644628509815,
+    "gain": 1.0,
+    "selected": {
+      "current": 1
+    },
+    "candidate_ratios": {
+      "ordered_affine": 2.292245887675798,
+      "float_affine": 2.282853179130626,
+      "log_affine": 2.2827206909650175,
+      "ordered_quadratic": 2.2937291466676912,
+      "float_quadratic": 2.284230034500807,
+      "log_quadratic": 2.2847331242250593
+    },
+    "family_picks": {
+      "current:spatial_prev_channel": 1,
+      "current:prev_only": 10,
+      "current:spatial_hi_channel": 4,
+      "current:prev_xy_channel": 16
+    }
+  },
+  {
+    "image": "ph_kloppenheim_06_puresky_1k.exr",
+    "shape": [
+      128,
+      128,
+      4
+    ],
+    "crop_size": 128,
+    "tile_size": 128,
+    "previous_bits": 4,
+    "raw_bits": 2097152,
+    "current_bits": 933792.9057765303,
+    "hybrid_bits": 933792.9057765303,
+    "current_ratio": 2.2458427206148404,
+    "hybrid_ratio": 2.2458427206148404,
+    "gain": 1.0,
+    "selected": {
+      "current": 1
+    },
+    "candidate_ratios": {
+      "ordered_affine": 2.205351034300276,
+      "float_affine": 2.1937287611998206,
+      "log_affine": 2.198205015640725,
+      "ordered_quadratic": 2.2100521373796993,
+      "float_quadratic": 2.199690629885223,
+      "log_quadratic": 2.2020260215395777
+    },
+    "family_picks": {
+      "current:spatial_prev_channel": 1,
+      "current:prev_only": 8,
+      "current:spatial_hi_channel": 6,
+      "current:prev_xy_channel": 16
+    }
+  },
+  {
+    "image": "ph_spruit_sunrise_1k.exr",
+    "shape": [
+      128,
+      128,
+      3
+    ],
+    "crop_size": 128,
+    "tile_size": 128,
+    "previous_bits": 4,
+    "raw_bits": 1572864,
+    "current_bits": 56734.37202439606,
+    "hybrid_bits": 56734.37202439606,
+    "current_ratio": 27.723299718972136,
+    "hybrid_ratio": 27.723299718972136,
+    "gain": 1.0,
+    "selected": {
+      "current": 1
+    },
+    "candidate_ratios": {
+      "ordered_affine": 12.519781352382475,
+      "float_affine": 7.168081303037805,
+      "log_affine": 2.533367536935873,
+      "ordered_quadratic": 4.461416468979139,
+      "float_quadratic": 2.1052759284746547,
+      "log_quadratic": 2.1080377378144837
+    },
+    "family_picks": {
+      "current:base": 15,
+      "current:spatial_prev_pc": 1,
+      "current:prev_only": 4,
+      "current:spatial_prev_channel": 3,
+      "current:wn_prev": 1,
+      "current:spatial_hi_neighbors": 3,
+      "current:spatial_hi_channel": 4
+    }
+  },
+  {
+    "image": "ph_studio_small_03_1k.exr",
+    "shape": [
+      128,
+      128,
+      3
+    ],
+    "crop_size": 128,
+    "tile_size": 128,
+    "previous_bits": 4,
+    "raw_bits": 1572864,
+    "current_bits": 257472.2813518792,
+    "hybrid_bits": 257472.2813518792,
+    "current_ratio": 6.108867299196439,
+    "hybrid_ratio": 6.108867299196439,
+    "gain": 1.0,
+    "selected": {
+      "current": 1
+    },
+    "candidate_ratios": {
+      "ordered_affine": 4.477492944447301,
+      "float_affine": 2.2823191990869502,
+      "log_affine": 1.605633305355778,
+      "ordered_quadratic": 2.337028000038873,
+      "float_quadratic": 1.3911070726502135,
+      "log_quadratic": 1.4590128540833756
+    },
+    "family_picks": {
+      "current:spatial_prev_channel": 1,
+      "current:spatial_hi_channel": 6,
+      "current:prev_only": 3,
+      "current:base": 14,
+      "current:spatial_hi_pc": 3,
+      "current:spatial_prev_pc": 1,
+      "current:spatial_hi_neighbors": 3
+    }
+  }
+]

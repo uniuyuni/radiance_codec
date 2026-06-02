@@ -1,0 +1,82 @@
+[
+  {
+    "image": "oexr_ScanLines_CandleGlass.exr",
+    "shape": [
+      128,
+      128,
+      4
+    ],
+    "crop_size": 128,
+    "raw_bits": 2097152,
+    "bits128": 292959.9699856629,
+    "bits64": 297377.86673838145,
+    "dynamic_bits": 292959.9699856629,
+    "ratio128": 7.158493360381734,
+    "ratio64": 7.052145551386889,
+    "dynamic_ratio": 7.158493360381734,
+    "dynamic_gain": 1.0,
+    "routes128": {
+      "channel_mode": 1
+    },
+    "routes64": {
+      "shared_mode": 2,
+      "channel_mode": 2
+    },
+    "split_histogram": {
+      "tile128": 1
+    }
+  },
+  {
+    "image": "oexr_ScanLines_Cannon.exr",
+    "shape": [
+      128,
+      128,
+      3
+    ],
+    "crop_size": 128,
+    "raw_bits": 1572864,
+    "bits128": 289495.1524202326,
+    "bits64": 293309.28308200534,
+    "dynamic_bits": 289495.1524202326,
+    "ratio128": 5.433127245311599,
+    "ratio64": 5.362476030328192,
+    "dynamic_ratio": 5.433127245311599,
+    "dynamic_gain": 1.0,
+    "routes128": {
+      "channel_mode": 1
+    },
+    "routes64": {
+      "channel_mode": 2,
+      "shared_mode": 2
+    },
+    "split_histogram": {
+      "tile128": 1
+    }
+  },
+  {
+    "image": "oexr_ScanLines_Tree.exr",
+    "shape": [
+      128,
+      128,
+      4
+    ],
+    "crop_size": 128,
+    "raw_bits": 2097152,
+    "bits128": 463172.71527492907,
+    "bits64": 461721.3781383724,
+    "dynamic_bits": 461722.3781383724,
+    "ratio128": 4.527796933710089,
+    "ratio64": 4.542029239485438,
+    "dynamic_ratio": 4.542019402342049,
+    "dynamic_gain": 1.0031411454268349,
+    "routes128": {
+      "channel_mode": 1
+    },
+    "routes64": {
+      "channel_mode": 4
+    },
+    "split_histogram": {
+      "split64": 1
+    }
+  }
+]

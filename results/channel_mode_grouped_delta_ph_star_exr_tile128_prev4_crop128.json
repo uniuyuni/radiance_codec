@@ -1,0 +1,194 @@
+[
+  {
+    "image": "ph_abandoned_tiled_room_1k.exr",
+    "shape": [
+      128,
+      128,
+      3
+    ],
+    "crop_size": 128,
+    "tile_size": 128,
+    "previous_bits": 4,
+    "family_id_bits": 4,
+    "split_flag_bits": 1,
+    "min_split_gain_bits": 4.0,
+    "extra_mode_bits_per_channel": 8,
+    "spatial_only_modes": true,
+    "raw_bits": 1572864,
+    "baseline_bits": 210005.47742162002,
+    "channel_mode_bits": 206887.39036283156,
+    "baseline_ratio": 7.489633219624175,
+    "channel_mode_ratio": 7.602512638598072,
+    "gain": 1.015071421478709,
+    "mode_histogram": {
+      "c0:delta_west": 1,
+      "c1:delta_west": 1,
+      "c2:delta_west": 1
+    },
+    "shared_mode_histogram": {
+      "delta_paeth": 1
+    },
+    "pick_histogram": {
+      "channel_split": 14,
+      "shared:prev_only": 8,
+      "shared:spatial_hi_pc": 6,
+      "shared:base": 27,
+      "shared:spatial_hi_neighbors": 6,
+      "shared:spatial_hi_channel": 2
+    }
+  },
+  {
+    "image": "ph_belfast_sunset_puresky_1k.exr",
+    "shape": [
+      128,
+      128,
+      4
+    ],
+    "crop_size": 128,
+    "tile_size": 128,
+    "previous_bits": 4,
+    "family_id_bits": 4,
+    "split_flag_bits": 1,
+    "min_split_gain_bits": 4.0,
+    "extra_mode_bits_per_channel": 8,
+    "spatial_only_modes": true,
+    "raw_bits": 2097152,
+    "baseline_bits": 885350.1509830793,
+    "channel_mode_bits": 884838.0189379363,
+    "baseline_ratio": 2.3687260883971777,
+    "channel_mode_ratio": 2.3700970743969547,
+    "gain": 1.000578786211919,
+    "mode_histogram": {
+      "c0:delta_west": 1,
+      "c1:delta_west": 1,
+      "c2:delta_west": 1,
+      "c3:raw": 1
+    },
+    "shared_mode_histogram": {
+      "delta_float_med": 1
+    },
+    "pick_histogram": {
+      "channel_split": 40,
+      "shared:prev_only": 15,
+      "shared:spatial_hi_channel": 5,
+      "shared:base": 1,
+      "shared:wn_prev": 2
+    }
+  },
+  {
+    "image": "ph_kloppenheim_06_puresky_1k.exr",
+    "shape": [
+      128,
+      128,
+      4
+    ],
+    "crop_size": 128,
+    "tile_size": 128,
+    "previous_bits": 4,
+    "family_id_bits": 4,
+    "split_flag_bits": 1,
+    "min_split_gain_bits": 4.0,
+    "extra_mode_bits_per_channel": 8,
+    "spatial_only_modes": true,
+    "raw_bits": 2097152,
+    "baseline_bits": 926557.1174386193,
+    "channel_mode_bits": 924617.5887105385,
+    "baseline_ratio": 2.2633812428071147,
+    "channel_mode_ratio": 2.2681290358370374,
+    "gain": 1.0020976550216676,
+    "mode_histogram": {
+      "c0:delta_west": 1,
+      "c1:delta_west": 1,
+      "c2:delta_west": 1,
+      "c3:raw": 1
+    },
+    "shared_mode_histogram": {
+      "delta_float_med": 1
+    },
+    "pick_histogram": {
+      "channel_split": 42,
+      "shared:prev_only": 12,
+      "shared:spatial_hi_channel": 8,
+      "shared:base": 1
+    }
+  },
+  {
+    "image": "ph_spruit_sunrise_1k.exr",
+    "shape": [
+      128,
+      128,
+      3
+    ],
+    "crop_size": 128,
+    "tile_size": 128,
+    "previous_bits": 4,
+    "family_id_bits": 4,
+    "split_flag_bits": 1,
+    "min_split_gain_bits": 4.0,
+    "extra_mode_bits_per_channel": 8,
+    "spatial_only_modes": true,
+    "raw_bits": 1572864,
+    "baseline_bits": 56291.750615121695,
+    "channel_mode_bits": 50386.817655363804,
+    "baseline_ratio": 27.94128771645415,
+    "channel_mode_ratio": 31.215783674970087,
+    "gain": 1.1171920203444183,
+    "mode_histogram": {
+      "c0:raw": 1,
+      "c1:raw": 1,
+      "c2:delta_west": 1
+    },
+    "shared_mode_histogram": {
+      "xor_west": 1
+    },
+    "pick_histogram": {
+      "shared:base": 30,
+      "shared:spatial_prev_pc": 1,
+      "shared:prev_only": 7,
+      "shared:spatial_prev_channel": 1,
+      "channel_split": 15,
+      "shared:spatial_hi_neighbors": 5,
+      "shared:spatial_hi_channel": 4
+    }
+  },
+  {
+    "image": "ph_studio_small_03_1k.exr",
+    "shape": [
+      128,
+      128,
+      3
+    ],
+    "crop_size": 128,
+    "tile_size": 128,
+    "previous_bits": 4,
+    "family_id_bits": 4,
+    "split_flag_bits": 1,
+    "min_split_gain_bits": 4.0,
+    "extra_mode_bits_per_channel": 8,
+    "spatial_only_modes": true,
+    "raw_bits": 1572864,
+    "baseline_bits": 255498.06839459742,
+    "channel_mode_bits": 273554.1426182541,
+    "baseline_ratio": 6.156070023867385,
+    "channel_mode_ratio": 5.749735628003038,
+    "gain": 0.9339945136606685,
+    "mode_histogram": {
+      "c0:delta_west": 1,
+      "c1:delta_west": 1,
+      "c2:delta_west": 1
+    },
+    "shared_mode_histogram": {
+      "delta_channel_green": 1
+    },
+    "pick_histogram": {
+      "shared:spatial_prev_channel": 1,
+      "channel_split": 11,
+      "shared:prev_only": 8,
+      "shared:spatial_hi_pc": 6,
+      "shared:spatial_hi_channel": 3,
+      "shared:base": 27,
+      "shared:spatial_hi_neighbors": 6,
+      "shared:wn_prev": 1
+    }
+  }
+]

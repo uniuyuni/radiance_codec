@@ -1,0 +1,96 @@
+[
+  {
+    "image": "ph_belfast_sunset_puresky_1k.exr",
+    "shape": [
+      256,
+      256,
+      4
+    ],
+    "crop_size": 256,
+    "tile_size": 128,
+    "previous_bits": 4,
+    "family_id_bits": 4,
+    "split_flag_bits": 1,
+    "min_split_gain_bits": 4.0,
+    "extra_mode_bits_per_channel": 8,
+    "mode_policy": "green_order",
+    "mode_score": "family",
+    "raw_bits": 8388608,
+    "baseline_bits": 3673035.001725519,
+    "channel_mode_bits": 3639875.618523376,
+    "hybrid_bits": 3639875.618523376,
+    "baseline_ratio": 2.283835573594915,
+    "channel_mode_ratio": 2.304641388653574,
+    "hybrid_ratio": 2.304641388653574,
+    "gain": 1.0091100319564204,
+    "hybrid_gain": 1.0091100319564204,
+    "mode_histogram": {
+      "c0:delta_channel_green": 4,
+      "c1:delta_west": 3,
+      "c2:delta_west": 2,
+      "c3:raw": 4,
+      "c2:delta_channel_green": 2,
+      "c1:delta_float_med": 1
+    },
+    "shared_mode_histogram": {
+      "delta_float_med": 4
+    },
+    "route_histogram": {
+      "channel_mode": 4
+    },
+    "pick_histogram": {
+      "channel_split": 169,
+      "shared:prev_only": 61,
+      "shared:spatial_hi_channel": 16,
+      "shared:base": 4,
+      "shared:wn_prev": 1,
+      "shared:spatial_prev_channel": 1
+    }
+  },
+  {
+    "image": "ph_kloppenheim_06_puresky_1k.exr",
+    "shape": [
+      256,
+      256,
+      4
+    ],
+    "crop_size": 256,
+    "tile_size": 128,
+    "previous_bits": 4,
+    "family_id_bits": 4,
+    "split_flag_bits": 1,
+    "min_split_gain_bits": 4.0,
+    "extra_mode_bits_per_channel": 8,
+    "mode_policy": "green_order",
+    "mode_score": "family",
+    "raw_bits": 8388608,
+    "baseline_bits": 3624753.235502656,
+    "channel_mode_bits": 3616190.6446848,
+    "hybrid_bits": 3615176.3187114694,
+    "baseline_ratio": 2.3142562969080913,
+    "channel_mode_ratio": 2.3197361047128036,
+    "hybrid_ratio": 2.3203869633085805,
+    "gain": 1.0023678482854441,
+    "hybrid_gain": 1.002649087056036,
+    "mode_histogram": {
+      "c0:delta_channel_green": 4,
+      "c1:delta_west": 4,
+      "c2:delta_west": 4,
+      "c3:raw": 4
+    },
+    "shared_mode_histogram": {
+      "delta_float_med": 2,
+      "delta_west": 2
+    },
+    "route_histogram": {
+      "channel_mode": 2,
+      "shared_mode": 2
+    },
+    "pick_histogram": {
+      "channel_split": 159,
+      "shared:prev_only": 50,
+      "shared:spatial_hi_channel": 39,
+      "shared:base": 4
+    }
+  }
+]

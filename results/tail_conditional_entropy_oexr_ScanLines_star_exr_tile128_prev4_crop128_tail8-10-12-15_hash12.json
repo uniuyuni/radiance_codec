@@ -1,0 +1,296 @@
+[
+  {
+    "image": "oexr_ScanLines_CandleGlass.exr",
+    "shape": [
+      128,
+      128,
+      4
+    ],
+    "crop_size": 128,
+    "tile_size": 128,
+    "previous_bits": 4,
+    "hash_bits": 12,
+    "rows": [
+      {
+        "tail_width": 8,
+        "samples": 65536,
+        "gdx_low_bits": 70.60600653215745,
+        "gdx_bits_per_sample": 0.0010773621602196877,
+        "best_context": "none",
+        "best_conditional_bits": 0.0,
+        "best_conditional_bits_per_sample": 0.0,
+        "conditional_bits_per_sample": {
+          "channel": 0.0,
+          "exp_high4_channel": 0.0,
+          "exp_high8_channel": 0.0,
+          "exponent": 0.0,
+          "exponent_channel": 0.0,
+          "hash12_exp_high_channel": 0.0,
+          "hash12_exp_high_xy_channel": 0.0,
+          "high4_channel": 0.0,
+          "high8_channel": 0.0,
+          "none": 0.0
+        }
+      },
+      {
+        "tail_width": 10,
+        "samples": 65536,
+        "gdx_low_bits": 88.25750816519682,
+        "gdx_bits_per_sample": 0.0013467027002746098,
+        "best_context": "none",
+        "best_conditional_bits": 0.0,
+        "best_conditional_bits_per_sample": 0.0,
+        "conditional_bits_per_sample": {
+          "channel": 0.0,
+          "exp_high4_channel": 0.0,
+          "exp_high8_channel": 0.0,
+          "exponent": 0.0,
+          "exponent_channel": 0.0,
+          "hash12_exp_high_channel": 0.0,
+          "hash12_exp_high_xy_channel": 0.0,
+          "high4_channel": 0.0,
+          "high8_channel": 0.0,
+          "none": 0.0
+        }
+      },
+      {
+        "tail_width": 12,
+        "samples": 65536,
+        "gdx_low_bits": 105.9090097982362,
+        "gdx_bits_per_sample": 0.0016160432403295318,
+        "best_context": "none",
+        "best_conditional_bits": 0.0,
+        "best_conditional_bits_per_sample": 0.0,
+        "conditional_bits_per_sample": {
+          "channel": 0.0,
+          "exp_high4_channel": 0.0,
+          "exp_high8_channel": 0.0,
+          "exponent": 0.0,
+          "exponent_channel": 0.0,
+          "hash12_exp_high_channel": 0.0,
+          "hash12_exp_high_xy_channel": 0.0,
+          "high4_channel": 0.0,
+          "high8_channel": 0.0,
+          "none": 0.0
+        }
+      },
+      {
+        "tail_width": 15,
+        "samples": 65536,
+        "gdx_low_bits": 249.21117055230582,
+        "gdx_bits_per_sample": 0.003802660683476346,
+        "best_context": "none",
+        "best_conditional_bits": 0.0,
+        "best_conditional_bits_per_sample": 0.0,
+        "conditional_bits_per_sample": {
+          "channel": 0.0,
+          "exp_high4_channel": 0.0,
+          "exp_high8_channel": 0.0,
+          "exponent": 0.0,
+          "exponent_channel": 0.0,
+          "hash12_exp_high_channel": 0.0,
+          "hash12_exp_high_xy_channel": 0.0,
+          "high4_channel": 0.0,
+          "high8_channel": 0.0,
+          "none": 0.0
+        }
+      }
+    ]
+  },
+  {
+    "image": "oexr_ScanLines_Cannon.exr",
+    "shape": [
+      128,
+      128,
+      3
+    ],
+    "crop_size": 128,
+    "tile_size": 128,
+    "previous_bits": 4,
+    "hash_bits": 12,
+    "rows": [
+      {
+        "tail_width": 8,
+        "samples": 49152,
+        "gdx_low_bits": 68.94586387363033,
+        "gdx_bits_per_sample": 0.0014027071914394192,
+        "best_context": "none",
+        "best_conditional_bits": 0.0,
+        "best_conditional_bits_per_sample": 0.0,
+        "conditional_bits_per_sample": {
+          "channel": 0.0,
+          "exp_high4_channel": 0.0,
+          "exp_high8_channel": 0.0,
+          "exponent": 0.0,
+          "exponent_channel": 0.0,
+          "hash12_exp_high_channel": 0.0,
+          "hash12_exp_high_xy_channel": 0.0,
+          "high4_channel": 0.0,
+          "high8_channel": 0.0,
+          "none": 0.0
+        }
+      },
+      {
+        "tail_width": 10,
+        "samples": 49152,
+        "gdx_low_bits": 86.1823298420379,
+        "gdx_bits_per_sample": 0.0017533839892992736,
+        "best_context": "none",
+        "best_conditional_bits": 0.0,
+        "best_conditional_bits_per_sample": 0.0,
+        "conditional_bits_per_sample": {
+          "channel": 0.0,
+          "exp_high4_channel": 0.0,
+          "exp_high8_channel": 0.0,
+          "exponent": 0.0,
+          "exponent_channel": 0.0,
+          "hash12_exp_high_channel": 0.0,
+          "hash12_exp_high_xy_channel": 0.0,
+          "high4_channel": 0.0,
+          "high8_channel": 0.0,
+          "none": 0.0
+        }
+      },
+      {
+        "tail_width": 12,
+        "samples": 49152,
+        "gdx_low_bits": 121.72850344957806,
+        "gdx_bits_per_sample": 0.0024765727427078867,
+        "best_context": "none",
+        "best_conditional_bits": 0.0,
+        "best_conditional_bits_per_sample": 0.0,
+        "conditional_bits_per_sample": {
+          "channel": 0.0,
+          "exp_high4_channel": 0.0,
+          "exp_high8_channel": 0.0,
+          "exponent": 0.0,
+          "exponent_channel": 0.0,
+          "hash12_exp_high_channel": 0.0,
+          "hash12_exp_high_xy_channel": 0.0,
+          "high4_channel": 0.0,
+          "high8_channel": 0.0,
+          "none": 0.0
+        }
+      },
+      {
+        "tail_width": 15,
+        "samples": 49152,
+        "gdx_low_bits": 12447.24003698989,
+        "gdx_bits_per_sample": 0.25323974684631123,
+        "best_context": "hash12_exp_high_xy_channel",
+        "best_conditional_bits": 88621.53552140163,
+        "best_conditional_bits_per_sample": 1.8030097558878913,
+        "conditional_bits_per_sample": {
+          "channel": 1.9985632401173097,
+          "exp_high4_channel": 1.966887215401491,
+          "exp_high8_channel": 1.833461855693295,
+          "exponent": 1.9982009179927729,
+          "exponent_channel": 1.995189587198821,
+          "hash12_exp_high_channel": 1.877726643207154,
+          "hash12_exp_high_xy_channel": 1.8030097558878913,
+          "high4_channel": 1.9894218734059328,
+          "high8_channel": 1.9538855470386336,
+          "none": 1.9996706889392197
+        }
+      }
+    ]
+  },
+  {
+    "image": "oexr_ScanLines_Tree.exr",
+    "shape": [
+      128,
+      128,
+      4
+    ],
+    "crop_size": 128,
+    "tile_size": 128,
+    "previous_bits": 4,
+    "hash_bits": 12,
+    "rows": [
+      {
+        "tail_width": 8,
+        "samples": 65536,
+        "gdx_low_bits": 70.60600653215745,
+        "gdx_bits_per_sample": 0.0010773621602196877,
+        "best_context": "none",
+        "best_conditional_bits": 0.0,
+        "best_conditional_bits_per_sample": 0.0,
+        "conditional_bits_per_sample": {
+          "channel": 0.0,
+          "exp_high4_channel": 0.0,
+          "exp_high8_channel": 0.0,
+          "exponent": 0.0,
+          "exponent_channel": 0.0,
+          "hash12_exp_high_channel": 0.0,
+          "hash12_exp_high_xy_channel": 0.0,
+          "high4_channel": 0.0,
+          "high8_channel": 0.0,
+          "none": 0.0
+        }
+      },
+      {
+        "tail_width": 10,
+        "samples": 65536,
+        "gdx_low_bits": 88.25750816519682,
+        "gdx_bits_per_sample": 0.0013467027002746098,
+        "best_context": "none",
+        "best_conditional_bits": 0.0,
+        "best_conditional_bits_per_sample": 0.0,
+        "conditional_bits_per_sample": {
+          "channel": 0.0,
+          "exp_high4_channel": 0.0,
+          "exp_high8_channel": 0.0,
+          "exponent": 0.0,
+          "exponent_channel": 0.0,
+          "hash12_exp_high_channel": 0.0,
+          "hash12_exp_high_xy_channel": 0.0,
+          "high4_channel": 0.0,
+          "high8_channel": 0.0,
+          "none": 0.0
+        }
+      },
+      {
+        "tail_width": 12,
+        "samples": 65536,
+        "gdx_low_bits": 153.93359935244484,
+        "gdx_bits_per_sample": 0.0023488403221503425,
+        "best_context": "none",
+        "best_conditional_bits": 0.0,
+        "best_conditional_bits_per_sample": 0.0,
+        "conditional_bits_per_sample": {
+          "channel": 0.0,
+          "exp_high4_channel": 0.0,
+          "exp_high8_channel": 0.0,
+          "exponent": 0.0,
+          "exponent_channel": 0.0,
+          "hash12_exp_high_channel": 0.0,
+          "hash12_exp_high_xy_channel": 0.0,
+          "high4_channel": 0.0,
+          "high8_channel": 0.0,
+          "none": 0.0
+        }
+      },
+      {
+        "tail_width": 15,
+        "samples": 65536,
+        "gdx_low_bits": 87025.51860238523,
+        "gdx_bits_per_sample": 1.327904031408466,
+        "best_context": "exp_high8_channel",
+        "best_conditional_bits": 46473.975686187216,
+        "best_conditional_bits_per_sample": 0.7091365918912844,
+        "conditional_bits_per_sample": {
+          "channel": 1.3703305523021994,
+          "exp_high4_channel": 1.1384859035463528,
+          "exp_high8_channel": 0.7091365918912844,
+          "exponent": 1.2773181978697141,
+          "exponent_channel": 1.1678328774143765,
+          "hash12_exp_high_channel": 0.9658876973515038,
+          "hash12_exp_high_xy_channel": 1.1650275845656608,
+          "high4_channel": 1.2682127334998496,
+          "high8_channel": 1.1904815856521924,
+          "none": 1.7544727621741807
+        }
+      }
+    ]
+  }
+]

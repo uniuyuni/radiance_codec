@@ -1,0 +1,227 @@
+[
+  {
+    "image": "ph_abandoned_tiled_room_1k.exr",
+    "shape": [
+      128,
+      128,
+      3
+    ],
+    "raw_bits": 1572864,
+    "encoded_bits": 201536,
+    "ratio": 7.8043823436011435,
+    "target_ratio": 12.0,
+    "target8_bits": 196608.0,
+    "target_bits": 131072.0,
+    "bits_to_remove_for_8x": 4928.0,
+    "bits_to_remove_for_target": 70464.0,
+    "current_over_target_budget": 1.53759765625,
+    "region_bits": {
+      "body_high_21_30": 61515.79668909061,
+      "body_mid_15_20": 153801.7229891122,
+      "body_low_0_14": 173.28639458938858,
+      "sign": 8.618232984203791
+    },
+    "region_bits_per_sample": {
+      "body_high_21_30": 1.2515420875872927,
+      "body_mid_15_20": 3.1291040647198933,
+      "body_low_0_14": 0.003525520723254162,
+      "sign": 0.0001753383989299274
+    },
+    "source_precision": {
+      "class": "bfloat_or_coarser",
+      "low_zero_bits": 16,
+      "half_exact_rate": 1.0,
+      "best_decimal_power": 6,
+      "best_decimal_exact_rate": 0.0130615234375,
+      "decimal_exact_rates": {
+        "0": 0.0,
+        "1": 0.0,
+        "2": 0.0,
+        "3": 0.0,
+        "4": 0.0010172526041666667,
+        "5": 0.0032145182291666665,
+        "6": 0.0130615234375
+      }
+    }
+  },
+  {
+    "image": "ph_belfast_sunset_puresky_1k.exr",
+    "shape": [
+      128,
+      128,
+      4
+    ],
+    "raw_bits": 2097152,
+    "encoded_bits": 872304,
+    "ratio": 2.4041526807168143,
+    "target_ratio": 12.0,
+    "target8_bits": 262144.0,
+    "target_bits": 174762.66666666666,
+    "bits_to_remove_for_8x": 610160.0,
+    "bits_to_remove_for_target": 697541.3333333334,
+    "current_over_target_budget": 4.991363525390625,
+    "region_bits": {
+      "body_high_21_30": 47484.7925323405,
+      "body_mid_15_20": 103610.51800586245,
+      "body_low_0_14": 740297.8096684346,
+      "sign": 8.825750816519681
+    },
+    "region_bits_per_sample": {
+      "body_high_21_30": 0.7245604329275589,
+      "body_mid_15_20": 1.5809710389078133,
+      "body_low_0_14": 11.296048121161416,
+      "sign": 0.00013467027002746096
+    },
+    "source_precision": {
+      "class": "true_or_dithered_float",
+      "low_zero_bits": 0,
+      "half_exact_rate": 0.250213623046875,
+      "best_decimal_power": 6,
+      "best_decimal_exact_rate": 0.3087310791015625,
+      "decimal_exact_rates": {
+        "0": 0.25,
+        "1": 0.25,
+        "2": 0.2500152587890625,
+        "3": 0.2500762939453125,
+        "4": 0.2506256103515625,
+        "5": 0.256317138671875,
+        "6": 0.3087310791015625
+      }
+    }
+  },
+  {
+    "image": "ph_kloppenheim_06_puresky_1k.exr",
+    "shape": [
+      128,
+      128,
+      4
+    ],
+    "raw_bits": 2097152,
+    "encoded_bits": 915512,
+    "ratio": 2.2906876152360645,
+    "target_ratio": 12.0,
+    "target8_bits": 262144.0,
+    "target_bits": 174762.66666666666,
+    "bits_to_remove_for_8x": 653368.0,
+    "bits_to_remove_for_target": 740749.3333333334,
+    "current_over_target_budget": 5.2386016845703125,
+    "region_bits": {
+      "body_high_21_30": 49047.149959328824,
+      "body_mid_15_20": 144584.30895517807,
+      "body_low_0_14": 740152.621111207,
+      "sign": 8.825750816519681
+    },
+    "region_bits_per_sample": {
+      "body_high_21_30": 0.748400115346204,
+      "body_mid_15_20": 2.206181472094392,
+      "body_low_0_14": 11.293832719592391,
+      "sign": 0.00013467027002746096
+    },
+    "source_precision": {
+      "class": "true_or_dithered_float",
+      "low_zero_bits": 0,
+      "half_exact_rate": 0.2501068115234375,
+      "best_decimal_power": 6,
+      "best_decimal_exact_rate": 0.2780914306640625,
+      "decimal_exact_rates": {
+        "0": 0.25,
+        "1": 0.25,
+        "2": 0.25,
+        "3": 0.25,
+        "4": 0.2502899169921875,
+        "5": 0.2528533935546875,
+        "6": 0.2780914306640625
+      }
+    }
+  },
+  {
+    "image": "ph_spruit_sunrise_1k.exr",
+    "shape": [
+      128,
+      128,
+      3
+    ],
+    "raw_bits": 1572864,
+    "encoded_bits": 50640,
+    "ratio": 31.059715639810427,
+    "target_ratio": 12.0,
+    "target8_bits": 196608.0,
+    "target_bits": 131072.0,
+    "bits_to_remove_for_8x": 0.0,
+    "bits_to_remove_for_target": 0.0,
+    "current_over_target_budget": 0.3863525390625,
+    "region_bits": {
+      "body_high_21_30": 6091.685396027278,
+      "body_mid_15_20": 50466.40879665935,
+      "body_low_0_14": 167.65959872522214,
+      "sign": 8.618232984203791
+    },
+    "region_bits_per_sample": {
+      "body_high_21_30": 0.12393565665745603,
+      "body_mid_15_20": 1.026741715426826,
+      "body_low_0_14": 0.0034110432683354115,
+      "sign": 0.0001753383989299274
+    },
+    "source_precision": {
+      "class": "bfloat_or_coarser",
+      "low_zero_bits": 16,
+      "half_exact_rate": 1.0,
+      "best_decimal_power": 6,
+      "best_decimal_exact_rate": 0.07843017578125,
+      "decimal_exact_rates": {
+        "0": 0.0,
+        "1": 0.0,
+        "2": 0.004740397135416667,
+        "3": 0.015828450520833332,
+        "4": 0.023091634114583332,
+        "5": 0.0321044921875,
+        "6": 0.07843017578125
+      }
+    }
+  },
+  {
+    "image": "ph_studio_small_03_1k.exr",
+    "shape": [
+      128,
+      128,
+      3
+    ],
+    "raw_bits": 1572864,
+    "encoded_bits": 254744,
+    "ratio": 6.174292623182489,
+    "target_ratio": 12.0,
+    "target8_bits": 196608.0,
+    "target_bits": 131072.0,
+    "bits_to_remove_for_8x": 58136.0,
+    "bits_to_remove_for_target": 123672.0,
+    "current_over_target_budget": 1.94354248046875,
+    "region_bits": {
+      "body_high_21_30": 43080.202060133895,
+      "body_mid_15_20": 214206.55119609734,
+      "body_low_0_14": 176.90986266368222,
+      "sign": 8.618232984203791
+    },
+    "region_bits_per_sample": {
+      "body_high_21_30": 0.876468954673948,
+      "body_mid_15_20": 4.358043440675808,
+      "body_low_0_14": 0.0035992403699479617,
+      "sign": 0.0001753383989299274
+    },
+    "source_precision": {
+      "class": "bfloat_or_coarser",
+      "low_zero_bits": 16,
+      "half_exact_rate": 1.0,
+      "best_decimal_power": 6,
+      "best_decimal_exact_rate": 0.00439453125,
+      "decimal_exact_rates": {
+        "0": 0.0,
+        "1": 0.0,
+        "2": 0.00020345052083333334,
+        "3": 0.00048828125,
+        "4": 0.0010782877604166667,
+        "5": 0.0024210611979166665,
+        "6": 0.00439453125
+      }
+    }
+  }
+]

@@ -1,0 +1,294 @@
+[
+  {
+    "image": "ph_belfast_sunset_puresky_1k.exr",
+    "shape": [
+      128,
+      128,
+      4
+    ],
+    "crop_size": 128,
+    "tile_size": 128,
+    "previous_bits": 4,
+    "route_header_bits": 8,
+    "rows": [
+      {
+        "tail_width": 4,
+        "current_bits": 891401.9459574538,
+        "split_bits": 888043.9851439043,
+        "current_ratio": 2.352644628509815,
+        "split_ratio": 2.3615406838887196,
+        "gain": 1.0037813001041895,
+        "route_histogram": {
+          "zero_mask_context_ordered_tail": 1
+        },
+        "totals": {
+          "sign": 8.825750816519681,
+          "current_high": 694177.6782146189,
+          "current_low": 394430.8839840367,
+          "split_low": 193857.48117846888,
+          "current_total": 891401.9459574538,
+          "split_total": 888043.9851439043,
+          "zero_mask_ordered_tail": 197499.27007377835,
+          "zero_mask_context_ordered_tail": 193857.48117846888,
+          "trailing_zero_ordered_tail": 231246.71599481587
+        }
+      },
+      {
+        "tail_width": 6,
+        "current_bits": 891401.9459574538,
+        "split_bits": 887912.5113097911,
+        "current_ratio": 2.352644628509815,
+        "split_ratio": 2.3618903588895455,
+        "gain": 1.0039299307118843,
+        "route_histogram": {
+          "zero_mask_ordered_tail": 1
+        },
+        "totals": {
+          "sign": 8.825750816519681,
+          "current_high": 595376.8962048144,
+          "current_low": 592032.4480036458,
+          "split_low": 292526.78935416014,
+          "current_total": 891401.9459574538,
+          "split_total": 887912.5113097911,
+          "zero_mask_ordered_tail": 292526.78935416014,
+          "zero_mask_context_ordered_tail": 294490.7873454653,
+          "trailing_zero_ordered_tail": 338879.1294111271
+        }
+      },
+      {
+        "tail_width": 8,
+        "current_bits": 891401.9459574539,
+        "split_bits": 886430.3634320439,
+        "current_ratio": 2.3526446285098146,
+        "split_ratio": 2.3658395363177034,
+        "gain": 1.005608542679158,
+        "route_histogram": {
+          "zero_mask_ordered_tail": 1
+        },
+        "totals": {
+          "sign": 8.825750816519681,
+          "current_high": 496588.26497183816,
+          "current_low": 789609.7104695986,
+          "split_low": 389833.2727093892,
+          "current_total": 891401.9459574539,
+          "split_total": 886430.3634320439,
+          "zero_mask_ordered_tail": 389833.2727093892,
+          "zero_mask_context_ordered_tail": 394176.8761200413,
+          "trailing_zero_ordered_tail": 440888.45910871855
+        }
+      },
+      {
+        "tail_width": 10,
+        "current_bits": 891401.9459574539,
+        "split_bits": 885669.9908822074,
+        "current_ratio": 2.3526446285098146,
+        "split_ratio": 2.367870675973843,
+        "gain": 1.0064718858426456,
+        "route_histogram": {
+          "zero_mask_ordered_tail": 1
+        },
+        "totals": {
+          "sign": 8.825750816519681,
+          "current_high": 397773.23598685645,
+          "current_low": 987239.7684395621,
+          "split_low": 487887.9291445345,
+          "current_total": 891401.9459574539,
+          "split_total": 885669.9908822074,
+          "zero_mask_ordered_tail": 487887.9291445345,
+          "zero_mask_context_ordered_tail": 494009.53090816183,
+          "trailing_zero_ordered_tail": 540590.6739791078
+        }
+      },
+      {
+        "tail_width": 12,
+        "current_bits": 891401.9459574542,
+        "split_bits": 885119.6919478215,
+        "current_ratio": 2.352644628509814,
+        "split_ratio": 2.3693428347356535,
+        "gain": 1.0070976321810305,
+        "route_histogram": {
+          "zero_mask_ordered_tail": 1
+        },
+        "totals": {
+          "sign": 8.825750816519681,
+          "current_high": 298974.27284477913,
+          "current_low": 1184837.694723717,
+          "split_low": 586136.5933522258,
+          "current_total": 891401.9459574542,
+          "split_total": 885119.6919478215,
+          "zero_mask_ordered_tail": 586136.5933522258,
+          "zero_mask_context_ordered_tail": 593963.8327998397,
+          "trailing_zero_ordered_tail": 639376.8858843766
+        }
+      },
+      {
+        "tail_width": 15,
+        "current_bits": 891401.9459574542,
+        "split_bits": 884701.4225090434,
+        "current_ratio": 2.352644628509814,
+        "split_ratio": 2.3704630134451525,
+        "gain": 1.0075737681413555,
+        "route_histogram": {
+          "zero_mask_ordered_tail": 1
+        },
+        "totals": {
+          "sign": 8.825750816519681,
+          "current_high": 151095.310538203,
+          "current_low": 1480595.6193368693,
+          "split_low": 733597.2862200239,
+          "current_total": 891401.9459574542,
+          "split_total": 884701.4225090434,
+          "zero_mask_ordered_tail": 733597.2862200239,
+          "zero_mask_context_ordered_tail": 744026.9250597233,
+          "trailing_zero_ordered_tail": 787197.1232657486
+        }
+      }
+    ]
+  },
+  {
+    "image": "ph_kloppenheim_06_puresky_1k.exr",
+    "shape": [
+      128,
+      128,
+      4
+    ],
+    "crop_size": 128,
+    "tile_size": 128,
+    "previous_bits": 4,
+    "route_header_bits": 8,
+    "rows": [
+      {
+        "tail_width": 4,
+        "current_bits": 933792.9057765304,
+        "split_bits": 930429.6146145917,
+        "current_ratio": 2.24584272061484,
+        "split_ratio": 2.253960930584411,
+        "gain": 1.0036147722612332,
+        "route_histogram": {
+          "zero_mask_context_ordered_tail": 1
+        },
+        "totals": {
+          "sign": 8.825750816519681,
+          "current_high": 736644.8951529758,
+          "current_low": 394278.3697454761,
+          "split_low": 193775.89371079946,
+          "current_total": 933792.9057765304,
+          "split_total": 930429.6146145917,
+          "zero_mask_ordered_tail": 197474.53515006567,
+          "zero_mask_context_ordered_tail": 193775.89371079946,
+          "trailing_zero_ordered_tail": 231052.160364875
+        }
+      },
+      {
+        "tail_width": 6,
+        "current_bits": 933792.9057765302,
+        "split_bits": 930318.2498726052,
+        "current_ratio": 2.245842720614841,
+        "split_ratio": 2.2542307433904227,
+        "gain": 1.0037349110418943,
+        "route_histogram": {
+          "zero_mask_ordered_tail": 1
+        },
+        "totals": {
+          "sign": 8.825750816519681,
+          "current_high": 637858.4014197314,
+          "current_low": 591851.3572119644,
+          "split_low": 292451.02270205726,
+          "current_total": 933792.9057765302,
+          "split_total": 930318.2498726052,
+          "zero_mask_ordered_tail": 292451.02270205726,
+          "zero_mask_context_ordered_tail": 294434.59539517027,
+          "trailing_zero_ordered_tail": 338711.17743684724
+        }
+      },
+      {
+        "tail_width": 8,
+        "current_bits": 933792.9057765303,
+        "split_bits": 928807.5025189472,
+        "current_ratio": 2.2458427206148404,
+        "split_ratio": 2.25789735150984,
+        "gain": 1.0053675312097097,
+        "route_histogram": {
+          "zero_mask_ordered_tail": 1
+        },
+        "totals": {
+          "sign": 8.825750816519681,
+          "current_high": 539047.5781202689,
+          "current_low": 789473.0038108899,
+          "split_low": 389751.0986478619,
+          "current_total": 933792.9057765303,
+          "split_total": 928807.5025189472,
+          "zero_mask_ordered_tail": 389751.0986478619,
+          "zero_mask_context_ordered_tail": 394134.6157725128,
+          "trailing_zero_ordered_tail": 440903.08726684237
+        }
+      },
+      {
+        "tail_width": 10,
+        "current_bits": 933792.9057765304,
+        "split_bits": 928056.0224654858,
+        "current_ratio": 2.24584272061484,
+        "split_ratio": 2.259725651506122,
+        "gain": 1.0061816131485295,
+        "route_histogram": {
+          "zero_mask_ordered_tail": 1
+        },
+        "totals": {
+          "sign": 8.825750816519681,
+          "current_high": 440245.04386562284,
+          "current_low": 987078.0723201821,
+          "split_low": 487802.1528490465,
+          "current_total": 933792.9057765304,
+          "split_total": 928056.0224654858,
+          "zero_mask_ordered_tail": 487802.1528490465,
+          "zero_mask_context_ordered_tail": 493994.371530284,
+          "trailing_zero_ordered_tail": 540520.6791719003
+        }
+      },
+      {
+        "tail_width": 12,
+        "current_bits": 933792.9057765304,
+        "split_bits": 927504.1779775124,
+        "current_ratio": 2.24584272061484,
+        "split_ratio": 2.261070138328634,
+        "gain": 1.0067802689716514,
+        "route_histogram": {
+          "zero_mask_ordered_tail": 1
+        },
+        "totals": {
+          "sign": 8.825750816519681,
+          "current_high": 341446.27797056525,
+          "current_low": 1184675.6041102973,
+          "split_low": 586049.0742561306,
+          "current_total": 933792.9057765304,
+          "split_total": 927504.1779775124,
+          "zero_mask_ordered_tail": 586049.0742561306,
+          "zero_mask_context_ordered_tail": 593988.1446243509,
+          "trailing_zero_ordered_tail": 639382.6629412508
+        }
+      },
+      {
+        "tail_width": 15,
+        "current_bits": 933792.9057765303,
+        "split_bits": 927147.8842783363,
+        "current_ratio": 2.2458427206148404,
+        "split_ratio": 2.2619390450665366,
+        "gain": 1.0071671646032674,
+        "route_histogram": {
+          "zero_mask_ordered_tail": 1
+        },
+        "totals": {
+          "sign": 8.825750816519681,
+          "current_high": 193631.45891450686,
+          "current_low": 1480305.242222414,
+          "split_low": 733507.5996130129,
+          "current_total": 933792.9057765303,
+          "split_total": 927147.8842783363,
+          "zero_mask_ordered_tail": 733507.5996130129,
+          "zero_mask_context_ordered_tail": 744068.3039982273,
+          "trailing_zero_ordered_tail": 787121.7959505017
+        }
+      }
+    ]
+  }
+]

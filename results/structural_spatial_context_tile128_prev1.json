@@ -1,0 +1,673 @@
+[
+  {
+    "image": "oexr_ScanLines_CandleGlass.exr",
+    "shape": [
+      810,
+      1000,
+      4
+    ],
+    "tile_size": 128,
+    "previous_bits": 1,
+    "tile_count": 56,
+    "raw_bits": 103680000,
+    "estimated_bits": 20674563.09964789,
+    "estimated_bytes": 2584321,
+    "ratio": 5.0148580891542895,
+    "mode_histogram": {
+      "zero": 164,
+      "float_med": 97,
+      "channel_green": 4,
+      "northeast": 1,
+      "north": 11,
+      "west": 3
+    },
+    "field_mode_histogram": {
+      "sign": {
+        "zero": 52,
+        "channel_green": 2,
+        "float_med": 2
+      },
+      "exponent": {
+        "float_med": 48,
+        "zero": 2,
+        "north": 5,
+        "west": 1
+      },
+      "mantissa_hi": {
+        "float_med": 47,
+        "channel_green": 1,
+        "north": 5,
+        "zero": 1,
+        "west": 2
+      },
+      "mantissa_mid": {
+        "zero": 53,
+        "northeast": 1,
+        "north": 1,
+        "channel_green": 1
+      },
+      "mantissa_lo": {
+        "zero": 56
+      }
+    },
+    "blosc_ratio": 4.36564279542618,
+    "hybrid_ratio": 5.0148580891542895,
+    "hybrid_pick": "ctx"
+  },
+  {
+    "image": "oexr_ScanLines_Cannon.exr",
+    "shape": [
+      566,
+      780,
+      3
+    ],
+    "tile_size": 128,
+    "previous_bits": 1,
+    "tile_count": 35,
+    "raw_bits": 42382080,
+    "estimated_bits": 9374643.335971998,
+    "estimated_bytes": 1171831,
+    "ratio": 4.520927194891054,
+    "mode_histogram": {
+      "zero": 86,
+      "float_med": 28,
+      "west": 21,
+      "channel_green": 10,
+      "north": 13,
+      "float_planar": 14,
+      "channel_previous": 3
+    },
+    "field_mode_histogram": {
+      "sign": {
+        "zero": 35
+      },
+      "exponent": {
+        "float_med": 28,
+        "float_planar": 7
+      },
+      "mantissa_hi": {
+        "west": 16,
+        "north": 10,
+        "float_planar": 7,
+        "channel_green": 2
+      },
+      "mantissa_mid": {
+        "zero": 16,
+        "channel_green": 8,
+        "north": 3,
+        "west": 5,
+        "channel_previous": 3
+      },
+      "mantissa_lo": {
+        "zero": 35
+      }
+    },
+    "blosc_ratio": 3.847378936062206,
+    "hybrid_ratio": 4.520927194891054,
+    "hybrid_pick": "ctx"
+  },
+  {
+    "image": "oexr_ScanLines_Tree.exr",
+    "shape": [
+      906,
+      928,
+      4
+    ],
+    "tile_size": 128,
+    "previous_bits": 1,
+    "tile_count": 64,
+    "raw_bits": 107618304,
+    "estimated_bits": 29638984.235181045,
+    "estimated_bytes": 3704874,
+    "ratio": 3.630971397199862,
+    "mode_histogram": {
+      "zero": 202,
+      "float_med": 82,
+      "north": 17,
+      "northwest": 2,
+      "northeast": 6,
+      "west": 10,
+      "channel_green": 1
+    },
+    "field_mode_histogram": {
+      "sign": {
+        "zero": 64
+      },
+      "exponent": {
+        "float_med": 50,
+        "north": 3,
+        "west": 9,
+        "northeast": 1,
+        "zero": 1
+      },
+      "mantissa_hi": {
+        "float_med": 32,
+        "north": 12,
+        "northeast": 1,
+        "zero": 19
+      },
+      "mantissa_mid": {
+        "zero": 54,
+        "north": 2,
+        "northwest": 2,
+        "northeast": 4,
+        "west": 1,
+        "channel_green": 1
+      },
+      "mantissa_lo": {
+        "zero": 64
+      }
+    },
+    "blosc_ratio": 3.4829977062729642,
+    "hybrid_ratio": 3.630971397199862,
+    "hybrid_pick": "ctx"
+  },
+  {
+    "image": "oexr_TestImages_GrayRampsHorizontal.exr",
+    "shape": [
+      800,
+      800,
+      1
+    ],
+    "tile_size": 128,
+    "previous_bits": 1,
+    "tile_count": 49,
+    "raw_bits": 20480000,
+    "estimated_bits": 82725.7003789095,
+    "estimated_bytes": 10341,
+    "ratio": 247.56514488478447,
+    "mode_histogram": {
+      "zero": 98,
+      "north": 30,
+      "float_planar": 29,
+      "float_med": 65,
+      "west": 23
+    },
+    "field_mode_histogram": {
+      "sign": {
+        "zero": 49
+      },
+      "exponent": {
+        "north": 2,
+        "float_planar": 10,
+        "float_med": 26,
+        "west": 11
+      },
+      "mantissa_hi": {
+        "north": 8,
+        "float_planar": 17,
+        "float_med": 18,
+        "west": 6
+      },
+      "mantissa_mid": {
+        "north": 20,
+        "float_med": 21,
+        "float_planar": 2,
+        "west": 6
+      },
+      "mantissa_lo": {
+        "zero": 49
+      }
+    },
+    "blosc_ratio": 262.16077828981054,
+    "hybrid_ratio": 262.16077828981054,
+    "hybrid_pick": "Blosc"
+  },
+  {
+    "image": "ph_abandoned_tiled_room_1k.exr",
+    "shape": [
+      512,
+      1024,
+      3
+    ],
+    "tile_size": 128,
+    "previous_bits": 1,
+    "tile_count": 32,
+    "raw_bits": 50331648,
+    "estimated_bits": 10325363.109031482,
+    "estimated_bytes": 1290671,
+    "ratio": 4.874564455362878,
+    "mode_histogram": {
+      "zero": 96,
+      "west": 29,
+      "float_med": 24,
+      "north": 11
+    },
+    "field_mode_histogram": {
+      "sign": {
+        "zero": 32
+      },
+      "exponent": {
+        "west": 11,
+        "float_med": 21
+      },
+      "mantissa_hi": {
+        "west": 18,
+        "float_med": 3,
+        "north": 11
+      },
+      "mantissa_mid": {
+        "zero": 32
+      },
+      "mantissa_lo": {
+        "zero": 32
+      }
+    },
+    "blosc_ratio": 4.1226171839932695,
+    "hybrid_ratio": 4.874564455362878,
+    "hybrid_pick": "ctx"
+  },
+  {
+    "image": "ph_belfast_sunset_puresky_1k.exr",
+    "shape": [
+      512,
+      1024,
+      4
+    ],
+    "tile_size": 128,
+    "previous_bits": 1,
+    "tile_count": 32,
+    "raw_bits": 67108864,
+    "estimated_bits": 30565441.067197226,
+    "estimated_bytes": 3820681,
+    "ratio": 2.195579767766581,
+    "mode_histogram": {
+      "zero": 69,
+      "north": 3,
+      "float_med": 37,
+      "float_planar": 32,
+      "channel_green": 6,
+      "northeast": 1,
+      "northwest": 2,
+      "west": 10
+    },
+    "field_mode_histogram": {
+      "sign": {
+        "zero": 32
+      },
+      "exponent": {
+        "north": 1,
+        "float_med": 13,
+        "zero": 1,
+        "float_planar": 14,
+        "west": 3
+      },
+      "mantissa_hi": {
+        "float_med": 19,
+        "float_planar": 11,
+        "west": 2
+      },
+      "mantissa_mid": {
+        "float_med": 5,
+        "north": 2,
+        "float_planar": 7,
+        "channel_green": 6,
+        "northeast": 1,
+        "zero": 4,
+        "northwest": 2,
+        "west": 5
+      },
+      "mantissa_lo": {
+        "zero": 32
+      }
+    },
+    "blosc_ratio": 2.1233703149640184,
+    "hybrid_ratio": 2.195579767766581,
+    "hybrid_pick": "ctx"
+  },
+  {
+    "image": "ph_kloppenheim_06_puresky_1k.exr",
+    "shape": [
+      512,
+      1024,
+      4
+    ],
+    "tile_size": 128,
+    "previous_bits": 1,
+    "tile_count": 32,
+    "raw_bits": 67108864,
+    "estimated_bits": 31167088.458766207,
+    "estimated_bytes": 3895887,
+    "ratio": 2.153196442740696,
+    "mode_histogram": {
+      "zero": 65,
+      "float_med": 43,
+      "west": 15,
+      "channel_green": 1,
+      "float_planar": 33,
+      "northeast": 2,
+      "north": 1
+    },
+    "field_mode_histogram": {
+      "sign": {
+        "zero": 32
+      },
+      "exponent": {
+        "float_med": 21,
+        "float_planar": 9,
+        "west": 2
+      },
+      "mantissa_hi": {
+        "west": 6,
+        "float_med": 16,
+        "float_planar": 10
+      },
+      "mantissa_mid": {
+        "west": 7,
+        "channel_green": 1,
+        "float_med": 6,
+        "float_planar": 14,
+        "northeast": 2,
+        "zero": 1,
+        "north": 1
+      },
+      "mantissa_lo": {
+        "zero": 32
+      }
+    },
+    "blosc_ratio": 2.0950129917354383,
+    "hybrid_ratio": 2.153196442740696,
+    "hybrid_pick": "ctx"
+  },
+  {
+    "image": "ph_spruit_sunrise_1k.exr",
+    "shape": [
+      512,
+      1024,
+      3
+    ],
+    "tile_size": 128,
+    "previous_bits": 1,
+    "tile_count": 32,
+    "raw_bits": 50331648,
+    "estimated_bits": 8117532.11753288,
+    "estimated_bytes": 1014692,
+    "ratio": 6.200363271897597,
+    "mode_histogram": {
+      "zero": 101,
+      "west": 38,
+      "north": 1,
+      "float_med": 18,
+      "float_planar": 2
+    },
+    "field_mode_histogram": {
+      "sign": {
+        "zero": 32
+      },
+      "exponent": {
+        "west": 14,
+        "north": 1,
+        "float_med": 17
+      },
+      "mantissa_hi": {
+        "west": 24,
+        "float_planar": 2,
+        "float_med": 1,
+        "zero": 5
+      },
+      "mantissa_mid": {
+        "zero": 32
+      },
+      "mantissa_lo": {
+        "zero": 32
+      }
+    },
+    "blosc_ratio": 5.05101711489087,
+    "hybrid_ratio": 6.200363271897597,
+    "hybrid_pick": "ctx"
+  },
+  {
+    "image": "ph_studio_small_03_1k.exr",
+    "shape": [
+      512,
+      1024,
+      3
+    ],
+    "tile_size": 128,
+    "previous_bits": 1,
+    "tile_count": 32,
+    "raw_bits": 50331648,
+    "estimated_bits": 8593335.708646977,
+    "estimated_bytes": 1074167,
+    "ratio": 5.857055945033565,
+    "mode_histogram": {
+      "zero": 98,
+      "west": 26,
+      "float_med": 27,
+      "north": 9
+    },
+    "field_mode_histogram": {
+      "sign": {
+        "zero": 32
+      },
+      "exponent": {
+        "west": 10,
+        "float_med": 19,
+        "north": 1,
+        "zero": 2
+      },
+      "mantissa_hi": {
+        "west": 16,
+        "north": 8,
+        "float_med": 8
+      },
+      "mantissa_mid": {
+        "zero": 32
+      },
+      "mantissa_lo": {
+        "zero": 32
+      }
+    },
+    "blosc_ratio": 4.764958621102291,
+    "hybrid_ratio": 5.857055945033565,
+    "hybrid_pick": "ctx"
+  },
+  {
+    "image": "synth_gradient_1k.exr",
+    "shape": [
+      512,
+      1024,
+      3
+    ],
+    "tile_size": 128,
+    "previous_bits": 1,
+    "tile_count": 32,
+    "raw_bits": 50331648,
+    "estimated_bits": 354395.07985669473,
+    "estimated_bytes": 44300,
+    "ratio": 142.02129448397648,
+    "mode_histogram": {
+      "zero": 32,
+      "float_planar": 117,
+      "float_med": 6,
+      "west": 4,
+      "north": 1
+    },
+    "field_mode_histogram": {
+      "sign": {
+        "zero": 32
+      },
+      "exponent": {
+        "float_planar": 21,
+        "float_med": 6,
+        "west": 4,
+        "north": 1
+      },
+      "mantissa_hi": {
+        "float_planar": 32
+      },
+      "mantissa_mid": {
+        "float_planar": 32
+      },
+      "mantissa_lo": {
+        "float_planar": 32
+      }
+    },
+    "blosc_ratio": 18.178250091014682,
+    "hybrid_ratio": 142.02129448397648,
+    "hybrid_pick": "ctx"
+  },
+  {
+    "image": "synth_mixed_1k.exr",
+    "shape": [
+      512,
+      1024,
+      3
+    ],
+    "tile_size": 128,
+    "previous_bits": 1,
+    "tile_count": 32,
+    "raw_bits": 50331648,
+    "estimated_bits": 31982535.211891923,
+    "estimated_bytes": 3997817,
+    "ratio": 1.5737228980298412,
+    "mode_histogram": {
+      "northwest": 8,
+      "west": 46,
+      "raw": 64,
+      "northeast": 7,
+      "north": 6,
+      "zero": 21,
+      "float_med": 8
+    },
+    "field_mode_histogram": {
+      "sign": {
+        "northwest": 6,
+        "northeast": 2,
+        "north": 1,
+        "west": 2,
+        "zero": 21
+      },
+      "exponent": {
+        "west": 16,
+        "northeast": 3,
+        "northwest": 2,
+        "float_med": 7,
+        "north": 4
+      },
+      "mantissa_hi": {
+        "west": 28,
+        "northeast": 2,
+        "north": 1,
+        "float_med": 1
+      },
+      "mantissa_mid": {
+        "raw": 32
+      },
+      "mantissa_lo": {
+        "raw": 32
+      }
+    },
+    "blosc_ratio": 1.4862663212271214,
+    "hybrid_ratio": 1.5737228980298412,
+    "hybrid_pick": "ctx"
+  },
+  {
+    "image": "synth_noise_1k.exr",
+    "shape": [
+      512,
+      1024,
+      3
+    ],
+    "tile_size": 128,
+    "previous_bits": 1,
+    "tile_count": 32,
+    "raw_bits": 50331648,
+    "estimated_bits": 39280581.695313714,
+    "estimated_bytes": 4910073,
+    "ratio": 1.2813366255725462,
+    "mode_histogram": {
+      "zero": 109,
+      "raw": 51
+    },
+    "field_mode_histogram": {
+      "sign": {
+        "zero": 32
+      },
+      "exponent": {
+        "zero": 32
+      },
+      "mantissa_hi": {
+        "raw": 19,
+        "zero": 13
+      },
+      "mantissa_mid": {
+        "raw": 32
+      },
+      "mantissa_lo": {
+        "zero": 32
+      }
+    },
+    "blosc_ratio": 1.242830389949034,
+    "hybrid_ratio": 1.2813366255725462,
+    "hybrid_pick": "ctx"
+  },
+  {
+    "image": "synth_rgba_hdr_1k.exr",
+    "shape": [
+      512,
+      1024,
+      4
+    ],
+    "tile_size": 128,
+    "previous_bits": 1,
+    "tile_count": 32,
+    "raw_bits": 67108864,
+    "estimated_bits": 35099262.19741621,
+    "estimated_bytes": 4387408,
+    "ratio": 1.9119736370110976,
+    "mode_histogram": {
+      "zero": 40,
+      "north": 19,
+      "northwest": 21,
+      "float_planar": 13,
+      "west": 32,
+      "northeast": 9,
+      "float_med": 18,
+      "channel_green": 8
+    },
+    "field_mode_histogram": {
+      "sign": {
+        "zero": 32
+      },
+      "exponent": {
+        "north": 5,
+        "northwest": 3,
+        "float_med": 10,
+        "west": 11,
+        "float_planar": 3
+      },
+      "mantissa_hi": {
+        "northwest": 10,
+        "west": 10,
+        "float_med": 3,
+        "north": 6,
+        "float_planar": 1,
+        "northeast": 2
+      },
+      "mantissa_mid": {
+        "float_planar": 6,
+        "northeast": 2,
+        "northwest": 5,
+        "north": 4,
+        "channel_green": 4,
+        "west": 4,
+        "zero": 4,
+        "float_med": 3
+      },
+      "mantissa_lo": {
+        "west": 7,
+        "float_med": 2,
+        "north": 4,
+        "northeast": 5,
+        "channel_green": 4,
+        "northwest": 3,
+        "zero": 4,
+        "float_planar": 3
+      }
+    },
+    "blosc_ratio": 1.9946062982951964,
+    "hybrid_ratio": 1.9946062982951964,
+    "hybrid_pick": "Blosc"
+  }
+]

@@ -1,0 +1,103 @@
+[
+  {
+    "image": "ph_abandoned_tiled_room_1k.exr",
+    "shape": [
+      128,
+      128,
+      3
+    ],
+    "crop_size": 128,
+    "tile_size": 128,
+    "raw_bits": 1572864,
+    "current_bits": 215627.4243057764,
+    "routed_bits": 212338.0534241105,
+    "current_ratio": 7.294359727497171,
+    "routed_ratio": 7.407358100144498,
+    "gain": 1.015491198250254,
+    "half_tiles": 1,
+    "used_half_tiles": 1,
+    "mode_histogram": {
+      "delta_west": 1
+    }
+  },
+  {
+    "image": "ph_belfast_sunset_puresky_1k.exr",
+    "shape": [
+      128,
+      128,
+      4
+    ],
+    "crop_size": 128,
+    "tile_size": 128,
+    "raw_bits": 2097152,
+    "current_bits": 891529.945957454,
+    "routed_bits": 891529.945957454,
+    "current_ratio": 2.3523068512833567,
+    "routed_ratio": 2.3523068512833567,
+    "gain": 1.0,
+    "half_tiles": 0,
+    "used_half_tiles": 0,
+    "mode_histogram": {}
+  },
+  {
+    "image": "ph_kloppenheim_06_puresky_1k.exr",
+    "shape": [
+      128,
+      128,
+      4
+    ],
+    "crop_size": 128,
+    "tile_size": 128,
+    "raw_bits": 2097152,
+    "current_bits": 933920.9057765304,
+    "routed_bits": 933920.9057765304,
+    "current_ratio": 2.245534913105167,
+    "routed_ratio": 2.245534913105167,
+    "gain": 1.0,
+    "half_tiles": 0,
+    "used_half_tiles": 0,
+    "mode_histogram": {}
+  },
+  {
+    "image": "ph_spruit_sunrise_1k.exr",
+    "shape": [
+      128,
+      128,
+      3
+    ],
+    "crop_size": 128,
+    "tile_size": 128,
+    "raw_bits": 1572864,
+    "current_bits": 56862.37202439605,
+    "routed_bits": 52311.37781929873,
+    "current_ratio": 27.660893205882854,
+    "routed_ratio": 30.067340329539906,
+    "gain": 1.0869981712356727,
+    "half_tiles": 1,
+    "used_half_tiles": 1,
+    "mode_histogram": {
+      "delta_west": 1
+    }
+  },
+  {
+    "image": "ph_studio_small_03_1k.exr",
+    "shape": [
+      128,
+      128,
+      3
+    ],
+    "crop_size": 128,
+    "tile_size": 128,
+    "raw_bits": 1572864,
+    "current_bits": 257600.2813518791,
+    "routed_bits": 257412.6156010135,
+    "current_ratio": 6.105831840499761,
+    "routed_ratio": 6.110283275462771,
+    "gain": 1.0007290464394196,
+    "half_tiles": 1,
+    "used_half_tiles": 1,
+    "mode_histogram": {
+      "delta_channel_green": 1
+    }
+  }
+]

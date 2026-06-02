@@ -1,0 +1,53 @@
+[
+  {
+    "image": "ph_kloppenheim_06_puresky_1k.exr",
+    "shape": [
+      512,
+      1024,
+      4
+    ],
+    "crop_size": 0,
+    "tile_size": 128,
+    "previous_bits": 4,
+    "family_id_bits": 4,
+    "split_flag_bits": 1,
+    "min_split_gain_bits": 4.0,
+    "extra_mode_bits_per_channel": 8,
+    "mode_policy": "green_order",
+    "mode_score": "base",
+    "raw_bits": 67108864,
+    "baseline_bits": 27983917.212391432,
+    "channel_mode_bits": 27936612.133384388,
+    "baseline_ratio": 2.3981225891521656,
+    "channel_mode_ratio": 2.402183331306826,
+    "gain": 1.0016933004897368,
+    "mode_histogram": {
+      "c0:delta_channel_green": 10,
+      "c1:delta_float_med": 14,
+      "c2:delta_float_med": 12,
+      "c3:xor_bit_xor_planar": 11,
+      "c2:delta_west": 11,
+      "c0:delta_float_med": 10,
+      "c1:delta_west": 9,
+      "c0:delta_west": 4,
+      "c3:xor_bit_majority": 21,
+      "c1:delta_med": 1,
+      "c2:delta_med": 1,
+      "c0:delta_float_planar": 8,
+      "c1:delta_float_planar": 8,
+      "c2:delta_float_planar": 8
+    },
+    "shared_mode_histogram": {
+      "delta_float_med": 9,
+      "delta_west": 13,
+      "delta_med": 2,
+      "delta_float_planar": 8
+    },
+    "pick_histogram": {
+      "channel_split": 1227,
+      "shared:prev_only": 566,
+      "shared:spatial_hi_channel": 191,
+      "shared:base": 32
+    }
+  }
+]

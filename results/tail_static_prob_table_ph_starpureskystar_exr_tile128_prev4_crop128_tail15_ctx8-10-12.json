@@ -1,0 +1,80 @@
+[
+  {
+    "image": "ph_belfast_sunset_puresky_1k.exr",
+    "shape": [
+      128,
+      128,
+      4
+    ],
+    "crop_size": 128,
+    "tile_size": 128,
+    "previous_bits": 4,
+    "probability_bits": 12,
+    "route_header_bits": 24,
+    "entry_extra_bits": 2,
+    "rows": [
+      {
+        "tail_width": 15,
+        "context_mode": "payload_high",
+        "xy_bits": 0,
+        "context_bits": 8,
+        "previous_tail_bits": 0,
+        "current_bits": 891401.9459574542,
+        "hybrid_bits": 891401.9459574542,
+        "current_low_bits": 740297.8096684347,
+        "static_low_bits": 749886.9314199206,
+        "current_ratio": 2.352644628509814,
+        "hybrid_ratio": 2.352644628509814,
+        "gain": 1.0,
+        "route": "current_low",
+        "details": {
+          "selected_entries": 331.0,
+          "active_contexts_per_bit": 100.93333333333334,
+          "global_model_bits": 929088.5815261714,
+          "selected_savings": 179405.65010625057,
+          "entropy_after_selection": 749682.9314199206,
+          "table_bits": 7486.0
+        }
+      }
+    ]
+  },
+  {
+    "image": "ph_kloppenheim_06_puresky_1k.exr",
+    "shape": [
+      128,
+      128,
+      4
+    ],
+    "crop_size": 128,
+    "tile_size": 128,
+    "previous_bits": 4,
+    "probability_bits": 12,
+    "route_header_bits": 24,
+    "entry_extra_bits": 2,
+    "rows": [
+      {
+        "tail_width": 15,
+        "context_mode": "payload_high",
+        "xy_bits": 0,
+        "context_bits": 8,
+        "previous_tail_bits": 0,
+        "current_bits": 933792.9057765303,
+        "hybrid_bits": 933792.9057765303,
+        "current_low_bits": 740152.621111207,
+        "static_low_bits": 754998.3396753498,
+        "current_ratio": 2.2458427206148404,
+        "hybrid_ratio": 2.2458427206148404,
+        "gain": 1.0,
+        "route": "current_low",
+        "details": {
+          "selected_entries": 346.0,
+          "active_contexts_per_bit": 204.6,
+          "global_model_bits": 928926.6227599708,
+          "selected_savings": 174132.28308462104,
+          "entropy_after_selection": 754794.3396753498,
+          "table_bits": 7816.0
+        }
+      }
+    ]
+  }
+]

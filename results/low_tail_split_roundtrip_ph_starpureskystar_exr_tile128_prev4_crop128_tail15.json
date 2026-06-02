@@ -1,0 +1,74 @@
+[
+  {
+    "image": "ph_belfast_sunset_puresky_1k.exr",
+    "shape": [
+      128,
+      128,
+      4
+    ],
+    "crop_size": 128,
+    "tile_size": 128,
+    "previous_bits": 4,
+    "route_header_bits": 8,
+    "rows": [
+      {
+        "tail_width": 15,
+        "current_bits": 891401.9459574542,
+        "split_bits": 884701.4225090434,
+        "current_ratio": 2.352644628509814,
+        "split_ratio": 2.3704630134451525,
+        "gain": 1.0075737681413555,
+        "route_histogram": {
+          "zero_mask_ordered_tail": 1
+        },
+        "totals": {
+          "sign": 8.825750816519681,
+          "current_high": 151095.310538203,
+          "current_low": 1480595.6193368693,
+          "split_low": 733597.2862200239,
+          "current_total": 891401.9459574542,
+          "split_total": 884701.4225090434,
+          "zero_mask_ordered_tail": 733597.2862200239,
+          "zero_mask_context_ordered_tail": 744026.9250597233,
+          "trailing_zero_ordered_tail": 787197.1232657486
+        }
+      }
+    ]
+  },
+  {
+    "image": "ph_kloppenheim_06_puresky_1k.exr",
+    "shape": [
+      128,
+      128,
+      4
+    ],
+    "crop_size": 128,
+    "tile_size": 128,
+    "previous_bits": 4,
+    "route_header_bits": 8,
+    "rows": [
+      {
+        "tail_width": 15,
+        "current_bits": 933792.9057765303,
+        "split_bits": 927147.8842783363,
+        "current_ratio": 2.2458427206148404,
+        "split_ratio": 2.2619390450665366,
+        "gain": 1.0071671646032674,
+        "route_histogram": {
+          "zero_mask_ordered_tail": 1
+        },
+        "totals": {
+          "sign": 8.825750816519681,
+          "current_high": 193631.45891450686,
+          "current_low": 1480305.242222414,
+          "split_low": 733507.5996130129,
+          "current_total": 933792.9057765303,
+          "split_total": 927147.8842783363,
+          "zero_mask_ordered_tail": 733507.5996130129,
+          "zero_mask_context_ordered_tail": 744068.3039982273,
+          "trailing_zero_ordered_tail": 787121.7959505017
+        }
+      }
+    ]
+  }
+]

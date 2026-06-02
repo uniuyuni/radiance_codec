@@ -1,0 +1,93 @@
+[
+  {
+    "image": "oexr_ScanLines_CandleGlass.exr",
+    "adaptive_ratio": 3.823136947397787,
+    "context_ratio": 3.8244088683918203,
+    "blosc_ratio": 4.36564279542618,
+    "file_hybrid_ratio": 4.36564279542618
+  },
+  {
+    "image": "oexr_ScanLines_Cannon.exr",
+    "adaptive_ratio": 3.472959846149319,
+    "context_ratio": 3.4744931570439594,
+    "blosc_ratio": 3.847378936062206,
+    "file_hybrid_ratio": 3.847378936062206
+  },
+  {
+    "image": "oexr_ScanLines_Tree.exr",
+    "adaptive_ratio": 2.75718116892505,
+    "context_ratio": 2.7571493817472863,
+    "blosc_ratio": 3.4829977062729642,
+    "file_hybrid_ratio": 3.4829977062729642
+  },
+  {
+    "image": "oexr_TestImages_GrayRampsHorizontal.exr",
+    "adaptive_ratio": 122.94756425051035,
+    "context_ratio": 122.77265547004224,
+    "blosc_ratio": 262.16077828981054,
+    "file_hybrid_ratio": 262.16077828981054
+  },
+  {
+    "image": "ph_abandoned_tiled_room_1k.exr",
+    "adaptive_ratio": 4.106064710464724,
+    "context_ratio": 4.110276536349201,
+    "blosc_ratio": 4.1226171839932695,
+    "file_hybrid_ratio": 4.1226171839932695
+  },
+  {
+    "image": "ph_belfast_sunset_puresky_1k.exr",
+    "adaptive_ratio": 1.7803581121425698,
+    "context_ratio": 2.079349964699158,
+    "blosc_ratio": 2.1233703149640184,
+    "file_hybrid_ratio": 2.1233703149640184
+  },
+  {
+    "image": "ph_kloppenheim_06_puresky_1k.exr",
+    "adaptive_ratio": 1.744110993206075,
+    "context_ratio": 2.0352095127714382,
+    "blosc_ratio": 2.0950129917354383,
+    "file_hybrid_ratio": 2.0950129917354383
+  },
+  {
+    "image": "ph_spruit_sunrise_1k.exr",
+    "adaptive_ratio": 5.1079404752382525,
+    "context_ratio": 5.114427851668721,
+    "blosc_ratio": 5.05101711489087,
+    "file_hybrid_ratio": 5.114427851668721
+  },
+  {
+    "image": "ph_studio_small_03_1k.exr",
+    "adaptive_ratio": 4.825844890683327,
+    "context_ratio": 4.831580242686378,
+    "blosc_ratio": 4.764958621102291,
+    "file_hybrid_ratio": 4.831580242686378
+  },
+  {
+    "image": "synth_gradient_1k.exr",
+    "adaptive_ratio": 32.87659221901846,
+    "context_ratio": 33.12706832632887,
+    "blosc_ratio": 18.178250091014682,
+    "file_hybrid_ratio": 33.12706832632887
+  },
+  {
+    "image": "synth_mixed_1k.exr",
+    "adaptive_ratio": 1.4692214762139908,
+    "context_ratio": 1.4692104970289357,
+    "blosc_ratio": 1.4862663212271214,
+    "file_hybrid_ratio": 1.4862663212271214
+  },
+  {
+    "image": "synth_noise_1k.exr",
+    "adaptive_ratio": 1.206436187867632,
+    "context_ratio": 1.206428784916866,
+    "blosc_ratio": 1.242830389949034,
+    "file_hybrid_ratio": 1.242830389949034
+  },
+  {
+    "image": "synth_rgba_hdr_1k.exr",
+    "adaptive_ratio": 1.5463023878348408,
+    "context_ratio": 1.7737706104318778,
+    "blosc_ratio": 1.9946062982951964,
+    "file_hybrid_ratio": 1.9946062982951964
+  }
+]

@@ -1,0 +1,182 @@
+[
+  {
+    "image": "ph_abandoned_tiled_room_1k.exr",
+    "shape": [
+      128,
+      128,
+      3
+    ],
+    "crop_size": 128,
+    "tile_size": 128,
+    "previous_bits": 4,
+    "max_levels": 4,
+    "mode_overhead_bits": 16.0,
+    "raw_bits": 1572864,
+    "sign_bits": 8.618232984203791,
+    "baseline_bits": 215499.4243057765,
+    "lorenzo_bits": 258769.5567715847,
+    "hybrid_bits": 215499.4243057765,
+    "baseline_ratio": 7.298692351809865,
+    "lorenzo_ratio": 6.0782420452509545,
+    "hybrid_ratio": 7.298692351809865,
+    "hybrid_gain": 1.0,
+    "selected": {
+      "gdx3": 1
+    },
+    "level_histogram": {
+      "4": 1
+    },
+    "family_histogram": {
+      "spatial_prev_pc": 1,
+      "prev_only": 6,
+      "spatial_hi_pc": 3,
+      "spatial_hi_channel": 2,
+      "spatial_prev_channel": 2,
+      "prev_xy_channel": 1,
+      "base": 13,
+      "spatial_hi_neighbors": 3
+    }
+  },
+  {
+    "image": "ph_belfast_sunset_puresky_1k.exr",
+    "shape": [
+      128,
+      128,
+      4
+    ],
+    "crop_size": 128,
+    "tile_size": 128,
+    "previous_bits": 4,
+    "max_levels": 4,
+    "mode_overhead_bits": 16.0,
+    "raw_bits": 2097152,
+    "sign_bits": 8.825750816519681,
+    "baseline_bits": 891401.9459574538,
+    "lorenzo_bits": 925747.3957759223,
+    "hybrid_bits": 891401.9459574538,
+    "baseline_ratio": 2.352644628509815,
+    "lorenzo_ratio": 2.2653609500486422,
+    "hybrid_ratio": 2.352644628509815,
+    "hybrid_gain": 1.0,
+    "selected": {
+      "gdx3": 1
+    },
+    "level_histogram": {
+      "4": 1
+    },
+    "family_histogram": {
+      "spatial_prev_channel": 1,
+      "prev_only": 10,
+      "spatial_hi_channel": 4,
+      "prev_xy_channel": 16
+    }
+  },
+  {
+    "image": "ph_kloppenheim_06_puresky_1k.exr",
+    "shape": [
+      128,
+      128,
+      4
+    ],
+    "crop_size": 128,
+    "tile_size": 128,
+    "previous_bits": 4,
+    "max_levels": 4,
+    "mode_overhead_bits": 16.0,
+    "raw_bits": 2097152,
+    "sign_bits": 8.825750816519681,
+    "baseline_bits": 933792.9057765303,
+    "lorenzo_bits": 966578.8565524108,
+    "hybrid_bits": 933792.9057765303,
+    "baseline_ratio": 2.2458427206148404,
+    "lorenzo_ratio": 2.169664674313395,
+    "hybrid_ratio": 2.2458427206148404,
+    "hybrid_gain": 1.0,
+    "selected": {
+      "gdx3": 1
+    },
+    "level_histogram": {
+      "4": 1
+    },
+    "family_histogram": {
+      "spatial_prev_channel": 1,
+      "prev_only": 8,
+      "spatial_hi_channel": 6,
+      "prev_xy_channel": 16
+    }
+  },
+  {
+    "image": "ph_spruit_sunrise_1k.exr",
+    "shape": [
+      128,
+      128,
+      3
+    ],
+    "crop_size": 128,
+    "tile_size": 128,
+    "previous_bits": 4,
+    "max_levels": 4,
+    "mode_overhead_bits": 16.0,
+    "raw_bits": 1572864,
+    "sign_bits": 8.618232984203791,
+    "baseline_bits": 56734.37202439606,
+    "lorenzo_bits": 77307.29409853787,
+    "hybrid_bits": 56734.37202439606,
+    "baseline_ratio": 27.723299718972136,
+    "lorenzo_ratio": 20.345609277116687,
+    "hybrid_ratio": 27.723299718972136,
+    "hybrid_gain": 1.0,
+    "selected": {
+      "gdx3": 1
+    },
+    "level_histogram": {
+      "4": 1
+    },
+    "family_histogram": {
+      "base": 15,
+      "spatial_prev_pc": 1,
+      "prev_only": 4,
+      "spatial_prev_channel": 3,
+      "wn_prev": 1,
+      "spatial_hi_neighbors": 3,
+      "spatial_hi_channel": 4
+    }
+  },
+  {
+    "image": "ph_studio_small_03_1k.exr",
+    "shape": [
+      128,
+      128,
+      3
+    ],
+    "crop_size": 128,
+    "tile_size": 128,
+    "previous_bits": 4,
+    "max_levels": 4,
+    "mode_overhead_bits": 16.0,
+    "raw_bits": 1572864,
+    "sign_bits": 8.618232984203791,
+    "baseline_bits": 257472.2813518792,
+    "lorenzo_bits": 296862.7735926994,
+    "hybrid_bits": 257472.2813518792,
+    "baseline_ratio": 6.108867299196439,
+    "lorenzo_ratio": 5.298286413499577,
+    "hybrid_ratio": 6.108867299196439,
+    "hybrid_gain": 1.0,
+    "selected": {
+      "gdx3": 1
+    },
+    "level_histogram": {
+      "4": 1
+    },
+    "family_histogram": {
+      "spatial_prev_channel": 1,
+      "spatial_hi_channel": 6,
+      "prev_only": 3,
+      "base": 14,
+      "spatial_hi_pc": 3,
+      "spatial_prev_pc": 1,
+      "spatial_hi_neighbors": 3
+    }
+  }
+]

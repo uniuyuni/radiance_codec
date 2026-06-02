@@ -1,0 +1,116 @@
+{
+  "model_best": {
+    "per_file": {
+      "oexr_ScanLines_CandleGlass": {
+        "bpb": 1.8463738845872917,
+        "ratio": 4.332816915783116
+      },
+      "oexr_ScanLines_Cannon": {
+        "bpb": 2.283860340565886,
+        "ratio": 3.502841157974568
+      },
+      "oexr_ScanLines_Tree": {
+        "bpb": 2.442688910220661,
+        "ratio": 3.275079346586675
+      },
+      "oexr_TestImages_GrayRampsHorizontal": {
+        "bpb": 0.021447576166681883,
+        "ratio": 373.00252195526605
+      },
+      "ph_abandoned_tiled_room_1k": {
+        "bpb": 1.8289136181599275,
+        "ratio": 4.374181437857525
+      },
+      "ph_belfast_sunset_puresky_1k": {
+        "bpb": 3.636103133849665,
+        "ratio": 2.2001576153122286
+      },
+      "ph_kloppenheim_06_puresky_1k": {
+        "bpb": 3.695123155239653,
+        "ratio": 2.1650157962004783
+      },
+      "ph_spruit_sunrise_1k": {
+        "bpb": 1.4765199471976307,
+        "ratio": 5.418145562600523
+      },
+      "ph_studio_small_03_1k": {
+        "bpb": 1.6059185661722428,
+        "ratio": 4.981572645410191
+      },
+      "synth_gradient_1k": {
+        "bpb": 1.0974249189226573,
+        "ratio": 7.289792551688734
+      },
+      "synth_mixed_1k": {
+        "bpb": 5.294930796441998,
+        "ratio": 1.5108790478197962
+      },
+      "synth_noise_1k": {
+        "bpb": 6.971001096388063,
+        "ratio": 1.1476113530013787
+      },
+      "synth_rgba_hdr_1k": {
+        "bpb": 4.064374634837086,
+        "ratio": 1.9683224896222362
+      }
+    },
+    "geomean": 4.4384357037806605
+  },
+  "model_final": {
+    "per_file": {
+      "oexr_ScanLines_CandleGlass": {
+        "bpb": 1.8463738845872917,
+        "ratio": 4.332816915783116
+      },
+      "oexr_ScanLines_Cannon": {
+        "bpb": 2.283860340565886,
+        "ratio": 3.502841157974568
+      },
+      "oexr_ScanLines_Tree": {
+        "bpb": 2.442688910220661,
+        "ratio": 3.275079346586675
+      },
+      "oexr_TestImages_GrayRampsHorizontal": {
+        "bpb": 0.021447576166681883,
+        "ratio": 373.00252195526605
+      },
+      "ph_abandoned_tiled_room_1k": {
+        "bpb": 1.8289136181599275,
+        "ratio": 4.374181437857525
+      },
+      "ph_belfast_sunset_puresky_1k": {
+        "bpb": 3.636103133849665,
+        "ratio": 2.2001576153122286
+      },
+      "ph_kloppenheim_06_puresky_1k": {
+        "bpb": 3.695123155239653,
+        "ratio": 2.1650157962004783
+      },
+      "ph_spruit_sunrise_1k": {
+        "bpb": 1.4765199471976307,
+        "ratio": 5.418145562600523
+      },
+      "ph_studio_small_03_1k": {
+        "bpb": 1.6059185661722428,
+        "ratio": 4.981572645410191
+      },
+      "synth_gradient_1k": {
+        "bpb": 1.0974249189226573,
+        "ratio": 7.289792551688734
+      },
+      "synth_mixed_1k": {
+        "bpb": 5.294930796441998,
+        "ratio": 1.5108790478197962
+      },
+      "synth_noise_1k": {
+        "bpb": 6.971001096388063,
+        "ratio": 1.1476113530013787
+      },
+      "synth_rgba_hdr_1k": {
+        "bpb": 4.064374634837086,
+        "ratio": 1.9683224896222362
+      }
+    },
+    "geomean": 4.4384357037806605
+  }
+}

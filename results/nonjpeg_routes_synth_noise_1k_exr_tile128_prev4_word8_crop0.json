@@ -1,0 +1,1298 @@
+[
+  {
+    "image": "synth_noise_1k.exr",
+    "shape": [
+      512,
+      1024,
+      3
+    ],
+    "crop_size": 0,
+    "tile_size": 128,
+    "previous_bits": 4,
+    "preset": "body",
+    "word_bits": 8,
+    "route_header_bits": 4,
+    "search_candidates": false,
+    "raw_bits": 50331648,
+    "current_bits": 39038147.946946315,
+    "hybrid_bits": 39038147.946946315,
+    "typed_byte_entropy_lower_bits": 39546849.35447441,
+    "current_ratio": 1.289293950840132,
+    "hybrid_ratio": 1.289293950840132,
+    "hybrid_gain": 1.0,
+    "typed_byte_lower_gain": 0.9871367399468818,
+    "route_histogram": {
+      "body:gdx2": 32,
+      "sign:gdx2": 32
+    },
+    "raw_mantissa_low_zero_histogram": {
+      "0": 32
+    },
+    "totals": {
+      "current_bits": 39038147.946946315,
+      "hybrid_bits": 39038147.946946315,
+      "typed_byte_entropy_lower": 39546849.35447441,
+      "route_gdx2": 39038147.946946315,
+      "route_raw": 50331904.0,
+      "route_bitmatrix_zero_kt": 45543377.578172915,
+      "route_bitmatrix_const_kt": 43406087.158648655,
+      "route_bitmatrix_fixed_mask": 50734768.0,
+      "route_typed_byte_entropy_lower": 39546849.35447441,
+      "route_typed_byteplane_zstd": 41275432.0,
+      "route_zigzag_bitmatrix_zero_kt": 48775333.48479812,
+      "route_zigzag_bitmatrix_const_kt": 40030228.15961773,
+      "route_zigzag_typed_byte_entropy_lower": 38914729.58940895,
+      "route_zigzag_typed_byteplane_zstd": 41655176.0
+    },
+    "tiles": [
+      {
+        "y": 0,
+        "x": 0,
+        "raw_mantissa_low_zero_bits": 0,
+        "groups": {
+          "body": {
+            "route": "gdx2",
+            "current_mode": "chosen",
+            "gain": 1.0,
+            "costs": {
+              "gdx2": 1211889.8149914227,
+              "raw": 1523716.0,
+              "bitmatrix_zero_kt": 1373096.0180931678,
+              "bitmatrix_const_kt": 1343028.3307565905,
+              "bitmatrix_fixed_mask": 1529492.0,
+              "typed_byte_entropy_lower": 1228028.866012174,
+              "typed_byteplane_zstd": 1272500.0,
+              "zigzag_bitmatrix_zero_kt": 1524321.7563302466,
+              "zigzag_bitmatrix_const_kt": 1250815.7576106149,
+              "zigzag_typed_byte_entropy_lower": 1216290.1129805306,
+              "zigzag_typed_byteplane_zstd": 1302884.0
+            }
+          },
+          "sign": {
+            "route": "gdx2",
+            "current_mode": "chosen",
+            "gain": 1.0,
+            "costs": {
+              "gdx2": 7563.398039113547,
+              "raw": 49156.0,
+              "bitmatrix_zero_kt": 49163.118258666786,
+              "bitmatrix_const_kt": 11850.891339250587,
+              "bitmatrix_fixed_mask": 55300.0,
+              "typed_byte_entropy_lower": 7555.27975105378,
+              "typed_byteplane_zstd": 17180.0
+            }
+          }
+        }
+      },
+      {
+        "y": 0,
+        "x": 128,
+        "raw_mantissa_low_zero_bits": 0,
+        "groups": {
+          "body": {
+            "route": "gdx2",
+            "current_mode": "chosen",
+            "gain": 1.0,
+            "costs": {
+              "gdx2": 1211924.944260673,
+              "raw": 1523716.0,
+              "bitmatrix_zero_kt": 1374053.69964408,
+              "bitmatrix_const_kt": 1344213.4900643416,
+              "bitmatrix_fixed_mask": 1530268.0,
+              "typed_byte_entropy_lower": 1228091.5928705444,
+              "typed_byteplane_zstd": 1272436.0,
+              "zigzag_bitmatrix_zero_kt": 1524234.0323903735,
+              "zigzag_bitmatrix_const_kt": 1250754.416986331,
+              "zigzag_typed_byte_entropy_lower": 1216106.74640571,
+              "zigzag_typed_byteplane_zstd": 1299516.0
+            }
+          },
+          "sign": {
+            "route": "gdx2",
+            "current_mode": "chosen",
+            "gain": 1.0,
+            "costs": {
+              "gdx2": 7764.495501518967,
+              "raw": 49156.0,
+              "bitmatrix_zero_kt": 49163.118258666786,
+              "bitmatrix_const_kt": 12501.453181010724,
+              "bitmatrix_fixed_mask": 55300.0,
+              "typed_byte_entropy_lower": 7756.377215262282,
+              "typed_byteplane_zstd": 18020.0
+            }
+          }
+        }
+      },
+      {
+        "y": 0,
+        "x": 256,
+        "raw_mantissa_low_zero_bits": 0,
+        "groups": {
+          "body": {
+            "route": "gdx2",
+            "current_mode": "chosen",
+            "gain": 1.0,
+            "costs": {
+              "gdx2": 1211809.7206895552,
+              "raw": 1523716.0,
+              "bitmatrix_zero_kt": 1373861.6337933585,
+              "bitmatrix_const_kt": 1343882.319899232,
+              "bitmatrix_fixed_mask": 1530180.0,
+              "typed_byte_entropy_lower": 1227817.6913657575,
+              "typed_byteplane_zstd": 1270652.0,
+              "zigzag_bitmatrix_zero_kt": 1524258.90279486,
+              "zigzag_bitmatrix_const_kt": 1250900.0715275386,
+              "zigzag_typed_byte_entropy_lower": 1215840.0137873772,
+              "zigzag_typed_byteplane_zstd": 1301340.0
+            }
+          },
+          "sign": {
+            "route": "gdx2",
+            "current_mode": "chosen",
+            "gain": 1.0,
+            "costs": {
+              "gdx2": 7699.473708512567,
+              "raw": 49156.0,
+              "bitmatrix_zero_kt": 49163.118258666786,
+              "bitmatrix_const_kt": 12244.097100124742,
+              "bitmatrix_fixed_mask": 55300.0,
+              "typed_byte_entropy_lower": 7691.355421684236,
+              "typed_byteplane_zstd": 17572.0
+            }
+          }
+        }
+      },
+      {
+        "y": 0,
+        "x": 384,
+        "raw_mantissa_low_zero_bits": 0,
+        "groups": {
+          "body": {
+            "route": "gdx2",
+            "current_mode": "chosen",
+            "gain": 1.0,
+            "costs": {
+              "gdx2": 1212346.9276104104,
+              "raw": 1523716.0,
+              "bitmatrix_zero_kt": 1372475.0541857653,
+              "bitmatrix_const_kt": 1342264.839987161,
+              "bitmatrix_fixed_mask": 1528740.0,
+              "typed_byte_entropy_lower": 1227892.889750879,
+              "typed_byteplane_zstd": 1272340.0,
+              "zigzag_bitmatrix_zero_kt": 1524251.8915861635,
+              "zigzag_bitmatrix_const_kt": 1250570.3801269988,
+              "zigzag_typed_byte_entropy_lower": 1215965.8728855604,
+              "zigzag_typed_byteplane_zstd": 1302580.0
+            }
+          },
+          "sign": {
+            "route": "gdx2",
+            "current_mode": "chosen",
+            "gain": 1.0,
+            "costs": {
+              "gdx2": 7393.4891653106515,
+              "raw": 49156.0,
+              "bitmatrix_zero_kt": 49163.118258666786,
+              "bitmatrix_const_kt": 11788.57886643247,
+              "bitmatrix_fixed_mask": 55300.0,
+              "typed_byte_entropy_lower": 7385.370875643333,
+              "typed_byteplane_zstd": 17148.0
+            }
+          }
+        }
+      },
+      {
+        "y": 0,
+        "x": 512,
+        "raw_mantissa_low_zero_bits": 0,
+        "groups": {
+          "body": {
+            "route": "gdx2",
+            "current_mode": "chosen",
+            "gain": 1.0,
+            "costs": {
+              "gdx2": 1212481.0546793821,
+              "raw": 1523716.0,
+              "bitmatrix_zero_kt": 1372153.0542736542,
+              "bitmatrix_const_kt": 1341880.5807131275,
+              "bitmatrix_fixed_mask": 1528716.0,
+              "typed_byte_entropy_lower": 1228280.2948218521,
+              "typed_byteplane_zstd": 1272324.0,
+              "zigzag_bitmatrix_zero_kt": 1524279.8741925724,
+              "zigzag_bitmatrix_const_kt": 1250829.1017481245,
+              "zigzag_typed_byte_entropy_lower": 1216329.5712683145,
+              "zigzag_typed_byteplane_zstd": 1300500.0
+            }
+          },
+          "sign": {
+            "route": "gdx2",
+            "current_mode": "chosen",
+            "gain": 1.0,
+            "costs": {
+              "gdx2": 7802.337779242281,
+              "raw": 49156.0,
+              "bitmatrix_zero_kt": 49163.118258666786,
+              "bitmatrix_const_kt": 12398.635863510173,
+              "bitmatrix_fixed_mask": 55300.0,
+              "typed_byte_entropy_lower": 7794.219493313536,
+              "typed_byteplane_zstd": 18332.0
+            }
+          }
+        }
+      },
+      {
+        "y": 0,
+        "x": 640,
+        "raw_mantissa_low_zero_bits": 0,
+        "groups": {
+          "body": {
+            "route": "gdx2",
+            "current_mode": "chosen",
+            "gain": 1.0,
+            "costs": {
+              "gdx2": 1212423.8606541655,
+              "raw": 1523716.0,
+              "bitmatrix_zero_kt": 1373845.9114023354,
+              "bitmatrix_const_kt": 1343901.9907405337,
+              "bitmatrix_fixed_mask": 1530036.0,
+              "typed_byte_entropy_lower": 1228397.4578706927,
+              "typed_byteplane_zstd": 1271644.0,
+              "zigzag_bitmatrix_zero_kt": 1524225.1846556547,
+              "zigzag_bitmatrix_const_kt": 1250697.52778,
+              "zigzag_typed_byte_entropy_lower": 1215895.304341658,
+              "zigzag_typed_byteplane_zstd": 1300476.0
+            }
+          },
+          "sign": {
+            "route": "gdx2",
+            "current_mode": "chosen",
+            "gain": 1.0,
+            "costs": {
+              "gdx2": 7694.046662664265,
+              "raw": 49156.0,
+              "bitmatrix_zero_kt": 49163.118258666786,
+              "bitmatrix_const_kt": 12316.26211415284,
+              "bitmatrix_fixed_mask": 55300.0,
+              "typed_byte_entropy_lower": 7685.92837578764,
+              "typed_byteplane_zstd": 17580.0
+            }
+          }
+        }
+      },
+      {
+        "y": 0,
+        "x": 768,
+        "raw_mantissa_low_zero_bits": 0,
+        "groups": {
+          "body": {
+            "route": "gdx2",
+            "current_mode": "chosen",
+            "gain": 1.0,
+            "costs": {
+              "gdx2": 1212515.048396549,
+              "raw": 1523716.0,
+              "bitmatrix_zero_kt": 1376190.1847031813,
+              "bitmatrix_const_kt": 1346541.578738112,
+              "bitmatrix_fixed_mask": 1532076.0,
+              "typed_byte_entropy_lower": 1228580.2200588637,
+              "typed_byteplane_zstd": 1272484.0,
+              "zigzag_bitmatrix_zero_kt": 1524128.4088246748,
+              "zigzag_bitmatrix_const_kt": 1251333.8405102682,
+              "zigzag_typed_byte_entropy_lower": 1216381.5604538256,
+              "zigzag_typed_byteplane_zstd": 1300036.0
+            }
+          },
+          "sign": {
+            "route": "gdx2",
+            "current_mode": "chosen",
+            "gain": 1.0,
+            "costs": {
+              "gdx2": 7780.721445360419,
+              "raw": 49156.0,
+              "bitmatrix_zero_kt": 49163.118258666786,
+              "bitmatrix_const_kt": 12275.035049562393,
+              "bitmatrix_fixed_mask": 55300.0,
+              "typed_byte_entropy_lower": 7772.6031592448435,
+              "typed_byteplane_zstd": 18084.0
+            }
+          }
+        }
+      },
+      {
+        "y": 0,
+        "x": 896,
+        "raw_mantissa_low_zero_bits": 0,
+        "groups": {
+          "body": {
+            "route": "gdx2",
+            "current_mode": "chosen",
+            "gain": 1.0,
+            "costs": {
+              "gdx2": 1212851.0544789631,
+              "raw": 1523716.0,
+              "bitmatrix_zero_kt": 1378543.387894395,
+              "bitmatrix_const_kt": 1349567.3905159128,
+              "bitmatrix_fixed_mask": 1534188.0,
+              "typed_byte_entropy_lower": 1228784.156307207,
+              "typed_byteplane_zstd": 1272044.0,
+              "zigzag_bitmatrix_zero_kt": 1524243.66866277,
+              "zigzag_bitmatrix_const_kt": 1251973.949819983,
+              "zigzag_typed_byte_entropy_lower": 1216369.8706893723,
+              "zigzag_typed_byteplane_zstd": 1302836.0
+            }
+          },
+          "sign": {
+            "route": "gdx2",
+            "current_mode": "chosen",
+            "gain": 1.0,
+            "costs": {
+              "gdx2": 7974.525558364687,
+              "raw": 49156.0,
+              "bitmatrix_zero_kt": 49163.118258666786,
+              "bitmatrix_const_kt": 12839.583847658065,
+              "bitmatrix_fixed_mask": 55300.0,
+              "typed_byte_entropy_lower": 7966.407273884781,
+              "typed_byteplane_zstd": 18700.0
+            }
+          }
+        }
+      },
+      {
+        "y": 128,
+        "x": 0,
+        "raw_mantissa_low_zero_bits": 0,
+        "groups": {
+          "body": {
+            "route": "gdx2",
+            "current_mode": "chosen",
+            "gain": 1.0,
+            "costs": {
+              "gdx2": 1212686.41746822,
+              "raw": 1523716.0,
+              "bitmatrix_zero_kt": 1375036.967244002,
+              "bitmatrix_const_kt": 1345430.5845108042,
+              "bitmatrix_fixed_mask": 1531116.0,
+              "typed_byte_entropy_lower": 1228480.0975405748,
+              "typed_byteplane_zstd": 1272628.0,
+              "zigzag_bitmatrix_zero_kt": 1524315.2751437153,
+              "zigzag_bitmatrix_const_kt": 1251110.6870986957,
+              "zigzag_typed_byte_entropy_lower": 1216424.5591851817,
+              "zigzag_typed_byteplane_zstd": 1302316.0
+            }
+          },
+          "sign": {
+            "route": "gdx2",
+            "current_mode": "chosen",
+            "gain": 1.0,
+            "costs": {
+              "gdx2": 7818.5363754678265,
+              "raw": 49156.0,
+              "bitmatrix_zero_kt": 49163.118258666786,
+              "bitmatrix_const_kt": 12552.799756503222,
+              "bitmatrix_fixed_mask": 55300.0,
+              "typed_byte_entropy_lower": 7810.418089678369,
+              "typed_byteplane_zstd": 17972.0
+            }
+          }
+        }
+      },
+      {
+        "y": 128,
+        "x": 128,
+        "raw_mantissa_low_zero_bits": 0,
+        "groups": {
+          "body": {
+            "route": "gdx2",
+            "current_mode": "chosen",
+            "gain": 1.0,
+            "costs": {
+              "gdx2": 1212229.5877982578,
+              "raw": 1523716.0,
+              "bitmatrix_zero_kt": 1375794.0904124842,
+              "bitmatrix_const_kt": 1346186.7947068352,
+              "bitmatrix_fixed_mask": 1531444.0,
+              "typed_byte_entropy_lower": 1228320.2762932305,
+              "typed_byteplane_zstd": 1272988.0,
+              "zigzag_bitmatrix_zero_kt": 1524192.2737923374,
+              "zigzag_bitmatrix_const_kt": 1251412.5663888587,
+              "zigzag_typed_byte_entropy_lower": 1216128.8157367816,
+              "zigzag_typed_byteplane_zstd": 1300388.0
+            }
+          },
+          "sign": {
+            "route": "gdx2",
+            "current_mode": "chosen",
+            "gain": 1.0,
+            "costs": {
+              "gdx2": 7850.898587422916,
+              "raw": 49156.0,
+              "bitmatrix_zero_kt": 49163.118258666786,
+              "bitmatrix_const_kt": 12552.799756503222,
+              "bitmatrix_fixed_mask": 55300.0,
+              "typed_byte_entropy_lower": 7842.780301909856,
+              "typed_byteplane_zstd": 18188.0
+            }
+          }
+        }
+      },
+      {
+        "y": 128,
+        "x": 256,
+        "raw_mantissa_low_zero_bits": 0,
+        "groups": {
+          "body": {
+            "route": "gdx2",
+            "current_mode": "chosen",
+            "gain": 1.0,
+            "costs": {
+              "gdx2": 1211886.1686934086,
+              "raw": 1523716.0,
+              "bitmatrix_zero_kt": 1375429.2452951462,
+              "bitmatrix_const_kt": 1345869.6464518784,
+              "bitmatrix_fixed_mask": 1530676.0,
+              "typed_byte_entropy_lower": 1227970.2197354939,
+              "typed_byteplane_zstd": 1270956.0,
+              "zigzag_bitmatrix_zero_kt": 1524248.6561295663,
+              "zigzag_bitmatrix_const_kt": 1251331.763534311,
+              "zigzag_typed_byte_entropy_lower": 1215751.8042112428,
+              "zigzag_typed_byteplane_zstd": 1302620.0
+            }
+          },
+          "sign": {
+            "route": "gdx2",
+            "current_mode": "chosen",
+            "gain": 1.0,
+            "costs": {
+              "gdx2": 7813.138141557693,
+              "raw": 49156.0,
+              "bitmatrix_zero_kt": 49163.118258666786,
+              "bitmatrix_const_kt": 12429.498494698259,
+              "bitmatrix_fixed_mask": 55300.0,
+              "typed_byte_entropy_lower": 7805.019855721847,
+              "typed_byteplane_zstd": 18028.0
+            }
+          }
+        }
+      },
+      {
+        "y": 128,
+        "x": 384,
+        "raw_mantissa_low_zero_bits": 0,
+        "groups": {
+          "body": {
+            "route": "gdx2",
+            "current_mode": "chosen",
+            "gain": 1.0,
+            "costs": {
+              "gdx2": 1212025.0441207173,
+              "raw": 1523716.0,
+              "bitmatrix_zero_kt": 1374645.6617543872,
+              "bitmatrix_const_kt": 1344813.0874774877,
+              "bitmatrix_fixed_mask": 1530772.0,
+              "typed_byte_entropy_lower": 1227888.8051544975,
+              "typed_byteplane_zstd": 1271580.0,
+              "zigzag_bitmatrix_zero_kt": 1524182.5966740286,
+              "zigzag_bitmatrix_const_kt": 1250953.794122924,
+              "zigzag_typed_byte_entropy_lower": 1215966.1469539457,
+              "zigzag_typed_byteplane_zstd": 1300996.0
+            }
+          },
+          "sign": {
+            "route": "gdx2",
+            "current_mode": "chosen",
+            "gain": 1.0,
+            "costs": {
+              "gdx2": 7574.314922062187,
+              "raw": 49156.0,
+              "bitmatrix_zero_kt": 49163.118258666786,
+              "bitmatrix_const_kt": 12058.149613685702,
+              "bitmatrix_fixed_mask": 55300.0,
+              "typed_byte_entropy_lower": 7566.196634102933,
+              "typed_byteplane_zstd": 17452.0
+            }
+          }
+        }
+      },
+      {
+        "y": 128,
+        "x": 512,
+        "raw_mantissa_low_zero_bits": 0,
+        "groups": {
+          "body": {
+            "route": "gdx2",
+            "current_mode": "chosen",
+            "gain": 1.0,
+            "costs": {
+              "gdx2": 1212727.5929286305,
+              "raw": 1523716.0,
+              "bitmatrix_zero_kt": 1373245.53960171,
+              "bitmatrix_const_kt": 1343100.6395964702,
+              "bitmatrix_fixed_mask": 1529548.0,
+              "typed_byte_entropy_lower": 1228356.2807234195,
+              "typed_byteplane_zstd": 1271292.0,
+              "zigzag_bitmatrix_zero_kt": 1524222.1021657723,
+              "zigzag_bitmatrix_const_kt": 1250925.886134309,
+              "zigzag_typed_byte_entropy_lower": 1216540.0360845,
+              "zigzag_typed_byteplane_zstd": 1300916.0
+            }
+          },
+          "sign": {
+            "route": "gdx2",
+            "current_mode": "chosen",
+            "gain": 1.0,
+            "costs": {
+              "gdx2": 7759.084239290105,
+              "raw": 49156.0,
+              "bitmatrix_zero_kt": 49163.118258666786,
+              "bitmatrix_const_kt": 12388.344989387073,
+              "bitmatrix_fixed_mask": 55300.0,
+              "typed_byte_entropy_lower": 7750.965952986311,
+              "typed_byteplane_zstd": 17740.0
+            }
+          }
+        }
+      },
+      {
+        "y": 128,
+        "x": 640,
+        "raw_mantissa_low_zero_bits": 0,
+        "groups": {
+          "body": {
+            "route": "gdx2",
+            "current_mode": "chosen",
+            "gain": 1.0,
+            "costs": {
+              "gdx2": 1212283.9023024573,
+              "raw": 1523716.0,
+              "bitmatrix_zero_kt": 1374413.923780657,
+              "bitmatrix_const_kt": 1344532.4956682918,
+              "bitmatrix_fixed_mask": 1530252.0,
+              "typed_byte_entropy_lower": 1228250.7072545406,
+              "typed_byteplane_zstd": 1272796.0,
+              "zigzag_bitmatrix_zero_kt": 1524176.23148229,
+              "zigzag_bitmatrix_const_kt": 1250865.2643713106,
+              "zigzag_typed_byte_entropy_lower": 1215625.3099036594,
+              "zigzag_typed_byteplane_zstd": 1304644.0
+            }
+          },
+          "sign": {
+            "route": "gdx2",
+            "current_mode": "chosen",
+            "gain": 1.0,
+            "costs": {
+              "gdx2": 7742.842593907765,
+              "raw": 49156.0,
+              "bitmatrix_zero_kt": 49163.118258666786,
+              "bitmatrix_const_kt": 12347.164806987948,
+              "bitmatrix_fixed_mask": 55300.0,
+              "typed_byte_entropy_lower": 7734.7243074619,
+              "typed_byteplane_zstd": 17860.0
+            }
+          }
+        }
+      },
+      {
+        "y": 128,
+        "x": 768,
+        "raw_mantissa_low_zero_bits": 0,
+        "groups": {
+          "body": {
+            "route": "gdx2",
+            "current_mode": "chosen",
+            "gain": 1.0,
+            "costs": {
+              "gdx2": 1212647.10005594,
+              "raw": 1523716.0,
+              "bitmatrix_zero_kt": 1376055.1212176606,
+              "bitmatrix_const_kt": 1346627.4529111492,
+              "bitmatrix_fixed_mask": 1532084.0,
+              "typed_byte_entropy_lower": 1228543.1436795066,
+              "typed_byteplane_zstd": 1272140.0,
+              "zigzag_bitmatrix_zero_kt": 1524340.1350176013,
+              "zigzag_bitmatrix_const_kt": 1251663.6508198066,
+              "zigzag_typed_byte_entropy_lower": 1216568.0416255866,
+              "zigzag_typed_byteplane_zstd": 1304916.0
+            }
+          },
+          "sign": {
+            "route": "gdx2",
+            "current_mode": "chosen",
+            "gain": 1.0,
+            "costs": {
+              "gdx2": 7704.899432746501,
+              "raw": 49156.0,
+              "bitmatrix_zero_kt": 49163.118258666786,
+              "bitmatrix_const_kt": 12470.625404086155,
+              "bitmatrix_fixed_mask": 55300.0,
+              "typed_byte_entropy_lower": 7696.7811459662435,
+              "typed_byteplane_zstd": 17820.0
+            }
+          }
+        }
+      },
+      {
+        "y": 128,
+        "x": 896,
+        "raw_mantissa_low_zero_bits": 0,
+        "groups": {
+          "body": {
+            "route": "gdx2",
+            "current_mode": "chosen",
+            "gain": 1.0,
+            "costs": {
+              "gdx2": 1212326.086993957,
+              "raw": 1523716.0,
+              "bitmatrix_zero_kt": 1373794.7386473028,
+              "bitmatrix_const_kt": 1343759.863585963,
+              "bitmatrix_fixed_mask": 1529596.0,
+              "typed_byte_entropy_lower": 1228186.768158418,
+              "typed_byteplane_zstd": 1272636.0,
+              "zigzag_bitmatrix_zero_kt": 1524170.8222327942,
+              "zigzag_bitmatrix_const_kt": 1250921.4085235163,
+              "zigzag_typed_byte_entropy_lower": 1216034.275548044,
+              "zigzag_typed_byteplane_zstd": 1301436.0
+            }
+          },
+          "sign": {
+            "route": "gdx2",
+            "current_mode": "chosen",
+            "gain": 1.0,
+            "costs": {
+              "gdx2": 7645.143585832407,
+              "raw": 49156.0,
+              "bitmatrix_zero_kt": 49163.118258666786,
+              "bitmatrix_const_kt": 12151.1920981565,
+              "bitmatrix_fixed_mask": 55300.0,
+              "typed_byte_entropy_lower": 7637.025298518145,
+              "typed_byteplane_zstd": 17964.0
+            }
+          }
+        }
+      },
+      {
+        "y": 256,
+        "x": 0,
+        "raw_mantissa_low_zero_bits": 0,
+        "groups": {
+          "body": {
+            "route": "gdx2",
+            "current_mode": "chosen",
+            "gain": 1.0,
+            "costs": {
+              "gdx2": 1212393.1091468995,
+              "raw": 1523716.0,
+              "bitmatrix_zero_kt": 1374248.8811634423,
+              "bitmatrix_const_kt": 1344229.345277608,
+              "bitmatrix_fixed_mask": 1530660.0,
+              "typed_byte_entropy_lower": 1228006.4441196104,
+              "typed_byteplane_zstd": 1271396.0,
+              "zigzag_bitmatrix_zero_kt": 1524176.1233187634,
+              "zigzag_bitmatrix_const_kt": 1250887.003670646,
+              "zigzag_typed_byte_entropy_lower": 1215948.911909166,
+              "zigzag_typed_byteplane_zstd": 1300444.0
+            }
+          },
+          "sign": {
+            "route": "gdx2",
+            "current_mode": "chosen",
+            "gain": 1.0,
+            "costs": {
+              "gdx2": 7786.127482786832,
+              "raw": 49156.0,
+              "bitmatrix_zero_kt": 49163.118258666786,
+              "bitmatrix_const_kt": 12295.65193961829,
+              "bitmatrix_fixed_mask": 55300.0,
+              "typed_byte_entropy_lower": 7778.009196717974,
+              "typed_byteplane_zstd": 17772.0
+            }
+          }
+        }
+      },
+      {
+        "y": 256,
+        "x": 128,
+        "raw_mantissa_low_zero_bits": 0,
+        "groups": {
+          "body": {
+            "route": "gdx2",
+            "current_mode": "chosen",
+            "gain": 1.0,
+            "costs": {
+              "gdx2": 1211613.5141495836,
+              "raw": 1523716.0,
+              "bitmatrix_zero_kt": 1372056.955755765,
+              "bitmatrix_const_kt": 1341628.5866756241,
+              "bitmatrix_fixed_mask": 1528508.0,
+              "typed_byte_entropy_lower": 1227485.0012814668,
+              "typed_byteplane_zstd": 1270812.0,
+              "zigzag_bitmatrix_zero_kt": 1524099.2924632414,
+              "zigzag_bitmatrix_const_kt": 1250477.7970921688,
+              "zigzag_typed_byte_entropy_lower": 1215717.2473952607,
+              "zigzag_typed_byteplane_zstd": 1300732.0
+            }
+          },
+          "sign": {
+            "route": "gdx2",
+            "current_mode": "chosen",
+            "gain": 1.0,
+            "costs": {
+              "gdx2": 7856.287767816883,
+              "raw": 49156.0,
+              "bitmatrix_zero_kt": 49163.118258666786,
+              "bitmatrix_const_kt": 12604.105150221381,
+              "bitmatrix_fixed_mask": 55300.0,
+              "typed_byte_entropy_lower": 7848.169482349447,
+              "typed_byteplane_zstd": 18404.0
+            }
+          }
+        }
+      },
+      {
+        "y": 256,
+        "x": 256,
+        "raw_mantissa_low_zero_bits": 0,
+        "groups": {
+          "body": {
+            "route": "gdx2",
+            "current_mode": "chosen",
+            "gain": 1.0,
+            "costs": {
+              "gdx2": 1212328.6990624964,
+              "raw": 1523716.0,
+              "bitmatrix_zero_kt": 1374144.8236230288,
+              "bitmatrix_const_kt": 1344249.5739340074,
+              "bitmatrix_fixed_mask": 1530068.0,
+              "typed_byte_entropy_lower": 1228283.9770379954,
+              "typed_byteplane_zstd": 1272004.0,
+              "zigzag_bitmatrix_zero_kt": 1524269.1944409763,
+              "zigzag_bitmatrix_const_kt": 1251048.2721753586,
+              "zigzag_typed_byte_entropy_lower": 1216282.7918415682,
+              "zigzag_typed_byteplane_zstd": 1302052.0
+            }
+          },
+          "sign": {
+            "route": "gdx2",
+            "current_mode": "chosen",
+            "gain": 1.0,
+            "costs": {
+              "gdx2": 7807.738609853881,
+              "raw": 49156.0,
+              "bitmatrix_zero_kt": 49163.118258666786,
+              "bitmatrix_const_kt": 12563.064124858909,
+              "bitmatrix_fixed_mask": 55300.0,
+              "typed_byte_entropy_lower": 7799.620323971687,
+              "typed_byteplane_zstd": 18068.0
+            }
+          }
+        }
+      },
+      {
+        "y": 256,
+        "x": 384,
+        "raw_mantissa_low_zero_bits": 0,
+        "groups": {
+          "body": {
+            "route": "gdx2",
+            "current_mode": "chosen",
+            "gain": 1.0,
+            "costs": {
+              "gdx2": 1212273.462886577,
+              "raw": 1523716.0,
+              "bitmatrix_zero_kt": 1373525.1372284899,
+              "bitmatrix_const_kt": 1343551.1483221164,
+              "bitmatrix_fixed_mask": 1529532.0,
+              "typed_byte_entropy_lower": 1228365.438536242,
+              "typed_byteplane_zstd": 1271524.0,
+              "zigzag_bitmatrix_zero_kt": 1524258.4373270627,
+              "zigzag_bitmatrix_const_kt": 1250722.0794295035,
+              "zigzag_typed_byte_entropy_lower": 1216182.4870849536,
+              "zigzag_typed_byteplane_zstd": 1301788.0
+            }
+          },
+          "sign": {
+            "route": "gdx2",
+            "current_mode": "chosen",
+            "gain": 1.0,
+            "costs": {
+              "gdx2": 7726.589136599005,
+              "raw": 49156.0,
+              "bitmatrix_zero_kt": 49163.118258666786,
+              "bitmatrix_const_kt": 12357.462358028113,
+              "bitmatrix_fixed_mask": 55300.0,
+              "typed_byte_entropy_lower": 7718.470850010239,
+              "typed_byteplane_zstd": 17612.0
+            }
+          }
+        }
+      },
+      {
+        "y": 256,
+        "x": 512,
+        "raw_mantissa_low_zero_bits": 0,
+        "groups": {
+          "body": {
+            "route": "gdx2",
+            "current_mode": "chosen",
+            "gain": 1.0,
+            "costs": {
+              "gdx2": 1212636.3038874387,
+              "raw": 1523716.0,
+              "bitmatrix_zero_kt": 1374561.51692521,
+              "bitmatrix_const_kt": 1344669.3915957808,
+              "bitmatrix_fixed_mask": 1530884.0,
+              "typed_byte_entropy_lower": 1228463.8436367495,
+              "typed_byteplane_zstd": 1273740.0,
+              "zigzag_bitmatrix_zero_kt": 1524218.9329548758,
+              "zigzag_bitmatrix_const_kt": 1251181.9257235338,
+              "zigzag_typed_byte_entropy_lower": 1216418.4764316136,
+              "zigzag_typed_byteplane_zstd": 1303700.0
+            }
+          },
+          "sign": {
+            "route": "gdx2",
+            "current_mode": "chosen",
+            "gain": 1.0,
+            "costs": {
+              "gdx2": 7568.857155567833,
+              "raw": 49156.0,
+              "bitmatrix_zero_kt": 49163.118258666786,
+              "bitmatrix_const_kt": 12192.500125581273,
+              "bitmatrix_fixed_mask": 55300.0,
+              "typed_byte_entropy_lower": 7560.738867558362,
+              "typed_byteplane_zstd": 17468.0
+            }
+          }
+        }
+      },
+      {
+        "y": 256,
+        "x": 640,
+        "raw_mantissa_low_zero_bits": 0,
+        "groups": {
+          "body": {
+            "route": "gdx2",
+            "current_mode": "chosen",
+            "gain": 1.0,
+            "costs": {
+              "gdx2": 1212286.1201073334,
+              "raw": 1523716.0,
+              "bitmatrix_zero_kt": 1372709.811480903,
+              "bitmatrix_const_kt": 1342653.600713567,
+              "bitmatrix_fixed_mask": 1528892.0,
+              "typed_byte_entropy_lower": 1228118.3528956608,
+              "typed_byteplane_zstd": 1272716.0,
+              "zigzag_bitmatrix_zero_kt": 1524292.9979867183,
+              "zigzag_bitmatrix_const_kt": 1250657.9718305708,
+              "zigzag_typed_byte_entropy_lower": 1216088.5550959266,
+              "zigzag_typed_byteplane_zstd": 1301276.0
+            }
+          },
+          "sign": {
+            "route": "gdx2",
+            "current_mode": "chosen",
+            "gain": 1.0,
+            "costs": {
+              "gdx2": 7612.481589663916,
+              "raw": 49156.0,
+              "bitmatrix_zero_kt": 49163.118258666786,
+              "bitmatrix_const_kt": 12213.143982101266,
+              "bitmatrix_fixed_mask": 55300.0,
+              "typed_byte_entropy_lower": 7604.363302053901,
+              "typed_byteplane_zstd": 17508.0
+            }
+          }
+        }
+      },
+      {
+        "y": 256,
+        "x": 768,
+        "raw_mantissa_low_zero_bits": 0,
+        "groups": {
+          "body": {
+            "route": "gdx2",
+            "current_mode": "chosen",
+            "gain": 1.0,
+            "costs": {
+              "gdx2": 1211565.3685915617,
+              "raw": 1523716.0,
+              "bitmatrix_zero_kt": 1371351.2881260777,
+              "bitmatrix_const_kt": 1340952.6563776515,
+              "bitmatrix_fixed_mask": 1527828.0,
+              "typed_byte_entropy_lower": 1227906.2502828096,
+              "typed_byteplane_zstd": 1272428.0,
+              "zigzag_bitmatrix_zero_kt": 1524240.3568016565,
+              "zigzag_bitmatrix_const_kt": 1250324.115969574,
+              "zigzag_typed_byte_entropy_lower": 1215205.7939536583,
+              "zigzag_typed_byteplane_zstd": 1300020.0
+            }
+          },
+          "sign": {
+            "route": "gdx2",
+            "current_mode": "chosen",
+            "gain": 1.0,
+            "costs": {
+              "gdx2": 7332.879826407086,
+              "raw": 49156.0,
+              "bitmatrix_zero_kt": 49163.118258666786,
+              "bitmatrix_const_kt": 11694.992221387212,
+              "bitmatrix_fixed_mask": 55300.0,
+              "typed_byte_entropy_lower": 7324.761536146479,
+              "typed_byteplane_zstd": 16980.0
+            }
+          }
+        }
+      },
+      {
+        "y": 256,
+        "x": 896,
+        "raw_mantissa_low_zero_bits": 0,
+        "groups": {
+          "body": {
+            "route": "gdx2",
+            "current_mode": "chosen",
+            "gain": 1.0,
+            "costs": {
+              "gdx2": 1212181.386511988,
+              "raw": 1523716.0,
+              "bitmatrix_zero_kt": 1374086.4027698834,
+              "bitmatrix_const_kt": 1344112.3647431624,
+              "bitmatrix_fixed_mask": 1529900.0,
+              "typed_byte_entropy_lower": 1228161.6502674774,
+              "typed_byteplane_zstd": 1271396.0,
+              "zigzag_bitmatrix_zero_kt": 1524155.3752283547,
+              "zigzag_bitmatrix_const_kt": 1251154.2597039943,
+              "zigzag_typed_byte_entropy_lower": 1215974.6801949735,
+              "zigzag_typed_byteplane_zstd": 1302548.0
+            }
+          },
+          "sign": {
+            "route": "gdx2",
+            "current_mode": "chosen",
+            "gain": 1.0,
+            "costs": {
+              "gdx2": 7431.971081613611,
+              "raw": 49156.0,
+              "bitmatrix_zero_kt": 49163.118258666786,
+              "bitmatrix_const_kt": 11830.127478892424,
+              "bitmatrix_fixed_mask": 55300.0,
+              "typed_byte_entropy_lower": 7423.852792317399,
+              "typed_byteplane_zstd": 17188.0
+            }
+          }
+        }
+      },
+      {
+        "y": 384,
+        "x": 0,
+        "raw_mantissa_low_zero_bits": 0,
+        "groups": {
+          "body": {
+            "route": "gdx2",
+            "current_mode": "chosen",
+            "gain": 1.0,
+            "costs": {
+              "gdx2": 1212371.0442864988,
+              "raw": 1523716.0,
+              "bitmatrix_zero_kt": 1377695.3860237345,
+              "bitmatrix_const_kt": 1348590.363174975,
+              "bitmatrix_fixed_mask": 1533404.0,
+              "typed_byte_entropy_lower": 1228333.9789894547,
+              "typed_byteplane_zstd": 1272596.0,
+              "zigzag_bitmatrix_zero_kt": 1524248.1082641773,
+              "zigzag_bitmatrix_const_kt": 1251477.9765744514,
+              "zigzag_typed_byte_entropy_lower": 1216223.8693922516,
+              "zigzag_typed_byteplane_zstd": 1301852.0
+            }
+          },
+          "sign": {
+            "route": "gdx2",
+            "current_mode": "chosen",
+            "gain": 1.0,
+            "costs": {
+              "gdx2": 7834.723301551533,
+              "raw": 49156.0,
+              "bitmatrix_zero_kt": 49163.118258666786,
+              "bitmatrix_const_kt": 12408.925071590522,
+              "bitmatrix_fixed_mask": 55300.0,
+              "typed_byte_entropy_lower": 7826.605015900519,
+              "typed_byteplane_zstd": 18196.0
+            }
+          }
+        }
+      },
+      {
+        "y": 384,
+        "x": 128,
+        "raw_mantissa_low_zero_bits": 0,
+        "groups": {
+          "body": {
+            "route": "gdx2",
+            "current_mode": "chosen",
+            "gain": 1.0,
+            "costs": {
+              "gdx2": 1212761.881763441,
+              "raw": 1523716.0,
+              "bitmatrix_zero_kt": 1375601.0020270585,
+              "bitmatrix_const_kt": 1345948.1827807894,
+              "bitmatrix_fixed_mask": 1531452.0,
+              "typed_byte_entropy_lower": 1228394.700277416,
+              "typed_byteplane_zstd": 1272412.0,
+              "zigzag_bitmatrix_zero_kt": 1524163.434335109,
+              "zigzag_bitmatrix_const_kt": 1251311.964120167,
+              "zigzag_typed_byte_entropy_lower": 1216572.1872380744,
+              "zigzag_typed_byteplane_zstd": 1302444.0
+            }
+          },
+          "sign": {
+            "route": "gdx2",
+            "current_mode": "chosen",
+            "gain": 1.0,
+            "costs": {
+              "gdx2": 7780.721445360419,
+              "raw": 49156.0,
+              "bitmatrix_zero_kt": 49163.118258666786,
+              "bitmatrix_const_kt": 12357.462358028113,
+              "bitmatrix_fixed_mask": 55300.0,
+              "typed_byte_entropy_lower": 7772.6031592448435,
+              "typed_byteplane_zstd": 18004.0
+            }
+          }
+        }
+      },
+      {
+        "y": 384,
+        "x": 256,
+        "raw_mantissa_low_zero_bits": 0,
+        "groups": {
+          "body": {
+            "route": "gdx2",
+            "current_mode": "chosen",
+            "gain": 1.0,
+            "costs": {
+              "gdx2": 1212152.5987099397,
+              "raw": 1523716.0,
+              "bitmatrix_zero_kt": 1370721.8758431375,
+              "bitmatrix_const_kt": 1340309.8943408334,
+              "bitmatrix_fixed_mask": 1527324.0,
+              "typed_byte_entropy_lower": 1227920.674083245,
+              "typed_byteplane_zstd": 1272012.0,
+              "zigzag_bitmatrix_zero_kt": 1524281.4390020345,
+              "zigzag_bitmatrix_const_kt": 1250147.4840085686,
+              "zigzag_typed_byte_entropy_lower": 1216080.913494181,
+              "zigzag_typed_byteplane_zstd": 1301532.0
+            }
+          },
+          "sign": {
+            "route": "gdx2",
+            "current_mode": "chosen",
+            "gain": 1.0,
+            "costs": {
+              "gdx2": 7590.680133833771,
+              "raw": 49156.0,
+              "bitmatrix_zero_kt": 49163.118258666786,
+              "bitmatrix_const_kt": 12109.856913932388,
+              "bitmatrix_fixed_mask": 55300.0,
+              "typed_byte_entropy_lower": 7582.561846024679,
+              "typed_byteplane_zstd": 17404.0
+            }
+          }
+        }
+      },
+      {
+        "y": 384,
+        "x": 384,
+        "raw_mantissa_low_zero_bits": 0,
+        "groups": {
+          "body": {
+            "route": "gdx2",
+            "current_mode": "chosen",
+            "gain": 1.0,
+            "costs": {
+              "gdx2": 1212149.4819581818,
+              "raw": 1523716.0,
+              "bitmatrix_zero_kt": 1372471.1768522891,
+              "bitmatrix_const_kt": 1342250.03817636,
+              "bitmatrix_fixed_mask": 1528748.0,
+              "typed_byte_entropy_lower": 1227907.1451004331,
+              "typed_byteplane_zstd": 1271948.0,
+              "zigzag_bitmatrix_zero_kt": 1524191.6880144088,
+              "zigzag_bitmatrix_const_kt": 1250569.8704112726,
+              "zigzag_typed_byte_entropy_lower": 1216124.6025507783,
+              "zigzag_typed_byteplane_zstd": 1302924.0
+            }
+          },
+          "sign": {
+            "route": "gdx2",
+            "current_mode": "chosen",
+            "gain": 1.0,
+            "costs": {
+              "gdx2": 7661.456568748335,
+              "raw": 49156.0,
+              "bitmatrix_zero_kt": 49163.118258666786,
+              "bitmatrix_const_kt": 12047.803030803294,
+              "bitmatrix_fixed_mask": 55300.0,
+              "typed_byte_entropy_lower": 7653.338281580758,
+              "typed_byteplane_zstd": 17740.0
+            }
+          }
+        }
+      },
+      {
+        "y": 384,
+        "x": 512,
+        "raw_mantissa_low_zero_bits": 0,
+        "groups": {
+          "body": {
+            "route": "gdx2",
+            "current_mode": "chosen",
+            "gain": 1.0,
+            "costs": {
+              "gdx2": 1211753.3822277072,
+              "raw": 1523716.0,
+              "bitmatrix_zero_kt": 1374145.7961468135,
+              "bitmatrix_const_kt": 1344270.1578375625,
+              "bitmatrix_fixed_mask": 1529884.0,
+              "typed_byte_entropy_lower": 1227636.7350565607,
+              "typed_byteplane_zstd": 1272244.0,
+              "zigzag_bitmatrix_zero_kt": 1524197.9272576035,
+              "zigzag_bitmatrix_const_kt": 1250660.596608818,
+              "zigzag_typed_byte_entropy_lower": 1215733.579471526,
+              "zigzag_typed_byteplane_zstd": 1300444.0
+            }
+          },
+          "sign": {
+            "route": "gdx2",
+            "current_mode": "chosen",
+            "gain": 1.0,
+            "costs": {
+              "gdx2": 7628.818603422992,
+              "raw": 49156.0,
+              "bitmatrix_zero_kt": 49163.118258666786,
+              "bitmatrix_const_kt": 12089.179111248326,
+              "bitmatrix_fixed_mask": 55300.0,
+              "typed_byte_entropy_lower": 7620.70031596124,
+              "typed_byteplane_zstd": 17444.0
+            }
+          }
+        }
+      },
+      {
+        "y": 384,
+        "x": 640,
+        "raw_mantissa_low_zero_bits": 0,
+        "groups": {
+          "body": {
+            "route": "gdx2",
+            "current_mode": "chosen",
+            "gain": 1.0,
+            "costs": {
+              "gdx2": 1212257.5174573723,
+              "raw": 1523716.0,
+              "bitmatrix_zero_kt": 1374481.5883484054,
+              "bitmatrix_const_kt": 1344640.7165098162,
+              "bitmatrix_fixed_mask": 1530588.0,
+              "typed_byte_entropy_lower": 1228068.9605259215,
+              "typed_byteplane_zstd": 1271980.0,
+              "zigzag_bitmatrix_zero_kt": 1524214.8380263008,
+              "zigzag_bitmatrix_const_kt": 1250828.1006243145,
+              "zigzag_typed_byte_entropy_lower": 1216059.139665197,
+              "zigzag_typed_byteplane_zstd": 1301588.0
+            }
+          },
+          "sign": {
+            "route": "gdx2",
+            "current_mode": "chosen",
+            "gain": 1.0,
+            "costs": {
+              "gdx2": 7568.857155567833,
+              "raw": 49156.0,
+              "bitmatrix_zero_kt": 49163.118258666786,
+              "bitmatrix_const_kt": 12037.45473714091,
+              "bitmatrix_fixed_mask": 55300.0,
+              "typed_byte_entropy_lower": 7560.738867558362,
+              "typed_byteplane_zstd": 17188.0
+            }
+          }
+        }
+      },
+      {
+        "y": 384,
+        "x": 768,
+        "raw_mantissa_low_zero_bits": 0,
+        "groups": {
+          "body": {
+            "route": "gdx2",
+            "current_mode": "chosen",
+            "gain": 1.0,
+            "costs": {
+              "gdx2": 1212031.1912953989,
+              "raw": 1523716.0,
+              "bitmatrix_zero_kt": 1372862.130257562,
+              "bitmatrix_const_kt": 1342844.1973106493,
+              "bitmatrix_fixed_mask": 1529004.0,
+              "typed_byte_entropy_lower": 1228023.4620647053,
+              "typed_byteplane_zstd": 1271644.0,
+              "zigzag_bitmatrix_zero_kt": 1524284.912839427,
+              "zigzag_bitmatrix_const_kt": 1250970.8514908142,
+              "zigzag_typed_byte_entropy_lower": 1216171.829965597,
+              "zigzag_typed_byteplane_zstd": 1300900.0
+            }
+          },
+          "sign": {
+            "route": "gdx2",
+            "current_mode": "chosen",
+            "gain": 1.0,
+            "costs": {
+              "gdx2": 7710.323836520567,
+              "raw": 49156.0,
+              "bitmatrix_zero_kt": 49163.118258666786,
+              "bitmatrix_const_kt": 12275.035049562393,
+              "bitmatrix_fixed_mask": 55300.0,
+              "typed_byte_entropy_lower": 7702.205549788311,
+              "typed_byteplane_zstd": 17828.0
+            }
+          }
+        }
+      },
+      {
+        "y": 384,
+        "x": 896,
+        "raw_mantissa_low_zero_bits": 0,
+        "groups": {
+          "body": {
+            "route": "gdx2",
+            "current_mode": "chosen",
+            "gain": 1.0,
+            "costs": {
+              "gdx2": 1211997.0236882195,
+              "raw": 1523716.0,
+              "bitmatrix_zero_kt": 1372859.789380476,
+              "bitmatrix_const_kt": 1342760.3906948587,
+              "bitmatrix_fixed_mask": 1529308.0,
+              "typed_byte_entropy_lower": 1227821.5228077616,
+              "typed_byteplane_zstd": 1272764.0,
+              "zigzag_bitmatrix_zero_kt": 1524248.614461977,
+              "zigzag_bitmatrix_const_kt": 1250747.823080383,
+              "zigzag_typed_byte_entropy_lower": 1215726.4816629386,
+              "zigzag_typed_byteplane_zstd": 1302532.0
+            }
+          },
+          "sign": {
+            "route": "gdx2",
+            "current_mode": "chosen",
+            "gain": 1.0,
+            "costs": {
+              "gdx2": 7861.675659261849,
+              "raw": 49156.0,
+              "bitmatrix_zero_kt": 49163.118258666786,
+              "bitmatrix_const_kt": 12583.587924697058,
+              "bitmatrix_fixed_mask": 55300.0,
+              "typed_byte_entropy_lower": 7853.5573738402945,
+              "typed_byteplane_zstd": 17932.0
+            }
+          }
+        }
+      }
+    ]
+  }
+]

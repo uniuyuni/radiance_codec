@@ -1,0 +1,236 @@
+[
+  {
+    "image": "ph_belfast_sunset_puresky_1k.exr",
+    "shape": [
+      256,
+      256,
+      4
+    ],
+    "crop_size": 256,
+    "tile_size": 128,
+    "previous_bits": 4,
+    "rows": [
+      {
+        "tail_width": 8,
+        "current_bits": 3705257.1491174423,
+        "hybrid_bits": 3691518.3296212177,
+        "current_ratio": 2.263974580549177,
+        "hybrid_ratio": 2.272400473455253,
+        "gain": 1.0037217259321138,
+        "selected": {
+          "ordered_affine": 4
+        },
+        "totals": {
+          "current_total": 3705257.1491174423,
+          "hybrid_total": 3691518.3296212177,
+          "sign": 35.303003266078726,
+          "high": 2126186.2849585614,
+          "current_low": 1579035.561155615
+        },
+        "candidate_ratios": {
+          "ordered_affine": 2.272400473455253,
+          "float_affine": 2.2626473176705537,
+          "log_affine": 2.2625964826715363,
+          "ordered_quadratic": 2.271455345976561,
+          "float_quadratic": 2.26167587396528,
+          "log_quadratic": 2.2617020341249785
+        }
+      },
+      {
+        "tail_width": 10,
+        "current_bits": 3705257.1491174423,
+        "hybrid_bits": 3691537.1882665437,
+        "current_ratio": 2.263974580549177,
+        "hybrid_ratio": 2.272388864634217,
+        "gain": 1.0037165983034133,
+        "selected": {
+          "ordered_affine": 4
+        },
+        "totals": {
+          "current_total": 3705257.1491174423,
+          "hybrid_total": 3691537.1882665437,
+          "sign": 35.303003266078726,
+          "high": 1730984.0846447495,
+          "current_low": 1974237.761469427
+        },
+        "candidate_ratios": {
+          "ordered_affine": 2.272388864634217,
+          "float_affine": 2.2626474079228394,
+          "log_affine": 2.2626011038246765,
+          "ordered_quadratic": 2.271442813373807,
+          "float_quadratic": 2.261689110729039,
+          "log_quadratic": 2.2617144634863755
+        }
+      },
+      {
+        "tail_width": 12,
+        "current_bits": 3705257.1491174423,
+        "hybrid_bits": 3691528.3373255283,
+        "current_ratio": 2.263974580549177,
+        "hybrid_ratio": 2.2723943129954285,
+        "gain": 1.003719004850403,
+        "selected": {
+          "ordered_affine": 4
+        },
+        "totals": {
+          "current_total": 3705257.1491174423,
+          "hybrid_total": 3691528.3373255283,
+          "sign": 35.303003266078726,
+          "high": 1335790.2032416933,
+          "current_low": 2369431.6428724835
+        },
+        "candidate_ratios": {
+          "ordered_affine": 2.2723943129954285,
+          "float_affine": 2.262634226143892,
+          "log_affine": 2.2625894036714422,
+          "ordered_quadratic": 2.2714483492350426,
+          "float_quadratic": 2.261697834576435,
+          "log_quadratic": 2.261737274398947
+        }
+      },
+      {
+        "tail_width": 15,
+        "current_bits": 3705257.1491174423,
+        "hybrid_bits": 3691976.4143247046,
+        "current_ratio": 2.263974580549177,
+        "hybrid_ratio": 2.2721185236862764,
+        "gain": 1.0035971884168082,
+        "selected": {
+          "ordered_affine": 4
+        },
+        "totals": {
+          "current_total": 3705257.1491174423,
+          "hybrid_total": 3691976.4143247046,
+          "sign": 35.303003266078726,
+          "high": 743410.891591242,
+          "current_low": 2961810.954522934
+        },
+        "candidate_ratios": {
+          "ordered_affine": 2.2721185236862764,
+          "float_affine": 2.262375218254281,
+          "log_affine": 2.262362865609805,
+          "ordered_quadratic": 2.271206544127338,
+          "float_quadratic": 2.2614690625253053,
+          "log_quadratic": 2.261487000930124
+        }
+      }
+    ]
+  },
+  {
+    "image": "ph_kloppenheim_06_puresky_1k.exr",
+    "shape": [
+      256,
+      256,
+      4
+    ],
+    "crop_size": 256,
+    "tile_size": 128,
+    "previous_bits": 4,
+    "rows": [
+      {
+        "tail_width": 8,
+        "current_bits": 3647463.2780334884,
+        "hybrid_bits": 3633832.1013775817,
+        "current_ratio": 2.2998471432240644,
+        "hybrid_ratio": 2.308474295446916,
+        "gain": 1.003751185050828,
+        "selected": {
+          "ordered_affine": 4
+        },
+        "totals": {
+          "current_total": 3647463.2780334884,
+          "hybrid_total": 3633832.1013775817,
+          "sign": 35.303003266078726,
+          "high": 2068491.6122631326,
+          "current_low": 1578936.36276709
+        },
+        "candidate_ratios": {
+          "ordered_affine": 2.308474295446916,
+          "float_affine": 2.2984218677280515,
+          "log_affine": 2.2983196219282136,
+          "ordered_quadratic": 2.3074989288763446,
+          "float_quadratic": 2.297401265282851,
+          "log_quadratic": 2.2973979610334876
+        }
+      },
+      {
+        "tail_width": 10,
+        "current_bits": 3647463.2780334884,
+        "hybrid_bits": 3633851.9616875276,
+        "current_ratio": 2.2998471432240644,
+        "hybrid_ratio": 2.30846167880334,
+        "gain": 1.0037456991890334,
+        "selected": {
+          "ordered_affine": 4
+        },
+        "totals": {
+          "current_total": 3647463.2780334884,
+          "hybrid_total": 3633851.9616875276,
+          "sign": 35.303003266078726,
+          "high": 1673318.5777894724,
+          "current_low": 1974109.3972407503
+        },
+        "candidate_ratios": {
+          "ordered_affine": 2.30846167880334,
+          "float_affine": 2.298381512838939,
+          "log_affine": 2.298324036687651,
+          "ordered_quadratic": 2.3074884128454,
+          "float_quadratic": 2.2974059366824333,
+          "log_quadratic": 2.2973956350075837
+        }
+      },
+      {
+        "tail_width": 12,
+        "current_bits": 3647463.2780334884,
+        "hybrid_bits": 3633866.228667721,
+        "current_ratio": 2.2998471432240644,
+        "hybrid_ratio": 2.308452615515102,
+        "gain": 1.0037417583670252,
+        "selected": {
+          "ordered_affine": 4
+        },
+        "totals": {
+          "current_total": 3647463.2780334884,
+          "hybrid_total": 3633866.228667721,
+          "sign": 35.303003266078726,
+          "high": 1278118.1801522125,
+          "current_low": 2369309.7948780097
+        },
+        "candidate_ratios": {
+          "ordered_affine": 2.308452615515102,
+          "float_affine": 2.2983922274940287,
+          "log_affine": 2.2983111513046683,
+          "ordered_quadratic": 2.307472000093232,
+          "float_quadratic": 2.2974066361429313,
+          "log_quadratic": 2.2973955501603998
+        }
+      },
+      {
+        "tail_width": 15,
+        "current_bits": 3647463.2780334884,
+        "hybrid_bits": 3636544.7905653613,
+        "current_ratio": 2.2998471432240644,
+        "hybrid_ratio": 2.30675228358616,
+        "gain": 1.003002434480239,
+        "selected": {
+          "ordered_affine": 4
+        },
+        "totals": {
+          "current_total": 3647463.2780334884,
+          "hybrid_total": 3636544.7905653613,
+          "sign": 35.303003266078726,
+          "high": 687967.2066036253,
+          "current_low": 2959460.768426597
+        },
+        "candidate_ratios": {
+          "ordered_affine": 2.30675228358616,
+          "float_affine": 2.2967389890526486,
+          "log_affine": 2.296618827165071,
+          "ordered_quadratic": 2.3057615348039593,
+          "float_quadratic": 2.2957442696635963,
+          "log_quadratic": 2.295719112181264
+        }
+      }
+    ]
+  }
+]

@@ -1,0 +1,78 @@
+[
+  {
+    "image": "synth_gradient_1k.exr",
+    "shape": [
+      128,
+      128,
+      3
+    ],
+    "crop_size": 128,
+    "tile_size": 128,
+    "raw_bits": 1572864,
+    "current_bits": 17206.502532918246,
+    "routed_bits": 17206.502532918246,
+    "current_ratio": 91.41102307054612,
+    "routed_ratio": 91.41102307054612,
+    "gain": 1.0,
+    "half_tiles": 0,
+    "used_half_tiles": 0,
+    "mode_histogram": {}
+  },
+  {
+    "image": "synth_mixed_1k.exr",
+    "shape": [
+      128,
+      128,
+      3
+    ],
+    "crop_size": 128,
+    "tile_size": 128,
+    "raw_bits": 1572864,
+    "current_bits": 1114300.484385317,
+    "routed_bits": 1114300.484385317,
+    "current_ratio": 1.4115259053016036,
+    "routed_ratio": 1.4115259053016036,
+    "gain": 1.0,
+    "half_tiles": 0,
+    "used_half_tiles": 0,
+    "mode_histogram": {}
+  },
+  {
+    "image": "synth_noise_1k.exr",
+    "shape": [
+      128,
+      128,
+      3
+    ],
+    "crop_size": 128,
+    "tile_size": 128,
+    "raw_bits": 1572864,
+    "current_bits": 1219581.2130305362,
+    "routed_bits": 1219581.2130305362,
+    "current_ratio": 1.289675491221771,
+    "routed_ratio": 1.289675491221771,
+    "gain": 1.0,
+    "half_tiles": 0,
+    "used_half_tiles": 0,
+    "mode_histogram": {}
+  },
+  {
+    "image": "synth_rgba_hdr_1k.exr",
+    "shape": [
+      128,
+      128,
+      4
+    ],
+    "crop_size": 128,
+    "tile_size": 128,
+    "raw_bits": 2097152,
+    "current_bits": 1015658.7250940651,
+    "routed_bits": 1015658.7250940651,
+    "current_ratio": 2.064819558169771,
+    "routed_ratio": 2.064819558169771,
+    "gain": 1.0,
+    "half_tiles": 0,
+    "used_half_tiles": 0,
+    "mode_histogram": {}
+  }
+]

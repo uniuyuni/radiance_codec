@@ -1,0 +1,57 @@
+[
+  {
+    "image": "ph_belfast_sunset_puresky_1k.exr",
+    "shape": [
+      512,
+      1024,
+      4
+    ],
+    "crop_size": 0,
+    "tile_size": 128,
+    "previous_bits": 4,
+    "family_id_bits": 4,
+    "split_flag_bits": 1,
+    "min_split_gain_bits": 4.0,
+    "extra_mode_bits_per_channel": 8,
+    "mode_policy": "green_order",
+    "mode_score": "base",
+    "raw_bits": 67108864,
+    "baseline_bits": 27399014.377145655,
+    "channel_mode_bits": 27171971.825356584,
+    "baseline_ratio": 2.449316719070651,
+    "channel_mode_ratio": 2.4697826286340674,
+    "gain": 1.0083557628150195,
+    "mode_histogram": {
+      "c0:delta_channel_green": 16,
+      "c1:delta_float_med": 15,
+      "c2:delta_float_med": 11,
+      "c3:xor_bit_xor_planar": 11,
+      "c0:delta_float_med": 5,
+      "c2:delta_channel_green": 6,
+      "c1:delta_west": 7,
+      "c2:delta_west": 4,
+      "c3:xor_bit_majority": 21,
+      "c2:delta_med": 1,
+      "c0:delta_west": 2,
+      "c0:delta_float_planar": 9,
+      "c1:delta_float_planar": 10,
+      "c2:delta_float_planar": 10
+    },
+    "shared_mode_histogram": {
+      "delta_float_med": 14,
+      "delta_west": 8,
+      "delta_float_planar": 8,
+      "delta_north": 2
+    },
+    "pick_histogram": {
+      "channel_split": 1245,
+      "shared:prev_only": 621,
+      "shared:spatial_hi_channel": 110,
+      "shared:base": 32,
+      "shared:spatial_prev_channel": 3,
+      "shared:spatial_hi_neighbors": 2,
+      "shared:spatial_hi_pc": 2,
+      "shared:wn_prev": 1
+    }
+  }
+]

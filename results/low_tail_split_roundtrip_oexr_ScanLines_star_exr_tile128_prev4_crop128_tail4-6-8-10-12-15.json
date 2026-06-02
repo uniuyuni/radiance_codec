@@ -1,0 +1,440 @@
+[
+  {
+    "image": "oexr_ScanLines_CandleGlass.exr",
+    "shape": [
+      128,
+      128,
+      4
+    ],
+    "crop_size": 128,
+    "tile_size": 128,
+    "previous_bits": 4,
+    "route_header_bits": 8,
+    "rows": [
+      {
+        "tail_width": 4,
+        "current_bits": 313594.26268350455,
+        "split_bits": 313575.78543105494,
+        "current_ratio": 6.6874692861219645,
+        "split_ratio": 6.687863340969276,
+        "gain": 1.0000589243599414,
+        "route_histogram": {
+          "zero_mask_ordered_tail": 1
+        },
+        "totals": {
+          "sign": 8.825750816519681,
+          "current_high": 313550.13392942195,
+          "current_low": 70.60600653215745,
+          "split_low": 16.82575081651968,
+          "current_total": 313594.26268350455,
+          "split_total": 313575.78543105494,
+          "zero_mask_ordered_tail": 16.82575081651968,
+          "zero_mask_context_ordered_tail": 16.82575081651968,
+          "trailing_zero_ordered_tail": 40.41508152631607
+        }
+      },
+      {
+        "tail_width": 6,
+        "current_bits": 313594.2626835045,
+        "split_bits": 313558.1339294219,
+        "current_ratio": 6.687469286121965,
+        "split_ratio": 6.688239828828817,
+        "gain": 1.0001152218685252,
+        "route_histogram": {
+          "zero_mask_ordered_tail": 1
+        },
+        "totals": {
+          "sign": 8.825750816519681,
+          "current_high": 313532.4824277889,
+          "current_low": 105.90900979823617,
+          "split_low": 16.82575081651968,
+          "current_total": 313594.2626835045,
+          "split_total": 313558.1339294219,
+          "zero_mask_ordered_tail": 16.82575081651968,
+          "zero_mask_context_ordered_tail": 16.82575081651968,
+          "trailing_zero_ordered_tail": 55.09320846484047
+        }
+      },
+      {
+        "tail_width": 8,
+        "current_bits": 313594.26268350455,
+        "split_bits": 313540.4824277889,
+        "current_ratio": 6.6874692861219645,
+        "split_ratio": 6.688616359078902,
+        "gain": 1.0001715257159114,
+        "route_histogram": {
+          "zero_mask_ordered_tail": 1
+        },
+        "totals": {
+          "sign": 8.825750816519681,
+          "current_high": 313514.8309261559,
+          "current_low": 141.2120130643149,
+          "split_low": 16.82575081651968,
+          "current_total": 313594.26268350455,
+          "split_total": 313540.4824277889,
+          "zero_mask_ordered_tail": 16.82575081651968,
+          "zero_mask_context_ordered_tail": 16.82575081651968,
+          "trailing_zero_ordered_tail": 69.28593058889908
+        }
+      },
+      {
+        "tail_width": 10,
+        "current_bits": 313594.26268350455,
+        "split_bits": 313522.83092615585,
+        "current_ratio": 6.6874692861219645,
+        "split_ratio": 6.688992931726695,
+        "gain": 1.0002278359031707,
+        "route_histogram": {
+          "zero_mask_ordered_tail": 1
+        },
+        "totals": {
+          "sign": 8.825750816519681,
+          "current_high": 313497.17942452285,
+          "current_low": 176.51501633039365,
+          "split_low": 16.82575081651968,
+          "current_total": 313594.26268350455,
+          "split_total": 313522.83092615585,
+          "zero_mask_ordered_tail": 16.82575081651968,
+          "zero_mask_context_ordered_tail": 16.82575081651968,
+          "trailing_zero_ordered_tail": 83.11610464616972
+        }
+      },
+      {
+        "tail_width": 12,
+        "current_bits": 313594.26268350455,
+        "split_bits": 313505.1794245228,
+        "current_ratio": 6.6874692861219645,
+        "split_ratio": 6.6893695467793535,
+        "gain": 1.0002841524313737,
+        "route_histogram": {
+          "zero_mask_ordered_tail": 1
+        },
+        "totals": {
+          "sign": 8.825750816519681,
+          "current_high": 313479.5279228898,
+          "current_low": 211.8180195964724,
+          "split_low": 16.82575081651968,
+          "current_total": 313594.26268350455,
+          "split_total": 313505.1794245228,
+          "zero_mask_ordered_tail": 16.82575081651968,
+          "zero_mask_context_ordered_tail": 16.82575081651968,
+          "trailing_zero_ordered_tail": 96.65679409826974
+        }
+      },
+      {
+        "tail_width": 15,
+        "current_bits": 313594.26268350455,
+        "split_bits": 313361.87726376875,
+        "current_ratio": 6.6874692861219645,
+        "split_ratio": 6.692428633348869,
+        "gain": 1.0007415880379738,
+        "route_histogram": {
+          "zero_mask_ordered_tail": 1
+        },
+        "totals": {
+          "sign": 8.825750816519681,
+          "current_high": 313336.22576213576,
+          "current_low": 498.42234110461163,
+          "split_low": 16.82575081651968,
+          "current_total": 313594.26268350455,
+          "split_total": 313361.87726376875,
+          "zero_mask_ordered_tail": 16.82575081651968,
+          "zero_mask_context_ordered_tail": 16.82575081651968,
+          "trailing_zero_ordered_tail": 116.52715916031548
+        }
+      }
+    ]
+  },
+  {
+    "image": "oexr_ScanLines_Cannon.exr",
+    "shape": [
+      128,
+      128,
+      3
+    ],
+    "crop_size": 128,
+    "tile_size": 128,
+    "previous_bits": 4,
+    "route_header_bits": 8,
+    "rows": [
+      {
+        "tail_width": 4,
+        "current_bits": 295259.62026105076,
+        "split_bits": 295241.7655620982,
+        "current_ratio": 5.327054199315736,
+        "split_ratio": 5.327376352073669,
+        "gain": 1.0000604748414188,
+        "route_histogram": {
+          "zero_mask_ordered_tail": 1
+        },
+        "totals": {
+          "sign": 8.618232984203791,
+          "current_high": 295216.52909612976,
+          "current_low": 68.94586387363033,
+          "split_low": 16.618232984203793,
+          "current_total": 295259.62026105076,
+          "split_total": 295241.7655620982,
+          "zero_mask_ordered_tail": 16.618232984203793,
+          "zero_mask_context_ordered_tail": 16.618232984203793,
+          "trailing_zero_ordered_tail": 39.585021203354344
+        }
+      },
+      {
+        "tail_width": 6,
+        "current_bits": 295259.6202610508,
+        "split_bits": 295224.5290961298,
+        "current_ratio": 5.327054199315735,
+        "split_ratio": 5.327687387005199,
+        "gain": 1.0001188626332251,
+        "route_histogram": {
+          "zero_mask_ordered_tail": 1
+        },
+        "totals": {
+          "sign": 8.618232984203791,
+          "current_high": 295199.2926301614,
+          "current_low": 103.4187958104455,
+          "split_low": 16.618232984203793,
+          "current_total": 295259.6202610508,
+          "split_total": 295224.5290961298,
+          "zero_mask_ordered_tail": 16.618232984203793,
+          "zero_mask_context_ordered_tail": 16.618232984203793,
+          "trailing_zero_ordered_tail": 53.848128986741685
+        }
+      },
+      {
+        "tail_width": 8,
+        "current_bits": 295259.6202610508,
+        "split_bits": 295207.2926301614,
+        "current_ratio": 5.327054199315735,
+        "split_ratio": 5.327998458257938,
+        "gain": 1.0001772572432857,
+        "route_histogram": {
+          "zero_mask_ordered_tail": 1
+        },
+        "totals": {
+          "sign": 8.618232984203791,
+          "current_high": 295182.05616419297,
+          "current_low": 137.89172774726066,
+          "split_low": 16.618232984203793,
+          "current_total": 295259.6202610508,
+          "split_total": 295207.2926301614,
+          "zero_mask_ordered_tail": 16.618232984203793,
+          "zero_mask_context_ordered_tail": 16.618232984203793,
+          "trailing_zero_ordered_tail": 67.62583929263795
+        }
+      },
+      {
+        "tail_width": 10,
+        "current_bits": 295259.6202610508,
+        "split_bits": 295190.05616419297,
+        "current_ratio": 5.327054199315735,
+        "split_ratio": 5.328309565838251,
+        "gain": 1.0002356586727947,
+        "route_histogram": {
+          "zero_mask_ordered_tail": 1
+        },
+        "totals": {
+          "sign": 8.618232984203791,
+          "current_high": 295164.81969822454,
+          "current_low": 172.3646596840758,
+          "split_low": 16.618232984203793,
+          "current_total": 295259.6202610508,
+          "split_total": 295190.05616419297,
+          "zero_mask_ordered_tail": 16.618232984203793,
+          "zero_mask_context_ordered_tail": 16.618232984203793,
+          "trailing_zero_ordered_tail": 81.04100886855299
+        }
+      },
+      {
+        "tail_width": 12,
+        "current_bits": 295259.6202610508,
+        "split_bits": 295154.50999058544,
+        "current_ratio": 5.327054199315735,
+        "split_ratio": 5.328951267084381,
+        "gain": 1.0003561194794846,
+        "route_histogram": {
+          "zero_mask_ordered_tail": 1
+        },
+        "totals": {
+          "sign": 8.618232984203791,
+          "current_high": 295129.273524617,
+          "current_low": 243.4570068991561,
+          "split_low": 16.618232984203793,
+          "current_total": 295259.6202610508,
+          "split_total": 295154.50999058544,
+          "zero_mask_ordered_tail": 16.618232984203793,
+          "zero_mask_context_ordered_tail": 16.618232984203793,
+          "trailing_zero_ordered_tail": 94.16670117602021
+        }
+      },
+      {
+        "tail_width": 15,
+        "current_bits": 295259.6202610508,
+        "split_bits": 295259.6202610508,
+        "current_ratio": 5.327054199315735,
+        "split_ratio": 5.327054199315735,
+        "gain": 1.0,
+        "route_histogram": {
+          "current_low": 1
+        },
+        "totals": {
+          "sign": 8.618232984203791,
+          "current_high": 282803.7619910767,
+          "current_low": 24894.48007397978,
+          "split_low": 12447.24003698989,
+          "current_total": 295259.6202610508,
+          "split_total": 295259.6202610508,
+          "zero_mask_ordered_tail": 74341.15475027665,
+          "zero_mask_context_ordered_tail": 17063.50344722131,
+          "trailing_zero_ordered_tail": 98423.5705400089
+        }
+      }
+    ]
+  },
+  {
+    "image": "oexr_ScanLines_Tree.exr",
+    "shape": [
+      128,
+      128,
+      4
+    ],
+    "crop_size": 128,
+    "tile_size": 128,
+    "previous_bits": 4,
+    "route_header_bits": 8,
+    "rows": [
+      {
+        "tail_width": 4,
+        "current_bits": 490957.38868565124,
+        "split_bits": 490938.91143320163,
+        "current_ratio": 4.271556041990354,
+        "split_ratio": 4.271716808671304,
+        "gain": 1.0000376365613304,
+        "route_histogram": {
+          "zero_mask_ordered_tail": 1
+        },
+        "totals": {
+          "sign": 8.825750816519681,
+          "current_high": 490913.25993156864,
+          "current_low": 70.60600653215745,
+          "split_low": 16.82575081651968,
+          "current_total": 490957.38868565124,
+          "split_total": 490938.91143320163,
+          "zero_mask_ordered_tail": 16.82575081651968,
+          "zero_mask_context_ordered_tail": 16.82575081651968,
+          "trailing_zero_ordered_tail": 40.41508152631607
+        }
+      },
+      {
+        "tail_width": 6,
+        "current_bits": 490957.38868565124,
+        "split_bits": 490921.25993156864,
+        "current_ratio": 4.271556041990354,
+        "split_ratio": 4.271870401971041,
+        "gain": 1.0000735937858702,
+        "route_histogram": {
+          "zero_mask_ordered_tail": 1
+        },
+        "totals": {
+          "sign": 8.825750816519681,
+          "current_high": 490895.60842993564,
+          "current_low": 105.90900979823617,
+          "split_low": 16.82575081651968,
+          "current_total": 490957.38868565124,
+          "split_total": 490921.25993156864,
+          "zero_mask_ordered_tail": 16.82575081651968,
+          "zero_mask_context_ordered_tail": 16.82575081651968,
+          "trailing_zero_ordered_tail": 55.09320846484047
+        }
+      },
+      {
+        "tail_width": 8,
+        "current_bits": 490957.3886856512,
+        "split_bits": 490903.6084299355,
+        "current_ratio": 4.271556041990354,
+        "split_ratio": 4.272024006316338,
+        "gain": 1.00010955359625,
+        "route_histogram": {
+          "zero_mask_ordered_tail": 1
+        },
+        "totals": {
+          "sign": 8.825750816519681,
+          "current_high": 490877.95692830253,
+          "current_low": 141.2120130643149,
+          "split_low": 16.82575081651968,
+          "current_total": 490957.3886856512,
+          "split_total": 490903.6084299355,
+          "zero_mask_ordered_tail": 16.82575081651968,
+          "zero_mask_context_ordered_tail": 16.82575081651968,
+          "trailing_zero_ordered_tail": 69.28593058889908
+        }
+      },
+      {
+        "tail_width": 10,
+        "current_bits": 490957.38868565124,
+        "split_bits": 490885.95692830253,
+        "current_ratio": 4.271556041990354,
+        "split_ratio": 4.272177621708384,
+        "gain": 1.0001455159927484,
+        "route_histogram": {
+          "zero_mask_ordered_tail": 1
+        },
+        "totals": {
+          "sign": 8.825750816519681,
+          "current_high": 490860.30542666954,
+          "current_low": 176.51501633039365,
+          "split_low": 16.82575081651968,
+          "current_total": 490957.38868565124,
+          "split_total": 490885.95692830253,
+          "zero_mask_ordered_tail": 16.82575081651968,
+          "zero_mask_context_ordered_tail": 16.82575081651968,
+          "trailing_zero_ordered_tail": 83.11610464616972
+        }
+      },
+      {
+        "tail_width": 12,
+        "current_bits": 490957.3886856512,
+        "split_bits": 490820.28083711525,
+        "current_ratio": 4.271556041990354,
+        "split_ratio": 4.272749276829426,
+        "gain": 1.0002793443015479,
+        "route_histogram": {
+          "zero_mask_ordered_tail": 1
+        },
+        "totals": {
+          "sign": 8.825750816519681,
+          "current_high": 490794.62933548226,
+          "current_low": 307.8671987048897,
+          "split_low": 16.82575081651968,
+          "current_total": 490957.3886856512,
+          "split_total": 490820.28083711525,
+          "zero_mask_ordered_tail": 16.82575081651968,
+          "zero_mask_context_ordered_tail": 16.82575081651968,
+          "trailing_zero_ordered_tail": 96.65679409826974
+        }
+      },
+      {
+        "tail_width": 15,
+        "current_bits": 490957.38868565124,
+        "split_bits": 487047.571036154,
+        "current_ratio": 4.271556041990354,
+        "split_ratio": 4.305846337634905,
+        "gain": 1.0080275888475934,
+        "route_histogram": {
+          "zero_mask_context_ordered_tail": 1
+        },
+        "totals": {
+          "sign": 8.825750816519681,
+          "current_high": 403923.0443324495,
+          "current_low": 174051.03720477046,
+          "split_low": 83115.70095288799,
+          "current_total": 490957.38868565124,
+          "split_total": 487047.571036154,
+          "zero_mask_ordered_tail": 91032.66241974564,
+          "zero_mask_context_ordered_tail": 83115.70095288799,
+          "trailing_zero_ordered_tail": 115119.65099373015
+        }
+      }
+    ]
+  }
+]

@@ -1,0 +1,52 @@
+[
+  {
+    "image": "ph_abandoned_tiled_room_1k.exr",
+    "shape": [
+      512,
+      1024,
+      3
+    ],
+    "crop_size": 0,
+    "tile_size": 128,
+    "previous_bits": 4,
+    "family_id_bits": 4,
+    "split_flag_bits": 1,
+    "min_split_gain_bits": 4.0,
+    "extra_mode_bits_per_channel": 8,
+    "mode_policy": "green_order",
+    "mode_score": "base",
+    "raw_bits": 50331648,
+    "baseline_bits": 8135609.3162633795,
+    "channel_mode_bits": 8017727.6784680085,
+    "baseline_ratio": 6.186586160102993,
+    "channel_mode_ratio": 6.277545212113908,
+    "gain": 1.0147026242998933,
+    "mode_histogram": {
+      "c0:delta_channel_green": 32,
+      "c1:delta_paeth": 5,
+      "c2:delta_paeth": 3,
+      "c1:delta_west": 12,
+      "c2:delta_west": 4,
+      "c1:delta_med": 15,
+      "c2:delta_med": 7,
+      "c2:delta_channel_green": 18
+    },
+    "shared_mode_histogram": {
+      "delta_paeth": 2,
+      "delta_west": 4,
+      "delta_med": 9,
+      "delta_channel_green": 17
+    },
+    "pick_histogram": {
+      "channel_split": 513,
+      "shared:prev_only": 321,
+      "shared:spatial_hi_pc": 23,
+      "shared:base": 864,
+      "shared:spatial_hi_neighbors": 195,
+      "shared:spatial_hi_channel": 95,
+      "shared:spatial_prev_pc": 1,
+      "shared:wn_prev": 1,
+      "shared:spatial_prev_channel": 3
+    }
+  }
+]

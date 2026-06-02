@@ -1,0 +1,168 @@
+[
+  {
+    "image": "ph_belfast_sunset_puresky_1k.exr",
+    "shape": [
+      128,
+      128,
+      4
+    ],
+    "raw_bits": 2097152,
+    "rows": [
+      {
+        "tail_width": 8,
+        "context_bits": 12,
+        "previous_tail_bits": 0,
+        "xy_bits": 0,
+        "context_mode": "float_high",
+        "current_bits": 891401.9459574539,
+        "hybrid_bits": 861471.9333720917,
+        "current_ratio": 2.3526446285098146,
+        "hybrid_ratio": 2.43438226918321,
+        "current_low_bits_per_sample": 6.024244006878652,
+        "learned_low_bits_per_sample": 5.567548258200638,
+        "gain": 1.0347428760310344,
+        "route": "fixed_prior",
+        "train_images": [
+          "ph_belfast_sunset_puresky_1k.exr"
+        ]
+      },
+      {
+        "tail_width": 10,
+        "context_bits": 12,
+        "previous_tail_bits": 4,
+        "xy_bits": 0,
+        "context_mode": "float_high",
+        "current_bits": 891401.9459574539,
+        "hybrid_bits": 855501.2634735513,
+        "current_ratio": 2.3526446285098146,
+        "hybrid_ratio": 2.451372183233293,
+        "current_low_bits_per_sample": 7.532041690365311,
+        "learned_low_bits_per_sample": 6.984240749143651,
+        "gain": 1.0419644996643684,
+        "route": "fixed_prior",
+        "train_images": [
+          "ph_belfast_sunset_puresky_1k.exr"
+        ]
+      },
+      {
+        "tail_width": 12,
+        "context_bits": 12,
+        "previous_tail_bits": 4,
+        "xy_bits": 0,
+        "context_mode": "ordered_high",
+        "current_bits": 891401.9459574542,
+        "hybrid_bits": 851023.6846699829,
+        "current_ratio": 2.352644628509814,
+        "hybrid_ratio": 2.464269840871998,
+        "current_low_bits_per_sample": 9.039594228543983,
+        "learned_low_bits_per_sample": 8.423470856847949,
+        "gain": 1.0474466950977157,
+        "route": "fixed_prior",
+        "train_images": [
+          "ph_belfast_sunset_puresky_1k.exr"
+        ]
+      },
+      {
+        "tail_width": 15,
+        "context_bits": 12,
+        "previous_tail_bits": 2,
+        "xy_bits": 2,
+        "context_mode": "float_high",
+        "current_bits": 891401.9459574542,
+        "hybrid_bits": 848359.1225503393,
+        "current_ratio": 2.352644628509814,
+        "hybrid_ratio": 2.472009723542002,
+        "current_low_bits_per_sample": 11.296048121161418,
+        "learned_low_bits_per_sample": 10.639266758137815,
+        "gain": 1.0507365598636098,
+        "route": "fixed_prior",
+        "train_images": [
+          "ph_belfast_sunset_puresky_1k.exr"
+        ]
+      }
+    ]
+  },
+  {
+    "image": "ph_kloppenheim_06_puresky_1k.exr",
+    "shape": [
+      128,
+      128,
+      4
+    ],
+    "raw_bits": 2097152,
+    "rows": [
+      {
+        "tail_width": 8,
+        "context_bits": 12,
+        "previous_tail_bits": 2,
+        "xy_bits": 0,
+        "context_mode": "ordered_high",
+        "current_bits": 933792.9057765303,
+        "hybrid_bits": 903909.7156807384,
+        "current_ratio": 2.2458427206148404,
+        "hybrid_ratio": 2.3200901192002625,
+        "current_low_bits_per_sample": 6.023201017844314,
+        "learned_low_bits_per_sample": 5.567219723658036,
+        "gain": 1.033059927974429,
+        "route": "fixed_prior",
+        "train_images": [
+          "ph_kloppenheim_06_puresky_1k.exr"
+        ]
+      },
+      {
+        "tail_width": 10,
+        "context_bits": 12,
+        "previous_tail_bits": 2,
+        "xy_bits": 0,
+        "context_mode": "ordered_high",
+        "current_bits": 933792.9057765304,
+        "hybrid_bits": 897399.6393750738,
+        "current_ratio": 2.24584272061484,
+        "hybrid_ratio": 2.336920930189367,
+        "current_low_bits_per_sample": 7.530808046876389,
+        "learned_low_bits_per_sample": 6.975490871561195,
+        "gain": 1.040554135308991,
+        "route": "fixed_prior",
+        "train_images": [
+          "ph_kloppenheim_06_puresky_1k.exr"
+        ]
+      },
+      {
+        "tail_width": 12,
+        "context_bits": 12,
+        "previous_tail_bits": 4,
+        "xy_bits": 0,
+        "context_mode": "float_high",
+        "current_bits": 933792.9057765304,
+        "hybrid_bits": 891552.0528139839,
+        "current_ratio": 2.24584272061484,
+        "hybrid_ratio": 2.3522485236625394,
+        "current_low_bits_per_sample": 9.038357575304392,
+        "learned_low_bits_per_sample": 8.393813310128817,
+        "gain": 1.047379009256075,
+        "route": "fixed_prior",
+        "train_images": [
+          "ph_kloppenheim_06_puresky_1k.exr"
+        ]
+      },
+      {
+        "tail_width": 15,
+        "context_bits": 12,
+        "previous_tail_bits": 4,
+        "xy_bits": 0,
+        "context_mode": "ordered_high",
+        "current_bits": 933792.9057765303,
+        "hybrid_bits": 888657.1594186777,
+        "current_ratio": 2.2458427206148404,
+        "hybrid_ratio": 2.3599112185984854,
+        "current_low_bits_per_sample": 11.293832719592391,
+        "learned_low_bits_per_sample": 10.605115886739416,
+        "gain": 1.0507909556339798,
+        "route": "fixed_prior",
+        "train_images": [
+          "ph_kloppenheim_06_puresky_1k.exr"
+        ]
+      }
+    ]
+  }
+]

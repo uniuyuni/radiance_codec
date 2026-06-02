@@ -1,0 +1,104 @@
+[
+  {
+    "image": "ph_belfast_sunset_puresky_1k.exr",
+    "shape": [
+      512,
+      1024,
+      4
+    ],
+    "crop_size": 0,
+    "tile_size": 128,
+    "previous_bits": 4,
+    "xy_bits": 3,
+    "context_header_bits": 16,
+    "route_header_bits": 8,
+    "max_palette": 512,
+    "rows": [
+      {
+        "tail_width": 15,
+        "hash_bits": 10,
+        "current_bits": 27681158.003614936,
+        "hybrid_bits": 27681158.003614936,
+        "current_ratio": 2.4243517554878347,
+        "hybrid_ratio": 2.4243517554878347,
+        "gain": 1.0,
+        "route_histogram": {
+          "current_low": 32
+        },
+        "totals": {
+          "current_total": 27681158.003614936,
+          "hybrid_total": 27681158.003614936,
+          "gdx_low": 23594302.04196118,
+          "palette_low": 24540498.8549165,
+          "adaptive_low": 26314537.472507052,
+          "high": 4086573.53762763,
+          "sign": 282.42402612862975
+        },
+        "detail_totals": {
+          "raw_cost": 31457280.0,
+          "used_palette_contexts": 1952.0,
+          "raw_contexts": 30816.0,
+          "dictionary_values": 94177.0,
+          "unique_contexts": 32768.0,
+          "adaptive_contexts": 32768.0,
+          "adaptive_repeats": 523623.0,
+          "adaptive_raw_values": 1573529.0,
+          "adaptive_flag_bits": 503247.0243323196,
+          "adaptive_raw_value_bits": 23602935.0,
+          "adaptive_index_bits": 2208099.448174734
+        }
+      }
+    ]
+  },
+  {
+    "image": "ph_kloppenheim_06_puresky_1k.exr",
+    "shape": [
+      512,
+      1024,
+      4
+    ],
+    "crop_size": 0,
+    "tile_size": 128,
+    "previous_bits": 4,
+    "xy_bits": 3,
+    "context_header_bits": 16,
+    "route_header_bits": 8,
+    "max_palette": 512,
+    "rows": [
+      {
+        "tail_width": 15,
+        "hash_bits": 10,
+        "current_bits": 28228021.254523963,
+        "hybrid_bits": 28228021.254523963,
+        "current_ratio": 2.377384634753483,
+        "hybrid_ratio": 2.377384634753483,
+        "gain": 1.0,
+        "route_histogram": {
+          "current_low": 32
+        },
+        "totals": {
+          "current_total": 28228021.254523963,
+          "hybrid_total": 28228021.254523963,
+          "gdx_low": 23637362.19831126,
+          "palette_low": 24543350.233491994,
+          "adaptive_low": 26311040.418430887,
+          "high": 4590376.632186585,
+          "sign": 282.42402612862975
+        },
+        "detail_totals": {
+          "raw_cost": 31457280.0,
+          "used_palette_contexts": 1952.0,
+          "raw_contexts": 30816.0,
+          "dictionary_values": 94515.0,
+          "unique_contexts": 32768.0,
+          "adaptive_contexts": 32768.0,
+          "adaptive_repeats": 523670.0,
+          "adaptive_raw_values": 1573482.0,
+          "adaptive_flag_bits": 504799.7479985914,
+          "adaptive_raw_value_bits": 23602230.0,
+          "adaptive_index_bits": 2203754.670432295
+        }
+      }
+    ]
+  }
+]

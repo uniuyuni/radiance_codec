@@ -1,0 +1,57 @@
+[
+  {
+    "image": "ph_studio_small_03_1k.exr",
+    "shape": [
+      512,
+      1024,
+      3
+    ],
+    "crop_size": 0,
+    "tile_size": 128,
+    "previous_bits": 4,
+    "family_id_bits": 4,
+    "split_flag_bits": 1,
+    "min_split_gain_bits": 4.0,
+    "extra_mode_bits_per_channel": 8,
+    "mode_policy": "green_order",
+    "mode_score": "base",
+    "raw_bits": 50331648,
+    "baseline_bits": 7212197.086815583,
+    "channel_mode_bits": 7009500.821712204,
+    "baseline_ratio": 6.97868449712916,
+    "channel_mode_ratio": 7.180489635452462,
+    "gain": 1.0289173609161324,
+    "mode_histogram": {
+      "c0:delta_channel_green": 22,
+      "c1:delta_west": 14,
+      "c2:delta_channel_green": 24,
+      "c1:delta_paeth": 4,
+      "c0:delta_med": 3,
+      "c1:delta_med": 9,
+      "c1:delta_select": 5,
+      "c2:delta_med": 2,
+      "c0:delta_float_med": 1,
+      "c0:delta_west": 6,
+      "c2:delta_west": 6
+    },
+    "shared_mode_histogram": {
+      "delta_channel_green": 2,
+      "delta_west": 10,
+      "delta_channel_previous": 9,
+      "delta_med": 7,
+      "delta_paeth": 1,
+      "delta_select": 3
+    },
+    "pick_histogram": {
+      "shared:spatial_prev_channel": 22,
+      "channel_split": 316,
+      "shared:prev_only": 360,
+      "shared:spatial_hi_pc": 40,
+      "shared:spatial_hi_channel": 155,
+      "shared:base": 884,
+      "shared:spatial_hi_neighbors": 235,
+      "shared:spatial_prev_pc": 1,
+      "shared:wn_prev": 3
+    }
+  }
+]
