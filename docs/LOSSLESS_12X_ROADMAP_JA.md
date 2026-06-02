@@ -19,6 +19,305 @@ zeroing は別の製品モードとして有望だが、ここでは 12x 達成�
 - realistic-no-puresky crop128, effort12: geomean `8.043x`
 - puresky-hard crop128, effort12: geomean `2.347x`
 
+追加サンプル `data/sample_1920×1280.exr`:
+
+- OpenEXR scanline / uncompressed / `1920x1280` / RGB / `half`
+- 値域は各 channel `0..1`、finite、float32 展開後の lower 13 bits は全ゼロ
+- crop128, effort12, GDXB actual: `5.567x`
+- crop512, effort12, GDXB actual: `7.177x`
+- crop128 source-precision estimate: current `5.179x`, half16 routed `5.185x`
+
+判断: true lossless 研究では「half由来の高解像度実データ」として使える。既存の
+`realistic-no-puresky` full benchmark に無条件で混ぜると重くなるため、
+`highres-sample` corpus として明示的に組み込む。
+
+追加サンプル `data/sample_hilberts-mill-conference-room_2K.exr`:
+
+- OpenEXR scanline / PIZ / `2048x1024` / RGBA / `float`
+- RGB は finite、値域はおおむね `0.0028..149.1`、A は定数 `1.0`
+- RGB だけで見ると lower 13 bits zero は約 `0.016%`、lower 16 bits zero は約
+  `0.002%` で、half由来ではない float32 精度データと見てよい
+- crop128, effort12, GDXB actual: `2.016x`
+- crop128 source-precision estimate: current `1.991x`, routed `1.991x`,
+  half/bf16 eligible tileなし
+- crop128 actual stream は tail payload が約 `70.3%`
+
+判断: true float32 の hard HDR sample として使える。`sample_*.exr` パターンに
+入るため、`highres-sample` corpus の対象になる。12x 改善の確認では、half由来の
+`sample_1920×1280.exr` と対になる「float32 tail hard」代表として扱う。
+
+8x feasibility 初回判定:
+
+- full, effort12, GDXB actual: `2.094x`
+  - main `26.9%`, tail `73.0%`
+  - tail split `128/128`, channel split `103/128`
+- crop512, effort12, GDXB actual: `2.101x`
+  - main `26.7%`, tail `73.3%`
+- crop512, raw low mantissa conditional entropy:
+  - low8: GDX low `5.999 bits/sample`, best conditional `2.706 bits/sample`
+  - low10: GDX low `7.507 bits/sample`, best conditional `2.783 bits/sample`
+  - low12: GDX low `9.014 bits/sample`, best conditional `2.805 bits/sample`
+  - low15: GDX low `11.276 bits/sample`, best conditional `2.856 bits/sample`
+
+8x は `4.0 bits/sample` が目標。crop512 の現行 total は `32 / 2.101 = 約15.23`
+bits/sample で、tail 以外だけでも約 `4.07 bits/sample` ある。tail をかなり理想的な
+条件付き entropy `2.856 bits/sample` に置き換えても、合計は約 `6.92 bits/sample`
+で `4.6x` 程度に留まる。これは side-info なしの楽観下限なので、tail route 単独で
+8x は現実的ではない。
+
+判断更新: この sample で 8x を狙うには、tail を `~3 bps` まで落とすだけでなく、
+main/high 側も `4.1 -> 1.1 bps` 級へ削る必要がある。次の探索は tail 専用route
+だけではなく、PIZ-like な可逆 wavelet/byte-plane route や image-global transform
+で main と tail を同時に変える方向に寄せる。
+
+4x 目標への再設定:
+
+- 4x は `8.0 bits/sample` が目標。
+- crop512 の現行 total は約 `15.23 bits/sample`。
+- tail以外が約 `4.07 bits/sample` なので、tail を `11.28 -> 3.9 bits/sample`
+  付近まで落とせれば 4x が見える。
+- raw/body low15 tail の条件付き entropy 下限は約 `2.856 bits/sample` なので、
+  side-info と model cost を `~1 bps` 程度に抑えられる route が必要。
+
+tail 狙い撃ち 初回追試:
+
+- `probe_tail_image_adaptive_context.py` に `--tail-transforms` と `--no-save` を追加。
+  raw / `xor_green` / `sub_green` / previous channel 系を試せるようにした。
+- `probe_tail_static_prob_table.py` と `probe_tail_context_palette.py` に `--no-save` を追加。
+- `probe_tail_context_palette.py` に `--scope image` と `--tail-transforms` を追加。
+- `probe_tail_conditional_entropy.py` に `--tail-source body_payload` を追加し、GDX residual
+  low tail そのものの下限を見られるようにした。
+
+結果、`sample_hilberts`, crop128:
+
+- image-global adaptive KT tail route:
+  current `1.992x`, hybrid `1.992x`; adaptive は選ばれない。
+- static bit probability table:
+  current low `11.269 bps`, static low `12.361 bps`; current に負ける。
+- image-global context palette:
+  current low `11.269 bps`, palette low `11.379 bps`,
+  adaptive dictionary low `12.069 bps`; current に僅差負け。
+- RGB tail transform:
+  `xor_green` / `sub_green` は raw とほぼ同等、previous-channel 系は悪化。
+- GDX body payload low15 の条件付き entropy 下限も crop512 で `2.856 bps`。
+
+判断更新: `2.856 bps` の下限は有望だが、単純な adaptive/table/palette では
+side-info や初出値コストでほぼ全て失われる。4x の次候補は「context ごとの値表」
+ではなく、値を送らずに tail を小さくする predictor / reversible transform:
+
+- high/exponent から low tail を直接予測し、residual を GDX へ戻す。
+- tail 専用 reversible wavelet/lifting を試す。
+- PIZ-like な byte-plane / wavelet route を tail+main の一体表現として試す。
+- 条件付きentropy probe は今後、in-sample ではなく held-out / causal lower bound も
+  併記して、過学習した下限を採用しない。
+
+tail predictor / transform 追試:
+
+- `scripts/probe_tail_predictor_residual.py` を追加した。
+  - low ordered tail を causal predictor の residual として符号化する。
+  - predictor: zero / west / north / average / gradient / median / paeth /
+    previous_channel / green
+  - residual: modular sub / xor
+- `scripts/probe_tail_wavelet_transform.py` を追加した。
+  - low ordered tail または body payload low bits だけに可逆 2x2 pyramid をかける。
+- `sample_hilberts`, crop128, low15:
+  - predictor residual: current `1.992x`, hybrid `1.998x`, gain `1.0032`
+  - best は `zero_sub`。つまり予測器ではなく、ordered low tail を直接別routeに
+    するだけの微改善。
+  - tail wavelet: current のまま、選択されない。
+- `sample_hilberts`, crop512, low15:
+  - predictor residual: current `2.060x`, hybrid `2.069x`, gain `1.0041`
+  - `zero_sub` が全16 tileで選択。
+- tail幅 `8/10/12/15` を `zero/green` 候補で見ても、crop512 はすべて
+  current `2.060x`, hybrid `2.069x` で同程度。
+
+判断更新: tail を current residual から ordered-tail direct split に変えるだけで
+微小な exact gain はあるが、4x には全く足りない。単純な causal predictor や
+tail-only 2x2 wavelet は、この sample では breakthrough ではない。
+
+PIZ-like / byte-plane 追試:
+
+- `scripts/probe_nonjpeg_routes.py` に `--no-save` を追加し、診断用の
+  `typed_byte_entropy_lower` も標準出力へ出すようにした。
+- `sample_hilberts`, crop128, body preset, zstd level3:
+  current `1.992x`, hybrid `1.992x`, typed lower `1.427x`
+- 同 crop128, `--search-candidates`:
+  current `1.992x`, hybrid `1.992x`, typed lower `1.427x`
+- 同 crop512, body preset, zstd level3:
+  current `2.060x`, hybrid `2.060x`, typed lower `1.515x`
+- 採択 route はすべて `gdx2`。typed byte-plane は entropy lower で見ても現行より悪い。
+
+判断更新: 現行 GDX payload の後段を byte-plane/zstd 系へ差し替えるだけでは、この
+hard float32 sample では改善しない。PIZ/ZIP 的な思想を続けるなら、後段 compressor
+ではなく、payload 前の可逆表現そのものを変える必要がある。
+
+hash / LSH protocol 追試:
+
+- 神領域アイデアとして、暗号/LSH 的な hash で tail に構造を作れるかを検証する。
+- 外部辞書や共有乱数プールを圧縮サイズに数えない route は除外する。
+- exact-compatible な形だけを試す:
+  - tail permutation route:
+    - low-tail symbol に固定の可逆 permutation/hash をかける。
+    - その後の causal residual が小さくなるかを見る。
+  - decoder-visible hash/LSH context route:
+    - exponent / high mantissa / payload high / channel / xy / neighbor high だけから
+      bucket を作る。
+    - tail symbol は sparse adaptive alphabet で逐次符号化する。
+    - 値辞書を送らず、decoder も復号済み symbol で同じ model を更新する。
+- `scripts/probe_tail_hash_lsh_protocol.py` を追加した。
+- 既存 `probe_tail_conditional_entropy.py` は payload context 追加部が早期 `return` で
+  到達していなかったため修正した。
+
+`sample_hilberts`, crop128, body payload:
+
+- low08: GDX `5.992 bps`, adaptive hash/LSH `6.013 bps`, best residual `6.287 bps`
+- low10: GDX `7.500 bps`, adaptive hash/LSH `7.580 bps`, best residual `7.903 bps`
+- low12: GDX `9.008 bps`, adaptive hash/LSH `9.149 bps`, best residual `9.526 bps`
+- low15: GDX `11.269 bps`, adaptive hash/LSH `11.751 bps`, best residual `11.962 bps`
+- raw mantissa low15 でも adaptive `11.751 bps`, best hash-permutation residual
+  `12.087 bps` で GDX に届かない。
+- 一方、条件付きエントロピー下限は payload context 修正後も low15
+  `2.850 bps` (`hash12_exp_high_xy_channel`) が見える。
+
+判断更新: hash/LSH は「下限の覗き窓」としては有用だが、実際の exact route にすると
+未知 symbol / sparse alphabet のコストで GDX に負ける。神領域 sandbox として残すが、
+C++ 実装候補ではなく、次の課題は `2.85 bps` の下限へ近づくための
+model sharing / escape coding / side-info amortization。
+
+top-K escape table 追試:
+
+- `scripts/probe_tail_escape_table_route.py` を追加した。
+- 目的は、神視点の conditional entropy と実装可能 route の中間を測ること。
+- 各 decoder-visible context ごとに top-K tail 値だけ辞書として送り、外れ値は raw
+  escape する。
+
+`sample_hilberts`, crop128, body payload:
+
+- low08: GDX `5.992 bps`, lower `2.706 bps`, top-K `6.001 bps`
+- low10: GDX `7.500 bps`, lower `2.765 bps`, top-K `7.501 bps`
+- low12: GDX `9.008 bps`, lower `2.808 bps`, top-K `9.001 bps`
+- low15: GDX `11.269 bps`, lower `2.850 bps`, top-K `11.251 bps`
+- crop128 low15 の best route は `hash4:channel` で、details は
+  `table_contexts=1`, `raw_contexts=3`, `dictionary_values=1`。
+  つまりほぼ定数の channel を拾っただけで、下限本体には届いていない。
+- crop256 low15:
+  - GDX `11.225 bps`, lower `4.654 bps`, top-K `11.250 bps`
+  - cropを広げると top-K は GDX に負ける。
+
+下限差分診断:
+
+- crop128 `hash12_exp_high_xy_channel`:
+  - samples `65536`, contexts `4084`
+  - samples/context mean `16.0`, median `12`
+  - unique tail/context mean `12.0`, median `12`
+  - tail global unique `24936`
+- crop256:
+  - samples `262144`, contexts `4096`
+  - samples/context mean `64.0`, median `47`
+  - unique tail/context mean `48.0`, median `47`
+  - tail global unique `32583`
+
+判断更新: `2.85 bps` 付近の下限は、context を細かく割りすぎた in-sample な薄さに
+かなり依存している。contextごとの辞書値を送ると tail をほぼ送るのと同じになる。
+次に続けるなら top-K 辞書ではなく、複数 context で共有できる generative predictor
+か、escape を raw tail ではなく low-rank/correction として送る route が必要。
+
+visible predictor residual 追試:
+
+- `scripts/probe_tail_visible_predictor_residual.py` を追加した。
+- 辞書値を送らず、decoder-visible な high/exponent/payload_high から固定関数で
+  low-tail を直接予測し、residual だけを既存 bitplane context で符号化する。
+- predictor:
+  - high low bits
+  - high hash
+  - exponent/channel/xy mix hash
+  - west/north/green/previous-channel の payload_high
+- `sample_hilberts`, crop128, body payload, low `8/10/12/15`:
+  - すべて selected `zero_sub`
+  - gain は `1.0002-1.0003`
+  - best visible candidates は `green_payload_high_low` 系だが GDX に届かない。
+- raw mantissa low15:
+  - current `1.992x`, hybrid `1.998x`, gain `1.0032`
+  - selected は `zero_sub`
+  - visible hash predictor は現行より悪い。
+
+判断更新: high/exponent には conditional entropy 上の情報はあるが、単純な固定 hash /
+prefix predictor では取り出せない。次に続けるなら learned 係数や木構造が必要だが、
+係数・木を送る side-info が top-K と同じ問題を持つため、C++ 実装優先度は低い。
+
+bounded / fixed-grid 入力メモ:
+
+- `sample_hilberts` は RGB 最大値が約 `149` あり、0..4 前提の画像ではない。
+- 本番入力で `0 <= value <= 4` が保証できるなら、sign bit と巨大 exponent 空間を
+  codec assumption として削れる。
+- ただし exact bit-for-bit では「数値の最小値が0」だけでは足りない。`-0.0` は
+  数値比較では0でも sign bit が1なので、sign省略routeの条件は
+  `all(sign_bit == 0)` とする。
+- nonnegative tile/channel route:
+  - image/tile/channelごとに sign bit が全0なら、1bit flagだけ送って sign payload を省略。
+  - signが混ざる tile は従来routeへfallback。
+  - 値域 `0..4` などが上流仕様で保証される場合は、range証明なしでこのrouteを
+    優先候補にできる。
+- ただし値域制限だけでは low mantissa tail は残る。4x以上へ効かせるには、
+  非負だけでなく fixed-point / integer grid / lower mantissa zero など発生源側の
+  制約が重要。
+- 次の別系統候補として、bounded exact route:
+  - nonnegative flagで sign省略
+  - narrow exponent alphabet
+  - fixed-grid detectorとscale signaling
+  - range外 escape stream
+  を検討する。
+
+nonnegative / bounded route 追試:
+
+- `scripts/probe_nonnegative_sign_route.py` を追加した。
+- `scripts/probe_bounded_value_route.py` を追加した。
+- exact 条件は数値 min ではなく `all(sign_bit == 0)`。
+- `sample_hilberts`, crop128:
+  - sign stream current `0.00013 bps`, tile signless `0.00002 bps`
+  - signless route は成立するが、総圧縮率への寄与はほぼゼロ。
+- `sample_*.exr`, crop128:
+  - `sample_1920×1280`: sign current `0.00018 bps`, routed `0.00002 bps`
+  - `sample_hilberts`: sign current `0.00013 bps`, routed `0.00002 bps`
+- bounded exponent alphabet, range `0..4`, crop128:
+  - `sample_1920×1280`: eligible, sign+exponent current `0.4007 bps`,
+    routed `0.4007 bps`
+  - `sample_hilberts`: crop128 は局所的に eligible, current `0.4921 bps`,
+    routed `0.4921 bps`
+- `sample_hilberts`, crop512:
+  - 局所 range `[0.0036, 1.1617]`, current `0.3269 bps`,
+    routed `0.3269 bps`
+
+判断更新: nonnegative / bounded assumption は bitstream の安全な pruning 条件として
+計画に残す。ただし sign/exponent は現行 GDX がすでにかなり圧縮しており、4x の主因
+にはならない。実装するなら tail/main route を邪魔しない lightweight fallback。
+
+shared-exponent integer route メモ:
+
+- 「値が整数である」という仮定は破棄する。少数値のまま exact に扱う。
+- 代わりに、float32 を tile/block ごとの共通 2冪スケールで整数へ写す route を
+  計画に入れる。
+- 正規化floatでは概念的に
+  `value = significand_integer * 2^(exponent - 150)` なので、block内の最小exponentを
+  共有スケールにすれば、各値は
+  `significand_integer << (exponent - block_min_exponent)` の整数として exact に表せる。
+- 必要bit幅はおおむね `24 + exponent_span`。`sample_hilberts` のような
+  `0.002..149` 級でも block/tile 内の exponent span が狭ければ `uint64` に収まる
+  可能性が高い。
+- これは IEEE ordered bits をさらに煮詰めるのではなく、数値の連続性を保つ
+  block fixed-point 表現へ変える route。tail 問題を mantissa low bits としてではなく、
+  integer residual / bitplane / wavelet の問題へ移せるかを見る。
+- 次に作る監査:
+  - tile/block ごとの exponent span
+  - `uint32` / `uint64` 収まり率
+  - 必要bit幅分布
+  - shared-scale integer plane の GDX cost
+  - shared-scale integer residual / wavelet cost
+- 採用条件:
+  - `sample_hilberts` crop512 で current `2.06x` を明確に超える。
+  - tailだけでなく main+tail を一体で削る兆候がある。
+  - uint64 route の追加metadataが 4x 目標に対して許容範囲に収まる。
+
 12x は float32 sample あたり `32 / 12 = 2.667 bits` しか使えない。puresky の
 低位 tail だけで約 `11.25 bits/sample` を消費しているため、puresky を exact
 12x に乗せるには tail を捨てるのではなく、decoder-visible な情報から予測できる
@@ -258,6 +557,54 @@ pixi run python scripts/probe_signaled_context_tree_mdl.py --glob 'ph_abandoned_
 解釈: これは小さな構文・動作確認で、性能結論ではない。ただし現時点の兆候は
 ロードマップ通りで、puresky tail 単独突破より non-puresky main payload 側を優先する。
 
+shared tree 追試:
+
+- `probe_signaled_context_tree_mdl.py` に `--tree-scope image` を追加した。
+- `tile` scope は tile/bitplane ごとに木を送る想定、`image` scope は同一画像内の
+  同じ bitplane に木を共有する想定。
+- `ph_abandoned_tiled_room_1k`, crop256, bits15-17, leaves8:
+  - tile scope: existing `28.230x`, hybrid `29.027x`, gain `1.0282`
+  - image scope: existing `28.230x`, hybrid `28.588x`, gain `1.0127`
+- `oexr_ScanLines_CandleGlass`, crop256, bits15-17, image scope:
+  existing `20.451x`, hybrid `20.525x`, gain `1.0036`
+
+判断更新: tree は tile-local だと数%の信号があるが、実装しやすい image-shared tree
+では弱くなる。C++ に大きな signaled tree を入れる前に、tree から頻出splitを抽出し、
+固定 context family として追加する方が実装コストに対する期待値が高い。
+
+fixed family 抽出 追試:
+
+- `scripts/probe_fixed_context_family_candidates.py` を追加した。
+- C++ 最新の固定 context family 相当を baseline にし、tree 由来の
+  `p1/wp1/np1/channel/xy` 系候補を同じ selector cost で比較する。
+- `ph_abandoned_tiled_room_1k`, crop64, bits15-20:
+  current `9.928x`, extended `9.939x`, gain `1.0011`
+- `oexr_ScanLines_CandleGlass`, crop64, bits15-20:
+  current `9.161x`, extended `9.162x`, gain `1.0001`
+- 前に tile tree が効いた `ph_abandoned`, crop256, bits15-17:
+  current `28.553x`, extended `28.662x`, gain `1.0038`
+- `oexr_ScanLines_CandleGlass`, crop256, bits15-17:
+  current `20.508x`, extended `20.523x`, gain `1.0007`
+- decoder schedule 変更を要する `ordered_high` 候補も crop128 では
+  `1.001-1.002x` 程度に留まった。
+
+判断更新: tree の数% signal は単純な固定 context family 追加ではほぼ回収できない。
+固定 family 抽出は優先度を下げる。Route A を続けるなら、leaf/family を送る小さい
+signaled structural choice か、bitplane 表現そのものを変える方向に絞る。
+
+`sample_hilberts` hard-float 追試:
+
+- crop128, tile scope, leaves16:
+  - tail bits0-14: existing `2.839x`, hybrid `2.863x`, gain `1.0084`
+  - mid bits15-20: existing `8.052x`, hybrid `8.070x`, gain `1.0023`
+  - high bits21-30: existing `38.837x`, hybrid `38.837x`, gain `1.0000`
+- tail bits0-14 に `--feature-set with_ordered_high` を足しても hybrid `2.862x`,
+  gain `1.0079`。
+
+判断更新: この sample でも MDL tree は tail に小さく効くが、4x に必要な
+`~2x -> 4x` 級の改善とは桁が違う。Route A は C++ 化候補ではなく、次の
+表現変更 route の scorer / diagnostic として残す。
+
 ### Route B: reversible ordered-body block transform
 
 優先度: 高
@@ -293,6 +640,42 @@ pixi run python scripts/probe_signaled_context_tree_mdl.py --glob 'ph_abandoned_
 ```text
 scripts/probe_ordered_body_block_transform.py
 ```
+
+初回の実装方針:
+
+- 上位 ordered-body actual bits を可逆 2x2 pyramid で変換する。
+- 下位 `split_bit` 未満は現行 GDX residual bit として保持する。
+- これにより puresky の random tail を壊さず、half/bfloat-like な main payload の
+  表現だけを試す。
+
+軽量スモーク:
+
+```text
+pixi run python scripts/probe_ordered_body_block_transform.py --glob 'ph_abandoned_tiled_room_1k.exr' --crop-size 64 --split-bit 15 --max-levels 4 --no-save
+```
+
+初回スモーク結果:
+
+- `ph_abandoned_tiled_room_1k`, crop64, split15: GDX `7.158x`, split `5.120x`, hybrid `7.158x`
+- `ph_abandoned_tiled_room_1k`, crop64, split21: GDX `7.158x`, split `5.751x`, hybrid `7.158x`
+- `oexr_ScanLines_CandleGlass`, crop64, split15 average: GDX `7.025x`, split `6.069x`, hybrid `7.025x`
+- `oexr_ScanLines_CandleGlass`, crop64, split15 anchor: GDX `7.025x`, split `6.346x`, hybrid `7.025x`
+
+解釈: whole-body Lorenzo より壊しにくい分割形にしても、現時点では GDX fallback
+しか選ばれない。Route B は「単純 2x2 pyramid」では薄く、続けるなら predictor
+aligned な block basis か、source precision route の後段に限定する。
+
+`sample_hilberts` hard-float 追試:
+
+- `scripts/probe_ordered_body_block_transform.py` を、同一画像準備を使い回して
+  `--split-bits` / `--lowpasses` で sweep できるようにした。
+- crop128, split `8,10,12,15,18,21,24`, lowpass `anchor,average`:
+  - 全パターンで current GDX が選択。
+  - route 単体は `1.885x-1.943x` 程度で、GDX `1.992x` に届かない。
+
+判断更新: PIZ-like な単純 2x2 high-body pyramid は、この true float32 sample では
+採択されない。Route B を続けるなら、2x2 wavelet ではなく Lorenzo/plane predictor
+residual や channel decorrelation を含む、より payload-aligned な変換へ寄せる。
 
 ### Route C: source-precision aware exact routes
 
@@ -330,6 +713,77 @@ scripts/probe_ordered_body_block_transform.py
 scripts/probe_source_precision_routes.py
 ```
 
+既存 `half16_route` full 結果:
+
+- full 13 image: current geomean `7.348x`, half-routed geomean `7.458x`
+- byte-weighted total gain `1.0073`
+- selected half tiles `225/299`
+
+`probe_source_precision_routes.py` では half16 に加えて bf16/coarse exact route も
+候補に入れる。軽量スモーク:
+
+```text
+pixi run python scripts/probe_source_precision_routes.py --glob 'ph_abandoned_tiled_room_1k.exr' --crop-size 64 --no-save
+```
+
+初回スモーク結果:
+
+- `ph_abandoned_tiled_room_1k`, crop64: current `7.142x`, routed `7.165x`,
+  eligible half16/bf16, selected half16, gain `1.0033`
+- `ph_spruit_sunrise_1k`, crop64: current `24.822x`, routed `26.435x`,
+  eligible half16/bf16, selected bf16, gain `1.0650`
+- `oexr_ScanLines_CandleGlass`, crop64: current `7.013x`, routed `7.026x`,
+  selected half16, gain `1.0018`
+
+解釈: crop64 では小さいが、bf16/coarse route は `ph_spruit` で half16 より良い
+候補になった。Route C は Route B より実装価値が高く、次は full ではなく
+crop128/realistic-no-puresky の軽量比較で tile 選択の安定性を見る。
+
+crop128 代表スモーク、mode を
+`raw,delta_west,delta_channel_green,delta_med,delta_channel_previous,delta_planar`
+に絞った軽量比較:
+
+- `ph_abandoned_tiled_room_1k`: current `7.294x`, routed `7.407x`,
+  selected half16, gain `1.0155`
+- `ph_spruit_sunrise_1k`: current `27.661x`, routed `30.067x`,
+  selected half16, gain `1.0870`
+- `ph_studio_small_03_1k`: current `6.106x`, routed `6.113x`,
+  selected bf16, gain `1.0012`
+- `oexr_ScanLines_CandleGlass`: current `6.685x`, routed `7.104x`,
+  selected half16, gain `1.0627`
+- `oexr_ScanLines_Cannon`: current `5.325x`, routed `5.354x`,
+  selected half16, gain `1.0056`
+- `oexr_ScanLines_Tree`: current `4.270x`, routed `4.371x`,
+  selected half16, gain `1.0236`
+
+判断: Route C は「12x突破の単独本命」ではないが、確実な exact gain として
+GDXB に入れる価値がある。次は C++ 側で half16/bf16 route を tile/channel mode
+selection に統合し、route metadata を含めた実バイトで再測定する。
+
+C++ 実験メモ:
+
+- half16 route は既に GDXB に実装済みだった。
+- bf16/coarse route は新しい mode id を増やせないため、既存 `Half*` mode を
+  source16 route として再利用し、body tile selector `2` で bf16 を信号する実験形にした。
+- selector `1` は従来通り tail split、selector `2` は bf16 source route。
+- 実バイトでは、微差の bf16 採択は負けやすかったため、bf16候補に `512 bits/tile`
+  の保守ペナルティを入れた。
+- 軽量確認:
+  - `ph_studio_small_03_1k`, crop128, effort12: bf16微差採択を抑制し、half routeで `6.184x`
+  - `ph_spruit_sunrise_1k`, crop128, effort12: 従来tail split routeが勝ち、`31.257x`
+  - `ph_spruit_sunrise_1k`, crop64, effort12: half routeが勝ち、`27.292x`
+
+判断更新: bf16/coarse route は Python 推定では兆候があったが、現行GDXBの実コストでは
+half16またはtail splitに負けることが多い。採択ペナルティ付きで安全なfallback候補に
+留める。Route C の主価値は、現時点では既存half16 routeとsource-class pruning。
+
+`sample_hilberts` hard-float 追試:
+
+- crop128: eligible `{}`、selected `{'gdx': 1}`、gain `1.0000`
+
+判断更新: 予想通り、この sample は half/bf16 完全一致 tile がなく、Route C は
+4x 達成の主因にならない。
+
 ### Route D: puresky exact-tail certificate
 
 優先度: 中だが重要
@@ -362,6 +816,36 @@ scripts/probe_source_precision_routes.py
 ```text
 scripts/probe_puresky_tail_certificate.py
 ```
+
+既存の近い probe:
+
+```text
+scripts/probe_tail_conditional_entropy.py
+```
+
+`probe_tail_conditional_entropy.py` に `--no-save` を追加し、保存なしで軽量再確認できる
+ようにした。
+
+軽量スモーク:
+
+```text
+pixi run python scripts/probe_tail_conditional_entropy.py --glob 'ph_*puresky*.exr' --limit 2 --crop-size 128 --tail-widths 15 --hash-bits 12 --no-save
+```
+
+結果:
+
+- `ph_belfast_sunset_puresky_1k`, crop128, low15:
+  GDX low `11.296 bits/sample`, best conditional `2.933 bits/sample`
+  (`hash12_exp_high_xy_channel`)
+- `ph_kloppenheim_06_puresky_1k`, crop128, low15:
+  GDX low `11.294 bits/sample`, best conditional `2.887 bits/sample`
+  (`hash12_exp_high_xy_channel`)
+
+判断: high/exponent/xy/channel には低位 tail をかなり説明する情報がある。ただしこれは
+条件付きエントロピー下限で、model/table/tree の送信費をまだ含まない。既存の
+static/adaptive table probe ではこの差を十分に回収できていないため、次の Route D は
+「もう一つの table」ではなく、side-info lower bound と support 分布を明示する
+certificate として整理する。
 
 ### Route E: AI context mixer
 

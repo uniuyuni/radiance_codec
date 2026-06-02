@@ -57,6 +57,7 @@ CORPUS_PATTERNS = {
     "target-no-noise": ("*.exr",),
     "realistic-core": ("ph_*.exr", "oexr_ScanLines_*.exr"),
     "realistic-no-puresky": ("ph_*.exr", "oexr_ScanLines_*.exr"),
+    "highres-sample": ("sample_*.exr",),
     "puresky-hard": ("ph_*puresky*.exr",),
     "easy": ("synth_gradient_1k.exr", "oexr_TestImages_GrayRampsHorizontal.exr"),
     "synthetic": ("synth_*.exr",),
@@ -89,6 +90,8 @@ class Budget:
     body_tail_tile_fraction: float
     body_half_tiles: int
     body_half_tile_fraction: float
+    body_bf16_tiles: int
+    body_bf16_tile_fraction: float
     body_channel_split_tiles: int
     body_channel_split_fraction: float
     mode_histogram: dict[str, int]
@@ -183,9 +186,18 @@ def parse_gdx8(encoded: bytes, shape: tuple[int, int, int]) -> Budget:
     height, width, channels = shape
     if len(encoded) < TOP_HEADER_SIZE + GDX_HEADER_SIZE:
         raise RuntimeError("encoded stream is too small")
-    gdx = encoded[TOP_HEADER_SIZE:]
-    if gdx[:4] not in GDX_MAGICS:
-        raise RuntimeError(f"expected GDX8/GDX9/GDXA/GDXB payload, got {gdx[:4]!r}")
+    gdx_start = min(
+        (
+            index
+            for magic in GDX_MAGICS
+            for index in [encoded.find(magic)]
+            if index >= 0
+        ),
+        default=-1,
+    )
+    if gdx_start < 0:
+        raise RuntimeError("expected GDX8/GDX9/GDXA/GDXB payload")
+    gdx = encoded[gdx_start:]
 
     offset = 4
     tile_size, offset = get_u16(gdx, offset)
@@ -237,7 +249,7 @@ def parse_gdx8(encoded: bytes, shape: tuple[int, int, int]) -> Budget:
     if len(tail_selectors) != body_tile_count:
         raise RuntimeError("truncated tail selectors")
     offset = tail_selector_end
-    if any(selector > 1 for selector in tail_selectors):
+    if any(selector > 2 for selector in tail_selectors):
         raise RuntimeError("invalid tail selector")
 
     main_tail_total = main_payload_size + tail_payload_size
@@ -249,6 +261,7 @@ def parse_gdx8(encoded: bytes, shape: tuple[int, int, int]) -> Budget:
     channel_mode_pos = 0
     body_channel_split_tiles = 0
     body_half_tiles = 0
+    body_bf16_tiles = 0
     record_bit_counts: list[int] = []
     for i, selector in enumerate(mode_selectors):
         group = "body" if i % GROUP_COUNT == 0 else "sign"
@@ -270,13 +283,19 @@ def parse_gdx8(encoded: bytes, shape: tuple[int, int, int]) -> Budget:
                 and modes
                 and all(HALF_MODE_MIN <= mode <= HALF_MODE_MAX for mode in modes)
             ):
-                body_half_tiles += 1
+                if tail_selectors[tile_index] == 2:
+                    body_bf16_tiles += 1
+                else:
+                    body_half_tiles += 1
                 is_half_body = True
         else:
             mode = selector & CHANNEL_MODE_MASK
             mode_histogram[f"{group}:m{mode}"] += 1
             if group == "body" and HALF_MODE_MIN <= mode <= HALF_MODE_MAX:
-                body_half_tiles += 1
+                if tail_selectors[tile_index] == 2:
+                    body_bf16_tiles += 1
+                else:
+                    body_half_tiles += 1
                 is_half_body = True
         if group == "body":
             record_bit_counts.append(16 if is_half_body or tail_selectors[tile_index] else 31)
@@ -305,7 +324,7 @@ def parse_gdx8(encoded: bytes, shape: tuple[int, int, int]) -> Budget:
         for value in channel_family_values
     )
 
-    tail_tiles = sum(1 for selector in tail_selectors if selector != 0)
+    tail_tiles = sum(1 for selector in tail_selectors if selector == 1)
     raw_bytes = height * width * channels * 4
     return Budget(
         image="",
@@ -313,7 +332,7 @@ def parse_gdx8(encoded: bytes, shape: tuple[int, int, int]) -> Budget:
         raw_bytes=raw_bytes,
         encoded_bytes=len(encoded),
         ratio=raw_bytes / len(encoded),
-        top_header_bytes=TOP_HEADER_SIZE,
+        top_header_bytes=gdx_start,
         gdx_header_bytes=GDX_HEADER_SIZE,
         record_mode_bytes=record_count,
         channel_mode_bytes=channel_mode_size,
@@ -326,6 +345,8 @@ def parse_gdx8(encoded: bytes, shape: tuple[int, int, int]) -> Budget:
         body_tail_tile_fraction=tail_tiles / body_tile_count,
         body_half_tiles=body_half_tiles,
         body_half_tile_fraction=body_half_tiles / body_tile_count,
+        body_bf16_tiles=body_bf16_tiles,
+        body_bf16_tile_fraction=body_bf16_tiles / body_tile_count,
         body_channel_split_tiles=body_channel_split_tiles,
         body_channel_split_fraction=body_channel_split_tiles / body_tile_count,
         mode_histogram=dict(sorted(mode_histogram.items())),
@@ -373,7 +394,7 @@ def main() -> int:
     print(
         f"{'image':43s} {'ratio':>8s} {'main':>9s} {'tail':>9s} "
         f"{'families':>9s} {'overhead':>9s} {'tailT':>7s} "
-        f"{'halfT':>7s} {'splitT':>7s}"
+        f"{'halfT':>7s} {'bf16T':>7s} {'splitT':>7s}"
     )
     print("-" * 113)
     for budget in budgets:
@@ -385,6 +406,7 @@ def main() -> int:
             f"{pct(budget.overhead_bytes, budget.encoded_bytes):8.1f}% "
             f"{budget.tail_tiles:3d}/{budget.body_tiles:<3d} "
             f"{budget.body_half_tiles:3d}/{budget.body_tiles:<3d} "
+            f"{budget.body_bf16_tiles:3d}/{budget.body_tiles:<3d} "
             f"{budget.body_channel_split_tiles:3d}/{budget.body_tiles:<3d}"
         )
     print("-" * 113)

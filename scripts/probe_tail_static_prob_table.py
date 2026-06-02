@@ -324,6 +324,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--probability-bits", type=int, default=12)
     parser.add_argument("--route-header-bits", type=int, default=24)
     parser.add_argument("--entry-extra-bits", type=int, default=2)
+    parser.add_argument("--no-save", action="store_true")
     return parser.parse_args()
 
 
@@ -387,8 +388,9 @@ def main() -> int:
         f"_tail{args.tail_widths.replace(',', '-')}"
         f"_ctx{args.context_bits.replace(',', '-')}.json"
     )
-    output.write_text(json.dumps(rows, indent=2), encoding="utf-8")
-    print(f"\nSaved: {output}")
+    if not args.no_save:
+        output.write_text(json.dumps(rows, indent=2), encoding="utf-8")
+        print(f"\nSaved: {output}")
     return 0
 
 

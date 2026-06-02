@@ -33,6 +33,7 @@ constexpr std::uint8_t kHashContextBits = 11;
 constexpr std::uint8_t kChannelSplitSelector = 0x0F;
 constexpr std::uint8_t kChannelModeSplitFlag = 0x80;
 constexpr std::uint8_t kChannelModeMask = 0x1F;
+constexpr double kBf16RoutePenaltyBits = 512.0;
 constexpr std::uint32_t kMaxContextCount = 2048;
 constexpr std::uint32_t kBodyMask = 0x7fffffffu;
 constexpr std::uint32_t kSignMask = 0x80000000u;
@@ -219,6 +220,7 @@ struct Record {
     bool channel_mode_split = false;
     bool tail_split = false;
     bool half_body = false;
+    bool bf16_body = false;
     std::array<Mode, 4> channel_modes = {
         Mode::Raw,
         Mode::Raw,
@@ -338,6 +340,7 @@ bool mode_is_half_body(const Record& record) noexcept {
     return record.group == Group::Body
         && !record.tail_split
         && (record.half_body
+            || record.bf16_body
             || (!record.channel_mode_split && mode_is_half(record.mode)));
 }
 
@@ -544,6 +547,31 @@ bool ordered_to_half_ordered_exact(
         return false;
     }
     half_ordered = half_bits_to_ordered(half);
+    return true;
+}
+
+bool float32_bits_to_bf16_bits_exact(
+    std::uint32_t bits,
+    std::uint16_t& bf16) noexcept {
+    if ((bits & 0xffffu) != 0) {
+        return false;
+    }
+    bf16 = static_cast<std::uint16_t>(bits >> 16);
+    return true;
+}
+
+std::uint32_t bf16_bits_to_float32_bits(std::uint16_t bf16) noexcept {
+    return static_cast<std::uint32_t>(bf16) << 16;
+}
+
+bool ordered_to_bf16_ordered_exact(
+    std::uint32_t ordered,
+    std::uint16_t& bf16_ordered) noexcept {
+    std::uint16_t bf16 = 0;
+    if (!float32_bits_to_bf16_bits_exact(ordered_to_bits(ordered), bf16)) {
+        return false;
+    }
+    bf16_ordered = half_bits_to_ordered(bf16);
     return true;
 }
 
@@ -834,22 +862,25 @@ std::uint32_t predictor_value(
     return 0;
 }
 
-std::uint16_t half_value_or_zero(
+std::uint16_t source16_value_or_zero(
     const std::vector<std::uint32_t>& values,
     std::uint32_t y,
     std::uint32_t x,
     std::uint8_t c,
+    const Record& record,
     const ImageMeta& meta) noexcept {
-    std::uint16_t half_ordered = 0;
-    if (!ordered_to_half_ordered_exact(
-            values[index_of(y, x, c, meta)],
-            half_ordered)) {
+    std::uint16_t source_ordered = 0;
+    const auto ordered = values[index_of(y, x, c, meta)];
+    const bool ok = record.bf16_body
+        ? ordered_to_bf16_ordered_exact(ordered, source_ordered)
+        : ordered_to_half_ordered_exact(ordered, source_ordered);
+    if (!ok) {
         return 0;
     }
-    return half_ordered;
+    return source_ordered;
 }
 
-std::uint16_t half_neighbor(
+std::uint16_t source16_neighbor(
     const std::vector<std::uint32_t>& values,
     const Record& record,
     std::uint32_t y,
@@ -860,7 +891,7 @@ std::uint16_t half_neighbor(
         || x < record.x || x >= record.x + record.width) {
         return 0;
     }
-    return half_value_or_zero(values, y, x, c, meta);
+    return source16_value_or_zero(values, y, x, c, record, meta);
 }
 
 std::uint16_t half_planar_prediction(
@@ -871,13 +902,13 @@ std::uint16_t half_planar_prediction(
     std::uint8_t c,
     const ImageMeta& meta) noexcept {
     const std::int32_t west = x > record.x
-        ? half_neighbor(values, record, y, x - 1, c, meta)
+        ? source16_neighbor(values, record, y, x - 1, c, meta)
         : 0;
     const std::int32_t north = y > record.y
-        ? half_neighbor(values, record, y - 1, x, c, meta)
+        ? source16_neighbor(values, record, y - 1, x, c, meta)
         : 0;
     const std::int32_t northwest = (y > record.y && x > record.x)
-        ? half_neighbor(values, record, y - 1, x - 1, c, meta)
+        ? source16_neighbor(values, record, y - 1, x - 1, c, meta)
         : 0;
     const auto pred = west + north - northwest;
     if (pred <= 0) return 0;
@@ -893,13 +924,13 @@ std::uint16_t half_med_prediction(
     std::uint8_t c,
     const ImageMeta& meta) noexcept {
     const auto west = x > record.x
-        ? half_neighbor(values, record, y, x - 1, c, meta)
+        ? source16_neighbor(values, record, y, x - 1, c, meta)
         : 0;
     const auto north = y > record.y
-        ? half_neighbor(values, record, y - 1, x, c, meta)
+        ? source16_neighbor(values, record, y - 1, x, c, meta)
         : 0;
     const auto northwest = (y > record.y && x > record.x)
-        ? half_neighbor(values, record, y - 1, x - 1, c, meta)
+        ? source16_neighbor(values, record, y - 1, x - 1, c, meta)
         : 0;
     const auto mx = std::max(west, north);
     const auto mn = std::min(west, north);
@@ -916,13 +947,13 @@ std::uint16_t half_paeth_prediction(
     std::uint8_t c,
     const ImageMeta& meta) noexcept {
     const std::uint16_t west = x > record.x
-        ? half_neighbor(values, record, y, x - 1, c, meta)
+        ? source16_neighbor(values, record, y, x - 1, c, meta)
         : 0;
     const std::uint16_t north = y > record.y
-        ? half_neighbor(values, record, y - 1, x, c, meta)
+        ? source16_neighbor(values, record, y - 1, x, c, meta)
         : 0;
     const std::uint16_t northwest = (y > record.y && x > record.x)
-        ? half_neighbor(values, record, y - 1, x - 1, c, meta)
+        ? source16_neighbor(values, record, y - 1, x - 1, c, meta)
         : 0;
     const std::int32_t planar =
         static_cast<std::int32_t>(west)
@@ -948,11 +979,11 @@ std::uint16_t half_predictor_value(
             return 0;
         case Mode::HalfDeltaWest:
             return x > record.x
-                ? half_neighbor(values, record, y, x - 1, c, meta)
+                ? source16_neighbor(values, record, y, x - 1, c, meta)
                 : 0;
         case Mode::HalfDeltaNorth:
             return y > record.y
-                ? half_neighbor(values, record, y - 1, x, c, meta)
+                ? source16_neighbor(values, record, y - 1, x, c, meta)
                 : 0;
         case Mode::HalfDeltaMed:
             return half_med_prediction(values, record, y, x, c, meta);
@@ -960,7 +991,7 @@ std::uint16_t half_predictor_value(
             return half_planar_prediction(values, record, y, x, c, meta);
         case Mode::HalfDeltaChannelGreen:
             return (meta.channels >= 3 && (c == 0 || c == 2))
-                ? half_neighbor(values, record, y, x, 1, meta)
+                ? source16_neighbor(values, record, y, x, 1, meta)
                 : 0;
         case Mode::HalfDeltaPaeth:
             return half_paeth_prediction(values, record, y, x, c, meta);
@@ -980,15 +1011,18 @@ std::uint32_t payload_value(
     const auto mask = group_mask(record.group);
     const auto mode = mode_for_channel(record, c);
     if (mode_is_half(mode)) {
-        std::uint16_t actual_half = 0;
-        if (!ordered_to_half_ordered_exact(actual, actual_half)) {
+        std::uint16_t actual_source = 0;
+        const bool ok = record.bf16_body
+            ? ordered_to_bf16_ordered_exact(actual, actual_source)
+            : ordered_to_half_ordered_exact(actual, actual_source);
+        if (!ok) {
             return 0;
         }
         if (mode == Mode::HalfRaw) {
-            return actual_half;
+            return actual_source;
         }
         const auto pred = half_predictor_value(mode, ordered, record, y, x, c, meta);
-        return static_cast<std::uint16_t>(actual_half - pred);
+        return static_cast<std::uint16_t>(actual_source - pred);
     }
     if (mode == Mode::Raw) {
         return actual & mask;
@@ -1901,6 +1935,28 @@ bool tile_is_half_convertible(
     return true;
 }
 
+bool tile_is_bf16_convertible(
+    const std::vector<std::uint32_t>& ordered,
+    std::uint32_t y0,
+    std::uint32_t x0,
+    std::uint32_t height,
+    std::uint32_t width,
+    const ImageMeta& meta) noexcept {
+    for (std::uint32_t y = y0; y < y0 + height; ++y) {
+        for (std::uint32_t x = x0; x < x0 + width; ++x) {
+            for (std::uint8_t c = 0; c < meta.channels; ++c) {
+                std::uint16_t bf16_ordered = 0;
+                if (!ordered_to_bf16_ordered_exact(
+                        ordered[index_of(y, x, c, meta)],
+                        bf16_ordered)) {
+                    return false;
+                }
+            }
+        }
+    }
+    return true;
+}
+
 std::vector<Record> choose_records(
     const std::vector<std::uint32_t>& ordered,
     const ImageMeta& meta,
@@ -1929,6 +1985,9 @@ std::vector<Record> choose_records(
             const bool half_convertible =
                 effort >= 11
                 && tile_is_half_convertible(ordered, y, x, tile_h, tile_w, meta);
+            const bool bf16_convertible =
+                effort >= 11
+                && tile_is_bf16_convertible(ordered, y, x, tile_h, tile_w, meta);
             bool tile_body_half = false;
 
             for (Group group : {Group::Body, Group::Sign}) {
@@ -1998,6 +2057,10 @@ std::vector<Record> choose_records(
                 if (allow_channel_mode_split && half_convertible) {
                     all_half_candidates.reserve(kBodyHalfModes.size());
                 }
+                std::vector<CandidateRecord> all_bf16_candidates;
+                if (allow_channel_mode_split && bf16_convertible) {
+                    all_bf16_candidates.reserve(kBodyHalfModes.size());
+                }
 
                 Record raw_record{y, x, tile_h, tile_w, group, Mode::Raw};
                 auto raw_payload = build_payload_tile(ordered, raw_record, meta);
@@ -2045,6 +2108,37 @@ std::vector<Record> choose_records(
                     }
                     if (half_convertible) {
                         for (Mode mode : kBodyHalfModes) try_mode(mode);
+                    }
+                    if (bf16_convertible) {
+                        for (Mode mode : kBodyHalfModes) {
+                            Record candidate{y, x, tile_h, tile_w, group, mode};
+                            candidate.bf16_body = true;
+                            auto candidate_payload =
+                                build_payload_tile(ordered, candidate, meta);
+                            const double cost =
+                                base_context_cost_for_tile(
+                                    candidate_payload,
+                                    candidate,
+                                    meta,
+                                    kt_costs)
+                                + kBf16RoutePenaltyBits;
+                            if (allow_channel_mode_split) {
+                                all_bf16_candidates.push_back(
+                                    CandidateRecord{
+                                        candidate,
+                                        cost,
+                                        candidate_payload,
+                                    });
+                            }
+                            insert_top_candidate(
+                                candidates,
+                                CandidateRecord{
+                                    candidate,
+                                    cost,
+                                    std::move(candidate_payload),
+                                },
+                                keep_count);
+                        }
                     }
                 } else {
                     if (effort < 7) {
@@ -2209,9 +2303,78 @@ std::vector<Record> choose_records(
                     }
                 }
 
+                Record bf16_split_record{y, x, tile_h, tile_w, group, Mode::HalfRaw};
+                std::vector<std::uint32_t> bf16_split_payload;
+                if (allow_channel_mode_split && !all_bf16_candidates.empty()) {
+                    bf16_split_record.channel_mode_split = true;
+                    bf16_split_record.bf16_body = true;
+                    bf16_split_payload.assign(
+                        std::size_t(tile_h) * tile_w * meta.channels,
+                        0);
+
+                    for (std::uint8_t c = 0; c < meta.channels; ++c) {
+                        std::size_t best_channel_index = 0;
+                        double best_channel_cost = 0.0;
+                        bool initialized = false;
+                        for (std::size_t i = 0; i < all_bf16_candidates.size(); ++i) {
+                            const auto mode = all_bf16_candidates[i].record.mode;
+                            if (!mode_allowed_for_channel(mode, c, meta.channels)) {
+                                continue;
+                            }
+                            const double cost =
+                                family_context_cost_for_tile_channel(
+                                    all_bf16_candidates[i].payload,
+                                    all_bf16_candidates[i].record,
+                                    c,
+                                    meta,
+                                    kt_costs);
+                            if (!initialized || cost < best_channel_cost) {
+                                initialized = true;
+                                best_channel_cost = cost;
+                                best_channel_index = i;
+                            }
+                        }
+
+                        bf16_split_record.channel_modes[c] =
+                            all_bf16_candidates[best_channel_index].record.mode;
+                        for (std::uint32_t local_y = 0; local_y < tile_h; ++local_y) {
+                            for (std::uint32_t local_x = 0; local_x < tile_w; ++local_x) {
+                                const auto tile_idx =
+                                    (std::size_t(local_y) * tile_w + local_x)
+                                        * meta.channels
+                                    + c;
+                                bf16_split_payload[tile_idx] =
+                                    all_bf16_candidates[best_channel_index]
+                                        .payload[tile_idx];
+                            }
+                        }
+                    }
+                    bf16_split_record.mode = bf16_split_record.channel_modes[0];
+
+                    constexpr double kMinModeSplitGainBits = 4.0;
+                    const double split_extra_bits =
+                        static_cast<double>(meta.channels - 1) * 8.0;
+                    const double split_cost =
+                        family_context_cost_for_tile(
+                            bf16_split_payload,
+                            bf16_split_record,
+                            meta,
+                            kt_costs)
+                        + split_extra_bits
+                        + kBf16RoutePenaltyBits;
+                    if (split_cost + kMinModeSplitGainBits < selected_cost) {
+                        selected_record = &bf16_split_record;
+                        selected_payload = &bf16_split_payload;
+                        selected_cost = split_cost;
+                    }
+                }
+
                 Record final_record = *selected_record;
                 const auto* final_payload = selected_payload;
                 std::uint8_t tail_selector = 0;
+                if (group == Group::Body && final_record.bf16_body) {
+                    tail_selector = 2;
+                }
                 if (group == Group::Body
                     && effort >= 11
                     && !mode_is_half_body(final_record)) {
@@ -3766,7 +3929,7 @@ std::vector<std::uint8_t> encode_tail_payload(
     const bool has_tail = std::any_of(
         tail_selectors.begin(),
         tail_selectors.end(),
-        [](std::uint8_t selector) { return selector != 0; });
+        [](std::uint8_t selector) { return selector == 1; });
     if (!has_tail) return {};
 
     const std::size_t raw_bits =
@@ -3781,7 +3944,7 @@ std::vector<std::uint8_t> encode_tail_payload(
     freqs.reserve(kTileSize * kTileSize * meta.channels);
 
     for (std::size_t ti = tail_selectors.size(); ti-- > 0;) {
-        if (tail_selectors[ti] == 0) continue;
+        if (tail_selectors[ti] != 1) continue;
         const Record& record = records[ti * kGroupCount];
         std::vector<std::uint32_t> flags(
             std::size_t(record.height) * record.width * meta.channels,
@@ -3870,7 +4033,7 @@ bool decode_tail_payload(
     const bool has_tail = std::any_of(
         tail_selectors.begin(),
         tail_selectors.end(),
-        [](std::uint8_t selector) { return selector != 0; });
+        [](std::uint8_t selector) { return selector == 1; });
     if (!has_tail) return payload.empty();
     if (payload.size() < 4) return false;
 
@@ -3879,7 +4042,7 @@ bool decode_tail_payload(
     std::uint32_t state = decode_init(read_ptr);
 
     for (std::size_t ti = 0; ti < tail_selectors.size(); ++ti) {
-        if (tail_selectors[ti] == 0) continue;
+        if (tail_selectors[ti] != 1) continue;
         const Record& record = records[ti * kGroupCount];
         std::vector<std::uint32_t> flags(
             std::size_t(record.height) * record.width * meta.channels,
@@ -4035,12 +4198,14 @@ std::vector<std::uint32_t> reconstruct_ordered(
                         x,
                         c,
                         meta);
-                    const auto half_ordered = body_mode == Mode::HalfRaw
+                    const auto source_ordered = body_mode == Mode::HalfRaw
                         ? payload_half
                         : static_cast<std::uint16_t>(pred + payload_half);
+                    const auto source_bits = half_ordered_to_bits(source_ordered);
                     value = bits_to_ordered(
-                        half_bits_to_float32_bits(
-                            half_ordered_to_bits(half_ordered)));
+                        body_record.bf16_body
+                            ? bf16_bits_to_float32_bits(source_bits)
+                            : half_bits_to_float32_bits(source_bits));
                 } else {
                     const auto body_pred = predictor_value(
                         body_mode, ordered, y, x, c, meta);
@@ -4221,17 +4386,24 @@ Status GroupedDeltaStage::decode(
     std::vector<std::uint8_t> tail_selectors(body_tile_count);
     for (std::size_t i = 0; i < body_tile_count; ++i) {
         const auto selector = *p++;
-        if (selector > 1) return Status::DecompressFailed;
+        if (selector > 2) return Status::DecompressFailed;
         tail_selectors[i] = selector;
     }
     auto records_with_tail = records;
     for (std::size_t ti = 0; ti < body_tile_count; ++ti) {
-        if (tail_selectors[ti] != 0) {
+        if (tail_selectors[ti] == 1) {
             auto& record = records_with_tail[ti * kGroupCount];
             if (record.group != Group::Body || mode_is_half_body(record)) {
                 return Status::DecompressFailed;
             }
             record.tail_split = true;
+        } else if (tail_selectors[ti] == 2) {
+            auto& record = records_with_tail[ti * kGroupCount];
+            if (record.group != Group::Body || !mode_is_half_body(record)) {
+                return Status::DecompressFailed;
+            }
+            record.half_body = false;
+            record.bf16_body = true;
         }
     }
     const auto context_family_count = context_family_offsets(records_with_tail).back();

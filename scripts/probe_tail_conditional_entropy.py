@@ -21,6 +21,7 @@ ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT / "scripts"))
 
 from analyze_structural_predictors import DATA_DIR, float_to_bits, read_exr  # noqa: E402
+from evaluate_structural_delta_context import bits_to_ordered  # noqa: E402
 from probe_grouped_tail_mlp import CONTEXT_FAMILIES, context_family_cost  # noqa: E402
 from structural_delta_grouped_roundtrip import choose_group_payloads  # noqa: E402
 
@@ -66,7 +67,12 @@ def fold_hash(values: np.ndarray, bits: int) -> np.ndarray:
     return (mixed & mask).astype(np.uint64)
 
 
-def context_variants(bits: np.ndarray, tail_width: int, hash_bits: int) -> dict[str, np.ndarray]:
+def context_variants(
+    bits: np.ndarray,
+    tail_width: int,
+    hash_bits: int,
+    payload: np.ndarray | None = None,
+) -> dict[str, np.ndarray]:
     height, width, channels = bits.shape
     exponent = ((bits >> np.uint32(23)) & np.uint32(0xff)).astype(np.uint64)
     mantissa = (bits & np.uint32(0x7fffff)).astype(np.uint64)
@@ -90,7 +96,7 @@ def context_variants(bits: np.ndarray, tail_width: int, hash_bits: int) -> dict[
         ^ ((y & np.uint64(7)) << np.uint64(30)),
         hash_bits,
     )
-    return {
+    variants = {
         "none": np.zeros(bits.shape, dtype=np.uint64),
         "channel": channel,
         "exponent": exponent,
@@ -110,6 +116,45 @@ def context_variants(bits: np.ndarray, tail_width: int, hash_bits: int) -> dict[
         f"hash{hash_bits}_exp_high_channel": high_hash,
         f"hash{hash_bits}_exp_high_xy_channel": high_xy_hash,
     }
+    if payload is not None:
+        payload_high = (
+            (payload & np.uint32(0x7fffffff)) >> np.uint32(tail_width)
+        ).astype(np.uint64)
+        payload_hash = fold_hash(
+            payload_high
+            ^ (channel << np.uint64(25)),
+            hash_bits,
+        )
+        payload_exp_hash = fold_hash(
+            payload_high
+            ^ (exponent << np.uint64(17))
+            ^ (channel << np.uint64(25)),
+            hash_bits,
+        )
+        payload_exp_xy_hash = fold_hash(
+            payload_high
+            ^ (exponent << np.uint64(17))
+            ^ (channel << np.uint64(25))
+            ^ ((x & np.uint64(7)) << np.uint64(27))
+            ^ ((y & np.uint64(7)) << np.uint64(30)),
+            hash_bits,
+        )
+        variants.update(
+            {
+                "payload_high8_channel": (
+                    ((payload_high & np.uint64(0xff)) << np.uint64(2)) | channel
+                ),
+                "payload_exp_high8_channel": (
+                    (exponent << np.uint64(10))
+                    | ((payload_high & np.uint64(0xff)) << np.uint64(2))
+                    | channel
+                ),
+                f"hash{hash_bits}_payload_high_channel": payload_hash,
+                f"hash{hash_bits}_payload_exp_high_channel": payload_exp_hash,
+                f"hash{hash_bits}_payload_exp_high_xy_channel": payload_exp_xy_hash,
+            }
+        )
+    return variants
 
 
 def best_gdx_low_cost(payload: np.ndarray, width: int) -> float:
@@ -129,12 +174,14 @@ def summarize_image(
     previous_bits: int,
     tail_widths: tuple[int, ...],
     hash_bits: int,
+    tail_source: str,
 ) -> dict:
     pixels = read_exr(path)
     if crop_size:
         pixels = pixels[:crop_size, :crop_size]
     pixels = np.ascontiguousarray(pixels, dtype=np.float32)
     bits = float_to_bits(pixels).copy()
+    ordered = bits_to_ordered(bits)
     mantissa = bits & np.uint32(0x7fffff)
     _modes, payloads, _carries = choose_group_payloads(
         bits,
@@ -146,14 +193,26 @@ def summarize_image(
     rows = []
     for tail_width in tail_widths:
         mask = np.uint32((1 << tail_width) - 1)
-        tail = mantissa & mask
+        if tail_source == "raw_mantissa":
+            tail = mantissa & mask
+        elif tail_source == "body_payload":
+            tail = payloads["body"] & mask
+        elif tail_source == "ordered_low":
+            tail = ordered & mask
+        else:
+            raise ValueError(f"unknown tail source: {tail_source}")
         gdx_cost = 0.0
         conditional_costs = Counter()
         for y in range(0, bits.shape[0], tile_size):
             for x in range(0, bits.shape[1], tile_size):
                 sl = np.s_[y:y + tile_size, x:x + tile_size]
                 gdx_cost += best_gdx_low_cost(payloads["body"][sl], tail_width)
-                variants = context_variants(bits[sl], tail_width, hash_bits)
+                variants = context_variants(
+                    bits[sl],
+                    tail_width,
+                    hash_bits,
+                    payloads["body"][sl],
+                )
                 for name, context in variants.items():
                     conditional_costs[name] += conditional_symbol_entropy(
                         tail[sl],
@@ -184,6 +243,7 @@ def summarize_image(
         "tile_size": tile_size,
         "previous_bits": previous_bits,
         "hash_bits": hash_bits,
+        "tail_source": tail_source,
         "rows": rows,
     }
 
@@ -201,6 +261,12 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--previous-bits", type=int, default=4)
     parser.add_argument("--tail-widths", default="8,10,12,15")
     parser.add_argument("--hash-bits", type=int, default=12)
+    parser.add_argument(
+        "--tail-source",
+        choices=("raw_mantissa", "body_payload", "ordered_low"),
+        default="raw_mantissa",
+    )
+    parser.add_argument("--no-save", action="store_true")
     return parser.parse_args()
 
 
@@ -216,6 +282,7 @@ def main() -> int:
             args.previous_bits,
             tail_widths,
             args.hash_bits,
+            args.tail_source,
         )
         rows.append(row)
         print(path.stem)
@@ -229,13 +296,14 @@ def main() -> int:
         if args.limit and len(rows) >= args.limit:
             break
     safe_glob = args.glob.replace("*", "star").replace(".", "_")
-    output = RESULTS_DIR / (
-        f"tail_conditional_entropy_{safe_glob}_tile{args.tile_size}"
+    if not args.no_save:
+        output = RESULTS_DIR / (
+            f"tail_conditional_entropy_{safe_glob}_tile{args.tile_size}"
         f"_prev{args.previous_bits}_crop{args.crop_size}"
         f"_tail{args.tail_widths.replace(',', '-')}_hash{args.hash_bits}.json"
-    )
-    output.write_text(json.dumps(rows, indent=2))
-    print(f"\nSaved: {output}")
+        )
+        output.write_text(json.dumps(rows, indent=2))
+        print(f"\nSaved: {output}")
     return 0
 
 

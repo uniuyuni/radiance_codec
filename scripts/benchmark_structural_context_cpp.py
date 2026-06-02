@@ -26,6 +26,7 @@ CORPUS_PATTERNS = {
     "target-no-noise": ("*.exr",),
     "realistic-core": ("ph_*.exr", "oexr_ScanLines_*.exr"),
     "realistic-no-puresky": ("ph_*.exr", "oexr_ScanLines_*.exr"),
+    "highres-sample": ("sample_*.exr",),
     "puresky-hard": ("ph_*puresky*.exr",),
     "easy": ("synth_gradient_1k.exr", "oexr_TestImages_GrayRampsHorizontal.exr"),
     "synthetic": ("synth_*.exr",),

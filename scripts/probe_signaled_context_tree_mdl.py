@@ -29,6 +29,7 @@ from probe_grouped_tail_mlp import CONTEXT_FAMILIES, context_family_cost, kt_cos
 from structural_delta_grouped_roundtrip import choose_group_payloads  # noqa: E402
 
 RESULTS_DIR = ROOT / "results"
+IMAGE_SCOPE_COORD_BITS = 4
 
 
 def kt_cost_for_indices(target: np.ndarray, indices: np.ndarray) -> float:
@@ -117,12 +118,31 @@ def feature_planes(
     return features
 
 
-def mdl_tree_cost(
+def append_feature_parts(
+    target_parts: list[np.ndarray],
+    feature_parts: dict[str, list[np.ndarray]],
     payload: np.ndarray,
     ordered: np.ndarray,
     bit: int,
     previous_bits: int,
     feature_set: str,
+) -> None:
+    target_parts.append(
+        ((payload >> np.uint32(bit)) & np.uint32(1)).astype(np.uint8).reshape(-1),
+    )
+    for name, value in feature_planes(
+        payload,
+        ordered,
+        bit,
+        previous_bits,
+        feature_set,
+    ).items():
+        feature_parts[name].append(value.reshape(-1))
+
+
+def mdl_tree_cost_from_flat(
+    target: np.ndarray,
+    features: dict[str, np.ndarray],
     max_leaves: int,
     selector_bits: int,
     header_bits: int,
@@ -130,23 +150,8 @@ def mdl_tree_cost(
     split_extra_bits: int,
     min_gain_bits: float,
 ) -> tuple[float, int, dict[str, int]]:
-    target = ((payload >> np.uint32(bit)) & np.uint32(1)).astype(np.uint8).reshape(-1)
-    features = {
-        name: value.reshape(-1)
-        for name, value in feature_planes(
-            payload,
-            ordered,
-            bit,
-            previous_bits,
-            feature_set,
-        ).items()
-    }
     feature_id_bits = max(1, math.ceil(math.log2(max(2, len(features)))))
-    split_penalty = (
-        feature_id_bits
-        + split_extra_bits
-        + 2 * topology_bit_cost
-    )
+    split_penalty = feature_id_bits + split_extra_bits + 2 * topology_bit_cost
 
     indices = np.arange(target.size)
     leaves: list[tuple[np.ndarray, frozenset[str], float]] = [
@@ -197,6 +202,42 @@ def mdl_tree_cost(
     return total, len(leaves), dict(split_histogram)
 
 
+def mdl_tree_cost(
+    payload: np.ndarray,
+    ordered: np.ndarray,
+    bit: int,
+    previous_bits: int,
+    feature_set: str,
+    max_leaves: int,
+    selector_bits: int,
+    header_bits: int,
+    topology_bit_cost: int,
+    split_extra_bits: int,
+    min_gain_bits: float,
+) -> tuple[float, int, dict[str, int]]:
+    target = ((payload >> np.uint32(bit)) & np.uint32(1)).astype(np.uint8).reshape(-1)
+    features = {
+        name: value.reshape(-1)
+        for name, value in feature_planes(
+            payload,
+            ordered,
+            bit,
+            previous_bits,
+            feature_set,
+        ).items()
+    }
+    return mdl_tree_cost_from_flat(
+        target,
+        features,
+        max_leaves,
+        selector_bits,
+        header_bits,
+        topology_bit_cost,
+        split_extra_bits,
+        min_gain_bits,
+    )
+
+
 def best_existing_cost(payload: np.ndarray, bit: int, selector_bits: int) -> tuple[str, float]:
     family, cost = min(
         (
@@ -242,6 +283,7 @@ def summarize_image(
     topology_bit_cost: int,
     split_extra_bits: int,
     min_gain_bits: float,
+    tree_scope: str,
 ) -> dict:
     pixels = read_exr(path)
     if crop_size:
@@ -269,48 +311,122 @@ def summarize_image(
     leaf_histogram: Counter[str] = Counter()
     split_histogram: Counter[str] = Counter()
 
-    for y in range(0, height, tile_size):
-        for x in range(0, width, tile_size):
-            sl = np.s_[y:y + tile_size, x:x + tile_size]
-            ordered_tile = ordered[sl]
-            for group_name, fields in GROUP_PRESETS[preset]:
-                payload = payloads[group_name][sl]
-                for bit in selected_bits(fields, bit_min, bit_max):
-                    region = region_for_bit(bit)
-                    family_name, family_cost = best_existing_cost(
-                        payload,
-                        bit,
-                        existing_selector_bits,
-                    )
-                    tree_cost, leaves, splits = mdl_tree_cost(
-                        payload,
-                        ordered_tile,
-                        bit,
-                        previous_bits,
-                        feature_set,
-                        max_leaves,
-                        tree_selector_bits,
-                        tree_header_bits,
-                        topology_bit_cost,
-                        split_extra_bits,
-                        min_gain_bits,
-                    )
-                    existing_bits += family_cost
-                    tree_bits += tree_cost
-                    existing_by_region[region] += family_cost
-                    if tree_cost < family_cost:
-                        best_name = "tree"
-                        best_cost = tree_cost
-                        leaf_histogram[str(leaves)] += 1
-                        split_histogram.update(splits)
-                    else:
-                        best_name = f"family:{family_name}"
-                        best_cost = family_cost
-                    hybrid_bits += best_cost
-                    hybrid_by_region[region] += best_cost
-                    pick_histogram[best_name] += 1
-                    bit_pick_histogram[f"{bit}:{best_name}"] += 1
-                    region_pick_histogram[f"{region}:{best_name}"] += 1
+    if tree_scope == "image":
+        bit_parts: dict[tuple[str, int], tuple[list[np.ndarray], dict[str, list[np.ndarray]]]] = {}
+        bit_existing: dict[tuple[str, int], tuple[float, str, str]] = {}
+        for y in range(0, height, tile_size):
+            for x in range(0, width, tile_size):
+                sl = np.s_[y:y + tile_size, x:x + tile_size]
+                ordered_tile = ordered[sl]
+                for group_name, fields in GROUP_PRESETS[preset]:
+                    payload = payloads[group_name][sl]
+                    for bit in selected_bits(fields, bit_min, bit_max):
+                        region = region_for_bit(bit)
+                        family_name, family_cost = best_existing_cost(
+                            payload,
+                            bit,
+                            existing_selector_bits,
+                        )
+                        existing_bits += family_cost
+                        existing_by_region[region] += family_cost
+                        key = (group_name, bit)
+                        if key not in bit_parts:
+                            bit_parts[key] = ([], defaultdict(list))
+                            bit_existing[key] = (0.0, region, family_name)
+                        previous_cost, _previous_region, _previous_family = bit_existing[key]
+                        bit_existing[key] = (
+                            previous_cost + family_cost,
+                            region,
+                            family_name,
+                        )
+                        target_parts, feature_parts = bit_parts[key]
+                        append_feature_parts(
+                            target_parts,
+                            feature_parts,
+                            payload,
+                            ordered_tile,
+                            bit,
+                            previous_bits,
+                            feature_set,
+                        )
+
+        for (group_name, bit), (target_parts, feature_parts) in bit_parts.items():
+            target = np.concatenate(target_parts)
+            features = {
+                name: np.concatenate(parts)
+                for name, parts in feature_parts.items()
+            }
+            tree_cost, leaves, splits = mdl_tree_cost_from_flat(
+                target,
+                features,
+                max_leaves,
+                tree_selector_bits,
+                tree_header_bits,
+                topology_bit_cost,
+                split_extra_bits,
+                min_gain_bits,
+            )
+            family_cost, region, family_name = bit_existing[(group_name, bit)]
+            tree_bits += tree_cost
+            if tree_cost < family_cost:
+                best_name = "tree"
+                best_cost = tree_cost
+                leaf_histogram[str(leaves)] += 1
+                split_histogram.update(splits)
+            else:
+                best_name = f"family:{family_name}"
+                best_cost = family_cost
+            hybrid_bits += best_cost
+            hybrid_by_region[region] += best_cost
+            pick_histogram[best_name] += 1
+            bit_pick_histogram[f"{bit}:{best_name}"] += 1
+            region_pick_histogram[f"{region}:{best_name}"] += 1
+    elif tree_scope != "tile":
+        raise ValueError(f"unknown tree scope: {tree_scope}")
+
+    if tree_scope == "tile":
+        for y in range(0, height, tile_size):
+            for x in range(0, width, tile_size):
+                sl = np.s_[y:y + tile_size, x:x + tile_size]
+                ordered_tile = ordered[sl]
+                for group_name, fields in GROUP_PRESETS[preset]:
+                    payload = payloads[group_name][sl]
+                    for bit in selected_bits(fields, bit_min, bit_max):
+                        region = region_for_bit(bit)
+                        family_name, family_cost = best_existing_cost(
+                            payload,
+                            bit,
+                            existing_selector_bits,
+                        )
+                        tree_cost, leaves, splits = mdl_tree_cost(
+                            payload,
+                            ordered_tile,
+                            bit,
+                            previous_bits,
+                            feature_set,
+                            max_leaves,
+                            tree_selector_bits,
+                            tree_header_bits,
+                            topology_bit_cost,
+                            split_extra_bits,
+                            min_gain_bits,
+                        )
+                        existing_bits += family_cost
+                        tree_bits += tree_cost
+                        existing_by_region[region] += family_cost
+                        if tree_cost < family_cost:
+                            best_name = "tree"
+                            best_cost = tree_cost
+                            leaf_histogram[str(leaves)] += 1
+                            split_histogram.update(splits)
+                        else:
+                            best_name = f"family:{family_name}"
+                            best_cost = family_cost
+                        hybrid_bits += best_cost
+                        hybrid_by_region[region] += best_cost
+                        pick_histogram[best_name] += 1
+                        bit_pick_histogram[f"{bit}:{best_name}"] += 1
+                        region_pick_histogram[f"{region}:{best_name}"] += 1
 
     return {
         "image": path.name,
@@ -322,6 +438,7 @@ def summarize_image(
         "bit_min": bit_min,
         "bit_max": bit_max,
         "feature_set": feature_set,
+        "tree_scope": tree_scope,
         "max_leaves": max_leaves,
         "existing_selector_bits": existing_selector_bits,
         "tree_selector_bits": tree_selector_bits,
@@ -367,6 +484,7 @@ def parse_args() -> argparse.Namespace:
         default="strict",
     )
     parser.add_argument("--max-leaves", type=int, default=16)
+    parser.add_argument("--tree-scope", choices=("tile", "image"), default="tile")
     parser.add_argument("--existing-selector-bits", type=int, default=4)
     parser.add_argument("--tree-selector-bits", type=int, default=4)
     parser.add_argument("--tree-header-bits", type=int, default=8)
@@ -408,6 +526,7 @@ def main() -> int:
             args.topology_bit_cost,
             args.split_extra_bits,
             args.min_gain_bits,
+            args.tree_scope,
         )
         rows.append(row)
         print(
@@ -433,7 +552,7 @@ def main() -> int:
             f"signaled_context_tree_mdl_{safe_glob}_{args.preset}"
             f"_bits{args.bit_min}-{args.bit_max}_tile{args.tile_size}"
             f"_prev{args.previous_bits}_leaves{args.max_leaves}"
-            f"_{args.feature_set}_crop{args.crop_size}.json"
+            f"_{args.feature_set}_{args.tree_scope}_crop{args.crop_size}.json"
         )
         output.write_text(json.dumps(rows, indent=2))
         print(f"\nSaved: {output}")

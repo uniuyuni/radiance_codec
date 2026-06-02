@@ -88,6 +88,34 @@ def sign_cost(payload: np.ndarray) -> float:
     return min(context_family_cost(payload, 31, family) for family in CONTEXT_FAMILIES)
 
 
+def transformed_tail(tail: np.ndarray, tail_width: int, transform: str) -> np.ndarray:
+    mask = np.uint32((1 << tail_width) - 1)
+    out = tail.copy()
+    if transform == "raw":
+        return out
+    if transform == "xor_prev":
+        if tail.shape[2] > 1:
+            out[..., 1:] = tail[..., 1:] ^ tail[..., :-1]
+        return out
+    if transform == "sub_prev":
+        if tail.shape[2] > 1:
+            out[..., 1:] = (tail[..., 1:] - tail[..., :-1]) & mask
+        return out
+    if transform == "xor_green":
+        if tail.shape[2] >= 3:
+            out[..., 0] = tail[..., 0] ^ tail[..., 1]
+            out[..., 1] = tail[..., 1]
+            out[..., 2] = tail[..., 2] ^ tail[..., 1]
+        return out
+    if transform == "sub_green":
+        if tail.shape[2] >= 3:
+            out[..., 0] = (tail[..., 0] - tail[..., 1]) & mask
+            out[..., 1] = tail[..., 1]
+            out[..., 2] = (tail[..., 2] - tail[..., 1]) & mask
+        return out
+    raise ValueError(f"unknown tail transform: {transform}")
+
+
 def palette_context_cost(
     tail: np.ndarray,
     context: np.ndarray,
@@ -192,8 +220,13 @@ def summarize_tile(
     context_header_bits: int,
     route_header_bits: int,
     max_palette: int,
+    tail_transform: str,
 ) -> tuple[dict[str, float], dict[str, float]]:
-    tail = raw_mantissa_tile & np.uint32((1 << tail_width) - 1)
+    tail = transformed_tail(
+        raw_mantissa_tile & np.uint32((1 << tail_width) - 1),
+        tail_width,
+        tail_transform,
+    )
     context = high_context(bits_tile, tail_width, hash_bits, xy_bits)
     palette_cost, details = palette_context_cost(
         tail,
@@ -243,6 +276,8 @@ def summarize_image(
     context_header_bits: int,
     route_header_bits: int,
     max_palette: int,
+    tail_transforms: tuple[str, ...],
+    scope: str,
 ) -> dict:
     pixels = read_exr(path)
     if crop_size:
@@ -261,46 +296,120 @@ def summarize_image(
     rows = []
     for tail_width in tail_widths:
         best_row = None
+        tile_totals = Counter()
+        for y in range(0, bits.shape[0], tile_size):
+            for x in range(0, bits.shape[1], tile_size):
+                sl = np.s_[y:y + tile_size, x:x + tile_size]
+                tile_totals["gdx_low"] += best_gdx_low_cost(
+                    payloads["body"][sl],
+                    tail_width,
+                )
+                tile_totals["high"] += best_gdx_high_cost(
+                    payloads["body"][sl],
+                    tail_width,
+                )
+                tile_totals["sign"] += sign_cost(payloads["sign"][sl])
         for hash_bits in hash_bits_values:
-            totals = Counter()
-            detail_totals = Counter()
-            route_histogram = Counter()
-            for y in range(0, bits.shape[0], tile_size):
-                for x in range(0, bits.shape[1], tile_size):
-                    sl = np.s_[y:y + tile_size, x:x + tile_size]
-                    costs, details = summarize_tile(
-                        bits[sl],
-                        raw_mantissa[sl],
-                        payloads["body"][sl],
-                        payloads["sign"][sl],
+            for tail_transform in tail_transforms:
+                totals = Counter()
+                detail_totals = Counter()
+                route_histogram = Counter()
+                if scope == "image":
+                    tail = transformed_tail(
+                        raw_mantissa & np.uint32((1 << tail_width) - 1),
                         tail_width,
-                        hash_bits,
-                        xy_bits,
+                        tail_transform,
+                    )
+                    context = high_context(bits, tail_width, hash_bits, xy_bits)
+                    palette_cost, details = palette_context_cost(
+                        tail,
+                        context,
+                        tail_width,
                         context_header_bits,
                         route_header_bits,
                         max_palette,
                     )
-                    totals.update(costs)
-                    route_histogram[str(details["selected_route"])] += 1
+                    adaptive_cost, adaptive_details = adaptive_dictionary_cost(
+                        tail,
+                        context,
+                        tail_width,
+                        route_header_bits,
+                    )
+                    route_costs = {
+                        "current_low": float(tile_totals["gdx_low"]),
+                        "context_palette": palette_cost,
+                        "adaptive_dictionary": adaptive_cost,
+                    }
+                    route, selected_low = min(
+                        route_costs.items(),
+                        key=lambda item: item[1],
+                    )
+                    totals.update(
+                        {
+                            "current_total": (
+                                tile_totals["sign"]
+                                + tile_totals["high"]
+                                + tile_totals["gdx_low"]
+                            ),
+                            "hybrid_total": (
+                                tile_totals["sign"]
+                                + tile_totals["high"]
+                                + selected_low
+                            ),
+                            "gdx_low": tile_totals["gdx_low"],
+                            "palette_low": palette_cost,
+                            "adaptive_low": adaptive_cost,
+                            "high": tile_totals["high"],
+                            "sign": tile_totals["sign"],
+                        },
+                    )
+                    details.update(adaptive_details)
+                    route_histogram[route] += 1
                     for key, value in details.items():
                         if isinstance(value, (int, float)):
                             detail_totals[key] += float(value)
-            current = float(totals["current_total"])
-            hybrid = float(totals["hybrid_total"])
-            row = {
-                "tail_width": tail_width,
-                "hash_bits": hash_bits,
-                "current_bits": current,
-                "hybrid_bits": hybrid,
-                "current_ratio": raw_bits / current if current else 1.0,
-                "hybrid_ratio": raw_bits / hybrid if hybrid else 1.0,
-                "gain": current / hybrid if hybrid else 1.0,
-                "route_histogram": dict(route_histogram),
-                "totals": dict(totals),
-                "detail_totals": dict(detail_totals),
-            }
-            if best_row is None or row["hybrid_bits"] < best_row["hybrid_bits"]:
-                best_row = row
+                elif scope == "tile":
+                    for y in range(0, bits.shape[0], tile_size):
+                        for x in range(0, bits.shape[1], tile_size):
+                            sl = np.s_[y:y + tile_size, x:x + tile_size]
+                            costs, details = summarize_tile(
+                                bits[sl],
+                                raw_mantissa[sl],
+                                payloads["body"][sl],
+                                payloads["sign"][sl],
+                                tail_width,
+                                hash_bits,
+                                xy_bits,
+                                context_header_bits,
+                                route_header_bits,
+                                max_palette,
+                                tail_transform,
+                            )
+                            totals.update(costs)
+                            route_histogram[str(details["selected_route"])] += 1
+                            for key, value in details.items():
+                                if isinstance(value, (int, float)):
+                                    detail_totals[key] += float(value)
+                else:
+                    raise ValueError(f"unknown scope: {scope}")
+                current = float(totals["current_total"])
+                hybrid = float(totals["hybrid_total"])
+                row = {
+                    "tail_width": tail_width,
+                    "hash_bits": hash_bits,
+                    "tail_transform": tail_transform,
+                    "scope": scope,
+                    "current_bits": current,
+                    "hybrid_bits": hybrid,
+                    "current_ratio": raw_bits / current if current else 1.0,
+                    "hybrid_ratio": raw_bits / hybrid if hybrid else 1.0,
+                    "gain": current / hybrid if hybrid else 1.0,
+                    "route_histogram": dict(route_histogram),
+                    "totals": dict(totals),
+                    "detail_totals": dict(detail_totals),
+                }
+                if best_row is None or row["hybrid_bits"] < best_row["hybrid_bits"]:
+                    best_row = row
         rows.append(best_row)
     return {
         "image": path.name,
@@ -312,6 +421,7 @@ def summarize_image(
         "context_header_bits": context_header_bits,
         "route_header_bits": route_header_bits,
         "max_palette": max_palette,
+        "scope": scope,
         "rows": rows,
     }
 
@@ -337,6 +447,13 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--context-header-bits", type=int, default=16)
     parser.add_argument("--route-header-bits", type=int, default=8)
     parser.add_argument("--max-palette", type=int, default=256)
+    parser.add_argument(
+        "--tail-transforms",
+        default="raw",
+        help="Comma-separated low-tail transforms: raw,xor_prev,sub_prev,xor_green,sub_green",
+    )
+    parser.add_argument("--scope", choices=("tile", "image"), default="tile")
+    parser.add_argument("--no-save", action="store_true")
     return parser.parse_args()
 
 
@@ -344,6 +461,7 @@ def main() -> int:
     args = parse_args()
     tail_widths = parse_ints(args.tail_widths)
     hash_bits_values = parse_ints(args.hash_bits)
+    tail_transforms = tuple(part for part in args.tail_transforms.split(",") if part)
     rows = []
     for path in sorted(DATA_DIR.glob(args.glob)):
         row = summarize_image(
@@ -357,6 +475,8 @@ def main() -> int:
             args.context_header_bits,
             args.route_header_bits,
             args.max_palette,
+            tail_transforms,
+            args.scope,
         )
         rows.append(row)
         print(path.stem)
@@ -365,7 +485,8 @@ def main() -> int:
                 f"  low{item['tail_width']:02d}/hash{item['hash_bits']:02d}: "
                 f"current={item['current_ratio']:.3f}x "
                 f"hybrid={item['hybrid_ratio']:.3f}x "
-                f"gain={item['gain']:.4f} routes={item['route_histogram']}"
+                f"gain={item['gain']:.4f} tf={item['tail_transform']} "
+                f"routes={item['route_histogram']}"
             )
         if args.limit and len(rows) >= args.limit:
             break
@@ -388,8 +509,9 @@ def main() -> int:
         f"_prev{args.previous_bits}_crop{args.crop_size}"
         f"_tail{args.tail_widths.replace(',', '-')}_hash{args.hash_bits.replace(',', '-')}.json"
     )
-    output.write_text(json.dumps(rows, indent=2))
-    print(f"\nSaved: {output}")
+    if not args.no_save:
+        output.write_text(json.dumps(rows, indent=2))
+        print(f"\nSaved: {output}")
     return 0
 
 

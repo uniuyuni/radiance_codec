@@ -88,7 +88,7 @@ def best_family_cost(payload: np.ndarray, bit_indices: range | tuple[int, ...]) 
 
 def context_for_bit(
     bits: np.ndarray,
-    tail: np.ndarray,
+    tail_code: np.ndarray,
     tail_width: int,
     bit: int,
     context_bits: int,
@@ -98,13 +98,13 @@ def context_for_bit(
     use_spatial: bool,
     use_previous_channel: bool,
 ) -> tuple[np.ndarray, np.ndarray]:
-    symbols = ((tail >> np.uint32(bit)) & np.uint32(1)).astype(np.uint8)
+    symbols = ((tail_code >> np.uint32(bit)) & np.uint32(1)).astype(np.uint8)
     code = high_feature_seed(bits, tail_width, xy_bits, feature_mode)
     code ^= np.uint64(bit) << np.uint64(41)
 
     if prev_tail_bits > 0 and bit + 1 < tail_width:
         available = min(prev_tail_bits, tail_width - bit - 1)
-        previous_tail = (tail >> np.uint32(bit + 1)) & np.uint32(
+        previous_tail = (tail_code >> np.uint32(bit + 1)) & np.uint32(
             (1 << available) - 1
         )
         code ^= previous_tail.astype(np.uint64) << np.uint64(44)
@@ -127,6 +127,34 @@ def context_for_bit(
     return fold_hash(code, context_bits), symbols
 
 
+def transformed_tail(tail: np.ndarray, tail_width: int, transform: str) -> np.ndarray:
+    mask = np.uint32((1 << tail_width) - 1)
+    out = tail.copy()
+    if transform == "raw":
+        return out
+    if transform == "xor_prev":
+        if tail.shape[2] > 1:
+            out[..., 1:] = tail[..., 1:] ^ tail[..., :-1]
+        return out
+    if transform == "sub_prev":
+        if tail.shape[2] > 1:
+            out[..., 1:] = (tail[..., 1:] - tail[..., :-1]) & mask
+        return out
+    if transform == "xor_green":
+        if tail.shape[2] >= 3:
+            out[..., 0] = tail[..., 0] ^ tail[..., 1]
+            out[..., 1] = tail[..., 1]
+            out[..., 2] = tail[..., 2] ^ tail[..., 1]
+        return out
+    if transform == "sub_green":
+        if tail.shape[2] >= 3:
+            out[..., 0] = (tail[..., 0] - tail[..., 1]) & mask
+            out[..., 1] = tail[..., 1]
+            out[..., 2] = (tail[..., 2] - tail[..., 1]) & mask
+        return out
+    raise ValueError(f"unknown tail transform: {transform}")
+
+
 def tile_adaptive_cost_and_update(
     bits_tile: np.ndarray,
     tail_width: int,
@@ -136,11 +164,13 @@ def tile_adaptive_cost_and_update(
     feature_mode: str,
     use_spatial: bool,
     use_previous_channel: bool,
+    tail_transform: str,
     one_counts: list[np.ndarray],
     zero_counts: list[np.ndarray],
 ) -> tuple[float, dict[str, float]]:
     mantissa = bits_tile & np.uint32(0x7fffff)
     tail = mantissa & np.uint32((1 << tail_width) - 1)
+    tail_code = transformed_tail(tail, tail_width, tail_transform)
     context_count = 1 << context_bits
     total_cost = 0.0
     active_contexts = []
@@ -148,7 +178,7 @@ def tile_adaptive_cost_and_update(
     for bit in range(tail_width - 1, -1, -1):
         context, symbols = context_for_bit(
             bits_tile,
-            tail,
+            tail_code,
             tail_width,
             bit,
             context_bits,
@@ -212,6 +242,7 @@ def evaluate_candidate(
     feature_mode: str,
     use_spatial: bool,
     use_previous_channel: bool,
+    tail_transform: str,
     route_header_bits: int,
 ) -> dict:
     context_count = 1 << context_bits
@@ -230,6 +261,7 @@ def evaluate_candidate(
             feature_mode,
             use_spatial,
             use_previous_channel,
+            tail_transform,
             one_counts,
             zero_counts,
         )
@@ -253,6 +285,7 @@ def evaluate_candidate(
         "context_bits": context_bits,
         "prev_tail_bits": prev_tail_bits,
         "feature_mode": feature_mode,
+        "tail_transform": tail_transform,
         "current_bits": current_total,
         "hybrid_bits": hybrid_total,
         "gain": current_total / hybrid_total if hybrid_total else 1.0,
@@ -272,6 +305,7 @@ def summarize_image(
     xy_bits: int,
     prev_tail_bits_values: tuple[int, ...],
     feature_modes: tuple[str, ...],
+    tail_transforms: tuple[str, ...],
     use_spatial: bool,
     use_previous_channel: bool,
     route_header_bits: int,
@@ -311,22 +345,24 @@ def summarize_image(
         for context_bits in context_bits_values:
             for prev_tail_bits in prev_tail_bits_values:
                 for feature_mode in feature_modes:
-                    row = evaluate_candidate(
-                        bits,
-                        current_tiles,
-                        tail_width,
-                        context_bits,
-                        xy_bits,
-                        prev_tail_bits,
-                        feature_mode,
-                        use_spatial,
-                        use_previous_channel,
-                        route_header_bits,
-                    )
-                    row["current_ratio"] = raw_bits / row["current_bits"]
-                    row["hybrid_ratio"] = raw_bits / row["hybrid_bits"]
-                    if best_row is None or row["hybrid_bits"] < best_row["hybrid_bits"]:
-                        best_row = row
+                    for tail_transform in tail_transforms:
+                        row = evaluate_candidate(
+                            bits,
+                            current_tiles,
+                            tail_width,
+                            context_bits,
+                            xy_bits,
+                            prev_tail_bits,
+                            feature_mode,
+                            use_spatial,
+                            use_previous_channel,
+                            tail_transform,
+                            route_header_bits,
+                        )
+                        row["current_ratio"] = raw_bits / row["current_bits"]
+                        row["hybrid_ratio"] = raw_bits / row["hybrid_bits"]
+                        if best_row is None or row["hybrid_bits"] < best_row["hybrid_bits"]:
+                            best_row = row
         rows.append(best_row)
     return {
         "image": path.name,
@@ -361,9 +397,15 @@ def parse_args() -> argparse.Namespace:
         "--feature-modes",
         default="channel,exponent_channel,high4_channel,high8_channel,exp_high4_channel,exp_high8_channel,hash_full",
     )
+    parser.add_argument(
+        "--tail-transforms",
+        default="raw",
+        help="Comma-separated low-tail transforms: raw,xor_prev,sub_prev,xor_green,sub_green",
+    )
     parser.add_argument("--no-spatial", action="store_true")
     parser.add_argument("--no-previous-channel", action="store_true")
     parser.add_argument("--route-header-bits", type=int, default=8)
+    parser.add_argument("--no-save", action="store_true")
     return parser.parse_args()
 
 
@@ -373,6 +415,7 @@ def main() -> int:
     context_bits_values = parse_ints(args.context_bits)
     prev_tail_bits_values = parse_ints(args.prev_tail_bits)
     feature_modes = tuple(part for part in args.feature_modes.split(",") if part)
+    tail_transforms = tuple(part for part in args.tail_transforms.split(",") if part)
     rows = []
     for path in sorted(DATA_DIR.glob(args.glob)):
         row = summarize_image(
@@ -385,6 +428,7 @@ def main() -> int:
             args.xy_bits,
             prev_tail_bits_values,
             feature_modes,
+            tail_transforms,
             not args.no_spatial,
             not args.no_previous_channel,
             args.route_header_bits,
@@ -394,7 +438,8 @@ def main() -> int:
         for item in row["rows"]:
             print(
                 f"  low{item['tail_width']:02d}/ctx{item['context_bits']:02d}"
-                f"/prev{item['prev_tail_bits']:02d}/{item['feature_mode']}: "
+                f"/prev{item['prev_tail_bits']:02d}/{item['feature_mode']}"
+                f"/{item['tail_transform']}: "
                 f"current={item['current_ratio']:.3f}x "
                 f"hybrid={item['hybrid_ratio']:.3f}x "
                 f"gain={item['gain']:.4f} routes={item['route_histogram']}"
@@ -420,10 +465,12 @@ def main() -> int:
         f"_prev{args.previous_bits}_crop{args.crop_size}"
         f"_tail{args.tail_widths.replace(',', '-')}"
         f"_ctx{args.context_bits.replace(',', '-')}"
-        f"_pt{args.prev_tail_bits.replace(',', '-')}.json"
+        f"_pt{args.prev_tail_bits.replace(',', '-')}"
+        f"_tf{args.tail_transforms.replace(',', '-')}.json"
     )
-    output.write_text(json.dumps(rows, indent=2))
-    print(f"\nSaved: {output}")
+    if not args.no_save:
+        output.write_text(json.dumps(rows, indent=2))
+        print(f"\nSaved: {output}")
     return 0
 
 

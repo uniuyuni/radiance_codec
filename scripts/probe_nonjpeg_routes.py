@@ -490,6 +490,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--search-candidates", action="store_true")
     parser.add_argument("--zstd", action="store_true")
     parser.add_argument("--zstd-level", type=int, default=3)
+    parser.add_argument("--no-save", action="store_true")
     return parser.parse_args()
 
 
@@ -513,22 +514,30 @@ def main() -> int:
             args.zstd_level,
         )
         rows.append(row)
+        typed_lower_ratio = (
+            row["raw_bits"] / row["typed_byte_entropy_lower_bits"]
+            if row["typed_byte_entropy_lower_bits"]
+            else 1.0
+        )
         print(
             f"{path.stem:43s} "
             f"current={row['current_ratio']:.3f}x "
             f"hybrid={row['hybrid_ratio']:.3f}x "
             f"gain={row['hybrid_gain']:.4f} "
+            f"typed_lower={typed_lower_ratio:.3f}x "
+            f"typed_gain={row['typed_byte_lower_gain']:.4f} "
             f"routes={row['route_histogram']}"
         )
         if args.limit and len(rows) >= args.limit:
             break
-    safe_glob = args.glob.replace("*", "star").replace(".", "_")
-    output = RESULTS_DIR / (
-        f"nonjpeg_routes_{safe_glob}_tile{args.tile_size}_prev{args.previous_bits}"
-        f"_word{args.word_bits}_crop{args.crop_size}.json"
-    )
-    output.write_text(json.dumps(rows, indent=2))
-    print(f"\nSaved: {output}")
+    if not args.no_save:
+        safe_glob = args.glob.replace("*", "star").replace(".", "_")
+        output = RESULTS_DIR / (
+            f"nonjpeg_routes_{safe_glob}_tile{args.tile_size}_prev{args.previous_bits}"
+            f"_word{args.word_bits}_crop{args.crop_size}.json"
+        )
+        output.write_text(json.dumps(rows, indent=2))
+        print(f"\nSaved: {output}")
     return 0
 
 
