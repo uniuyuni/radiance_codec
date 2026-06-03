@@ -1,0 +1,43 @@
+[
+  {
+    "image": "sample_DSCF0009.EXR",
+    "shape": [
+      5152,
+      7728,
+      3
+    ],
+    "crop_size": 0,
+    "bits": 10,
+    "gamma_values": [
+      1.16
+    ],
+    "pred_bin_bits": 3,
+    "rows": [
+      {
+        "bits": 10,
+        "gammas": [
+          1.16,
+          1.16,
+          1.16
+        ],
+        "small": 15,
+        "category_context": "west_north_prev_phase_predbin",
+        "detail_context": "west_north_prev_predbin",
+        "recon_table": "signed-log-mean",
+        "estimated_bits_per_sample": 1.6879251080250208,
+        "estimated_bytes": 25201632.073667143,
+        "estimated_ratio_vs_original": 18.95813217982901,
+        "escape_rate": 0.01356656202178414,
+        "quality_passes": true,
+        "quality": {
+          "mae": 0.0021943002950235266,
+          "rmse": 0.0026238754334899144,
+          "psnr_peak_abs": 67.46883364482821,
+          "signed_log2_rmse": 0.0035137250315553825,
+          "signed_log2_p99": 0.00841623867349412,
+          "gradient_signed_log2_nrmse": 0.12747144437310404
+        }
+      }
+    ]
+  }
+]

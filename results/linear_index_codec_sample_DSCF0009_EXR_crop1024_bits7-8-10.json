@@ -1,0 +1,52 @@
+[
+  {
+    "image": "sample_DSCF0009.EXR",
+    "shape": [
+      1024,
+      1024,
+      3
+    ],
+    "crop_size": 1024,
+    "rows": [
+      {
+        "bits": 7,
+        "encoded_bytes": 214283,
+        "ratio_vs_original": 58.72099979933079,
+        "encode_seconds": 0.09076320799067616,
+        "decode_seconds": 0.08217466701171361,
+        "mae": 0.0043328795031955325,
+        "rmse": 0.0055153412496256925,
+        "psnr_peak_abs": 58.42846049510313,
+        "signed_log2_rmse": 0.007368999573269261,
+        "signed_log2_p99": 0.021614203636895653,
+        "gradient_signed_log2_nrmse": 0.7575872608700503
+      },
+      {
+        "bits": 8,
+        "encoded_bytes": 397938,
+        "ratio_vs_original": 31.620282556579166,
+        "encode_seconds": 0.11525441697449423,
+        "decode_seconds": 0.11348858301062137,
+        "mae": 0.0030141300785112186,
+        "rmse": 0.003770254441699354,
+        "psnr_peak_abs": 61.73249506243521,
+        "signed_log2_rmse": 0.005211753076636621,
+        "signed_log2_p99": 0.012406626470077682,
+        "gradient_signed_log2_nrmse": 0.6323593104475994
+      },
+      {
+        "bits": 10,
+        "encoded_bytes": 1224400,
+        "ratio_vs_original": 10.276798431885005,
+        "encode_seconds": 0.16310379200149328,
+        "decode_seconds": 0.1531506250030361,
+        "mae": 0.0007120922730579799,
+        "rmse": 0.0009129261788069326,
+        "psnr_peak_abs": 74.05119504841147,
+        "signed_log2_rmse": 0.0012589109965219906,
+        "signed_log2_p99": 0.003089596386249455,
+        "gradient_signed_log2_nrmse": 0.21293883652311404
+      }
+    ]
+  }
+]

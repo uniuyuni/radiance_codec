@@ -3,7 +3,7 @@
 // File format (Phase 1):
 //
 //   [magic: 4 bytes = "HDR0"]
-//   [version: u8 = 2]
+//   [version: u8 = 3]
 //   [width: u32 LE]
 //   [height: u32 LE]
 //   [channels: u8]
@@ -12,6 +12,8 @@
 //   [rans_mode: u8]    ← rans variant (0=Static, 1=Order0, 2=Order1)
 //   [effort: u8]
 //   [near_lossless_bits: u8]
+//   [near_lossless_policy: u8] (v3+, see NearLosslessPolicy)
+//   [sign_class: u8]          (v3+, 0=mixed, 1=all sign bits 0, 2=all sign bits 1)
 //   [payload: N bytes] ← output of the encode pipeline
 //
 // The decoder uses stages+meta to reconstruct the pipeline. Width/height/
@@ -32,7 +34,8 @@ constexpr char        kMagic[4]   = {'H', 'D', 'R', '0'};
 constexpr std::size_t kHeaderSizeV1 =
     sizeof(kMagic) + 1 + 4 + 4 + 1 + 1 + 4 + 1 + 1;
 constexpr std::size_t kHeaderSizeV2 = kHeaderSizeV1 + 1;
-constexpr std::uint8_t kFormatVersion = 2;
+constexpr std::size_t kHeaderSizeV3 = kHeaderSizeV2 + 2;
+constexpr std::uint8_t kFormatVersion = 3;
 
 template <typename T>
 void write_le(std::vector<std::uint8_t>& dst, T value) {
@@ -57,10 +60,31 @@ bool validate_meta(const ImageMeta& meta) {
     return true;
 }
 
+SignClass classify_sign_bits(std::span<const std::uint8_t> raw) noexcept {
+    bool saw_positive = false;
+    bool saw_negative = false;
+    const std::size_t count = raw.size() / 4;
+    for (std::size_t i = 0; i < count; ++i) {
+        const auto* p = raw.data() + i * 4;
+        const auto bits =
+            static_cast<std::uint32_t>(p[0])
+            | (static_cast<std::uint32_t>(p[1]) << 8)
+            | (static_cast<std::uint32_t>(p[2]) << 16)
+            | (static_cast<std::uint32_t>(p[3]) << 24);
+        if (bits & 0x80000000u) {
+            saw_negative = true;
+        } else {
+            saw_positive = true;
+        }
+        if (saw_positive && saw_negative) return SignClass::Mixed;
+    }
+    return saw_negative ? SignClass::AllNegative : SignClass::AllPositive;
+}
+
 } // namespace
 
 const char* version() noexcept {
-    return "radiance_codec 0.0.1 (research: passthrough/rANS/structural-context/grouped-delta/mantissa-quantize)";
+    return "radiance_codec 0.0.1 (research: passthrough/rANS/structural-context/grouped-delta/mantissa-quantize/linear-index)";
 }
 
 Status encode(std::span<const std::uint8_t> raw,
@@ -83,7 +107,8 @@ Status encode(std::span<const std::uint8_t> raw,
 
     // Compose header + payload
     out.clear();
-    out.reserve(kHeaderSizeV2 + buf_a.size());
+    const auto sign_class = classify_sign_bits(raw);
+    out.reserve(kHeaderSizeV3 + buf_a.size());
     out.insert(out.end(), std::begin(kMagic), std::end(kMagic));
     out.push_back(kFormatVersion);
     write_le<std::uint32_t>(out, meta.width);
@@ -94,6 +119,8 @@ Status encode(std::span<const std::uint8_t> raw,
     out.push_back(config.rans_mode);
     out.push_back(config.effort);
     out.push_back(config.near_lossless_bits);
+    out.push_back(config.near_lossless_policy);
+    out.push_back(static_cast<std::uint8_t>(sign_class));
     out.insert(out.end(), buf_a.begin(), buf_a.end());
     return Status::Ok;
 }
@@ -112,11 +139,13 @@ Status decode(std::span<const std::uint8_t> compressed,
     }
     p += sizeof(kMagic);
     const std::uint8_t version = *p++;
-    if (version != 1 && version != kFormatVersion) {
+    if (version < 1 || version > kFormatVersion) {
         return Status::DecompressFailed;
     }
     const std::size_t header_size =
-        version == 1 ? kHeaderSizeV1 : kHeaderSizeV2;
+        version == 1 ? kHeaderSizeV1
+        : version == 2 ? kHeaderSizeV2
+        : kHeaderSizeV3;
     if (compressed.size() < header_size) return Status::DecompressFailed;
     std::uint32_t w = read_le<std::uint32_t>(p); p += 4;
     std::uint32_t h = read_le<std::uint32_t>(p); p += 4;
@@ -126,8 +155,19 @@ Status decode(std::span<const std::uint8_t> compressed,
     std::uint8_t  rans_mode = *p++;
     std::uint8_t  effort    = *p++;
     std::uint8_t  near_lossless_bits = 0;
+    std::uint8_t  near_lossless_policy =
+        static_cast<std::uint8_t>(NearLosslessPolicy::Fixed);
     if (version >= 2) {
         near_lossless_bits = *p++;
+    }
+    if (version >= 3) {
+        near_lossless_policy = *p++;
+        const std::uint8_t sign_class = *p++;
+        if (near_lossless_policy
+                > static_cast<std::uint8_t>(NearLosslessPolicy::AsinhRange)
+            || sign_class > static_cast<std::uint8_t>(SignClass::AllNegative)) {
+            return Status::DecompressFailed;
+        }
     }
 
     if (w != meta.width || h != meta.height || ch != meta.channels
@@ -141,6 +181,7 @@ Status decode(std::span<const std::uint8_t> compressed,
     cfg.rans_mode = rans_mode;
     cfg.effort    = effort;
     cfg.near_lossless_bits = near_lossless_bits;
+    cfg.near_lossless_policy = near_lossless_policy;
     auto pipeline = build_pipeline(cfg);
 
     const std::size_t header_used = static_cast<std::size_t>(

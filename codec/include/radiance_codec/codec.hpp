@@ -55,10 +55,30 @@ enum Stage : uint32_t {
     StageStructuralContext = 0x0020,
     StageGroupedDelta   = 0x0040,
     StageMantissaQuantize = 0x0080,
+    StageLinearIndex    = 0x0100,
 
     // Convenience presets
     StageAll = StageColorTransform | StageLogMagnitude
              | StageSpatialPredict | StageBitshuffle | StageRans,
+};
+
+enum class NearLosslessPolicy : uint8_t {
+    Fixed        = 0, // clear the same number of low mantissa bits everywhere
+    Tile         = 1, // clear only bitplanes that look random within a tile
+    Exponent     = 2, // clear more bits for darker values
+    TileExponent = 3, // tile random-tail cap plus exponent adaptation
+    LinearRange  = 4, // quantize finite values per channel to N linear levels
+    LogRange     = 5, // quantize finite non-negative values in log2 space
+    SqrtRange    = 6, // transform-index experiment: sign(x)*sqrt(abs(x))
+    Gamma075Range = 7, // transform-index experiment: sign(x)*abs(x)^0.75
+    Gamma025Range = 8, // transform-index experiment: sign(x)*abs(x)^0.25
+    AsinhRange   = 9, // transform-index experiment: asinh(x)
+};
+
+enum class SignClass : uint8_t {
+    Mixed       = 0,
+    AllPositive = 1, // every stored IEEE sign bit is 0
+    AllNegative = 2, // every stored IEEE sign bit is 1
 };
 
 struct PipelineConfig {
@@ -66,6 +86,8 @@ struct PipelineConfig {
     uint8_t  effort = 5;            // codec-specific search level
     uint8_t  rans_mode = 1;         // 0=Static, 1=Order0, 2=Order1
     uint8_t  near_lossless_bits = 0; // low mantissa bits to zero before coding
+    uint8_t  near_lossless_policy =
+        static_cast<uint8_t>(NearLosslessPolicy::Fixed);
 };
 
 enum class Status : int32_t {

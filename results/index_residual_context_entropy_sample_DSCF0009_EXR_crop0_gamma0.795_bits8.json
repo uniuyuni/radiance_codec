@@ -1,0 +1,71 @@
+[
+  {
+    "image": "sample_DSCF0009.EXR",
+    "shape": [
+      5152,
+      7728,
+      3
+    ],
+    "crop_size": 0,
+    "bits": 8,
+    "gamma": 0.795,
+    "rows": [
+      {
+        "context": "west_north_prev_channel",
+        "bits_per_sample": 1.522236574696663,
+        "estimated_bytes": 22727820.08956223,
+        "estimated_ratio_vs_original": 21.021632084258663,
+        "context_count": 439
+      },
+      {
+        "context": "wnnw_phase_channel",
+        "bits_per_sample": 1.5607776486236873,
+        "estimated_bytes": 23303257.43966537,
+        "estimated_ratio_vs_original": 20.502535889543037,
+        "context_count": 6071
+      },
+      {
+        "context": "west_north_phase_channel",
+        "bits_per_sample": 1.5873922038042414,
+        "estimated_bytes": 23700625.94933041,
+        "estimated_ratio_vs_original": 20.158787072604643,
+        "context_count": 759
+      },
+      {
+        "context": "west_north",
+        "bits_per_sample": 1.5889053548766068,
+        "estimated_bytes": 23723218.045363758,
+        "estimated_ratio_vs_original": 20.13958945562919,
+        "context_count": 55
+      },
+      {
+        "context": "westcat",
+        "bits_per_sample": 1.6698099851568242,
+        "estimated_bytes": 24931164.304144025,
+        "estimated_ratio_vs_original": 19.163801023146952,
+        "context_count": 7
+      },
+      {
+        "context": "northcat",
+        "bits_per_sample": 1.671552935039947,
+        "estimated_bytes": 24957187.410402186,
+        "estimated_ratio_vs_original": 19.143818738198938,
+        "context_count": 7
+      },
+      {
+        "context": "phase_channel",
+        "bits_per_sample": 1.801099469988525,
+        "estimated_bytes": 26891381.432265792,
+        "estimated_ratio_vs_original": 17.7668772131854,
+        "context_count": 12
+      },
+      {
+        "context": "order0",
+        "bits_per_sample": 1.8024264898390228,
+        "estimated_bytes": 26911194.49683557,
+        "estimated_ratio_vs_original": 17.753796549468685,
+        "context_count": 1
+      }
+    ]
+  }
+]

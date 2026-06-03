@@ -1,0 +1,59 @@
+[
+  {
+    "image": "sample_DSCF0009.EXR",
+    "shape": [
+      5152,
+      7728,
+      3
+    ],
+    "crop_size": 0,
+    "raw_bytes": 477775872,
+    "bits": 10,
+    "transform": "signed-log",
+    "gamma": 1.0,
+    "small": 7,
+    "split_axis": "channel",
+    "escape_rate": 0.07184850891758719,
+    "category": {
+      "alphabet": 17,
+      "axis_count": 3,
+      "baseline_bits": 353671683.6905448,
+      "baseline_model_bytes": 265292,
+      "chosen_bits": 352087272.26316535,
+      "chosen_model_bytes": 290548,
+      "payload_bytes": 44010914,
+      "baseline_payload_bytes": 44208965,
+      "split_parent_count": 331,
+      "split_child_model_count": 795,
+      "fallback_parent_count": 4582,
+      "gain_bits_before_model": 1584411.4273793972,
+      "extra_model_bytes_for_splits": 25254
+    },
+    "detail": {
+      "payload_bytes": 5078610,
+      "model_bytes": 2020,
+      "pos": {
+        "stream": "pos_escape:order0",
+        "sample_count": 4226879,
+        "finite_bits": 19995067.469518557,
+        "payload_bytes": 2499388,
+        "model_bytes": 1010,
+        "symbol_pairs_seen": 498
+      },
+      "neg": {
+        "stream": "neg_escape:order0",
+        "sample_count": 4354992,
+        "finite_bits": 20633708.5089295,
+        "payload_bytes": 2579218,
+        "model_bytes": 1010,
+        "symbol_pairs_seen": 501
+      }
+    },
+    "total_bytes": 49382197,
+    "ratio_vs_original": 9.67506310016948,
+    "baseline_total_bytes_same_cost_model": 49554992,
+    "baseline_ratio_vs_original": 9.641326791052656,
+    "delta_vs_baseline_bytes": -172795,
+    "elapsed_sec": 22.909664124978008
+  }
+]

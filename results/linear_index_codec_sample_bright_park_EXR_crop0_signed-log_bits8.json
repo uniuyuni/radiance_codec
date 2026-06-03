@@ -1,0 +1,34 @@
+[
+  {
+    "image": "sample_bright_park.EXR",
+    "shape": [
+      5152,
+      7728,
+      3
+    ],
+    "crop_size": 0,
+    "transform": "signed-log",
+    "quality_thresholds": {
+      "signed_log2_rmse": 0.004,
+      "signed_log2_p99": 0.018,
+      "gradient_signed_log2_nrmse": 0.5
+    },
+    "selected_bits": 8,
+    "selected_ratio_vs_original": 11.081458936378104,
+    "rows": [
+      {
+        "bits": 8,
+        "encoded_bytes": 43114889,
+        "ratio_vs_original": 11.081458936378104,
+        "encode_seconds": 60.08168712499901,
+        "decode_seconds": 8.675895416992716,
+        "mae": 0.0018682374528499169,
+        "rmse": 0.0023420312075221796,
+        "psnr_peak_abs": 62.36648534514411,
+        "signed_log2_rmse": 0.002204118967720581,
+        "signed_log2_p99": 0.00386882817523481,
+        "gradient_signed_log2_nrmse": 0.09157028635701069
+      }
+    ]
+  }
+]

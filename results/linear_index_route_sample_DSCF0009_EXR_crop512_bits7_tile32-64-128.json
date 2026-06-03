@@ -1,0 +1,71 @@
+[
+  {
+    "image": "sample_DSCF0009.EXR",
+    "shape": [
+      512,
+      512,
+      3
+    ],
+    "crop_size": 512,
+    "rows": [
+      {
+        "bits": 7,
+        "target_bps_for_64x": 0.5,
+        "raw_index_entropy_bps": 1.5062497300084066,
+        "avg_residual_entropy_bps": 0.7202833792561343,
+        "avg_residual_ratio_vs_float32": 44.426958779817596,
+        "residual_zstd_bytes": 56476,
+        "residual_zstd_bps": 0.5751546223958334,
+        "residual_zstd_ratio_vs_float32": 55.63721259285461,
+        "split_mask_zstd_bytes": 33202,
+        "split_value_zstd_bytes": 17752,
+        "split_zstd_bps": 0.51898193359375,
+        "split_zstd_ratio_vs_float32": 61.65917911325415,
+        "tile_oracle": [
+          {
+            "tile_size": 32,
+            "oracle_bps": 0.46737297091689745,
+            "oracle_ratio_vs_float32": 68.46780192962817,
+            "channel_bps": [
+              0.13539264272994023,
+              0.1473525866965661,
+              1.119373683324186
+            ],
+            "context_mask_plus_nz_entropy_bps": 0.5054672310888372,
+            "context_mask_plus_nz_entropy_ratio_vs_float32": 63.30776365278547,
+            "context_mask_plus_nz_zstd_bps": 0.4921129641943916,
+            "context_mask_plus_nz_zstd_ratio_vs_float32": 65.02572036968233
+          },
+          {
+            "tile_size": 64,
+            "oracle_bps": 0.47974481884188597,
+            "oracle_ratio_vs_float32": 66.70212734605174,
+            "channel_bps": [
+              0.14706211671975644,
+              0.1591625995718851,
+              1.1330097402340162
+            ],
+            "context_mask_plus_nz_entropy_bps": 0.5002158282288013,
+            "context_mask_plus_nz_entropy_ratio_vs_float32": 63.97238590651521,
+            "context_mask_plus_nz_zstd_bps": 0.4868615613343557,
+            "context_mask_plus_nz_zstd_ratio_vs_float32": 65.72710302348919
+          },
+          {
+            "tile_size": 128,
+            "oracle_bps": 0.5045572023182977,
+            "oracle_ratio_vs_float32": 63.42194671480071,
+            "channel_bps": [
+              0.17102581341814954,
+              0.18368939587981792,
+              1.1589563976569257
+            ],
+            "context_mask_plus_nz_entropy_bps": 0.5030487531692164,
+            "context_mask_plus_nz_entropy_ratio_vs_float32": 63.612124666643965,
+            "context_mask_plus_nz_zstd_bps": 0.4896944862747708,
+            "context_mask_plus_nz_zstd_ratio_vs_float32": 65.3468660499571
+          }
+        ]
+      }
+    ]
+  }
+]

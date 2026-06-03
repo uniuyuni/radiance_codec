@@ -1,0 +1,231 @@
+[
+  {
+    "image": "sample_DSCF0009.EXR",
+    "shape": [
+      512,
+      512,
+      3
+    ],
+    "crop_size": 512,
+    "iterations": 6,
+    "sample_limit": 300000,
+    "rows": [
+      {
+        "quantizer": "codebook",
+        "bits": 7,
+        "mode": "asinh",
+        "estimated_bytes": 563748,
+        "estimated_ratio_vs_original": 5.580033680544284,
+        "rmse": 0.02904685267453989,
+        "psnr_peak_abs": 43.245210078092484,
+        "signed_log2_rmse": 0.014052724882704079,
+        "signed_log2_p99": 0.06711310825862632,
+        "gradient_signed_log2_nrmse": 1.569645622749991
+      },
+      {
+        "quantizer": "recon-table",
+        "bits": 7,
+        "mode": "asinh",
+        "estimated_bytes": 64406,
+        "estimated_ratio_vs_original": 48.84215899697383,
+        "rmse": 0.0022762000131763597,
+        "psnr_peak_abs": 65.36298328746291,
+        "signed_log2_rmse": 0.00264388460693484,
+        "signed_log2_p99": 0.008363828786901275,
+        "gradient_signed_log2_nrmse": 0.3874802417442469
+      },
+      {
+        "quantizer": "uniform",
+        "bits": 7,
+        "mode": "asinh",
+        "estimated_bytes": 62894,
+        "estimated_ratio_vs_original": 50.016346465154875,
+        "rmse": 0.0035240257286484064,
+        "psnr_peak_abs": 61.566410307803174,
+        "signed_log2_rmse": 0.004678053617165888,
+        "signed_log2_p99": 0.011525702628579675,
+        "gradient_signed_log2_nrmse": 0.546970945064648
+      },
+      {
+        "quantizer": "codebook",
+        "bits": 7,
+        "mode": "gamma075",
+        "estimated_bytes": 563695,
+        "estimated_ratio_vs_original": 5.580551662492372,
+        "rmse": 0.026749947154455736,
+        "psnr_peak_abs": 43.960733150011286,
+        "signed_log2_rmse": 0.013617222642824662,
+        "signed_log2_p99": 0.06749778218121849,
+        "gradient_signed_log2_nrmse": 1.5982802699705838
+      },
+      {
+        "quantizer": "recon-table",
+        "bits": 7,
+        "mode": "gamma075",
+        "estimated_bytes": 122687,
+        "estimated_ratio_vs_original": 25.640378180175066,
+        "rmse": 0.002007355307005086,
+        "psnr_peak_abs": 66.45470670743407,
+        "signed_log2_rmse": 0.0021173096950089293,
+        "signed_log2_p99": 0.007941570375221483,
+        "gradient_signed_log2_nrmse": 0.3372905385284683
+      },
+      {
+        "quantizer": "uniform",
+        "bits": 7,
+        "mode": "gamma075",
+        "estimated_bytes": 121175,
+        "estimated_ratio_vs_original": 25.960315584684682,
+        "rmse": 0.002258479939180322,
+        "psnr_peak_abs": 65.43086697149587,
+        "signed_log2_rmse": 0.002578676993470237,
+        "signed_log2_p99": 0.007557198424663328,
+        "gradient_signed_log2_nrmse": 0.4192745758247318
+      },
+      {
+        "quantizer": "codebook",
+        "bits": 7,
+        "mode": "signed-log",
+        "estimated_bytes": 563772,
+        "estimated_ratio_vs_original": 5.579792688016049,
+        "rmse": 0.02854969407498741,
+        "psnr_peak_abs": 43.39516253961318,
+        "signed_log2_rmse": 0.014009644018107427,
+        "signed_log2_p99": 0.06767884082635767,
+        "gradient_signed_log2_nrmse": 1.5825015612274933
+      },
+      {
+        "quantizer": "recon-table",
+        "bits": 7,
+        "mode": "signed-log",
+        "estimated_bytes": 75459,
+        "estimated_ratio_vs_original": 41.68809161079324,
+        "rmse": 0.0019900283866981917,
+        "psnr_peak_abs": 66.53000628918468,
+        "signed_log2_rmse": 0.0020839242920036405,
+        "signed_log2_p99": 0.007020893337943983,
+        "gradient_signed_log2_nrmse": 0.33320554903721405
+      },
+      {
+        "quantizer": "uniform",
+        "bits": 7,
+        "mode": "signed-log",
+        "estimated_bytes": 73947,
+        "estimated_ratio_vs_original": 42.54049501784247,
+        "rmse": 0.0031589513607572874,
+        "psnr_peak_abs": 62.516332937764325,
+        "signed_log2_rmse": 0.004089700111931634,
+        "signed_log2_p99": 0.009100240139199748,
+        "gradient_signed_log2_nrmse": 0.524941904088977
+      },
+      {
+        "quantizer": "codebook",
+        "bits": 8,
+        "mode": "asinh",
+        "estimated_bytes": 666866,
+        "estimated_ratio_vs_original": 4.717185857234595,
+        "rmse": 0.016431051844204354,
+        "psnr_peak_abs": 48.19388439863266,
+        "signed_log2_rmse": 0.007768686101629524,
+        "signed_log2_p99": 0.03699792804790079,
+        "gradient_signed_log2_nrmse": 1.0763426764425412
+      },
+      {
+        "quantizer": "recon-table",
+        "bits": 8,
+        "mode": "asinh",
+        "estimated_bytes": 115714,
+        "estimated_ratio_vs_original": 27.185408868545508,
+        "rmse": 0.0012685471231283433,
+        "psnr_peak_abs": 70.44105962317926,
+        "signed_log2_rmse": 0.0015527155726757838,
+        "signed_log2_p99": 0.005028866616129948,
+        "gradient_signed_log2_nrmse": 0.24747793502098042
+      },
+      {
+        "quantizer": "uniform",
+        "bits": 8,
+        "mode": "asinh",
+        "estimated_bytes": 112666,
+        "estimated_ratio_vs_original": 27.920868060454517,
+        "rmse": 0.00209563645979209,
+        "psnr_peak_abs": 66.08087280430246,
+        "signed_log2_rmse": 0.002853825358257304,
+        "signed_log2_p99": 0.005918036656976688,
+        "gradient_signed_log2_nrmse": 0.43156090674296066
+      },
+      {
+        "quantizer": "codebook",
+        "bits": 8,
+        "mode": "gamma075",
+        "estimated_bytes": 666926,
+        "estimated_ratio_vs_original": 4.71676416765391,
+        "rmse": 0.015718092767941994,
+        "psnr_peak_abs": 48.579194764980485,
+        "signed_log2_rmse": 0.007676331943981967,
+        "signed_log2_p99": 0.03786962975719275,
+        "gradient_signed_log2_nrmse": 1.0876610359951384
+      },
+      {
+        "quantizer": "recon-table",
+        "bits": 8,
+        "mode": "gamma075",
+        "estimated_bytes": 169955,
+        "estimated_ratio_vs_original": 18.509205400950854,
+        "rmse": 0.0010523603873433705,
+        "psnr_peak_abs": 72.06390187527796,
+        "signed_log2_rmse": 0.0011582141229103484,
+        "signed_log2_p99": 0.00384390024592864,
+        "gradient_signed_log2_nrmse": 0.20838401784301572
+      },
+      {
+        "quantizer": "uniform",
+        "bits": 8,
+        "mode": "gamma075",
+        "estimated_bytes": 166907,
+        "estimated_ratio_vs_original": 18.84721477851093,
+        "rmse": 0.0011030173569566328,
+        "psnr_peak_abs": 71.65554478780761,
+        "signed_log2_rmse": 0.0012441155838172915,
+        "signed_log2_p99": 0.0037718288852022293,
+        "gradient_signed_log2_nrmse": 0.23266052632998244
+      },
+      {
+        "quantizer": "codebook",
+        "bits": 8,
+        "mode": "signed-log",
+        "estimated_bytes": 666862,
+        "estimated_ratio_vs_original": 4.717210293060262,
+        "rmse": 0.01624099847050152,
+        "psnr_peak_abs": 48.294937208802786,
+        "signed_log2_rmse": 0.007749308581967541,
+        "signed_log2_p99": 0.03732639123625668,
+        "gradient_signed_log2_nrmse": 1.0760039363656912
+      },
+      {
+        "quantizer": "recon-table",
+        "bits": 8,
+        "mode": "signed-log",
+        "estimated_bytes": 133381,
+        "estimated_ratio_vs_original": 23.58456889293077,
+        "rmse": 0.001227920873657396,
+        "psnr_peak_abs": 70.72378407624397,
+        "signed_log2_rmse": 0.00147912285568869,
+        "signed_log2_p99": 0.004802408117238616,
+        "gradient_signed_log2_nrmse": 0.23371965964503033
+      },
+      {
+        "quantizer": "uniform",
+        "bits": 8,
+        "mode": "signed-log",
+        "estimated_bytes": 130333,
+        "estimated_ratio_vs_original": 24.1361244612514,
+        "rmse": 0.0016833406376591889,
+        "psnr_peak_abs": 67.98375156012507,
+        "signed_log2_rmse": 0.002216480411205681,
+        "signed_log2_p99": 0.004577024176202929,
+        "gradient_signed_log2_nrmse": 0.3688316510383992
+      }
+    ]
+  }
+]

@@ -1,0 +1,118 @@
+[
+  {
+    "image": "sample_DSCF0009.EXR",
+    "shape": [
+      1024,
+      1024,
+      3
+    ],
+    "crop_size": 1024,
+    "bits": [
+      7,
+      8
+    ],
+    "color_modes": [
+      "rgb"
+    ],
+    "transforms": [
+      "gamma075"
+    ],
+    "tile_size": 512,
+    "global": [
+      {
+        "color": "rgb",
+        "transform": "gamma075",
+        "bits": 8,
+        "estimated_bytes": 649004,
+        "estimated_ratio_vs_original": 19.388051565796378,
+        "rmse": 0.0014616930002939847,
+        "psnr_peak_abs": 69.96278492294107,
+        "signed_log2_rmse": 0.0017099363313646237,
+        "signed_log2_p99": 0.00513561079049363,
+        "gradient_signed_log2_nrmse": 0.29685936307713195
+      },
+      {
+        "color": "rgb",
+        "transform": "gamma075",
+        "bits": 7,
+        "estimated_bytes": 440551,
+        "estimated_ratio_vs_original": 28.56178740352604,
+        "rmse": 0.0029374918497278328,
+        "psnr_peak_abs": 63.9003748615631,
+        "signed_log2_rmse": 0.003432812001433448,
+        "signed_log2_p99": 0.01030694731647756,
+        "gradient_signed_log2_nrmse": 0.5378633255558672
+      }
+    ],
+    "tile_selector": {
+      "estimated_bits": 4394405.555450538,
+      "estimated_bytes": 549301,
+      "estimated_ratio_vs_original": 22.90714744685859,
+      "selected_modes": {
+        "rgb:gamma075:b7": 2,
+        "rgb:gamma075:b8": 2
+      },
+      "full_quality": {
+        "rmse": 0.0024869219648979675,
+        "psnr_peak_abs": 65.34666510539031,
+        "signed_log2_rmse": 0.0026812579056741488,
+        "signed_log2_p99": 0.008921579517024998,
+        "gradient_signed_log2_nrmse": 0.43160539203744885
+      },
+      "tiles": [
+        {
+          "x": 0,
+          "y": 0,
+          "color": "rgb",
+          "transform": "gamma075",
+          "bits": 7,
+          "estimated_bits": 869412.4047471734,
+          "rmse": 0.0025464382094423465,
+          "psnr_peak_abs": 64.38852887238767,
+          "signed_log2_rmse": 0.0029569633943622217,
+          "signed_log2_p99": 0.008488806580434622,
+          "gradient_signed_log2_nrmse": 0.48163664337103484
+        },
+        {
+          "x": 512,
+          "y": 0,
+          "color": "rgb",
+          "transform": "gamma075",
+          "bits": 7,
+          "estimated_bits": 1090656.6282266113,
+          "rmse": 0.0038512960237528284,
+          "psnr_peak_abs": 61.547770242369744,
+          "signed_log2_rmse": 0.003679462774741228,
+          "signed_log2_p99": 0.011169651983368183,
+          "gradient_signed_log2_nrmse": 0.37157308390779153
+        },
+        {
+          "x": 0,
+          "y": 512,
+          "color": "rgb",
+          "transform": "gamma075",
+          "bits": 8,
+          "estimated_bits": 1253732.1086603343,
+          "rmse": 0.001421065226155976,
+          "psnr_peak_abs": 41.73200912345311,
+          "signed_log2_rmse": 0.0019327965637380169,
+          "signed_log2_p99": 0.005449970189701975,
+          "gradient_signed_log2_nrmse": 0.5600088071231181
+        },
+        {
+          "x": 512,
+          "y": 512,
+          "color": "rgb",
+          "transform": "gamma075",
+          "bits": 8,
+          "estimated_bits": 1180604.41381642,
+          "rmse": 0.0011844274751523812,
+          "psnr_peak_abs": 44.011650827565035,
+          "signed_log2_rmse": 0.001654930344110723,
+          "signed_log2_p99": 0.004785233308895981,
+          "gradient_signed_log2_nrmse": 0.5969167124187429
+        }
+      ]
+    }
+  }
+]

@@ -1,0 +1,57 @@
+[
+  {
+    "image": "sample_DSCF0009.EXR",
+    "shape": [
+      1024,
+      1024,
+      3
+    ],
+    "crop_size": 1024,
+    "rows": [
+      {
+        "bits": 7,
+        "mode": "sqrt",
+        "estimated_bytes": 728538,
+        "estimated_ratio_vs_original": 17.27146349298594,
+        "rmse": 0.002322196693174517,
+        "psnr_peak_abs": 65.9419282218845,
+        "signed_log2_rmse": 0.0020056599722859817,
+        "signed_log2_p99": 0.008338717798605498,
+        "gradient_signed_log2_nrmse": 0.35447683818950454
+      },
+      {
+        "bits": 7,
+        "mode": "gamma075",
+        "estimated_bytes": 440551,
+        "estimated_ratio_vs_original": 28.56178740352604,
+        "rmse": 0.0029374918497278328,
+        "psnr_peak_abs": 63.9003748615631,
+        "signed_log2_rmse": 0.003432812001433448,
+        "signed_log2_p99": 0.01030694731647756,
+        "gradient_signed_log2_nrmse": 0.5378633255558672
+      },
+      {
+        "bits": 7,
+        "mode": "signed-log",
+        "estimated_bytes": 352176,
+        "estimated_ratio_vs_original": 35.7291245872677,
+        "rmse": 0.00370525609122194,
+        "psnr_peak_abs": 61.88354366954406,
+        "signed_log2_rmse": 0.004732118695201552,
+        "signed_log2_p99": 0.009556357855904538,
+        "gradient_signed_log2_nrmse": 0.635361945752122
+      },
+      {
+        "bits": 7,
+        "mode": "asinh",
+        "estimated_bytes": 289557,
+        "estimated_ratio_vs_original": 43.45586983466052,
+        "rmse": 0.004265493456266931,
+        "psnr_peak_abs": 60.66052266684736,
+        "signed_log2_rmse": 0.0055975199788852745,
+        "signed_log2_p99": 0.012103907812940524,
+        "gradient_signed_log2_nrmse": 0.6878695726852214
+      }
+    ]
+  }
+]

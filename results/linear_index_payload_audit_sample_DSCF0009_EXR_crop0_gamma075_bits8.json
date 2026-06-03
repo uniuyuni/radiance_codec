@@ -1,0 +1,466 @@
+[
+  {
+    "image": "sample_DSCF0009.EXR",
+    "shape": [
+      5152,
+      7728,
+      3
+    ],
+    "crop_size": 0,
+    "bits": 8,
+    "transform": "gamma075",
+    "encoded_bytes": 27456725,
+    "raw_bytes": 477775872,
+    "ratio_vs_original": 17.401050999345333,
+    "encode_seconds": 32.5912147500203,
+    "decode_seconds": null,
+    "quality": null,
+    "hdr0": {
+      "version": 3,
+      "header_bytes": 24,
+      "width": 7728,
+      "height": 5152,
+      "channels": 3,
+      "pixel_format": 1,
+      "stages": 256,
+      "rans_mode": 1,
+      "effort": 9,
+      "near_lossless_bits": 8,
+      "near_lossless_policy": 7,
+      "sign_class": 1,
+      "payload_bytes": 27456701
+    },
+    "lidx": {
+      "version": 6,
+      "bits": 8,
+      "tile_size": 0,
+      "channels": 3,
+      "effort": 9,
+      "value_mode": "symbol-rans",
+      "predictor_mode": "med",
+      "transform_mode": "gamma075",
+      "range_count": 3,
+      "header_bytes": 25,
+      "ranges_bytes": 24,
+      "mask_payload_bytes": 13762148,
+      "value_payload_bytes": 13694504,
+      "trailing_bytes": 0,
+      "ranges": [
+        {
+          "lo_bits": 0,
+          "hi_bits": 1080513650,
+          "lo": 0.0,
+          "hi": 3.6145291328430176
+        },
+        {
+          "lo_bits": 0,
+          "hi_bits": 1078506215,
+          "lo": 0.0,
+          "hi": 3.1359193325042725
+        },
+        {
+          "lo_bits": 0,
+          "hi_bits": 1081832888,
+          "lo": 0.0,
+          "hi": 3.9290599822998047
+        }
+      ]
+    },
+    "payload_budget": {
+      "outer_header_bytes": 24,
+      "lidx_header_bytes": 25,
+      "range_metadata_bytes": 24,
+      "mask_payload_bytes": 13762148,
+      "value_payload_bytes": 13694504,
+      "trailing_bytes": 0,
+      "fixed_overhead_bytes": 73,
+      "mask_share": 0.5012304999959026,
+      "value_share": 0.49876684127476967,
+      "fixed_overhead_share": 2.6587293276965845e-06,
+      "bytes_per_sample": 0.22987117273264063,
+      "mask_bits_per_sample": 0.9217475427474077,
+      "value_bits_per_sample": 0.9172169497918891,
+      "total_bits_per_sample": 1.838969381861125
+    },
+    "residual": {
+      "samples": 119443968,
+      "nonzero_count": 51067809,
+      "nonzero_rate": 0.42754615285386366,
+      "nonzero_by_channel": [
+        16729933,
+        16503917,
+        17833959
+      ],
+      "nonzero_rate_by_channel": [
+        0.4201953421373275,
+        0.4145186385636485,
+        0.44792447786061496
+      ],
+      "zero_run_mean": 1.3389287498328204,
+      "zero_run_p95": 6.0,
+      "residual_order0_entropy_bits_per_sample": 1.896191810671437,
+      "value_order0_entropy_bits_per_nonzero": 2.1316816753623833,
+      "top_residuals": [
+        {
+          "symbol": 0,
+          "count": 68376159
+        },
+        {
+          "symbol": 255,
+          "count": 20818988
+        },
+        {
+          "symbol": 1,
+          "count": 20803922
+        },
+        {
+          "symbol": 254,
+          "count": 2623471
+        },
+        {
+          "symbol": 2,
+          "count": 2559918
+        },
+        {
+          "symbol": 253,
+          "count": 837552
+        },
+        {
+          "symbol": 3,
+          "count": 808209
+        },
+        {
+          "symbol": 252,
+          "count": 414756
+        },
+        {
+          "symbol": 4,
+          "count": 396864
+        },
+        {
+          "symbol": 251,
+          "count": 242834
+        },
+        {
+          "symbol": 5,
+          "count": 233883
+        },
+        {
+          "symbol": 250,
+          "count": 155819
+        }
+      ],
+      "top_values": [
+        {
+          "symbol": 254,
+          "count": 20818988
+        },
+        {
+          "symbol": 0,
+          "count": 20803922
+        },
+        {
+          "symbol": 253,
+          "count": 2623471
+        },
+        {
+          "symbol": 1,
+          "count": 2559918
+        },
+        {
+          "symbol": 252,
+          "count": 837552
+        },
+        {
+          "symbol": 2,
+          "count": 808209
+        },
+        {
+          "symbol": 251,
+          "count": 414756
+        },
+        {
+          "symbol": 3,
+          "count": 396864
+        },
+        {
+          "symbol": 250,
+          "count": 242834
+        },
+        {
+          "symbol": 4,
+          "count": 233883
+        },
+        {
+          "symbol": 249,
+          "count": 155819
+        },
+        {
+          "symbol": 5,
+          "count": 150303
+        }
+      ]
+    },
+    "candidate_predictors": [
+      {
+        "predictor_mode": "zero",
+        "nonzero_rate": 0.9914931158348658,
+        "nonzero_rate_by_channel": [
+          0.9981995072367321,
+          0.9943906083227242,
+          0.981889231945141
+        ],
+        "residual_order0_entropy_bits_per_sample": 5.4219820699711825,
+        "value_order0_entropy_bits_per_nonzero": 5.397171546006174,
+        "top_residuals": [
+          {
+            "symbol": 2,
+            "count": 9995176
+          },
+          {
+            "symbol": 1,
+            "count": 9244949
+          },
+          {
+            "symbol": 3,
+            "count": 7577519
+          },
+          {
+            "symbol": 4,
+            "count": 6478228
+          },
+          {
+            "symbol": 8,
+            "count": 5827824
+          },
+          {
+            "symbol": 5,
+            "count": 5657047
+          }
+        ]
+      },
+      {
+        "predictor_mode": "west",
+        "nonzero_rate": 0.4766825981534706,
+        "nonzero_rate_by_channel": [
+          0.4782153586860075,
+          0.4595598665978679,
+          0.4922725691765364
+        ],
+        "residual_order0_entropy_bits_per_sample": 2.30550272966291,
+        "value_order0_entropy_bits_per_nonzero": 2.7420176318372564,
+        "top_residuals": [
+          {
+            "symbol": 0,
+            "count": 62507107
+          },
+          {
+            "symbol": 1,
+            "count": 20185756
+          },
+          {
+            "symbol": 255,
+            "count": 20097906
+          },
+          {
+            "symbol": 2,
+            "count": 3752226
+          },
+          {
+            "symbol": 254,
+            "count": 3595372
+          },
+          {
+            "symbol": 3,
+            "count": 1527961
+          }
+        ]
+      },
+      {
+        "predictor_mode": "north",
+        "nonzero_rate": 0.46501794046225925,
+        "nonzero_rate_by_channel": [
+          0.466307582815735,
+          0.446517006199928,
+          0.4822292323711148
+        ],
+        "residual_order0_entropy_bits_per_sample": 2.178111155296691,
+        "value_order0_entropy_bits_per_nonzero": 2.541074051182326,
+        "top_residuals": [
+          {
+            "symbol": 0,
+            "count": 63900380
+          },
+          {
+            "symbol": 1,
+            "count": 20657625
+          },
+          {
+            "symbol": 255,
+            "count": 20537827
+          },
+          {
+            "symbol": 2,
+            "count": 3397917
+          },
+          {
+            "symbol": 254,
+            "count": 3380822
+          },
+          {
+            "symbol": 253,
+            "count": 1284401
+          }
+        ]
+      },
+      {
+        "predictor_mode": "avg",
+        "nonzero_rate": 0.45662325116325675,
+        "nonzero_rate_by_channel": [
+          0.4552513275513419,
+          0.44296359109570105,
+          0.47165483484272724
+        ],
+        "residual_order0_entropy_bits_per_sample": 2.0499372733756545,
+        "value_order0_entropy_bits_per_nonzero": 2.3112556900787014,
+        "top_residuals": [
+          {
+            "symbol": 0,
+            "count": 64903075
+          },
+          {
+            "symbol": 1,
+            "count": 29767707
+          },
+          {
+            "symbol": 255,
+            "count": 11805457
+          },
+          {
+            "symbol": 2,
+            "count": 4144445
+          },
+          {
+            "symbol": 254,
+            "count": 2161183
+          },
+          {
+            "symbol": 3,
+            "count": 1388333
+          }
+        ]
+      },
+      {
+        "predictor_mode": "med",
+        "nonzero_rate": 0.42754615285386366,
+        "nonzero_rate_by_channel": [
+          0.4201953421373275,
+          0.4145186385636485,
+          0.44792447786061496
+        ],
+        "residual_order0_entropy_bits_per_sample": 1.896191810671437,
+        "value_order0_entropy_bits_per_nonzero": 2.1316816753623833,
+        "top_residuals": [
+          {
+            "symbol": 0,
+            "count": 68376159
+          },
+          {
+            "symbol": 255,
+            "count": 20818988
+          },
+          {
+            "symbol": 1,
+            "count": 20803922
+          },
+          {
+            "symbol": 254,
+            "count": 2623471
+          },
+          {
+            "symbol": 2,
+            "count": 2559918
+          },
+          {
+            "symbol": 253,
+            "count": 837552
+          }
+        ]
+      },
+      {
+        "predictor_mode": "prev-channel-med0",
+        "nonzero_rate": 0.7294698464806527,
+        "nonzero_rate_by_channel": [
+          0.4201953421373275,
+          0.899652354148181,
+          0.8685618431564497
+        ],
+        "residual_order0_entropy_bits_per_sample": 3.7477096207551464,
+        "value_order0_entropy_bits_per_nonzero": 3.9830094277988017,
+        "top_residuals": [
+          {
+            "symbol": 0,
+            "count": 32313195
+          },
+          {
+            "symbol": 255,
+            "count": 19413212
+          },
+          {
+            "symbol": 254,
+            "count": 11829909
+          },
+          {
+            "symbol": 253,
+            "count": 10323929
+          },
+          {
+            "symbol": 1,
+            "count": 9690010
+          },
+          {
+            "symbol": 252,
+            "count": 7697264
+          }
+        ]
+      },
+      {
+        "predictor_mode": "med-prev-avg",
+        "nonzero_rate": 0.6358897587863123,
+        "nonzero_rate_by_channel": [
+          0.4201953421373275,
+          0.7493542076565977,
+          0.7381197265650117
+        ],
+        "residual_order0_entropy_bits_per_sample": 2.945374667667105,
+        "value_order0_entropy_bits_per_nonzero": 3.1441495132233888,
+        "top_residuals": [
+          {
+            "symbol": 0,
+            "count": 43490772
+          },
+          {
+            "symbol": 255,
+            "count": 27381387
+          },
+          {
+            "symbol": 254,
+            "count": 13231946
+          },
+          {
+            "symbol": 1,
+            "count": 12590380
+          },
+          {
+            "symbol": 253,
+            "count": 5350432
+          },
+          {
+            "symbol": 2,
+            "count": 3400038
+          }
+        ]
+      }
+    ]
+  }
+]

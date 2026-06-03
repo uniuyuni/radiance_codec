@@ -1,0 +1,32 @@
+[
+  {
+    "image": "sample_DSCF0009.EXR",
+    "shape": [
+      512,
+      512,
+      3
+    ],
+    "crop_size": 512,
+    "effort": 11,
+    "rows": [
+      {
+        "policy": "linear_range",
+        "low_bits_zeroed": 7,
+        "encoded_bytes": 108667,
+        "ratio_vs_original": 28.9483283793608,
+        "encode_seconds": 49.12151412499952,
+        "decode_seconds": 0.5540797080029733,
+        "max_abs": 0.01661539077758789,
+        "mae": 0.00298457976513372,
+        "rmse": 0.0038635251421273178,
+        "snr_db": 36.48585416043918,
+        "max_rel_nonzero": 1.0,
+        "signed_log2_rmse": 0.00516658004358043,
+        "gradient_signed_log2_nrmse": 0.45190052430886735,
+        "histogram_ks_256": 0.012304941813151116,
+        "psnr_peak_abs": 60.76751686210027,
+        "changed_rate": 0.9995981852213541
+      }
+    ]
+  }
+]

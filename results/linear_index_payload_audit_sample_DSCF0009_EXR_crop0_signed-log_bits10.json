@@ -1,0 +1,244 @@
+[
+  {
+    "image": "sample_DSCF0009.EXR",
+    "shape": [
+      5152,
+      7728,
+      3
+    ],
+    "crop_size": 0,
+    "bits": 10,
+    "transform": "signed-log",
+    "encoded_bytes": 49382153,
+    "raw_bytes": 477775872,
+    "ratio_vs_original": 9.675071720748992,
+    "encode_seconds": 115.20481679099612,
+    "decode_seconds": null,
+    "quality": null,
+    "hdr0": {
+      "version": 3,
+      "header_bytes": 24,
+      "width": 7728,
+      "height": 5152,
+      "channels": 3,
+      "pixel_format": 1,
+      "stages": 256,
+      "rans_mode": 1,
+      "effort": 9,
+      "near_lossless_bits": 10,
+      "near_lossless_policy": 5,
+      "sign_class": 1,
+      "payload_bytes": 49382129
+    },
+    "lidx": {
+      "version": 8,
+      "bits": 10,
+      "tile_size": 0,
+      "channels": 3,
+      "effort": 9,
+      "value_mode": "small-escape-channel-split-rans",
+      "predictor_mode": "med",
+      "transform_mode": "signed-log",
+      "range_count": 3,
+      "header_bytes": 25,
+      "ranges_bytes": 24,
+      "mask_payload_bytes": 44301462,
+      "value_payload_bytes": 5080618,
+      "trailing_bytes": 0,
+      "ranges": [
+        {
+          "lo_bits": 0,
+          "hi_bits": 1076723406,
+          "lo": 0.0,
+          "hi": 2.710864543914795
+        },
+        {
+          "lo_bits": 0,
+          "hi_bits": 1075767118,
+          "lo": 0.0,
+          "hi": 2.48286771774292
+        },
+        {
+          "lo_bits": 0,
+          "hi_bits": 1077298499,
+          "lo": 0.0,
+          "hi": 2.84797739982605
+        }
+      ]
+    },
+    "payload_budget": {
+      "outer_header_bytes": 24,
+      "lidx_header_bytes": 25,
+      "range_metadata_bytes": 24,
+      "mask_payload_bytes": 44301462,
+      "value_payload_bytes": 5080618,
+      "trailing_bytes": 0,
+      "fixed_overhead_bytes": 73,
+      "mask_share": 0.8971148341790606,
+      "value_share": 0.10288368755408457,
+      "fixed_overhead_share": 1.478266854829112e-06,
+      "bytes_per_sample": 0.413433627724089,
+      "mask_bits_per_sample": 2.9671795230379487,
+      "value_bits_per_sample": 0.3402846094329351,
+      "total_bits_per_sample": 3.307469021792712
+    },
+    "residual": {
+      "samples": 119443968,
+      "nonzero_count": 91629709,
+      "nonzero_rate": 0.7671355074205171,
+      "nonzero_by_channel": [
+        31096831,
+        29451752,
+        31081126
+      ],
+      "nonzero_rate_by_channel": [
+        0.7810398010220156,
+        0.7397213729537183,
+        0.7806453482858171
+      ],
+      "zero_run_mean": 0.3035506605881433,
+      "zero_run_p95": 2.0,
+      "residual_order0_entropy_bits_per_sample": 3.741348069688123,
+      "value_order0_entropy_bits_per_nonzero": 3.856393828943612,
+      "top_residuals": [
+        {
+          "symbol": 0,
+          "count": 27814259
+        },
+        {
+          "symbol": 1023,
+          "count": 19028530
+        },
+        {
+          "symbol": 1,
+          "count": 18889859
+        },
+        {
+          "symbol": 1022,
+          "count": 9737097
+        },
+        {
+          "symbol": 2,
+          "count": 9638829
+        },
+        {
+          "symbol": 1021,
+          "count": 5400720
+        },
+        {
+          "symbol": 3,
+          "count": 5329180
+        },
+        {
+          "symbol": 1020,
+          "count": 3218259
+        },
+        {
+          "symbol": 4,
+          "count": 3172693
+        },
+        {
+          "symbol": 1019,
+          "count": 2041166
+        },
+        {
+          "symbol": 5,
+          "count": 2003731
+        },
+        {
+          "symbol": 1018,
+          "count": 1362536
+        }
+      ],
+      "top_values": [
+        {
+          "symbol": 1022,
+          "count": 19028530
+        },
+        {
+          "symbol": 0,
+          "count": 18889859
+        },
+        {
+          "symbol": 1021,
+          "count": 9737097
+        },
+        {
+          "symbol": 1,
+          "count": 9638829
+        },
+        {
+          "symbol": 1020,
+          "count": 5400720
+        },
+        {
+          "symbol": 2,
+          "count": 5329180
+        },
+        {
+          "symbol": 1019,
+          "count": 3218259
+        },
+        {
+          "symbol": 3,
+          "count": 3172693
+        },
+        {
+          "symbol": 1018,
+          "count": 2041166
+        },
+        {
+          "symbol": 4,
+          "count": 2003731
+        },
+        {
+          "symbol": 1017,
+          "count": 1362536
+        },
+        {
+          "symbol": 5,
+          "count": 1333929
+        }
+      ]
+    },
+    "candidate_predictors": [
+      {
+        "predictor_mode": "med",
+        "nonzero_rate": 0.7671355074205171,
+        "nonzero_rate_by_channel": [
+          0.7810398010220156,
+          0.7397213729537183,
+          0.7806453482858171
+        ],
+        "residual_order0_entropy_bits_per_sample": 3.741348069688123,
+        "value_order0_entropy_bits_per_nonzero": 3.856393828943612,
+        "top_residuals": [
+          {
+            "symbol": 0,
+            "count": 27814259
+          },
+          {
+            "symbol": 1023,
+            "count": 19028530
+          },
+          {
+            "symbol": 1,
+            "count": 18889859
+          },
+          {
+            "symbol": 1022,
+            "count": 9737097
+          },
+          {
+            "symbol": 2,
+            "count": 9638829
+          },
+          {
+            "symbol": 1021,
+            "count": 5400720
+          }
+        ]
+      }
+    ]
+  }
+]

@@ -1,0 +1,107 @@
+[
+  {
+    "image": "sample_DSCF0009.EXR",
+    "shape": [
+      5152,
+      7728,
+      3
+    ],
+    "crop_size": 0,
+    "raw_bytes": 477775872,
+    "sample_count": 119443968,
+    "bits": 10,
+    "transform": "signed-log",
+    "gamma": 1.0,
+    "small": 3,
+    "category_context": "west_north_prev_channel",
+    "category_alphabet": 9,
+    "detail_alphabet": 509,
+    "escape_rate": 0.1976281799345447,
+    "elapsed_sec": 24.211494457995286,
+    "detail_context_results": [
+      {
+        "detail_context": "order0",
+        "streams": [
+          {
+            "stream": "category:west_north_prev_channel",
+            "sample_count": 119443968,
+            "ideal_bits": 312718169.4144415,
+            "finite_bits": 312718175.8901211,
+            "finite_redundancy_bits": 6.475679576396942,
+            "bits_per_sample": 2.6181161018538925,
+            "payload_bytes": 39089776,
+            "model_dense_bytes": 13122,
+            "model_sparse_full_bytes": 14580,
+            "model_sparse_pairs_bytes": 22599,
+            "context_count_possible": 729,
+            "context_count_seen": 729,
+            "symbol_pairs_seen": 6561
+          },
+          {
+            "stream": "pos_escape:order0",
+            "sample_count": 11671068,
+            "ideal_bits": 44732199.651097685,
+            "finite_bits": 45037335.46612196,
+            "finite_redundancy_bits": 305135.8150242716,
+            "bits_per_sample": 3.8588872471758333,
+            "payload_bytes": 5629671,
+            "model_dense_bytes": 1018,
+            "model_sparse_full_bytes": 1020,
+            "model_sparse_pairs_bytes": 2012,
+            "context_count_possible": 1,
+            "context_count_seen": 1,
+            "symbol_pairs_seen": 502
+          },
+          {
+            "stream": "neg_escape:order0",
+            "sample_count": 11934426,
+            "ideal_bits": 45913494.744161,
+            "finite_bits": 46221828.03955668,
+            "finite_redundancy_bits": 308333.2953956798,
+            "bits_per_sample": 3.8729829184542837,
+            "payload_bytes": 5777733,
+            "model_dense_bytes": 1018,
+            "model_sparse_full_bytes": 1020,
+            "model_sparse_pairs_bytes": 2024,
+            "context_count_possible": 1,
+            "context_count_seen": 1,
+            "symbol_pairs_seen": 505
+          }
+        ],
+        "total": {
+          "base_stream_bytes": 105,
+          "ideal_entropy_bytes_no_model": 50420588,
+          "finite_payload_bytes": 50497180,
+          "finite_bits_per_sample": 3.382149355552218,
+          "model_dense_bytes": 15158,
+          "model_sparse_full_bytes": 16620,
+          "model_sparse_pairs_bytes": 26635,
+          "total_dense_model_bytes": 50512443,
+          "total_sparse_full_model_bytes": 50513905,
+          "total_sparse_pairs_model_bytes": 50523920,
+          "ratio_dense_model": 9.458577800325358,
+          "ratio_sparse_full_model": 9.4583040451931,
+          "ratio_sparse_pairs_model": 9.456429192350871
+        }
+      }
+    ],
+    "candidates": [
+      {
+        "detail_context": "order0",
+        "base_stream_bytes": 105,
+        "ideal_entropy_bytes_no_model": 50420588,
+        "finite_payload_bytes": 50497180,
+        "finite_bits_per_sample": 3.382149355552218,
+        "model_dense_bytes": 15158,
+        "model_sparse_full_bytes": 16620,
+        "model_sparse_pairs_bytes": 26635,
+        "total_dense_model_bytes": 50512443,
+        "total_sparse_full_model_bytes": 50513905,
+        "total_sparse_pairs_model_bytes": 50523920,
+        "ratio_dense_model": 9.458577800325358,
+        "ratio_sparse_full_model": 9.4583040451931,
+        "ratio_sparse_pairs_model": 9.456429192350871
+      }
+    ]
+  }
+]

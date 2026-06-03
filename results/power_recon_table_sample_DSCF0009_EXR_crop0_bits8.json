@@ -1,0 +1,66 @@
+[
+  {
+    "image": "sample_DSCF0009.EXR",
+    "shape": [
+      5152,
+      7728,
+      3
+    ],
+    "crop_size": 0,
+    "bits": 8,
+    "rows": [
+      {
+        "gamma": 0.805,
+        "mode": "center",
+        "quality_passes": false,
+        "quality": {
+          "mae": 0.0028823302852914786,
+          "rmse": 0.0035261239794224667,
+          "psnr_peak_abs": 64.90174634987952,
+          "signed_log2_rmse": 0.004074750356162998,
+          "signed_log2_p99": 0.008270041911132975,
+          "gradient_signed_log2_nrmse": 0.1566223934007519
+        }
+      },
+      {
+        "gamma": 0.805,
+        "mode": "signed-log-mean",
+        "quality_passes": false,
+        "quality": {
+          "mae": 0.002855616174345706,
+          "rmse": 0.0035137025063452718,
+          "psnr_peak_abs": 64.93239814406098,
+          "signed_log2_rmse": 0.004054499163524504,
+          "signed_log2_p99": 0.008296763949926012,
+          "gradient_signed_log2_nrmse": 0.15543212949871832
+        }
+      },
+      {
+        "gamma": 0.81,
+        "mode": "center",
+        "quality_passes": false,
+        "quality": {
+          "mae": 0.0029224069858366977,
+          "rmse": 0.0035648338427539616,
+          "psnr_peak_abs": 64.80691206957307,
+          "signed_log2_rmse": 0.004135868921327325,
+          "signed_log2_p99": 0.008368151718035627,
+          "gradient_signed_log2_nrmse": 0.15867544466487868
+        }
+      },
+      {
+        "gamma": 0.81,
+        "mode": "signed-log-mean",
+        "quality_passes": false,
+        "quality": {
+          "mae": 0.002892404882392994,
+          "rmse": 0.0035510549676994953,
+          "psnr_peak_abs": 64.84055001441143,
+          "signed_log2_rmse": 0.004112912276080651,
+          "signed_log2_p99": 0.008385843285224862,
+          "gradient_signed_log2_nrmse": 0.15737611128395546
+        }
+      }
+    ]
+  }
+]

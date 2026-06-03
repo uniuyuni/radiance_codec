@@ -33,6 +33,8 @@ add_library(radiance_codec SHARED
     src/structural_context.cpp
     src/grouped_delta.cpp
     src/mantissa_quantize.cpp
+    src/linear_index.cpp
+    src/linear_index_transform.cpp
     src/c_api.cpp
 )
 target_include_directories(radiance_codec

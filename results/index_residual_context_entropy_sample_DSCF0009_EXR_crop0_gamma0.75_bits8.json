@@ -1,0 +1,71 @@
+[
+  {
+    "image": "sample_DSCF0009.EXR",
+    "shape": [
+      5152,
+      7728,
+      3
+    ],
+    "crop_size": 0,
+    "bits": 8,
+    "gamma": 0.75,
+    "rows": [
+      {
+        "context": "west_north_prev_channel",
+        "bits_per_sample": 1.6235551340871759,
+        "estimated_bytes": 24240556.435268044,
+        "estimated_ratio_vs_original": 19.709773299794175,
+        "context_count": 439
+      },
+      {
+        "context": "wnnw_phase_channel",
+        "bits_per_sample": 1.6682693244420321,
+        "estimated_bytes": 24908161.47550446,
+        "estimated_ratio_vs_original": 19.181498902271898,
+        "context_count": 6071
+      },
+      {
+        "context": "west_north_phase_channel",
+        "bits_per_sample": 1.693641264171159,
+        "estimated_bytes": 25286977.12014243,
+        "estimated_ratio_vs_original": 18.89414736012182,
+        "context_count": 759
+      },
+      {
+        "context": "west_north",
+        "bits_per_sample": 1.6953027965078058,
+        "estimated_bytes": 25311784.62204861,
+        "estimated_ratio_vs_original": 18.875629637896754,
+        "context_count": 55
+      },
+      {
+        "context": "westcat",
+        "bits_per_sample": 1.7708701528996809,
+        "estimated_bytes": 26440042.734388072,
+        "estimated_ratio_vs_original": 18.07016262415499,
+        "context_count": 7
+      },
+      {
+        "context": "northcat",
+        "bits_per_sample": 1.772362213436119,
+        "estimated_bytes": 26462319.93825912,
+        "estimated_ratio_vs_original": 18.05495032615162,
+        "context_count": 7
+      },
+      {
+        "context": "phase_channel",
+        "bits_per_sample": 1.8947114988137053,
+        "estimated_bytes": 28289055.45419203,
+        "estimated_ratio_vs_original": 16.889071208957613,
+        "context_count": 12
+      },
+      {
+        "context": "order0",
+        "bits_per_sample": 1.896191810671437,
+        "estimated_bytes": 28311157.244462647,
+        "estimated_ratio_vs_original": 16.875886346661005,
+        "context_count": 1
+      }
+    ]
+  }
+]

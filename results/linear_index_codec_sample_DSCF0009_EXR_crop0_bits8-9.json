@@ -1,0 +1,46 @@
+[
+  {
+    "image": "sample_DSCF0009.EXR",
+    "shape": [
+      5152,
+      7728,
+      3
+    ],
+    "crop_size": 0,
+    "quality_thresholds": {
+      "signed_log2_rmse": 0.004,
+      "signed_log2_p99": 0.018,
+      "gradient_signed_log2_nrmse": 0.5
+    },
+    "selected_bits": null,
+    "selected_ratio_vs_original": null,
+    "rows": [
+      {
+        "bits": 8,
+        "encoded_bytes": 18849634,
+        "ratio_vs_original": 25.346692248772577,
+        "encode_seconds": 35.99475933299982,
+        "decode_seconds": 8.973199708008906,
+        "mae": 0.005401534714465449,
+        "rmse": 0.006233312078981131,
+        "psnr_peak_abs": 59.953320493385306,
+        "signed_log2_rmse": 0.008070560207211806,
+        "signed_log2_p99": 0.016151483323247146,
+        "gradient_signed_log2_nrmse": 0.26337950805358207
+      },
+      {
+        "bits": 9,
+        "encoded_bytes": 28292387,
+        "ratio_vs_original": 16.887082450837394,
+        "encode_seconds": 55.50421366697992,
+        "decode_seconds": 6.940408833004767,
+        "mae": 0.0027218154299758746,
+        "rmse": 0.0031473735713396524,
+        "psnr_peak_abs": 65.8887320385137,
+        "signed_log2_rmse": 0.004085834462241867,
+        "signed_log2_p99": 0.008172380092108592,
+        "gradient_signed_log2_nrmse": 0.14928662118514469
+      }
+    ]
+  }
+]

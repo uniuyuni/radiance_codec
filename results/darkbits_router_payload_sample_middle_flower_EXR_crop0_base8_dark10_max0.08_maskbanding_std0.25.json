@@ -1,0 +1,63 @@
+[
+  {
+    "image": "sample_middle_flower.EXR",
+    "shape": [
+      7728,
+      5152,
+      3
+    ],
+    "raw_bytes": 477775872,
+    "base_bits": 8,
+    "dark_bits": 10,
+    "dark_max": 0.08,
+    "mask_mode": "banding",
+    "mask_radius": 2,
+    "std_step_threshold": 0.25,
+    "quality": {
+      "mae": 0.00165694168953782,
+      "rmse": 0.0021086952223946277,
+      "psnr_peak_abs": 63.047949631807015,
+      "signed_log2_rmse": 0.0017953869141542126,
+      "signed_log2_p99": 0.003800444461344246,
+      "gradient_signed_log2_nrmse": 0.13234281766118652
+    },
+    "base_encoded_bytes": null,
+    "base_encode_seconds": null,
+    "mask": {
+      "dark_pixel_rate": 3.541409474943096e-06,
+      "order0": {
+        "sample_count": 39814656,
+        "ideal_bits": 2756.5411721071277,
+        "finite_bits": 5479.978781339121,
+        "bits_per_sample": 0.00013763722538100346,
+        "payload_bytes": 689,
+        "model_bytes": 4,
+        "total_bytes": 693
+      },
+      "west_north": {
+        "sample_count": 39814656,
+        "finite_bits": 4460.843518086413,
+        "bits_per_sample": 0.00011204023759709019,
+        "payload_bytes": 562,
+        "model_bytes": 16,
+        "total_bytes": 578
+      }
+    },
+    "refinement": {
+      "sample_count": 423,
+      "ideal_bits": 942.7035131174473,
+      "finite_bits": 942.7035159671279,
+      "bits_per_sample": 2.2286135129246523,
+      "payload_bytes": 122,
+      "model_bytes": 18,
+      "total_bytes": 140,
+      "correction_min": -2,
+      "correction_max": 2,
+      "correction_alphabet": 5
+    },
+    "router_header_bytes": 64,
+    "estimated_bytes": null,
+    "estimated_ratio": null,
+    "elapsed_sec": 108.36081450001802
+  }
+]

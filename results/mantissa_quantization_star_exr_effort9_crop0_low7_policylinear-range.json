@@ -1,0 +1,452 @@
+[
+  {
+    "image": "oexr_ScanLines_CandleGlass.exr",
+    "shape": [
+      810,
+      1000,
+      4
+    ],
+    "crop_size": 0,
+    "effort": 9,
+    "rows": [
+      {
+        "policy": "linear_range",
+        "low_bits_zeroed": 7,
+        "encoded_bytes": 70665,
+        "ratio_vs_original": 183.40055189980896,
+        "encode_seconds": 26.132390208003926,
+        "decode_seconds": 1.9982657079963246,
+        "max_abs": 1.6268959045410156,
+        "mae": 0.004552203554263407,
+        "rmse": 0.03602804531684095,
+        "snr_db": 39.34607623573055,
+        "max_rel_nonzero": 356.0,
+        "signed_log2_rmse": 0.03221376539289617,
+        "gradient_signed_log2_nrmse": 0.5774067480094192,
+        "histogram_ks_256": 0.00011759259259258581,
+        "psnr_peak_abs": 81.19144323813188,
+        "changed_rate": 0.7671074074074075
+      }
+    ]
+  },
+  {
+    "image": "oexr_ScanLines_Cannon.exr",
+    "shape": [
+      566,
+      780,
+      3
+    ],
+    "crop_size": 0,
+    "effort": 9,
+    "rows": [
+      {
+        "policy": "linear_range",
+        "low_bits_zeroed": 7,
+        "encoded_bytes": 1995553,
+        "ratio_vs_original": 2.6547829097999402,
+        "encode_seconds": 11.92473249998875,
+        "decode_seconds": 1.8007599170086905,
+        "max_abs": 0.010324075818061829,
+        "mae": 0.0050673017370458625,
+        "rmse": 0.005854176776713079,
+        "snr_db": 37.55031750151677,
+        "max_rel_nonzero": 0.3386378395718578,
+        "signed_log2_rmse": 0.0065258215825274215,
+        "gradient_signed_log2_nrmse": 0.13517635515904106,
+        "histogram_ks_256": 0.022870043188064383,
+        "psnr_peak_abs": 53.091240061475055,
+        "changed_rate": 0.9999924496390927
+      }
+    ]
+  },
+  {
+    "image": "oexr_ScanLines_Tree.exr",
+    "shape": [
+      906,
+      928,
+      4
+    ],
+    "crop_size": 0,
+    "effort": 9,
+    "rows": [
+      {
+        "policy": "linear_range",
+        "low_bits_zeroed": 7,
+        "encoded_bytes": 1467614,
+        "ratio_vs_original": 9.16609408195888,
+        "encode_seconds": 30.729871667004772,
+        "decode_seconds": 4.814399499999126,
+        "max_abs": 0.06416130065917969,
+        "mae": 0.014430784993734133,
+        "rmse": 0.02107386727039164,
+        "snr_db": 40.220671875415036,
+        "max_rel_nonzero": 1.0,
+        "signed_log2_rmse": 0.023812660531509225,
+        "gradient_signed_log2_nrmse": 0.11988759447515936,
+        "histogram_ks_256": 0.03468911756869908,
+        "psnr_peak_abs": 57.76720188074798,
+        "changed_rate": 0.7115110827243663
+      }
+    ]
+  },
+  {
+    "image": "oexr_TestImages_GrayRampsHorizontal.exr",
+    "shape": [
+      800,
+      800,
+      1
+    ],
+    "crop_size": 0,
+    "effort": 9,
+    "rows": [
+      {
+        "policy": "linear_range",
+        "low_bits_zeroed": 7,
+        "encoded_bytes": 2373,
+        "ratio_vs_original": 1078.803202697008,
+        "encode_seconds": 4.8540267089992994,
+        "decode_seconds": 0.39905266599089373,
+        "max_abs": 0.07085824012756348,
+        "mae": 0.033875705325137825,
+        "rmse": 0.039191822202817375,
+        "snr_db": 32.894805989755596,
+        "max_rel_nonzero": 0.9752023759461732,
+        "signed_log2_rmse": 0.044880483733678735,
+        "gradient_signed_log2_nrmse": 0.8331861685266408,
+        "histogram_ks_256": 0.14728281250000003,
+        "psnr_peak_abs": 53.24154097732112,
+        "changed_rate": 0.999753125
+      }
+    ]
+  },
+  {
+    "image": "ph_abandoned_tiled_room_1k.exr",
+    "shape": [
+      512,
+      1024,
+      3
+    ],
+    "crop_size": 0,
+    "effort": 9,
+    "rows": [
+      {
+        "policy": "linear_range",
+        "low_bits_zeroed": 7,
+        "encoded_bytes": 168212,
+        "ratio_vs_original": 37.401945164435354,
+        "encode_seconds": 13.522229874986806,
+        "decode_seconds": 1.2529879580106353,
+        "max_abs": 0.4133533239364624,
+        "mae": 0.07633233953894585,
+        "rmse": 0.11727698892845037,
+        "snr_db": 30.139866780268626,
+        "max_rel_nonzero": 0.9981225775193798,
+        "signed_log2_rmse": 0.12862276497406064,
+        "gradient_signed_log2_nrmse": 0.6111752783352132,
+        "histogram_ks_256": 0.028809865315755134,
+        "psnr_peak_abs": 59.039529841689955,
+        "changed_rate": 0.9999961853027344
+      }
+    ]
+  },
+  {
+    "image": "ph_belfast_sunset_puresky_1k.exr",
+    "shape": [
+      512,
+      1024,
+      4
+    ],
+    "crop_size": 0,
+    "effort": 9,
+    "rows": [
+      {
+        "policy": "linear_range",
+        "low_bits_zeroed": 7,
+        "encoded_bytes": 135733,
+        "ratio_vs_original": 61.80227358122196,
+        "encode_seconds": 16.444185333006317,
+        "decode_seconds": 1.9474235829984536,
+        "max_abs": 0.1745641827583313,
+        "mae": 0.042111311455826694,
+        "rmse": 0.06133917082323449,
+        "snr_db": 28.661047415004216,
+        "max_rel_nonzero": 0.5081516689480085,
+        "signed_log2_rmse": 0.05716362259827701,
+        "gradient_signed_log2_nrmse": 0.9023266814070241,
+        "histogram_ks_256": 0.05627775192260742,
+        "psnr_peak_abs": 57.214063755979616,
+        "changed_rate": 0.7499966621398926
+      }
+    ]
+  },
+  {
+    "image": "ph_kloppenheim_06_puresky_1k.exr",
+    "shape": [
+      512,
+      1024,
+      4
+    ],
+    "crop_size": 0,
+    "effort": 9,
+    "rows": [
+      {
+        "policy": "linear_range",
+        "low_bits_zeroed": 7,
+        "encoded_bytes": 187701,
+        "ratio_vs_original": 44.691333557093465,
+        "encode_seconds": 16.21656487500877,
+        "decode_seconds": 2.1341831250028918,
+        "max_abs": 0.12826210260391235,
+        "mae": 0.028126061321515294,
+        "rmse": 0.04325007817670167,
+        "snr_db": 26.370786949255745,
+        "max_rel_nonzero": 0.5743867868813732,
+        "signed_log2_rmse": 0.04544289311310918,
+        "gradient_signed_log2_nrmse": 0.6210929040715436,
+        "histogram_ks_256": 0.06131553649902344,
+        "psnr_peak_abs": 57.56421886174148,
+        "changed_rate": 0.7499966621398926
+      }
+    ]
+  },
+  {
+    "image": "ph_spruit_sunrise_1k.exr",
+    "shape": [
+      512,
+      1024,
+      3
+    ],
+    "crop_size": 0,
+    "effort": 9,
+    "rows": [
+      {
+        "policy": "linear_range",
+        "low_bits_zeroed": 7,
+        "encoded_bytes": 865,
+        "ratio_vs_original": 7273.359537572254,
+        "encode_seconds": 9.931287290994078,
+        "decode_seconds": 0.19848208400071599,
+        "max_abs": 826.453125,
+        "mae": 0.23171288349597793,
+        "rmse": 1.7417671992344181,
+        "snr_db": 43.53685139013784,
+        "max_rel_nonzero": 1.0,
+        "signed_log2_rmse": 0.40899344678548194,
+        "gradient_signed_log2_nrmse": 1.00853285938324,
+        "histogram_ks_256": 6.357828776781815e-07,
+        "psnr_peak_abs": 102.11539165562498,
+        "changed_rate": 0.9992179870605469
+      }
+    ]
+  },
+  {
+    "image": "ph_studio_small_03_1k.exr",
+    "shape": [
+      512,
+      1024,
+      3
+    ],
+    "crop_size": 0,
+    "effort": 9,
+    "rows": [
+      {
+        "policy": "linear_range",
+        "low_bits_zeroed": 7,
+        "encoded_bytes": 8826,
+        "ratio_vs_original": 712.8320870156356,
+        "encode_seconds": 9.989775416004704,
+        "decode_seconds": 0.3171765839942964,
+        "max_abs": 13.968555450439453,
+        "mae": 0.321724071644591,
+        "rmse": 1.1992418687591253,
+        "snr_db": 33.31601259907011,
+        "max_rel_nonzero": 1.0,
+        "signed_log2_rmse": 0.4639395560006791,
+        "gradient_signed_log2_nrmse": 1.5056070189504012,
+        "histogram_ks_256": 0.0007356007893879468,
+        "psnr_peak_abs": 69.4313234922642,
+        "changed_rate": 0.9999885559082031
+      }
+    ]
+  },
+  {
+    "image": "sample_1920\u00d71280.exr",
+    "shape": [
+      1280,
+      1920,
+      3
+    ],
+    "crop_size": 0,
+    "effort": 9,
+    "rows": [
+      {
+        "policy": "linear_range",
+        "low_bits_zeroed": 7,
+        "encoded_bytes": 11825948,
+        "ratio_vs_original": 2.493770478273708,
+        "encode_seconds": 53.768569834006485,
+        "decode_seconds": 8.544954333003261,
+        "max_abs": 0.0039215087890625,
+        "mae": 0.0018879092827925584,
+        "rmse": 0.002222546434316682,
+        "snr_db": 47.01725714935658,
+        "max_rel_nonzero": 1.0,
+        "signed_log2_rmse": 0.0024529572685457962,
+        "gradient_signed_log2_nrmse": 0.030981844517791284,
+        "histogram_ks_256": 0.007616238064236114,
+        "psnr_peak_abs": 53.06298313622723,
+        "changed_rate": 0.959609375
+      }
+    ]
+  },
+  {
+    "image": "sample_hilberts-mill-conference-room_2K.exr",
+    "shape": [
+      1024,
+      2048,
+      4
+    ],
+    "crop_size": 0,
+    "effort": 9,
+    "rows": [
+      {
+        "policy": "linear_range",
+        "low_bits_zeroed": 7,
+        "encoded_bytes": 180604,
+        "ratio_vs_original": 185.79008216872273,
+        "encode_seconds": 77.0095677079953,
+        "decode_seconds": 4.133327542003826,
+        "max_abs": 0.587128103710711,
+        "mae": 0.11643744567453101,
+        "rmse": 0.17321065786881856,
+        "snr_db": 25.11110062618529,
+        "max_rel_nonzero": 0.9946153953519042,
+        "signed_log2_rmse": 0.20422768986434536,
+        "gradient_signed_log2_nrmse": 0.5117303144063946,
+        "histogram_ks_256": 0.0050201416015625,
+        "psnr_peak_abs": 58.70016212475721,
+        "changed_rate": 0.7499992847442627
+      }
+    ]
+  },
+  {
+    "image": "synth_gradient_1k.exr",
+    "shape": [
+      512,
+      1024,
+      3
+    ],
+    "crop_size": 0,
+    "effort": 9,
+    "rows": [
+      {
+        "policy": "linear_range",
+        "low_bits_zeroed": 7,
+        "encoded_bytes": 74666,
+        "ratio_vs_original": 84.2613237618193,
+        "encode_seconds": 12.467540041005122,
+        "decode_seconds": 0.9217031669977587,
+        "max_abs": 0.039370059967041016,
+        "mae": 0.019665914757837893,
+        "rmse": 0.022719325924513877,
+        "snr_db": 47.918814122894574,
+        "max_rel_nonzero": 1.0,
+        "signed_log2_rmse": 0.00912518330951545,
+        "gradient_signed_log2_nrmse": 2.095882622672886,
+        "histogram_ks_256": 0.0051956176757813055,
+        "psnr_peak_abs": 52.872091163099626,
+        "changed_rate": 0.9980449676513672
+      }
+    ]
+  },
+  {
+    "image": "synth_mixed_1k.exr",
+    "shape": [
+      512,
+      1024,
+      3
+    ],
+    "crop_size": 0,
+    "effort": 9,
+    "rows": [
+      {
+        "policy": "linear_range",
+        "low_bits_zeroed": 7,
+        "encoded_bytes": 905664,
+        "ratio_vs_original": 6.9467882128471485,
+        "encode_seconds": 14.772184625006048,
+        "decode_seconds": 2.173736208002083,
+        "max_abs": 0.04069805145263672,
+        "mae": 0.02025747228774274,
+        "rmse": 0.023388602227094706,
+        "snr_db": 47.66704795966395,
+        "max_rel_nonzero": 610.9102548243444,
+        "signed_log2_rmse": 0.009373647907442806,
+        "gradient_signed_log2_nrmse": 0.46412255024032667,
+        "histogram_ks_256": 0.0030530293782552453,
+        "psnr_peak_abs": 52.76230266363036,
+        "changed_rate": 0.9999904632568359
+      }
+    ]
+  },
+  {
+    "image": "synth_noise_1k.exr",
+    "shape": [
+      512,
+      1024,
+      3
+    ],
+    "crop_size": 0,
+    "effort": 9,
+    "rows": [
+      {
+        "policy": "linear_range",
+        "low_bits_zeroed": 7,
+        "encoded_bytes": 3858159,
+        "ratio_vs_original": 1.630688626362988,
+        "encode_seconds": 18.074997792005888,
+        "decode_seconds": 2.1967532499984372,
+        "max_abs": 0.19868087768554688,
+        "mae": 0.09576675686558171,
+        "rmse": 0.11064187151491638,
+        "snr_db": 40.09273025625339,
+        "max_rel_nonzero": 2129.6626233552633,
+        "signed_log2_rmse": 0.026737287370747844,
+        "gradient_signed_log2_nrmse": 0.02629884784755209,
+        "histogram_ks_256": 0.010927836100260435,
+        "psnr_peak_abs": 50.011943416445995,
+        "changed_rate": 0.9999949137369791
+      }
+    ]
+  },
+  {
+    "image": "synth_rgba_hdr_1k.exr",
+    "shape": [
+      512,
+      1024,
+      4
+    ],
+    "crop_size": 0,
+    "effort": 9,
+    "rows": [
+      {
+        "policy": "linear_range",
+        "low_bits_zeroed": 7,
+        "encoded_bytes": 21323,
+        "ratio_vs_original": 393.40655630070813,
+        "encode_seconds": 22.731964541992056,
+        "decode_seconds": 0.7409492500009947,
+        "max_abs": 3.936413049697876,
+        "mae": 0.2579383243364646,
+        "rmse": 0.4026889046897397,
+        "snr_db": 38.040177466593484,
+        "max_rel_nonzero": 0.9007776999904414,
+        "signed_log2_rmse": 0.2444113577738782,
+        "gradient_signed_log2_nrmse": 1.884366364736768,
+        "histogram_ks_256": 0.00013446807861328125,
+        "psnr_peak_abs": 67.90320139775298,
+        "changed_rate": 0.7499971389770508
+      }
+    ]
+  }
+]

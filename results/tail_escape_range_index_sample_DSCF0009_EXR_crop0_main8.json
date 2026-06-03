@@ -1,0 +1,81 @@
+[
+  {
+    "image": "sample_DSCF0009.EXR",
+    "shape": [
+      5152,
+      7728,
+      3
+    ],
+    "crop_size": 0,
+    "rows": [
+      {
+        "main_bits": 8,
+        "tail_bits": 5,
+        "gamma": 0.9,
+        "cap": 4.0,
+        "estimated_bytes": 27501188.358120065,
+        "estimated_ratio_vs_original": 17.37291733645869,
+        "estimated_bits_per_sample": 1.8419474047024336,
+        "main_bits_per_sample": 1.8271236834070699,
+        "nonzero_rate": 0.3796882484681018,
+        "tail": {
+          "tail_count": 478858,
+          "tail_rate": 0.004009059712416788,
+          "tail_by_channel": [
+            22793,
+            6,
+            456059
+          ],
+          "saturated_count": 484887,
+          "saturated_rate": 0.00405953526259275,
+          "tail_mask_bits": 46780.20928909554,
+          "tail_value_bits": 1722983.8827552344,
+          "tail_side_bits": 1770020.09204433
+        },
+        "quality_passes": false,
+        "quality": {
+          "mae": 0.0029713977153487717,
+          "rmse": 0.003614924750661689,
+          "psnr_peak_abs": 64.68571268616364,
+          "signed_log2_rmse": 0.004213325178971267,
+          "signed_log2_p99": 0.007663368724453015,
+          "gradient_signed_log2_nrmse": 0.15792303209517303
+        }
+      },
+      {
+        "main_bits": 8,
+        "tail_bits": 5,
+        "gamma": 0.9,
+        "cap": 4.5,
+        "estimated_bytes": 26093180.82200798,
+        "estimated_ratio_vs_original": 18.31037293839721,
+        "estimated_bits_per_sample": 1.7476432679803793,
+        "main_bits_per_sample": 1.7442123830947605,
+        "nonzero_rate": 0.35946132499549915,
+        "tail": {
+          "tail_count": 139918,
+          "tail_rate": 0.001171411184196426,
+          "tail_by_channel": [
+            3424,
+            1,
+            136493
+          ],
+          "saturated_count": 144234,
+          "saturated_rate": 0.0012075452818178312,
+          "tail_mask_bits": 27898.67133589261,
+          "tail_value_bits": 381059.8331536508,
+          "tail_side_bits": 409214.50448954344
+        },
+        "quality_passes": false,
+        "quality": {
+          "mae": 0.0032658092473231482,
+          "rmse": 0.0038205053388657025,
+          "psnr_peak_abs": 64.20528169435482,
+          "signed_log2_rmse": 0.004682820922849705,
+          "signed_log2_p99": 0.008506119624639943,
+          "gradient_signed_log2_nrmse": 0.17351705042443752
+        }
+      }
+    ]
+  }
+]

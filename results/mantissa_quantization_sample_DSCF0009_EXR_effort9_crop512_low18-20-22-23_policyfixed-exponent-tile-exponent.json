@@ -1,0 +1,170 @@
+[
+  {
+    "image": "sample_DSCF0009.EXR",
+    "shape": [
+      512,
+      512,
+      3
+    ],
+    "crop_size": 512,
+    "effort": 9,
+    "rows": [
+      {
+        "policy": "fixed",
+        "low_bits_zeroed": 18,
+        "encoded_bytes": 596517,
+        "ratio_vs_original": 5.273492624686304,
+        "encode_seconds": 4.775736875002622,
+        "decode_seconds": 0.39322600000014063,
+        "max_abs": 0.12455034255981445,
+        "rmse": 0.0033542172962867677,
+        "max_rel_nonzero": 0.030301797268002823,
+        "psnr_peak_abs": 61.99536783617699,
+        "changed_rate": 0.9995981852213541
+      },
+      {
+        "policy": "fixed",
+        "low_bits_zeroed": 20,
+        "encoded_bytes": 404185,
+        "ratio_vs_original": 7.782891497705259,
+        "encode_seconds": 4.258433666997007,
+        "decode_seconds": 0.34117283301020507,
+        "max_abs": 0.24996256828308105,
+        "rmse": 0.012663605736073022,
+        "max_rel_nonzero": 0.11111082854085345,
+        "psnr_peak_abs": 50.4560440997838,
+        "changed_rate": 0.9996007283528646
+      },
+      {
+        "policy": "fixed",
+        "low_bits_zeroed": 22,
+        "encoded_bytes": 225052,
+        "ratio_vs_original": 13.97778291239358,
+        "encode_seconds": 4.730992083001183,
+        "decode_seconds": 0.25417191699671093,
+        "max_abs": 0.9994528293609619,
+        "rmse": 0.04514351485819347,
+        "max_rel_nonzero": 0.333331002121297,
+        "psnr_peak_abs": 39.41528431638902,
+        "changed_rate": 0.9996007283528646
+      },
+      {
+        "policy": "fixed",
+        "low_bits_zeroed": 23,
+        "encoded_bytes": 144232,
+        "ratio_vs_original": 21.810194686338676,
+        "encode_seconds": 3.999583917000564,
+        "decode_seconds": 0.1960821670072619,
+        "max_abs": 1.9975247383117676,
+        "rmse": 0.08319620293481443,
+        "max_rel_nonzero": 0.49999991059301685,
+        "psnr_peak_abs": 34.1051216060148,
+        "changed_rate": 0.9996019999186198
+      },
+      {
+        "policy": "exponent",
+        "low_bits_zeroed": 18,
+        "encoded_bytes": 158313,
+        "ratio_vs_original": 19.870307555286047,
+        "encode_seconds": 3.9736066670011496,
+        "decode_seconds": 0.2182189580053091,
+        "max_abs": 0.12455034255981445,
+        "rmse": 0.005800532949363998,
+        "max_rel_nonzero": 0.49999991059301685,
+        "psnr_peak_abs": 57.237833755798334,
+        "changed_rate": 0.9996019999186198
+      },
+      {
+        "policy": "exponent",
+        "low_bits_zeroed": 20,
+        "encoded_bytes": 147251,
+        "ratio_vs_original": 21.363033188229622,
+        "encode_seconds": 4.659377500007395,
+        "decode_seconds": 0.3025230420025764,
+        "max_abs": 0.24999499320983887,
+        "rmse": 0.021821419483621186,
+        "max_rel_nonzero": 0.49999991059301685,
+        "psnr_peak_abs": 45.72953175720745,
+        "changed_rate": 0.9996019999186198
+      },
+      {
+        "policy": "exponent",
+        "low_bits_zeroed": 22,
+        "encoded_bytes": 144316,
+        "ratio_vs_original": 21.797499930707612,
+        "encode_seconds": 4.439220333995763,
+        "decode_seconds": 0.23988141599693336,
+        "max_abs": 0.9999949932098389,
+        "rmse": 0.06823546561684492,
+        "max_rel_nonzero": 0.49999991059301685,
+        "psnr_peak_abs": 35.8269885302369,
+        "changed_rate": 0.9996019999186198
+      },
+      {
+        "policy": "exponent",
+        "low_bits_zeroed": 23,
+        "encoded_bytes": 144232,
+        "ratio_vs_original": 21.810194686338676,
+        "encode_seconds": 4.281208832995617,
+        "decode_seconds": 0.23714920799829997,
+        "max_abs": 1.9975247383117676,
+        "rmse": 0.08319620293481443,
+        "max_rel_nonzero": 0.49999991059301685,
+        "psnr_peak_abs": 34.1051216060148,
+        "changed_rate": 0.9996019999186198
+      },
+      {
+        "policy": "tile_exponent",
+        "low_bits_zeroed": 18,
+        "encoded_bytes": 235739,
+        "ratio_vs_original": 13.34411361717832,
+        "encode_seconds": 4.3296996249991935,
+        "decode_seconds": 0.30840633300249465,
+        "max_abs": 0.12455034255981445,
+        "rmse": 0.005737171871853799,
+        "max_rel_nonzero": 0.333331002121297,
+        "psnr_peak_abs": 57.33323450798193,
+        "changed_rate": 0.9996007283528646
+      },
+      {
+        "policy": "tile_exponent",
+        "low_bits_zeroed": 20,
+        "encoded_bytes": 226465,
+        "ratio_vs_original": 13.890570286799285,
+        "encode_seconds": 4.41350587499619,
+        "decode_seconds": 0.29126133299723733,
+        "max_abs": 0.24999499320983887,
+        "rmse": 0.02146957975924637,
+        "max_rel_nonzero": 0.333331002121297,
+        "psnr_peak_abs": 45.87072084313854,
+        "changed_rate": 0.9996007283528646
+      },
+      {
+        "policy": "tile_exponent",
+        "low_bits_zeroed": 22,
+        "encoded_bytes": 225052,
+        "ratio_vs_original": 13.97778291239358,
+        "encode_seconds": 4.415676999997231,
+        "decode_seconds": 0.2850821250031004,
+        "max_abs": 0.9994528293609619,
+        "rmse": 0.04514351485819347,
+        "max_rel_nonzero": 0.333331002121297,
+        "psnr_peak_abs": 39.41528431638902,
+        "changed_rate": 0.9996007283528646
+      },
+      {
+        "policy": "tile_exponent",
+        "low_bits_zeroed": 23,
+        "encoded_bytes": 225052,
+        "ratio_vs_original": 13.97778291239358,
+        "encode_seconds": 4.214852791003068,
+        "decode_seconds": 0.30584891700709704,
+        "max_abs": 0.9994528293609619,
+        "rmse": 0.04514351485819347,
+        "max_rel_nonzero": 0.333331002121297,
+        "psnr_peak_abs": 39.41528431638902,
+        "changed_rate": 0.9996007283528646
+      }
+    ]
+  }
+]

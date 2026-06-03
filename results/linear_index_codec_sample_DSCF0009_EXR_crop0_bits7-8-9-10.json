@@ -1,0 +1,72 @@
+[
+  {
+    "image": "sample_DSCF0009.EXR",
+    "shape": [
+      5152,
+      7728,
+      3
+    ],
+    "crop_size": 0,
+    "quality_thresholds": {
+      "signed_log2_rmse": 0.004,
+      "signed_log2_p99": 0.018,
+      "gradient_signed_log2_nrmse": 0.5
+    },
+    "selected_bits": 10,
+    "selected_ratio_vs_original": 11.185338216829859,
+    "rows": [
+      {
+        "bits": 7,
+        "encoded_bytes": 13029521,
+        "ratio_vs_original": 36.668721129502764,
+        "encode_seconds": 16.552244082995458,
+        "decode_seconds": 6.020044958015205,
+        "mae": 0.010537050545818903,
+        "rmse": 0.012268306902314664,
+        "psnr_peak_abs": 54.072005278646316,
+        "signed_log2_rmse": 0.015787530193942842,
+        "signed_log2_p99": 0.03225289821639554,
+        "gradient_signed_log2_nrmse": 0.44361818443684503
+      },
+      {
+        "bits": 8,
+        "encoded_bytes": 20395989,
+        "ratio_vs_original": 23.424991649093357,
+        "encode_seconds": 16.861939499998698,
+        "decode_seconds": 5.8980521250050515,
+        "mae": 0.005401534714465449,
+        "rmse": 0.006233312078981131,
+        "psnr_peak_abs": 59.953320493385306,
+        "signed_log2_rmse": 0.008070560207211806,
+        "signed_log2_p99": 0.016151483323247146,
+        "gradient_signed_log2_nrmse": 0.26337950805358207
+      },
+      {
+        "bits": 9,
+        "encoded_bytes": 30571227,
+        "ratio_vs_original": 15.628285773416945,
+        "encode_seconds": 25.12159083399456,
+        "decode_seconds": 4.009420000016689,
+        "mae": 0.0027218154299758746,
+        "rmse": 0.0031473735713396524,
+        "psnr_peak_abs": 65.8887320385137,
+        "signed_log2_rmse": 0.004085834462241867,
+        "signed_log2_p99": 0.008172380092108592,
+        "gradient_signed_log2_nrmse": 0.14928662118514469
+      },
+      {
+        "bits": 10,
+        "encoded_bytes": 42714477,
+        "ratio_vs_original": 11.185338216829859,
+        "encode_seconds": 30.003508207999403,
+        "decode_seconds": 7.8017519999993965,
+        "mae": 0.0013351581103114552,
+        "rmse": 0.0015522069567666056,
+        "psnr_peak_abs": 72.02870540163012,
+        "signed_log2_rmse": 0.0020091734469147005,
+        "signed_log2_p99": 0.004066454448050422,
+        "gradient_signed_log2_nrmse": 0.07779301505561963
+      }
+    ]
+  }
+]

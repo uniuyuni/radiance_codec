@@ -1,0 +1,89 @@
+[
+  {
+    "image": "sample_DSCF0009.EXR",
+    "shape": [
+      5152,
+      7728,
+      3
+    ],
+    "raw_bytes": 477775872,
+    "base_bits": 8,
+    "dark_bits": 10,
+    "dark_max": 0.08,
+    "transform": "linear",
+    "mask_mode": "banding",
+    "mask_radius": 2,
+    "std_step_threshold": 0.25,
+    "quality": {
+      "mae": 0.0033980782496046504,
+      "rmse": 0.004584973093561968,
+      "psnr_peak_abs": 62.6209620845897,
+      "signed_log2_rmse": 0.0054736036457205765,
+      "signed_log2_p99": 0.01472613779068592,
+      "gradient_signed_log2_nrmse": 0.2069524931565861,
+      "display_w4_g22_dark_0_0.25_grad_nrmse": 0.855392265930717,
+      "display_w4_g22_dark_0_0.25_grad_energy_ratio": 1.3568179518861956,
+      "display_w4_g22_dark_0_0.25_grad_correlation": 0.7772815148172068,
+      "display_w4_g22_dark_0_0.25_lost_detail_rate": 0.3673710251125839,
+      "display_w4_g22_dark_0_0.25_visible_detail_rate": 0.95173256154916,
+      "display_w4_g22_mid_0.25_1_grad_nrmse": 0.18540657081963433,
+      "display_w4_g22_mid_0.25_1_grad_energy_ratio": 1.017265878585063,
+      "display_w4_g22_mid_0.25_1_grad_correlation": 0.9832504526804826,
+      "display_w4_g22_mid_0.25_1_lost_detail_rate": 0.228051629349436,
+      "display_w4_g22_mid_0.25_1_visible_detail_rate": 0.9672540290996406,
+      "display_w4_g22_highlight_1_4_grad_nrmse": 0.03636605196351746,
+      "display_w4_g22_highlight_1_4_grad_energy_ratio": 1.0007028383587928,
+      "display_w4_g22_highlight_1_4_grad_correlation": 0.9993394663715439,
+      "display_w4_g22_highlight_1_4_lost_detail_rate": 0.06123197915996018,
+      "display_w4_g22_highlight_1_4_visible_detail_rate": 0.9796210361580634,
+      "display_w4_g22_extreme_gt4_grad_nrmse": 0.06288160250392355,
+      "display_w4_g22_extreme_gt4_grad_energy_ratio": 1.0021107251916812,
+      "display_w4_g22_extreme_gt4_grad_correlation": 0.9980293391372141,
+      "display_w4_g22_extreme_gt4_lost_detail_rate": 0.09447074953163426,
+      "display_w4_g22_extreme_gt4_visible_detail_rate": 0.928385949140494,
+      "display_w4_g22_all_grad_nrmse": 0.38235293836546114,
+      "display_w4_g22_all_grad_energy_ratio": 1.080726051044759,
+      "display_w4_g22_all_grad_correlation": 0.9353781311996724,
+      "display_w4_g22_all_lost_detail_rate": 0.32496073172432544,
+      "display_w4_g22_all_visible_detail_rate": 0.9555730656204237
+    },
+    "base_encoded_bytes": null,
+    "base_encode_seconds": null,
+    "mask": {
+      "dark_pixel_rate": 0.48549848076045166,
+      "order0": {
+        "sample_count": 39814656,
+        "ideal_bits": 39790493.859175414,
+        "finite_bits": 39790493.930165045,
+        "bits_per_sample": 0.9993931362904415,
+        "payload_bytes": 4973816,
+        "model_bytes": 4,
+        "total_bytes": 4973820
+      },
+      "west_north": {
+        "sample_count": 39814656,
+        "finite_bits": 3578375.3285780437,
+        "bits_per_sample": 0.08987583186899929,
+        "payload_bytes": 447301,
+        "model_bytes": 16,
+        "total_bytes": 447317
+      }
+    },
+    "refinement": {
+      "sample_count": 57989865,
+      "ideal_bits": 128439983.72254345,
+      "finite_bits": 128439984.04288813,
+      "bits_per_sample": 2.2148695128517395,
+      "payload_bytes": 16055003,
+      "model_bytes": 18,
+      "total_bytes": 16055021,
+      "correction_min": -2,
+      "correction_max": 2,
+      "correction_alphabet": 5
+    },
+    "router_header_bytes": 64,
+    "estimated_bytes": null,
+    "estimated_ratio": null,
+    "elapsed_sec": 105.50557987499633
+  }
+]

@@ -1,0 +1,238 @@
+[
+  {
+    "image": "sample_DSCF0009.EXR",
+    "shape": [
+      1024,
+      1024,
+      3
+    ],
+    "crop_size": 1024,
+    "bits": 9,
+    "transform": "signed-log",
+    "dither": "none",
+    "white": 0.5,
+    "gamma": 2.2,
+    "adaptive_radius": 2,
+    "std_step_threshold": 0.25,
+    "dark_max": 0.18,
+    "serpentine": true,
+    "diffusion_strength": 0.35,
+    "error_clip": 0.35,
+    "ordered_amplitude": 0.5,
+    "block_size": 8,
+    "elapsed_sec": 0.31282708400976844,
+    "raw_bytes": 12582912,
+    "decoded_png": "outputs/previews/dither_breakthrough/sample_DSCF0009_crop1024_signed-log_bits9_none_w0.5_g2.2_decoded.png",
+    "original_png": "outputs/previews/dither_breakthrough/sample_DSCF0009_crop1024_original_w0.5_g2.2.png",
+    "quality": {
+      "mae": 0.0006813756474028918,
+      "rmse": 0.0008726905278860451,
+      "psnr_peak_abs": 74.44270302371012,
+      "signed_log2_rmse": 0.00109822573982151,
+      "signed_log2_p99": 0.00235915343151178,
+      "gradient_signed_log2_nrmse": 0.19046697770050788
+    },
+    "ranges": [
+      {
+        "channel": 0,
+        "lo": 0.0,
+        "hi": 2.4860751628875732
+      },
+      {
+        "channel": 1,
+        "lo": 0.0,
+        "hi": 1.9946075677871704
+      },
+      {
+        "channel": 2,
+        "lo": 0.0,
+        "hi": 1.1101105213165283
+      }
+    ],
+    "dithered_sample_rate": 0.0,
+    "dithered_pixel_rate": 0.0,
+    "dithered_by_channel": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "manifest": "outputs/previews/dither_breakthrough/sample_DSCF0009_crop1024_signed-log_bits9_none_w0.5_g2.2_manifest.json"
+  },
+  {
+    "image": "sample_DSCF0009.EXR",
+    "shape": [
+      1024,
+      1024,
+      3
+    ],
+    "crop_size": 1024,
+    "bits": 9,
+    "transform": "signed-log",
+    "dither": "adaptive-fs",
+    "white": 0.5,
+    "gamma": 2.2,
+    "adaptive_radius": 2,
+    "std_step_threshold": 0.25,
+    "dark_max": 0.18,
+    "serpentine": true,
+    "diffusion_strength": 0.35,
+    "error_clip": 0.35,
+    "ordered_amplitude": 0.5,
+    "block_size": 8,
+    "elapsed_sec": 9.034309582988499,
+    "raw_bytes": 12582912,
+    "decoded_png": "outputs/previews/dither_breakthrough/sample_DSCF0009_crop1024_signed-log_bits9_adaptive-fs_std0.25_dark0.18_r2_s0.35_clip0.35_w0.5_g2.2_decoded.png",
+    "original_png": "outputs/previews/dither_breakthrough/sample_DSCF0009_crop1024_original_w0.5_g2.2.png",
+    "quality": {
+      "mae": 0.0006821672580583625,
+      "rmse": 0.0008739786302772539,
+      "psnr_peak_abs": 74.4298919917084,
+      "signed_log2_rmse": 0.0011003494356533682,
+      "signed_log2_p99": 0.0023630326963392893,
+      "gradient_signed_log2_nrmse": 0.19237019607806227
+    },
+    "ranges": [
+      {
+        "channel": 0,
+        "lo": 0.0,
+        "hi": 2.4860751628875732
+      },
+      {
+        "channel": 1,
+        "lo": 0.0,
+        "hi": 1.9946075677871704
+      },
+      {
+        "channel": 2,
+        "lo": 0.0,
+        "hi": 1.1101105213165283
+      }
+    ],
+    "dithered_sample_rate": 0.06858221689860027,
+    "dithered_pixel_rate": 0.18279552459716797,
+    "dithered_by_channel": [
+      0.04854393005371094,
+      0.1571207046508789,
+      8.20159912109375e-05
+    ],
+    "manifest": "outputs/previews/dither_breakthrough/sample_DSCF0009_crop1024_signed-log_bits9_adaptive-fs_std0.25_dark0.18_r2_s0.35_clip0.35_w0.5_g2.2_manifest.json"
+  },
+  {
+    "image": "sample_DSCF0009.EXR",
+    "shape": [
+      1024,
+      1024,
+      3
+    ],
+    "crop_size": 1024,
+    "bits": 9,
+    "transform": "signed-log",
+    "dither": "adaptive-ordered",
+    "white": 0.5,
+    "gamma": 2.2,
+    "adaptive_radius": 2,
+    "std_step_threshold": 0.25,
+    "dark_max": 0.18,
+    "serpentine": true,
+    "diffusion_strength": 0.35,
+    "error_clip": 0.35,
+    "ordered_amplitude": 0.5,
+    "block_size": 8,
+    "elapsed_sec": 0.7651498329942115,
+    "raw_bytes": 12582912,
+    "decoded_png": "outputs/previews/dither_breakthrough/sample_DSCF0009_crop1024_signed-log_bits9_adaptive-ordered_std0.25_dark0.18_r2_amp0.5_w0.5_g2.2_decoded.png",
+    "original_png": "outputs/previews/dither_breakthrough/sample_DSCF0009_crop1024_original_w0.5_g2.2.png",
+    "quality": {
+      "mae": 0.0006854922082234839,
+      "rmse": 0.0008794689025574255,
+      "psnr_peak_abs": 74.37549851364867,
+      "signed_log2_rmse": 0.0011093700108433136,
+      "signed_log2_p99": 0.0023866794867275767,
+      "gradient_signed_log2_nrmse": 0.19376924228630174
+    },
+    "ranges": [
+      {
+        "channel": 0,
+        "lo": 0.0,
+        "hi": 2.4860751628875732
+      },
+      {
+        "channel": 1,
+        "lo": 0.0,
+        "hi": 1.9946075677871704
+      },
+      {
+        "channel": 2,
+        "lo": 0.0,
+        "hi": 1.1101105213165283
+      }
+    ],
+    "dithered_sample_rate": 0.06858221689860027,
+    "dithered_pixel_rate": 0.18279552459716797,
+    "dithered_by_channel": [
+      0.04854393005371094,
+      0.1571207046508789,
+      8.20159912109375e-05
+    ],
+    "manifest": "outputs/previews/dither_breakthrough/sample_DSCF0009_crop1024_signed-log_bits9_adaptive-ordered_std0.25_dark0.18_r2_amp0.5_w0.5_g2.2_manifest.json"
+  },
+  {
+    "image": "sample_DSCF0009.EXR",
+    "shape": [
+      1024,
+      1024,
+      3
+    ],
+    "crop_size": 1024,
+    "bits": 9,
+    "transform": "signed-log",
+    "dither": "adaptive-block",
+    "white": 0.5,
+    "gamma": 2.2,
+    "adaptive_radius": 2,
+    "std_step_threshold": 0.25,
+    "dark_max": 0.18,
+    "serpentine": true,
+    "diffusion_strength": 0.35,
+    "error_clip": 0.35,
+    "ordered_amplitude": 0.5,
+    "block_size": 8,
+    "elapsed_sec": 1.9035612499865238,
+    "raw_bytes": 12582912,
+    "decoded_png": "outputs/previews/dither_breakthrough/sample_DSCF0009_crop1024_signed-log_bits9_adaptive-block_std0.25_dark0.18_r2_b8_w0.5_g2.2_decoded.png",
+    "original_png": "outputs/previews/dither_breakthrough/sample_DSCF0009_crop1024_original_w0.5_g2.2.png",
+    "quality": {
+      "mae": 0.0006838359332081236,
+      "rmse": 0.000876837663327442,
+      "psnr_peak_abs": 74.40152434661661,
+      "signed_log2_rmse": 0.0011050500597413495,
+      "signed_log2_p99": 0.002375867043427104,
+      "gradient_signed_log2_nrmse": 0.19308055086682643
+    },
+    "ranges": [
+      {
+        "channel": 0,
+        "lo": 0.0,
+        "hi": 2.4860751628875732
+      },
+      {
+        "channel": 1,
+        "lo": 0.0,
+        "hi": 1.9946075677871704
+      },
+      {
+        "channel": 2,
+        "lo": 0.0,
+        "hi": 1.1101105213165283
+      }
+    ],
+    "dithered_sample_rate": 0.06858221689860027,
+    "dithered_pixel_rate": 0.18279552459716797,
+    "dithered_by_channel": [
+      0.04854393005371094,
+      0.1571207046508789,
+      8.20159912109375e-05
+    ],
+    "manifest": "outputs/previews/dither_breakthrough/sample_DSCF0009_crop1024_signed-log_bits9_adaptive-block_std0.25_dark0.18_r2_b8_w0.5_g2.2_manifest.json"
+  }
+]

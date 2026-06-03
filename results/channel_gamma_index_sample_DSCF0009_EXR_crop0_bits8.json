@@ -1,0 +1,68 @@
+[
+  {
+    "image": "sample_DSCF0009.EXR",
+    "shape": [
+      5152,
+      7728,
+      3
+    ],
+    "crop_size": 0,
+    "bits": 8,
+    "gamma_values": [
+      0.8
+    ],
+    "pred_bin_bits": 3,
+    "rows": [
+      {
+        "bits": 8,
+        "gammas": [
+          0.8,
+          0.8,
+          0.8
+        ],
+        "small": 7,
+        "category_context": "west_north_prev_phase_predbin",
+        "detail_context": "west_north_prev_predbin",
+        "recon_table": "signed-log-mean",
+        "estimated_bits_per_sample": 1.4538211885204835,
+        "estimated_bytes": 21706344.439920325,
+        "estimated_ratio_vs_original": 22.0108859565187,
+        "escape_rate": 0.006606143560133568,
+        "quality_passes": true,
+        "quality": {
+          "mae": 0.0028185840276530325,
+          "rmse": 0.00347617431005185,
+          "psnr_peak_abs": 65.02566699899938,
+          "signed_log2_rmse": 0.003996502035643374,
+          "signed_log2_p99": 0.008203392388673153,
+          "gradient_signed_log2_nrmse": 0.1534912732059891,
+          "display_w4_g22_dark_0_0.25_grad_nrmse": 0.6097918935224323,
+          "display_w4_g22_dark_0_0.25_grad_energy_ratio": 1.1492282287122433,
+          "display_w4_g22_dark_0_0.25_grad_correlation": 0.8479078913886431,
+          "display_w4_g22_dark_0_0.25_lost_detail_rate": 0.4006861542362634,
+          "display_w4_g22_dark_0_0.25_visible_detail_rate": 0.95173256154916,
+          "display_w4_g22_mid_0.25_1_grad_nrmse": 0.12900066368082355,
+          "display_w4_g22_mid_0.25_1_grad_energy_ratio": 1.008601611656302,
+          "display_w4_g22_mid_0.25_1_grad_correlation": 0.9917870528286185,
+          "display_w4_g22_mid_0.25_1_lost_detail_rate": 0.15667017408049327,
+          "display_w4_g22_mid_0.25_1_visible_detail_rate": 0.9672540290996406,
+          "display_w4_g22_highlight_1_4_grad_nrmse": 0.03345057706474035,
+          "display_w4_g22_highlight_1_4_grad_energy_ratio": 1.0006183815311374,
+          "display_w4_g22_highlight_1_4_grad_correlation": 0.9994410662791671,
+          "display_w4_g22_highlight_1_4_lost_detail_rate": 0.056120771200332806,
+          "display_w4_g22_highlight_1_4_visible_detail_rate": 0.9796210361580634,
+          "display_w4_g22_extreme_gt4_grad_nrmse": 0.07235207213317761,
+          "display_w4_g22_extreme_gt4_grad_energy_ratio": 1.0024499017659751,
+          "display_w4_g22_extreme_gt4_grad_correlation": 0.9973919792330319,
+          "display_w4_g22_extreme_gt4_lost_detail_rate": 0.11274123792754216,
+          "display_w4_g22_extreme_gt4_visible_detail_rate": 0.928385949140494,
+          "display_w4_g22_all_grad_nrmse": 0.2724562155728794,
+          "display_w4_g22_all_grad_energy_ratio": 1.0315545414338358,
+          "display_w4_g22_all_grad_correlation": 0.9645017798974553,
+          "display_w4_g22_all_lost_detail_rate": 0.34097000227289764,
+          "display_w4_g22_all_visible_detail_rate": 0.9555730656204237
+        }
+      }
+    ]
+  }
+]

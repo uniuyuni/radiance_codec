@@ -1,0 +1,47 @@
+[
+  {
+    "image": "sample_DSCF0009.EXR",
+    "shape": [
+      5152,
+      7728,
+      3
+    ],
+    "crop_size": 0,
+    "rows": [
+      {
+        "main_bits": 7,
+        "tail_bits": 6,
+        "gamma": 0.75,
+        "cap": 3.5,
+        "estimated_bytes": 23844000.49051071,
+        "estimated_ratio_vs_original": 20.037571807220115,
+        "estimated_bits_per_sample": 1.5969998913974934,
+        "main_bits_per_sample": 1.5599310677788782,
+        "nonzero_rate": 0.33642457357076416,
+        "tail": {
+          "tail_count": 908290,
+          "tail_rate": 0.0076043187044824235,
+          "tail_by_channel": [
+            168041,
+            52166,
+            688083
+          ],
+          "saturated_count": 958778,
+          "saturated_rate": 0.008027010623089815,
+          "tail_mask_bits": 223760.58169068076,
+          "tail_value_bits": 4203046.800408822,
+          "tail_side_bits": 4427063.382099503
+        },
+        "quality_passes": false,
+        "quality": {
+          "mae": 0.0035974459496288837,
+          "rmse": 0.004535290011232842,
+          "psnr_peak_abs": 62.71559664367828,
+          "signed_log2_rmse": 0.005019683248722042,
+          "signed_log2_p99": 0.010273691930320905,
+          "gradient_signed_log2_nrmse": 0.19077325446249702
+        }
+      }
+    ]
+  }
+]

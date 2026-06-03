@@ -1428,3 +1428,658 @@ The strategic split is now clear:
 - The next near-lossless step should be a selector/policy layer, not just a fixed
   global bit count: exact for half-like tiles, `low12` or `low15` for puresky-like
   true-float tails, and explicit fallback handling for pathological random data.
+
+2026-06-02 update: the product target for near-lossless is now `32x`, with the
+quality bar defined as "not distinguishable by non-bitwise machine checks" rather
+than bit-identical output. The C++/Python near-lossless stage now has policy
+modes:
+
+```text
+fixed / tile / exponent / tile_exponent:
+  mantissa-bit clearing variants.
+
+linear_range / log_range:
+  encoder-only value quantization. The decoder still reconstructs the stored
+  quantized float32 image exactly; no inverse quantizer is needed in the current
+  pipeline because the payload is already the quantized image.
+```
+
+`sample_DSCF0009.EXR` crop512 / effort9:
+
+```text
+linear_range low7: 28.19x, PSNR 60.77dB
+linear_range low6: 54.49x, PSNR 56.95dB, signed-log RMSE 7.56e-3,
+                   gradient signed-log NRMSE 0.769, KS256 1.53e-2
+```
+
+Interpretation: `32x` is reachable with `linear_range low6`, but the quality
+claim is not proven yet. `linear_range low7` is a quality-friendlier point just
+below the target; the next useful work is either a dedicated quantized-index
+backend to push low7 over 32x, or a downstream/machine-detectability test suite
+to decide whether low6 is acceptable.
+
+Later same-day target update: quality-first `bits7` is now the target, and the
+research goal is `64x`. A dedicated `uint7` index route is plausible on
+`sample_DSCF0009.EXR` crop512:
+
+```text
+quantized float32 path: 28.95x
+avg-predictor residual entropy: 0.7203 bps = 44.43x
+tile entropy oracle:
+  tile16 0.4560 bps = 70.18x
+  tile32 0.4674 bps = 68.47x
+  tile64 0.4797 bps = 66.70x
+
+non-oracle-ish split:
+  zstd(mask + nonzero values): 0.5190 bps = 61.66x
+  context-coded zero mask + zstd nonzero values:
+    tile32 0.4921 bps = 65.03x
+    tile64 0.4869 bps = 65.73x
+```
+
+This moves the next implementation target from generic GroupedDelta to a
+dedicated index codec:
+
+```text
+linear_range bits7
+-> per-channel min/max
+-> uint7 index planes
+-> avg predictor residual
+-> zero mask coded with left/up/up-left binary contexts
+-> nonzero residual values as a separate stream
+```
+
+The remaining risk is turning the context-mask estimate into a real deterministic
+range/rANS bitstream without losing the small margin over `64x`.
+
+Full-resolution follow-up:
+
+```text
+linear_range bits7 + GroupedDelta effort9, full resolution:
+  15 lowercase *.exr files geomean: 59.813x
+  sample_DSCF0009.EXR: 17.355x
+```
+
+The `sample_DSCF0009.EXR` full-image result and 9-crop audit changed the
+interpretation: bits7/64x is viable on smooth/noise-floor tiles, but not as a
+uniform whole-photo guarantee for this production image. Several detailed crops
+have tile-oracle lower bounds only in the `7x-18x` range. The next credible
+direction is therefore a tile router:
+
+```text
+smooth/noise-floor tiles -> bits7 index route, maybe 64x class
+detail/high-entropy tiles -> lower target or higher bits
+global file target       -> weighted by tile mix, not a single universal ratio
+```
+
+The first quality-first router probe supports this reframing. For
+`sample_DSCF0009.EXR` crop1024 / tile128:
+
+```text
+candidates 7,8,10,12:
+  7.36x, selected bits {7:61, 8:3}
+
+candidates 3,4,5,6,7,8,10,12, gradient <= 0.8:
+  19.02x, selected bits {3:23, 4:28, 5:4, 6:2, 7:4, 8:3}
+
+candidates 3,4,5,6,7,8,10,12, gradient <= 0.5:
+  14.79x, selected bits {4:35, 5:19, 6:3, 7:4, 8:3}
+```
+
+Interpretation: many high-entropy tiles have tiny signed-log error even below
+bits7 because their local value range is narrow, but low bit-depth can damage
+gradients. Quality-first routing therefore needs an explicit gradient guard.
+For the production photo, the credible near-term range is `15x-20x`, not a
+uniform `64x`.
+
+Noise synthesis / finite residual table follow-up:
+
+```text
+script:
+  scripts/probe_noise_synthesis_quality.py
+
+method:
+  local linear quantization -> reconstruct bin center
+  compare deterministic hash jitter and tiny residual tables
+  table keys: channel + global phase, optionally coarse quantized-index bucket
+  train on alternating crops, evaluate on held-out crops
+```
+
+`sample_DSCF0009.EXR` crop512 / grid9 / tile128:
+
+```text
+best finite-table signed-log RMSE gain:
+  bits3: 1.81%
+  bits4: 0.92%
+  bits5: 0.28%
+  bits6: 0.06%
+  bits7: 0.02%
+
+hash_uniform:
+  5/5 bits regressed in either signed-log RMSE or gradient NRMSE
+```
+
+Lowercase `*.exr` crop256 / grid5:
+
+```text
+realish 11 images, best-log median gain:
+  bits4: 2.54%
+  bits5: 0.32%
+  bits6: 0.10%
+  bits7: 0.00%
+
+photo/env 7 images, best-log median gain:
+  bits4: 5.03%
+  bits5: 0.75%
+  bits6: 0.16%
+  bits7: 0.00%
+
+hash_uniform:
+  60/60 rows regressed in either signed-log RMSE or gradient NRMSE
+```
+
+Interpretation: there is a weak residual signal, especially for aggressive
+bits3/bits4 routes and some synthetic/structured files, but not enough to make
+noise synthesis a primary implementation path. Deterministic white jitter should
+not be adopted for the quality-first target. A small finite residual table can
+remain as a later optional refinement for tiles that would otherwise need one
+more bit, after the tile router and dedicated index codec exist.
+
+Implemented dedicated linear-index MVP:
+
+```text
+stage:
+  StageLinearIndex
+
+python:
+  radiance_codec.encode_linear_index_near_lossless(pixels, bits=7)
+  radiance_codec.quantize_linear_index(pixels, bits=7)
+
+script:
+  scripts/benchmark_linear_index_codec.py
+```
+
+Format:
+
+```text
+global per-channel min/max
+-> N-bit uint index planes
+-> avg predictor residual
+-> residual != 0 mask coded by adaptive binary rANS
+-> nonzero residual values coded by the smallest of byte-rANS, bitplane rANS,
+   and symbol rANS
+```
+
+The first local tile min/max implementation was rejected for the fixed bits7
+path: `sample_DSCF0009.EXR` top-left crop512 / bits7 only reached `6.92x`.
+That confirmed the previous `65x`-class estimate was for global per-channel
+`linear_range` indices, not local tile indices.
+
+Actual implemented C++/Python results:
+
+```text
+sample_DSCF0009.EXR, top-left crop512:
+  bits6: 125.12x, log RMSE 7.555e-3, gradient NRMSE 0.769,
+         PSNR 56.95dB
+  bits7:  55.88x, log RMSE 5.167e-3, gradient NRMSE 0.452,
+         PSNR 60.77dB
+
+sample_DSCF0009.EXR, top-left crop1024:
+  bits6: 109.94x, log RMSE 1.366e-2, gradient NRMSE 1.393,
+         PSNR 52.86dB
+  bits7:  58.72x, log RMSE 7.369e-3, gradient NRMSE 0.758,
+         PSNR 58.43dB
+```
+
+Interpretation: the dedicated index bitstream now proves the compression side
+of the near-lossless route. It beats the quantized-float GroupedDelta path by a
+large margin (`28.95x` -> `55.88x` on crop512 bits7). It does not yet prove the
+quality side: the gradient metric on crop1024 is still too high for a
+quality-first claim. The next step should be a router that can select between
+global linear-index, local/tile linear-index, higher bits, or fallback based on
+gradient/log-error guards.
+
+Quality-first router check:
+
+```text
+script:
+  scripts/probe_quality_router_modes.py
+
+thresholds used:
+  signed-log RMSE <= 0.004
+  signed-log p99  <= 0.018
+  gradient signed-log NRMSE <= 0.5
+```
+
+The router probe compares global per-channel linear index and local tile index,
+then evaluates the stitched full reconstructed image so boundary gradients are
+included.
+
+```text
+sample_DSCF0009.EXR, crop512, tile128:
+  router:  14.72x, modes {local4:11, local5:2, local7:2, local8:1}
+           log RMSE 1.025e-3, p99 4.332e-3, gradient 0.184,
+           PSNR 72.83dB
+  global10 estimate:
+           15.48x, log RMSE 1.110e-3, p99 2.864e-3, gradient 0.202,
+           PSNR 74.53dB
+
+sample_DSCF0009.EXR, crop1024, tile128:
+  router:  14.74x, modes {global10:3, global8:4, local4:35,
+                          local5:17, local7:5}
+           log RMSE 1.282e-3, p99 4.776e-3, gradient 0.222,
+           PSNR 71.80dB
+  global10 estimate:
+           14.53x, log RMSE 1.259e-3, p99 3.090e-3, gradient 0.213,
+           PSNR 74.05dB
+```
+
+Interpretation: on this production sample, the complex tile router does not
+clearly beat a simple high-bit global linear-index route. Because quality is the
+priority, the safer near-term design is not "route everything immediately"; it
+is "choose the smallest global bit-depth that passes full-image quality
+thresholds", then optimize the high-bit value stream.
+
+Implemented quality selector in `scripts/benchmark_linear_index_codec.py`:
+
+```text
+sample_DSCF0009.EXR, crop512:
+  bits7:  56.14x, log RMSE 5.167e-3, p99 1.500e-2, gradient 0.452
+  bits8:  34.42x, log RMSE 4.329e-3, p99 1.131e-2, gradient 0.499
+  bits9:  20.21x, log RMSE 2.549e-3, p99 5.807e-3, gradient 0.399
+  bits10: 14.51x, log RMSE 1.110e-3, p99 2.864e-3, gradient 0.202
+  selected by thresholds: bits9
+
+sample_DSCF0009.EXR, crop1024:
+  bits7:  58.79x, log RMSE 7.369e-3, p99 2.161e-2, gradient 0.758
+  bits8:  31.62x, log RMSE 5.212e-3, p99 1.241e-2, gradient 0.632
+  bits9:  19.94x, log RMSE 2.745e-3, p99 6.269e-3, gradient 0.407
+  bits10: 14.09x, log RMSE 1.259e-3, p99 3.090e-3, gradient 0.213
+  selected by thresholds: bits9
+```
+
+`StageLinearIndex` value-stream update:
+
+```text
+old bits9 crop1024:  15.30x
+new bits9 crop1024:  19.94x
+
+old bits10 crop1024: 10.28x
+new bits10 crop1024: 14.09x
+```
+
+The winning value mode on the sample crops is symbol rANS over the nonzero
+residual-value alphabet.  This improves the quality-first route without
+changing reconstruction quality.
+
+`StageLinearIndex` predictor/context update:
+
+```text
+mask phase:
+  4x4 phase was tested and rejected; it was slightly worse than 2x2.
+
+predictor:
+  encoder now builds AVG and MED residual payloads and stores the smaller one.
+  This is bitstream version 4.
+
+sample_DSCF0009.EXR, crop1024:
+  bits9:  19.94x -> 20.17x
+  bits10: 14.09x -> 14.33x
+
+sample_DSCF0009.EXR, full bits10:
+  11.19x -> 11.92x
+  42,714,477 bytes -> 40,098,490 bytes
+```
+
+Quality is unchanged because the quantized indices are unchanged.  Encode time
+increases in the current implementation because both predictors are fully
+encoded before selecting the smaller payload.  A later speed pass should replace
+this with a cheap preselection estimate.
+
+`StageLinearIndex` mask-context update:
+
+```text
+old mask context:
+  west, north, northwest, channel, 2x2 phase
+
+new mask context:
+  west, north, northwest, northeast, previous-channel, channel, 2x2 phase
+
+bitstream:
+  version 5
+
+sample_DSCF0009.EXR, crop1024:
+  bits9:  20.17x -> 20.46x
+  bits10: 14.33x -> 14.45x
+
+sample_DSCF0009.EXR, full:
+  bits9:  15.63x -> 16.89x
+          30,571,227 bytes -> 28,292,387 bytes
+  bits10: 11.92x -> 12.03x
+          40,098,490 bytes -> 39,715,096 bytes
+```
+
+The bigger gain is on bits9.  This is useful because bits9 is the practical
+quality candidate, but it still misses the strict full-image signed-log RMSE
+threshold by a very small margin (`4.086e-3` vs `4.000e-3`).
+
+`scripts/probe_quality_router_modes.py` was updated to estimate the new mask
+context.  On crop1024, a global9/global10 tile switch estimates about `17.46x`
+with full-image quality passing, but it selects only 14 tiles as global9 and 50
+as global10.  Adding local10 makes quality very safe but collapses the estimate
+to about `5.52x`, so local range routing is not the next best move.
+
+21MB target / transform-index experiment:
+
+The project now has a concrete external target: another RAW-like compressor is
+reported to reach about `21MB` on similar data.  For this sample, `21,000,000`
+bytes corresponds to about `22.75x` versus full float32.
+
+`StageLinearIndex` now supports transform-domain indices:
+
+```text
+linear
+signed-log  sign(x) * log2(1 + abs(x))
+sqrt        sign(x) * sqrt(abs(x))
+gamma075    sign(x) * abs(x)^0.75
+gamma025    sign(x) * abs(x)^0.25
+asinh       asinh(x)
+```
+
+Python API:
+
+```text
+radiance_codec.encode_linear_index_near_lossless(
+    pixels, bits=7, transform="gamma075")
+```
+
+Probe script:
+
+```text
+scripts/probe_transform_index_quantization.py
+```
+
+Full `sample_DSCF0009.EXR` results:
+
+```text
+size-pass / quality-fail modes:
+  linear bits8:      18.85MB, 25.35x, log RMSE 8.071e-3
+  signed-log bits7:  20.07MB, 23.81x, log RMSE 6.195e-3
+  gamma075 bits7:    18.41MB, 25.95x, log RMSE 7.009e-3
+  asinh bits7:       18.68MB, 25.58x, log RMSE 7.298e-3
+
+quality-pass / size-fail modes:
+  gamma075 bits8:    27.46MB, 17.40x, log RMSE 3.487e-3
+  asinh bits8:       28.02MB, 17.05x, log RMSE 3.646e-3
+  signed-log bits8:  29.67MB, 16.10x, log RMSE 3.065e-3
+```
+
+Conclusion: a single global transform-index mode does not yet beat `21MB` while
+passing strict quality.  The closest strict-quality result is gamma075 bits8 at
+`27.46MB`; the closest size-winning result is signed-log bits7 at `20.07MB` but
+with log RMSE `6.195e-3`.
+
+Sparse refinement also looks too expensive as a direct fix.  On crop1024,
+signed-log bits7 -> bits8 requires correcting about `8.3%` of samples to bring
+signed-log RMSE below `0.004`.  Even an ideal mask + one refinement bit lower
+bound scales to roughly 7MiB on the full image, exceeding the about 0.93MB
+budget left under a 21,000,000 byte target.
+
+Next credible moves:
+
+```text
+1. Try RAW/CFA-like planes before demosaic spreads sensor structure.
+2. Add color/channel decorrelation before transform-index coding.
+3. Try global range + tile transform selector, avoiding local range metadata.
+4. Revisit learned predictors after the hand-built transform path plateaus.
+```
+
+Cleanup checkpoint:
+
+```text
+codec/src/linear_index_transform.hpp/.cpp
+  Own transform-mode mapping plus forward/inverse math.
+
+codec/src/linear_index.cpp
+  Keeps bitstream, index generation, predictor residuals, mask/value coding.
+
+codec/python/radiance_codec.py
+  Centralizes transform aliases, policy mapping, and Python-side quantization
+  helpers used by benchmark decode-vs-expected checks.
+```
+
+No result JSONs or failed probe scripts were removed; they remain part of the
+research log.  Future cleanup can archive results into curated/obsolete groups
+once the next baseline is chosen.
+
+Color decorrelation and tile transform selector probe:
+
+Added:
+
+```text
+scripts/probe_color_tile_transform_index.py
+scripts/benchmark_color_transform_index_codec.py
+```
+
+Color modes:
+
+```text
+rgb      original RGB planes
+g-diff   G, R-G, B-G
+ycocg    Y=(R+2G+B)/4, Co=R-B, Cg=G-(R+B)/2
+```
+
+All quality metrics are measured after converting the decoded planes back to
+RGB.
+
+Crop results:
+
+```text
+crop512:
+  g-diff + gamma075 bits7:
+    27.85x, strict quality pass
+
+  tile-selector:
+    20.28x, strict quality pass, but mostly chooses bits8 and is too heavy
+
+crop1024:
+  rgb + asinh bits8:
+    24.96x, strict quality pass
+
+  ycocg + asinh bits8:
+    22.80x, strict quality pass
+
+  rgb + gamma075 bits7:
+    28.56x, fails gradient (0.538)
+
+  g-diff + gamma075 bits7:
+    27.60x, fails gradient (0.615)
+
+  tile-selector:
+    19.49x, strict quality pass, too heavy
+```
+
+Full implemented-codec measurement for `g-diff + gamma075`:
+
+```text
+bits7:
+  17,822,169 bytes, 26.81x,
+  log RMSE 8.535e-3, p99 2.231e-2, gradient 0.306
+
+bits8:
+  26,720,804 bytes, 17.88x,
+  log RMSE 4.240e-3, p99 1.111e-2, gradient 0.164
+```
+
+Interpretation:
+
+```text
+color decorrelation:
+  g-diff can reduce size versus rgb/gamma075 bits8, but currently worsens
+  signed-log RMSE enough to miss the strict threshold.  It remains interesting
+  for coefficient search, not as-is.
+
+tile transform selector:
+  simple per-tile quality selection protects quality but drifts toward bits8,
+  so the estimate is heavier than useful for the 21MB target.
+```
+
+Next narrow probes:
+
+```text
+1. Search g-diff coefficients: G, R-aG, B-bG.
+2. Try RGB/gamma075 bits7 with a gradient-only refinement signal.
+3. Keep tile selector on hold until candidate set is much smaller or selector
+   cost can be amortized across larger regions.
+```
+
+Additional 21MB search sweep:
+
+Added:
+
+```text
+scripts/probe_codebook_index_quantization.py
+scripts/probe_predictive_dequantization.py
+scripts/probe_color_coefficient_search.py
+scripts/probe_hard_region_quality_map.py
+```
+
+Findings:
+
+```text
+density codebook:
+  Failed.  It overfits value density, damages tail accuracy, and destroys
+  index-plane compressibility.
+
+reconstruction table:
+  Keeps the uniform index plane and stores optimized per-index reconstruction
+  values.  Strong on crops, weak on full.
+
+  crop1024 signed-log bits7:
+    log RMSE 4.732e-3 -> 3.048e-3
+    gradient 0.635 -> 0.471
+
+  full signed-log bits7 + recon-table:
+    20,070,729 bytes
+    log RMSE 5.804e-3
+
+predictive dequantization:
+  Decoder nudges bin centers toward neighbor predictions without side data.
+
+  crop1024 gamma075 bits7 alpha=0.5:
+    strict pass
+
+  full gamma075 bits7 alpha=0.5:
+    log RMSE 6.246e-3
+
+region bits allocation:
+  crop1024 tile512 rgb/gamma075 bits7/8:
+    22.91x, strict pass
+
+  full tile512 rgb/gamma075 bits7/8:
+    all 176 tiles choose bits8
+    27,772,178 bytes estimated
+
+coefficient search:
+  crop1024 G, R-aG, B-bG with gamma075 bits7:
+    a=0.5, b=0.0 gives 27.51x and strict pass
+
+  full implemented-codec measurement:
+    a=0.5, b=0.0
+    17,725,469 bytes
+    log RMSE 7.296e-3
+```
+
+Hard-region map:
+
+```text
+512-tile full audit:
+  rgb/gamma075 bits7:       0/176 tiles pass
+  rgb/signed-log bits7:     0/176 tiles pass
+  coeff0.5,0/gamma075 b7:   0/176 tiles pass
+```
+
+Interpretation:
+
+```text
+The full-image failure is not a small number of hard tiles.  Bits7 is globally
+below the strict-quality floor for this full sample.  Crop-only wins were
+misleading because the top-left area is easier than the full image.
+
+The next high-probability route is no longer "rescue bits7"; it is:
+  1. shrink bits8 payloads with better index prediction / contexts, or
+  2. work closer to RAW/CFA before demosaic spreads information, or
+  3. find a genuinely better 8-bit transform / nonuniform monotonic quantizer
+     that preserves index-plane compressibility.
+```
+
+Python preset helper:
+
+```text
+radiance_codec.encode_linear_index_preset(pixels, "ratio")        -> bits7
+radiance_codec.encode_linear_index_preset(pixels, "balanced")     -> bits8
+radiance_codec.encode_linear_index_preset(pixels, "quality")      -> bits9
+radiance_codec.encode_linear_index_preset(pixels, "quality_plus") -> bits10
+```
+
+Next target: run a full-image audit on quality / quality+ before investing in a
+more complex tile router.
+
+Full-resolution audit on `sample_DSCF0009.EXR` (`7728x5152`):
+
+```text
+thresholds:
+  signed-log RMSE <= 0.004
+  signed-log p99  <= 0.018
+  gradient signed-log NRMSE <= 0.5
+
+bits7:
+  36.67x, log RMSE 1.579e-2, p99 3.225e-2, gradient 0.444,
+  PSNR 54.07dB
+
+bits8:
+  23.42x, log RMSE 8.071e-3, p99 1.615e-2, gradient 0.263,
+  PSNR 59.95dB
+
+bits9:
+  15.63x, log RMSE 4.086e-3, p99 8.172e-3, gradient 0.149,
+  PSNR 65.89dB
+
+bits10:
+  11.19x, log RMSE 2.009e-3, p99 4.066e-3, gradient 0.0778,
+  PSNR 72.03dB
+
+After AVG/MED predictor auto-select:
+
+```text
+bits10:
+  11.92x, 40,098,490 bytes, encode 67.92s, decode 7.17s,
+  log RMSE 2.009e-3, p99 4.066e-3, gradient 0.0778,
+  PSNR 72.03dB
+```
+
+After mask context expansion:
+
+```text
+bits9:
+  16.89x, 28,292,387 bytes, encode 48.44s, decode 7.24s,
+  log RMSE 4.086e-3, p99 8.172e-3, gradient 0.149,
+  PSNR 65.89dB
+
+bits10:
+  12.03x, 39,715,096 bytes, encode 75.84s, decode 12.06s,
+  log RMSE 2.009e-3, p99 4.066e-3, gradient 0.0778,
+  PSNR 72.03dB
+```
+```
+
+Strict threshold selection chooses bits10.  Bits9 is very close: p99 and
+gradient comfortably pass, but signed-log RMSE is `0.004085`, just over the
+`0.004` line.  Current preset interpretation:
+
+```text
+ratio:        bits7, 36.7x, not quality-threshold safe
+balanced:     bits8, 23.4x, not log-RMSE safe
+quality:      bits9, 15.6x, strong practical candidate but just outside strict
+quality_plus: bits10, 11.2x, strict-safe
+```

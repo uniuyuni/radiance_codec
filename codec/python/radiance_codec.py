@@ -56,7 +56,7 @@ class _Config(ctypes.Structure):
         ("effort",    ctypes.c_uint8),
         ("rans_mode", ctypes.c_uint8),
         ("near_lossless_bits", ctypes.c_uint8),
-        ("_pad",      ctypes.c_uint8 * 1),
+        ("near_lossless_policy", ctypes.c_uint8),
     ]
 
 
@@ -64,6 +64,26 @@ class RansMode(enum.IntEnum):
     STATIC  = 0
     ORDER0  = 1
     ORDER1  = 2
+
+
+class NearLosslessPolicy(enum.IntEnum):
+    FIXED = 0
+    TILE = 1
+    EXPONENT = 2
+    TILE_EXPONENT = 3
+    LINEAR_RANGE = 4
+    LOG_RANGE = 5
+    SQRT_RANGE = 6
+    GAMMA075_RANGE = 7
+    GAMMA025_RANGE = 8
+    ASINH_RANGE = 9
+
+
+class LinearIndexPreset(enum.Enum):
+    RATIO = "ratio"
+    BALANCED = "balanced"
+    QUALITY = "quality"
+    QUALITY_PLUS = "quality_plus"
 
 
 class _Buffer(ctypes.Structure):
@@ -110,6 +130,7 @@ class Stage(enum.IntFlag):
     STRUCTURAL_CONTEXT = 0x0020
     GROUPED_DELTA   = 0x0040
     MANTISSA_QUANTIZE = 0x0080
+    LINEAR_INDEX    = 0x0100
     ALL = (COLOR_TRANSFORM | LOG_MAGNITUDE | SPATIAL_PREDICT
            | BITSHUFFLE | RANS)
 
@@ -135,7 +156,8 @@ def encode(pixels: np.ndarray,
            stages: Stage = Stage.NONE,
            effort: int = 5,
            rans_mode: RansMode = RansMode.ORDER0,
-           near_lossless_bits: int = 0) -> bytes:
+           near_lossless_bits: int = 0,
+           near_lossless_policy: NearLosslessPolicy | int = NearLosslessPolicy.FIXED) -> bytes:
     """Encode a float32 image array of shape (H, W, C) or (H, W).
 
     Returns the compressed byte string (including the framing header).
@@ -159,9 +181,11 @@ def encode(pixels: np.ndarray,
     if near_lossless_bits < 0 or near_lossless_bits > 23:
         raise CodecError(
             f"near_lossless_bits must be in 0..23, got {near_lossless_bits}")
+    policy = NearLosslessPolicy(near_lossless_policy)
     cfg = _Config(stages=int(stages), effort=effort,
                   rans_mode=int(rans_mode),
-                  near_lossless_bits=near_lossless_bits)
+                  near_lossless_bits=near_lossless_bits,
+                  near_lossless_policy=int(policy))
     out = _Buffer()
 
     in_ptr = (ctypes.c_uint8 * len(raw)).from_buffer_copy(raw)
@@ -197,7 +221,8 @@ def decode(compressed: bytes,
     meta = _Meta(width=w, height=h, channels=c, format=1)
     cfg = _Config(stages=int(stages), effort=effort,
                   rans_mode=int(rans_mode),
-                  near_lossless_bits=0)
+                  near_lossless_bits=0,
+                  near_lossless_policy=int(NearLosslessPolicy.FIXED))
     out = _Buffer()
 
     in_ptr = (ctypes.c_uint8 * len(compressed)).from_buffer_copy(compressed)
@@ -218,7 +243,8 @@ def decode(compressed: bytes,
 def encode_near_lossless(pixels: np.ndarray,
                          low_bits: int,
                          effort: int = 11,
-                         stages: Stage = Stage.GROUPED_DELTA) -> bytes:
+                         stages: Stage = Stage.GROUPED_DELTA,
+                         policy: NearLosslessPolicy | int = NearLosslessPolicy.FIXED) -> bytes:
     """Encode with low mantissa bits zeroed before compression.
 
     Decoding returns the quantized image, not the original bit-exact image.
@@ -228,22 +254,369 @@ def encode_near_lossless(pixels: np.ndarray,
         stages=Stage.MANTISSA_QUANTIZE | stages,
         effort=effort,
         near_lossless_bits=low_bits,
+        near_lossless_policy=policy,
     )
 
 
-def quantize_mantissa(pixels: np.ndarray, low_bits: int) -> np.ndarray:
+_LINEAR_INDEX_TRANSFORM_POLICIES = {
+    "linear": NearLosslessPolicy.LINEAR_RANGE,
+    "signed-log": NearLosslessPolicy.LOG_RANGE,
+    "sqrt": NearLosslessPolicy.SQRT_RANGE,
+    "gamma075": NearLosslessPolicy.GAMMA075_RANGE,
+    "gamma025": NearLosslessPolicy.GAMMA025_RANGE,
+    "asinh": NearLosslessPolicy.ASINH_RANGE,
+}
+
+_LINEAR_INDEX_TRANSFORM_ALIASES = {
+    "lin": "linear",
+    "signedlog": "signed-log",
+    "log": "signed-log",
+    "log1p": "signed-log",
+    "squareroot": "sqrt",
+    "gamma-075": "gamma075",
+    "gamma0.75": "gamma075",
+    "gamma-025": "gamma025",
+    "gamma0.25": "gamma025",
+}
+
+
+def _linear_index_transform_key(transform: str) -> str:
+    key = transform.strip().lower().replace("_", "-")
+    key = _LINEAR_INDEX_TRANSFORM_ALIASES.get(key, key)
+    if key not in _LINEAR_INDEX_TRANSFORM_POLICIES:
+        raise CodecError(f"unknown linear index transform: {transform}")
+    return key
+
+
+def _linear_index_policy_for_transform(transform: str) -> NearLosslessPolicy:
+    return _LINEAR_INDEX_TRANSFORM_POLICIES[
+        _linear_index_transform_key(transform)]
+
+
+def _linear_index_transform_values(values: np.ndarray, key: str) -> np.ndarray:
+    if key == "linear":
+        return values
+    if key == "signed-log":
+        return np.sign(values) * np.log2(1.0 + np.abs(values))
+    if key == "sqrt":
+        return np.sign(values) * np.sqrt(np.abs(values))
+    if key == "gamma075":
+        return np.sign(values) * np.power(np.abs(values), 0.75)
+    if key == "gamma025":
+        return np.sign(values) * np.power(np.abs(values), 0.25)
+    if key == "asinh":
+        return np.arcsinh(values)
+    raise CodecError(f"unknown linear index transform: {key}")
+
+
+def _linear_index_inverse_transform_values(values: np.ndarray, key: str) -> np.ndarray:
+    if key == "linear":
+        return values
+    if key == "signed-log":
+        return np.sign(values) * (np.exp2(np.abs(values)) - 1.0)
+    if key == "sqrt":
+        return np.sign(values) * np.power(np.abs(values), 2.0)
+    if key == "gamma075":
+        return np.sign(values) * np.power(np.abs(values), 1.0 / 0.75)
+    if key == "gamma025":
+        return np.sign(values) * np.power(np.abs(values), 4.0)
+    if key == "asinh":
+        return np.sinh(values)
+    raise CodecError(f"unknown linear index transform: {key}")
+
+
+def encode_linear_index_near_lossless(pixels: np.ndarray,
+                                      bits: int = 7,
+                                      effort: int = 9,
+                                      transform: str = "linear") -> bytes:
+    """Encode with the dedicated transform-index near-lossless route.
+
+    Decoding returns the per-channel quantized image. ``transform="linear"``
+    stores uniform value indices. ``transform="signed-log"`` stores uniform
+    signed-log2(1+abs(x)) indices, which is useful for quality-first HDR photos.
+    """
+    if bits <= 0 or bits > 15:
+        raise CodecError(f"linear index bits must be in 1..15, got {bits}")
+    return encode(
+        pixels,
+        stages=Stage.LINEAR_INDEX,
+        effort=effort,
+        near_lossless_bits=bits,
+        near_lossless_policy=_linear_index_policy_for_transform(transform),
+    )
+
+
+def linear_index_bits_for_preset(preset: LinearIndexPreset | str) -> int:
+    """Return the current research bit-depth for a linear-index preset."""
+    preset = LinearIndexPreset(preset)
+    return {
+        LinearIndexPreset.RATIO: 7,
+        LinearIndexPreset.BALANCED: 8,
+        LinearIndexPreset.QUALITY: 9,
+        LinearIndexPreset.QUALITY_PLUS: 10,
+    }[preset]
+
+
+def encode_linear_index_preset(pixels: np.ndarray,
+                               preset: LinearIndexPreset | str = LinearIndexPreset.QUALITY,
+                               effort: int = 9,
+                               transform: str = "linear") -> bytes:
+    """Encode with a named linear-index quality preset.
+
+    Current research mapping:
+    ratio -> bits7, balanced -> bits8, quality -> bits9, quality_plus -> bits10.
+    """
+    return encode_linear_index_near_lossless(
+        pixels,
+        bits=linear_index_bits_for_preset(preset),
+        effort=effort,
+        transform=transform,
+    )
+
+
+def _tile_random_bits(bits: np.ndarray, cap_bits: int) -> int:
+    cap_bits = min(23, max(0, int(cap_bits)))
+    if cap_bits == 0:
+        return 0
+    exponent = (bits >> np.uint32(23)) & np.uint32(0xff)
+    finite = exponent != np.uint32(0xff)
+    selected = bits[finite]
+    if selected.size < 64:
+        return 0
+    width = 0
+    for bit in range(cap_bits):
+        ones = int(((selected >> np.uint32(bit)) & np.uint32(1)).sum())
+        diff = abs(2 * ones - int(selected.size))
+        if diff <= int(selected.size) // 10:
+            width = bit + 1
+        else:
+            break
+    return width
+
+
+def _exponent_policy_bits(bits: np.ndarray, base_bits: int) -> np.ndarray:
+    exponent = ((bits >> np.uint32(23)) & np.uint32(0xff)).astype(np.int16)
+    finite = exponent != 0xff
+    max_exp = int(exponent[finite].max()) if bool(np.any(finite)) else 0
+    delta = np.maximum(0, max_exp - exponent)
+    out = np.minimum(23, int(base_bits) + (delta // 2)).astype(np.uint8)
+    out[~finite] = 0
+    return out
+
+
+def _clear_low_bits(bits: np.ndarray, low_bits: np.ndarray | int) -> np.ndarray:
+    out = bits.copy()
+    exponent = (out >> np.uint32(23)) & np.uint32(0xff)
+    finite = exponent != np.uint32(0xff)
+    if isinstance(low_bits, np.ndarray):
+        for value in range(1, 24):
+            selected = finite & (low_bits == value)
+            if bool(np.any(selected)):
+                mask = np.uint32(0xff800000 if value >= 23
+                                 else (0xffffffff ^ ((1 << value) - 1)))
+                out[selected] &= mask
+        return out
+    if low_bits:
+        mask = np.uint32(0xff800000 if low_bits >= 23
+                         else (0xffffffff ^ ((1 << int(low_bits)) - 1)))
+        out[finite] &= mask
+    return out
+
+
+def _quantize_linear_range(bits: np.ndarray, value_bits: int) -> np.ndarray:
+    out = bits.copy()
+    if value_bits <= 0:
+        return out
+    levels = (1 << min(23, int(value_bits))) - 1
+    values = bits.view(np.float32)
+    if values.ndim == 2:
+        work = values.reshape(values.shape[0], values.shape[1], 1)
+        out_work = out.reshape(values.shape[0], values.shape[1], 1)
+    else:
+        work = values
+        out_work = out
+    for c in range(work.shape[2]):
+        channel = work[:, :, c]
+        finite = np.isfinite(channel)
+        if not bool(np.any(finite)):
+            continue
+        mn = float(channel[finite].min())
+        mx = float(channel[finite].max())
+        if not mx > mn:
+            continue
+        q = np.floor((channel.astype(np.float64) - mn) / (mx - mn) * levels + 0.5)
+        q = np.clip(q, 0, levels)
+        rec = mn + q * (mx - mn) / levels
+        quantized = rec.astype(np.float32).view(np.uint32)
+        out_work[:, :, c][finite] = quantized[finite]
+    return out
+
+
+def _quantize_log_range(bits: np.ndarray, value_bits: int) -> np.ndarray:
+    out = bits.copy()
+    if value_bits <= 0:
+        return out
+    levels = (1 << min(23, int(value_bits))) - 1
+    values = bits.view(np.float32)
+    if values.ndim == 2:
+        work = values.reshape(values.shape[0], values.shape[1], 1)
+        out_work = out.reshape(values.shape[0], values.shape[1], 1)
+    else:
+        work = values
+        out_work = out
+    eps = 1e-8
+    for c in range(work.shape[2]):
+        channel = work[:, :, c]
+        finite = np.isfinite(channel) & (channel >= 0.0)
+        if not bool(np.any(finite)):
+            continue
+        log_values = np.log2(channel[finite].astype(np.float64) + eps)
+        mn = float(log_values.min())
+        mx = float(log_values.max())
+        if not mx > mn:
+            continue
+        log_channel = np.zeros(channel.shape, dtype=np.float64)
+        log_channel[finite] = np.log2(channel[finite].astype(np.float64) + eps)
+        q = np.floor((log_channel - mn) / (mx - mn) * levels + 0.5)
+        q = np.clip(q, 0, levels)
+        rec = np.maximum(0.0, np.exp2(mn + q * (mx - mn) / levels) - eps)
+        quantized = rec.astype(np.float32).view(np.uint32)
+        out_work[:, :, c][finite] = quantized[finite]
+    return out
+
+
+def quantize_linear_index(pixels: np.ndarray,
+                          bits: int = 7,
+                          tile_size: int = 0,
+                          transform: str = "linear") -> np.ndarray:
+    """Return the image reconstructed by the dedicated transform-index route."""
+    if pixels.dtype != np.float32:
+        raise CodecError(f"expected float32, got {pixels.dtype}")
+    if bits <= 0 or bits > 15:
+        raise CodecError(f"linear index bits must be in 1..15, got {bits}")
+    if not bool(np.all(np.isfinite(pixels))):
+        raise CodecError("linear index route currently requires finite pixels")
+    transform_key = _linear_index_transform_key(transform)
+    levels = (1 << int(bits)) - 1
+    work = np.ascontiguousarray(pixels)
+    if work.ndim == 2:
+        view = work.reshape(work.shape[0], work.shape[1], 1)
+    else:
+        view = work
+    out = np.array(view, copy=True)
+    del tile_size
+    for c in range(view.shape[2]):
+        channel = view[:, :, c].astype(np.float64)
+        transformed = _linear_index_transform_values(channel, transform_key)
+        range_values = transformed.astype(np.float32).astype(np.float64)
+        lo = float(np.min(range_values))
+        hi = float(np.max(range_values))
+        target = out[:, :, c]
+        if not hi > lo:
+            target[:, :] = np.float32(
+                _linear_index_inverse_transform_values(
+                    np.asarray(lo, dtype=np.float64),
+                    transform_key))
+            continue
+        q = np.floor((transformed - lo) / (hi - lo) * levels + 0.5)
+        q = np.clip(q, 0, levels)
+        rec_t = lo + q * (hi - lo) / levels
+        rec = _linear_index_inverse_transform_values(rec_t, transform_key)
+        target[:, :] = rec.astype(np.float32)
+    if work.ndim == 2:
+        return np.ascontiguousarray(out.reshape(work.shape))
+    return np.ascontiguousarray(out.reshape(work.shape))
+
+
+def quantize_mantissa(
+    pixels: np.ndarray,
+    low_bits: int,
+    policy: NearLosslessPolicy | int = NearLosslessPolicy.FIXED,
+) -> np.ndarray:
     """Return the image produced by the near-lossless mantissa quantizer."""
     if pixels.dtype != np.float32:
         raise CodecError(f"expected float32, got {pixels.dtype}")
     if low_bits < 0 or low_bits > 23:
         raise CodecError(f"low_bits must be in 0..23, got {low_bits}")
-    bits = np.ascontiguousarray(pixels).view(np.uint32).copy()
-    if low_bits:
-        exponent = (bits >> np.uint32(23)) & np.uint32(0xff)
-        finite = exponent != np.uint32(0xff)
-        keep_mask = np.uint32(0xffffffff ^ ((1 << low_bits) - 1))
-        bits[finite] &= keep_mask
-    return bits.view(np.float32).reshape(pixels.shape)
+    policy = NearLosslessPolicy(policy)
+    bits = np.ascontiguousarray(pixels).view(np.uint32)
+    if low_bits == 0:
+        return bits.copy().view(np.float32).reshape(pixels.shape)
+    if policy == NearLosslessPolicy.LINEAR_RANGE:
+        return _quantize_linear_range(bits, low_bits).view(np.float32).reshape(pixels.shape)
+    if policy == NearLosslessPolicy.LOG_RANGE:
+        return _quantize_log_range(bits, low_bits).view(np.float32).reshape(pixels.shape)
+    if policy == NearLosslessPolicy.FIXED:
+        return _clear_low_bits(bits, low_bits).view(np.float32).reshape(pixels.shape)
+
+    flat_shape = bits.shape
+    if pixels.ndim == 2:
+        work = bits.reshape(bits.shape[0], bits.shape[1], 1)
+    else:
+        work = bits
+    out = work.copy()
+    exp_bits = _exponent_policy_bits(work, low_bits)
+    tile_size = 128
+    for y0 in range(0, work.shape[0], tile_size):
+        y1 = min(work.shape[0], y0 + tile_size)
+        for x0 in range(0, work.shape[1], tile_size):
+            x1 = min(work.shape[1], x0 + tile_size)
+            tile = work[y0:y1, x0:x1, :]
+            if policy == NearLosslessPolicy.EXPONENT:
+                clear = exp_bits[y0:y1, x0:x1, :]
+            else:
+                cap = low_bits if policy == NearLosslessPolicy.TILE else 23
+                tile_bits = _tile_random_bits(tile, cap)
+                if policy == NearLosslessPolicy.TILE:
+                    clear = tile_bits
+                else:
+                    clear = np.minimum(tile_bits, exp_bits[y0:y1, x0:x1, :])
+            out[y0:y1, x0:x1, :] = _clear_low_bits(tile, clear)
+    return out.reshape(flat_shape).view(np.float32).reshape(pixels.shape)
+
+
+def inspect_header(compressed: bytes) -> dict[str, int | str]:
+    """Parse the small outer codec header for tests and research probes."""
+    if len(compressed) < 21 or compressed[:4] != b"HDR0":
+        raise CodecError("not a radiance_codec frame")
+    p = 4
+    version = compressed[p]; p += 1
+    width = int.from_bytes(compressed[p:p + 4], "little"); p += 4
+    height = int.from_bytes(compressed[p:p + 4], "little"); p += 4
+    channels = compressed[p]; p += 1
+    fmt = compressed[p]; p += 1
+    stages = int.from_bytes(compressed[p:p + 4], "little"); p += 4
+    rans_mode = compressed[p]; p += 1
+    effort = compressed[p]; p += 1
+    near_bits = compressed[p] if version >= 2 else 0
+    if version >= 2:
+        p += 1
+    policy = compressed[p] if version >= 3 else 0
+    sign_class = compressed[p + 1] if version >= 3 else 0
+    sign_names = {0: "mixed", 1: "all_positive", 2: "all_negative"}
+    policy_names = {
+        0: "fixed",
+        1: "tile",
+        2: "exponent",
+        3: "tile_exponent",
+        4: "linear_range",
+        5: "log_range",
+    }
+    return {
+        "version": version,
+        "width": width,
+        "height": height,
+        "channels": channels,
+        "format": fmt,
+        "stages": stages,
+        "rans_mode": rans_mode,
+        "effort": effort,
+        "near_lossless_bits": near_bits,
+        "near_lossless_policy": policy,
+        "near_lossless_policy_name": policy_names.get(policy, "unknown"),
+        "sign_class": sign_class,
+        "sign_class_name": sign_names.get(sign_class, "unknown"),
+    }
 
 
 # ─── self-test when run as a script ───────────────────────────────

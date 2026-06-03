@@ -28,6 +28,7 @@ radiance_codec::PipelineConfig config_to_cpp(const radiance_codec_config_t& c) {
     out.effort    = c.effort;
     out.rans_mode = c.rans_mode;
     out.near_lossless_bits = c.near_lossless_bits;
+    out.near_lossless_policy = c.near_lossless_policy;
     return out;
 }
 

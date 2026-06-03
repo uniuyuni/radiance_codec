@@ -7,6 +7,7 @@
 #include "structural_context.hpp"
 #include "grouped_delta.hpp"
 #include "mantissa_quantize.hpp"
+#include "linear_index.hpp"
 
 #include <memory>
 
@@ -21,10 +22,20 @@ std::vector<std::unique_ptr<IStage>> build_pipeline(
     // walks the list in reverse. Encode pipeline:
     //   ColorTransform → LogMagnitude → SpatialPredict → Bitshuffle → Rans
     //
+    if (config.stages & StageLinearIndex) {
+        stages.emplace_back(
+            std::make_unique<LinearIndexStage>(
+                config.near_lossless_bits,
+                config.effort,
+                config.near_lossless_policy));
+        return stages;
+    }
+
     if (config.stages & StageMantissaQuantize) {
         stages.emplace_back(
             std::make_unique<MantissaQuantizeStage>(
-                config.near_lossless_bits));
+                config.near_lossless_bits,
+                config.near_lossless_policy));
     }
 
     // These research codec stages already include their own transform and

@@ -1,0 +1,86 @@
+[
+  {
+    "image": "sample_DSCF0009.EXR",
+    "shape": [
+      5152,
+      7728,
+      3
+    ],
+    "crop_size": 0,
+    "bits": 10,
+    "transform": "power",
+    "gamma": 1.15,
+    "pred_bin_bits": 3,
+    "quality": {
+      "mae": 0.002441231779356977,
+      "rmse": 0.002924979412693124,
+      "psnr_peak_abs": 66.52524163919735,
+      "signed_log2_rmse": 0.0039867499479675226,
+      "signed_log2_p99": 0.009953950070716772,
+      "gradient_signed_log2_nrmse": 0.1353885310117217
+    },
+    "quality_passes": true,
+    "full_symbol_contexts": [
+      {
+        "context": "west_north_prev_phase_predbin",
+        "bits_per_sample": 1.8597681643375208
+      },
+      {
+        "context": "west_north_prev_predbin",
+        "bits_per_sample": 1.8728782563273987
+      },
+      {
+        "context": "west_north_prev_channel",
+        "bits_per_sample": 1.9012173843257043
+      },
+      {
+        "context": "wnnw_phase_channel",
+        "bits_per_sample": 1.936427825049245
+      },
+      {
+        "context": "west_north_predbin",
+        "bits_per_sample": 1.9500293120240633
+      },
+      {
+        "context": "west_north",
+        "bits_per_sample": 1.9808537152232113
+      },
+      {
+        "context": "north",
+        "bits_per_sample": 2.0970232915703138
+      },
+      {
+        "context": "west",
+        "bits_per_sample": 2.0983252493467255
+      },
+      {
+        "context": "predbin_phase_channel",
+        "bits_per_sample": 2.1876665217222415
+      },
+      {
+        "context": "phase_channel",
+        "bits_per_sample": 2.3238457891589177
+      },
+      {
+        "context": "order0",
+        "bits_per_sample": 2.326084662773598
+      }
+    ],
+    "rows": [
+      {
+        "small": 15,
+        "category_context": "west_north_prev_phase_predbin",
+        "detail_context": "west_north_prev_predbin",
+        "category_bits_per_sample": 1.6528674266716912,
+        "pos_escape_bits_per_sample": 0.029452464804300388,
+        "neg_escape_bits_per_sample": 0.031162639613544603,
+        "bits_per_sample": 1.7134825310895363,
+        "escape_rate": 0.013643116745753121,
+        "pos_escape_rate": 0.006652826537042038,
+        "neg_escape_rate": 0.006990290208711084,
+        "estimated_bytes": 25583217.076502196,
+        "estimated_ratio_vs_original": 18.675363249715378
+      }
+    ]
+  }
+]

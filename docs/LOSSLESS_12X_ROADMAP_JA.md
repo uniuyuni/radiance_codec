@@ -222,6 +222,33 @@ top-K escape table 追試:
 次に続けるなら top-K 辞書ではなく、複数 context で共有できる generative predictor
 か、escape を raw tail ではなく low-rank/correction として送る route が必要。
 
+prefix-cascade symbol coder 追試:
+
+- `scripts/probe_tail_prefix_cascade.py` を追加した。
+- top-K 辞書を送らずに whole-symbol 構造を使うため、tail symbol を MSB から LSB
+  へ順に符号化する。
+- 各bitの context は
+  `decoder-visible high/exponent/payload_high context + 既に復号した同一symbol prefix`。
+- context node は KT universal binary cost なので、decoder は side-info なしで同じ
+  adaptive model を更新できる。
+
+`sample_hilberts`, body payload, low15:
+
+- crop128:
+  - GDX `11.269 bps`
+  - prefix-cascade `11.840 bps`
+  - best `hash12_payload_exp_high_xy_channel:prefix15`
+  - lower `2.850 bps`
+- crop256, image scope:
+  - GDX `11.225 bps`
+  - prefix-cascade `11.891 bps`
+  - best `hash12_payload_exp_high_xy_channel:prefix15`
+  - lower `4.310 bps`
+
+判断更新: prefix は効いているが、visited node 数が多く KT コストで GDX に負ける。
+GDX の既存 bitplane family は tail prefix 情報をかなり上手く使っている。辞書なし
+symbol coder でも hard 4x への突破口にはならない。
+
 visible predictor residual 追試:
 
 - `scripts/probe_tail_visible_predictor_residual.py` を追加した。
@@ -317,6 +344,71 @@ shared-exponent integer route メモ:
   - `sample_hilberts` crop512 で current `2.06x` を明確に超える。
   - tailだけでなく main+tail を一体で削る兆候がある。
   - uint64 route の追加metadataが 4x 目標に対して許容範囲に収まる。
+
+block fixed-point route 初回追試:
+
+- `scripts/probe_block_fixed_point_route.py` を追加した。
+- finite float32 を tile 内共有の 2冪スケールへ exact signed integer として写す。
+  - normal: `significand * 2^(exponent - 150)`
+  - subnormal: `mantissa * 2^-149`
+  - tile 内の最小 scale field を共有し、各値を left-shift した整数へ変換。
+- `--verify` では shared integer から float32 bit を復元し、bit完全一致を確認する。
+- integer stream は `raw / west / north / average / gradient / paeth /
+  previous_channel / reversible green/YCoCg` residual を作り、byte-plane zstd と
+  byte entropy lower を測る。
+- 初回の `green_delta` winner は invalidated:
+  - R/B を G で予測していたが、G 自身を送っていなかった。
+  - `current=2.06x -> fixed=2.25x` 級の数字は非可逆 route による幻なので採用しない。
+  - 可逆形は `R-G, G, B-G, A` または `G, R-G, B-G, A` とする。
+
+`sample_hilberts-mill-conference-room_2K.exr`:
+
+- crop128, tile128:
+  - current `1.992x`, fixed zstd `1.614x`, gain `0.8104`
+  - exact復元 verify 通過
+  - width `32`
+- crop512, tile512:
+  - current `2.073x`, fixed zstd `1.675x`, gain `0.8077`
+  - best exact route は `paeth_delta`
+  - width `33`
+
+`sample_1920×1280.exr` half-derived:
+
+- crop512, tile512:
+  - current `6.463x`, fixed zstd `5.311x`, gain `0.8217`
+  - best exact route は `green_reorder_lift`
+  - width `29`
+
+判断更新: shared-scale integer 表現は exact には作れるが、単純な byte-plane zstd /
+spatial residual では GDX に負ける。非可逆 `green_delta` を除くと positive signal は
+消える。Route としては C++ 化しない。ただし、重要な教訓は残る:
+
+- `G` を decoder-visible にする decode schedule を組めば、R/B を G で予測する方向は
+  まだ可能性がある。
+- その場合は `G/A raw + R-G/B-G residual` のように、基準channelを明示的に送る必要がある。
+- 次に試すなら shared fixed-point ではなく、現行 GDX payload の channel decode order を
+  変えて、green-first channel route を exact に評価する方が筋がよい。
+
+green-first mixed route 追試:
+
+- `scripts/probe_block_fixed_point_route.py` に `green_ref_rb` を追加した。
+- G/A は従来 GDX で先に送る。
+- R/B は shared-scale integer に写し、`R-G` / `B-G` residual を byte-plane zstd する。
+- この route は G を無料扱いしないので exact-compatible。
+
+結果:
+
+- `sample_hilberts`, crop128, tile128:
+  - current `1.992x`, green-ref fixed `1.796x`, gain `0.9019`
+- `sample_hilberts`, crop512, tile512:
+  - current `2.073x`, green-ref fixed `1.927x`, gain `0.9294`
+- `sample_1920×1280`, crop512, tile512:
+  - current `6.463x`, green-ref fixed `8.495x`, gain `1.3144`
+
+判断更新: hard float32 sample では負けるので 4x 本命ではない。一方、half-derived /
+lower-precision high-res sample では `+31%` の exact signal がある。Route C の
+source-precision / half-like fallback と統合して、green-first mixed channel route として
+再評価する価値がある。
 
 12x は float32 sample あたり `32 / 12 = 2.667 bits` しか使えない。puresky の
 低位 tail だけで約 `11.25 bits/sample` を消費しているため、puresky を exact
@@ -849,7 +941,7 @@ certificate として整理する。
 
 ### Route E: AI context mixer
 
-優先度: 後回し
+優先度: 中
 
 目的:
 
@@ -863,6 +955,45 @@ certificate として整理する。
 
 現時点では、画像 autoencoder や lossy base + correction stream は exact 12x の本命ではない。
 correction が大きくなり、結局 low tail を保存する問題に戻る。
+
+tile-split MLP context mixer 追試:
+
+- `scripts/probe_tail_mlp_tile_split.py` を追加した。
+- 同一 hard image 内で train tile / held-out eval tile を分ける。
+- 予測対象は exact payload bit の `P(bit=1)`。entropy coder は全bitを可逆に送る。
+- 評価:
+  - direct MLP: 固定モデル確率の cross entropy
+  - MLP-bin KT: MLP 確率binを adaptive universal context として使う
+  - augmented KT: 既存 GDX context family と MLP 確率binを掛け合わせる
+
+`sample_hilberts`, crop256, bits0-14, checker split:
+
+- strict features:
+  - GDX `0.7512 bits/bit`
+  - direct MLP `0.7495`, gain `1.0023`
+  - MLP-bin KT `0.7484`, gain `1.0037`
+  - augmented KT `0.7497`, hybrid gain `1.0020`
+- oracle/high features:
+  - GDX `0.7512`
+  - direct MLP `0.7497`, gain `1.0019`
+  - MLP-bin KT `0.7483`, gain `1.0038`
+  - augmented KT `0.7490`, hybrid gain `1.0029`
+
+`sample_hilberts`, crop256, bits0-14, bottom split, strict features:
+
+- GDX `0.7511`
+- direct MLP `0.7497`, gain `1.0018`
+- MLP-bin KT `0.7483`, gain `1.0037`
+- augmented KT `0.7494`, hybrid gain `1.0023`
+
+判断更新: held-out tile で学習モデルは GDX をわずかに超える。固定 route が負け続けた中で
+これは本物の signal だが、gain は `0.2-0.4%` 程度。4x の突破口というより、
+GDX context family の最後の上乗せ候補。次に続けるなら:
+
+- MLP を C++ 化するのではなく、MLP 出力binから頻出splitを抽出して小さな固定 family
+  に落とす。
+- 8K/super-tile で model calibration cost を償却できるか測る。
+- train/test を画像間に分け、hard image 固有の過学習でないか確認する。
 
 ## 4. すぐやる実験順
 

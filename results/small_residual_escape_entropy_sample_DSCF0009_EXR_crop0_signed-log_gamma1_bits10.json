@@ -1,0 +1,70 @@
+[
+  {
+    "image": "sample_DSCF0009.EXR",
+    "shape": [
+      5152,
+      7728,
+      3
+    ],
+    "crop_size": 0,
+    "bits": 10,
+    "transform": "signed-log",
+    "gamma": 1.0,
+    "pred_bin_bits": 0,
+    "quality": {
+      "mae": 0.0005582197187704943,
+      "rmse": 0.0007134701111901709,
+      "psnr_peak_abs": 78.78018222673354,
+      "signed_log2_rmse": 0.0007574056525116044,
+      "signed_log2_p99": 0.0013501436660834567,
+      "gradient_signed_log2_nrmse": 0.029864784105378166
+    },
+    "quality_passes": true,
+    "full_symbol_contexts": [
+      {
+        "context": "west_north_prev_channel",
+        "bits_per_sample": 3.4210444370483772
+      },
+      {
+        "context": "wnnw_phase_channel",
+        "bits_per_sample": 3.500077162582281
+      },
+      {
+        "context": "west_north",
+        "bits_per_sample": 3.544900684708196
+      },
+      {
+        "context": "north",
+        "bits_per_sample": 3.624358980236619
+      },
+      {
+        "context": "west",
+        "bits_per_sample": 3.626626598901305
+      },
+      {
+        "context": "phase_channel",
+        "bits_per_sample": 3.737698669181752
+      },
+      {
+        "context": "order0",
+        "bits_per_sample": 3.741348069688123
+      }
+    ],
+    "rows": [
+      {
+        "small": 15,
+        "category_context": "west_north_prev_channel",
+        "detail_context": "west_north_prev_channel",
+        "category_bits_per_sample": 3.1234498243349793,
+        "pos_escape_bits_per_sample": 0.06153594146449598,
+        "neg_escape_bits_per_sample": 0.06377981937935,
+        "bits_per_sample": 3.248765585178825,
+        "escape_rate": 0.025320985652452537,
+        "pos_escape_rate": 0.012453270139183587,
+        "neg_escape_rate": 0.01286771551326895,
+        "estimated_bytes": 48505754.574450105,
+        "estimated_ratio_vs_original": 9.849880208886873
+      }
+    ]
+  }
+]

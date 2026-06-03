@@ -1,0 +1,72 @@
+[
+  {
+    "image": "sample_DSCF0009.EXR",
+    "shape": [
+      5152,
+      7728,
+      3
+    ],
+    "crop_size": 0,
+    "bits": 10,
+    "transform": "signed-log",
+    "gamma": 1.0,
+    "rows": [
+      {
+        "context": "west_north_prev_channel",
+        "bits_per_sample": 3.353711830503315,
+        "estimated_bytes": 50072654.070482425,
+        "estimated_ratio_vs_original": 9.54165264192869,
+        "context_count": 439
+      },
+      {
+        "context": "wnnw_phase_channel",
+        "bits_per_sample": 3.4278255308362913,
+        "estimated_bytes": 51179208.37684912,
+        "estimated_ratio_vs_original": 9.335350958967188,
+        "context_count": 6071
+      },
+      {
+        "context": "west_north_phase_channel",
+        "bits_per_sample": 3.466472200165395,
+        "estimated_bytes": 51756222.31868063,
+        "estimated_ratio_vs_original": 9.23127404968183,
+        "context_count": 759
+      },
+      {
+        "context": "west_north",
+        "bits_per_sample": 3.470240834253757,
+        "estimated_bytes": 51812489.89486238,
+        "estimated_ratio_vs_original": 9.22124902643166,
+        "context_count": 55
+      },
+      {
+        "context": "northcat",
+        "bits_per_sample": 3.5668759162307957,
+        "estimated_bytes": 53255299.59978023,
+        "estimated_ratio_vs_original": 8.971423982036365,
+        "context_count": 7
+      },
+      {
+        "context": "westcat",
+        "bits_per_sample": 3.568020838568576,
+        "estimated_bytes": 53272393.85816477,
+        "estimated_ratio_vs_original": 8.968545195698464,
+        "context_count": 7
+      },
+      {
+        "context": "phase_channel",
+        "bits_per_sample": 3.737698669181752,
+        "estimated_bytes": 55805768.029423475,
+        "estimated_ratio_vs_original": 8.561406622843963,
+        "context_count": 12
+      },
+      {
+        "context": "order0",
+        "bits_per_sample": 3.741348069688123,
+        "estimated_bytes": 55860255.38908625,
+        "estimated_ratio_vs_original": 8.553055632705645,
+        "context_count": 1
+      }
+    ]
+  }
+]

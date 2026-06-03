@@ -1,0 +1,103 @@
+[
+  {
+    "image": "sample_DSCF0009.EXR",
+    "shape": [
+      1024,
+      1024,
+      3
+    ],
+    "crop_size": 1024,
+    "rows": [
+      {
+        "bits": 7,
+        "mode": "asinh",
+        "alpha": 0.75,
+        "rmse": 0.0037382984865859054,
+        "psnr_peak_abs": 61.806428769213824,
+        "signed_log2_rmse": 0.004497252303281846,
+        "signed_log2_p99": 0.01145988262244575,
+        "gradient_signed_log2_nrmse": 0.4135027007291805
+      },
+      {
+        "bits": 7,
+        "mode": "asinh",
+        "alpha": 0.5,
+        "rmse": 0.003728507325238976,
+        "psnr_peak_abs": 61.82920825425087,
+        "signed_log2_rmse": 0.004767320444724629,
+        "signed_log2_p99": 0.0110686925036678,
+        "gradient_signed_log2_nrmse": 0.46992531259568093
+      },
+      {
+        "bits": 7,
+        "mode": "asinh",
+        "alpha": 0.0,
+        "rmse": 0.004265493456266931,
+        "psnr_peak_abs": 60.66052266684736,
+        "signed_log2_rmse": 0.0055975199788852745,
+        "signed_log2_p99": 0.012103907812940524,
+        "gradient_signed_log2_nrmse": 0.6878695726852214
+      },
+      {
+        "bits": 7,
+        "mode": "gamma075",
+        "alpha": 0.5,
+        "rmse": 0.0025944503961007094,
+        "psnr_peak_abs": 64.9790008329307,
+        "signed_log2_rmse": 0.0028489764045331787,
+        "signed_log2_p99": 0.009579591742544928,
+        "gradient_signed_log2_nrmse": 0.39356394923465804
+      },
+      {
+        "bits": 7,
+        "mode": "gamma075",
+        "alpha": 0.75,
+        "rmse": 0.0028825359848305963,
+        "psnr_peak_abs": 64.06441351519521,
+        "signed_log2_rmse": 0.002961918944018901,
+        "signed_log2_p99": 0.011460789265975171,
+        "gradient_signed_log2_nrmse": 0.37880668299877107
+      },
+      {
+        "bits": 7,
+        "mode": "gamma075",
+        "alpha": 0.0,
+        "rmse": 0.0029374918497278328,
+        "psnr_peak_abs": 63.9003748615631,
+        "signed_log2_rmse": 0.003432812001433448,
+        "signed_log2_p99": 0.01030694731647756,
+        "gradient_signed_log2_nrmse": 0.5378633255558672
+      },
+      {
+        "bits": 7,
+        "mode": "signed-log",
+        "alpha": 0.75,
+        "rmse": 0.0032867592048129455,
+        "psnr_peak_abs": 62.924550509978346,
+        "signed_log2_rmse": 0.0037048861681724314,
+        "signed_log2_p99": 0.01054738680713601,
+        "gradient_signed_log2_nrmse": 0.39028572940196726
+      },
+      {
+        "bits": 7,
+        "mode": "signed-log",
+        "alpha": 0.5,
+        "rmse": 0.003207868928368829,
+        "psnr_peak_abs": 63.13557596842864,
+        "signed_log2_rmse": 0.003921860119706686,
+        "signed_log2_p99": 0.00919682234788226,
+        "gradient_signed_log2_nrmse": 0.43623131993619685
+      },
+      {
+        "bits": 7,
+        "mode": "signed-log",
+        "alpha": 0.0,
+        "rmse": 0.00370525609122194,
+        "psnr_peak_abs": 61.88354366954406,
+        "signed_log2_rmse": 0.004732118695201552,
+        "signed_log2_p99": 0.009556357855904538,
+        "gradient_signed_log2_nrmse": 0.635361945752122
+      }
+    ]
+  }
+]
