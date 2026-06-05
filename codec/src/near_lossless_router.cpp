@@ -11,13 +11,17 @@
 
 #include <algorithm>
 #include <array>
+#include <chrono>
 #include <cmath>
+#include <cstdio>
 #include <cstddef>
 #include <cstdint>
+#include <cstdlib>
 #include <cstring>
 #include <future>
 #include <limits>
 #include <numeric>
+#include <utility>
 #include <vector>
 
 namespace radiance_codec {
@@ -33,6 +37,55 @@ constexpr std::uint8_t kStreamIndexSymbolRans = 4;
 constexpr std::uint8_t kStreamMaskBinary = 5;
 constexpr std::uint8_t kExtraConstant = 1;
 constexpr std::uint8_t kExtraRaw = 2;
+
+bool router_trace_enabled() noexcept {
+    static const bool enabled = std::getenv("RADIANCE_CODEC_ROUTER_TRACE") != nullptr;
+    return enabled;
+}
+
+class RouterTrace {
+public:
+    explicit RouterTrace(const char* scope) noexcept
+        : scope_(scope),
+          start_(Clock::now()),
+          last_(start_),
+          enabled_(router_trace_enabled()) {}
+
+    void lap(const char* label) noexcept {
+        if (!enabled_) return;
+        const auto now = Clock::now();
+        std::fprintf(
+            stderr,
+            "[router] %s %-18s %.3f ms\n",
+            scope_,
+            label,
+            elapsed_ms(last_, now));
+        last_ = now;
+    }
+
+    ~RouterTrace() {
+        if (!enabled_) return;
+        const auto now = Clock::now();
+        std::fprintf(
+            stderr,
+            "[router] %s %-18s %.3f ms\n",
+            scope_,
+            "total",
+            elapsed_ms(start_, now));
+    }
+
+private:
+    using Clock = std::chrono::steady_clock;
+
+    static double elapsed_ms(Clock::time_point a, Clock::time_point b) noexcept {
+        return std::chrono::duration<double, std::milli>(b - a).count();
+    }
+
+    const char* scope_ = "";
+    Clock::time_point start_;
+    Clock::time_point last_;
+    bool enabled_ = false;
+};
 
 float read_f32(const std::uint8_t* p) noexcept {
     float v = 0.0f;
@@ -105,6 +158,63 @@ std::vector<double> box_mean_reflect(
         }
     }
     return out;
+}
+
+struct BoxMeanPair {
+    std::vector<double> first;
+    std::vector<double> second;
+};
+
+BoxMeanPair box_mean_reflect_pair(
+    const std::vector<double>& first,
+    const std::vector<double>& second,
+    std::uint32_t width,
+    std::uint32_t height,
+    std::uint8_t radius) {
+    if (radius == 0) return {first, second};
+    std::vector<double> tmp_first(first.size(), 0.0);
+    std::vector<double> tmp_second(second.size(), 0.0);
+    std::vector<double> out_first(first.size(), 0.0);
+    std::vector<double> out_second(second.size(), 0.0);
+    const auto r = static_cast<std::int32_t>(radius);
+    const double denom = double(2 * r + 1);
+#ifdef RADIANCE_CODEC_HAS_OPENMP
+#pragma omp parallel for schedule(static) if(height > 128)
+#endif
+    for (std::uint32_t y = 0; y < height; ++y) {
+        for (std::uint32_t x = 0; x < width; ++x) {
+            double sum_first = 0.0;
+            double sum_second = 0.0;
+            for (std::int32_t dx = -r; dx <= r; ++dx) {
+                const auto xx = reflect_index(static_cast<std::int32_t>(x) + dx, width);
+                const auto i = idx2(width, y, xx);
+                sum_first += first[i];
+                sum_second += second[i];
+            }
+            const auto out_i = idx2(width, y, x);
+            tmp_first[out_i] = sum_first / denom;
+            tmp_second[out_i] = sum_second / denom;
+        }
+    }
+#ifdef RADIANCE_CODEC_HAS_OPENMP
+#pragma omp parallel for schedule(static) if(height > 128)
+#endif
+    for (std::uint32_t y = 0; y < height; ++y) {
+        for (std::uint32_t x = 0; x < width; ++x) {
+            double sum_first = 0.0;
+            double sum_second = 0.0;
+            for (std::int32_t dy = -r; dy <= r; ++dy) {
+                const auto yy = reflect_index(static_cast<std::int32_t>(y) + dy, height);
+                const auto i = idx2(width, yy, x);
+                sum_first += tmp_first[i];
+                sum_second += tmp_second[i];
+            }
+            const auto out_i = idx2(width, y, x);
+            out_first[out_i] = sum_first / denom;
+            out_second[out_i] = sum_second / denom;
+        }
+    }
+    return {std::move(out_first), std::move(out_second)};
 }
 
 float vst_forward(float x) noexcept {
@@ -411,18 +521,19 @@ std::uint32_t med_predictor(std::uint32_t a, std::uint32_t b, std::uint32_t c) n
     return a + b - c;
 }
 
+template <typename IndexT>
 std::uint32_t predict_index(
-    const std::vector<std::uint32_t>& decoded,
-    const std::vector<std::uint8_t>& valid,
+    const std::vector<IndexT>& decoded,
+    const std::vector<std::uint8_t>& selected,
     std::uint32_t width,
     std::uint32_t y,
     std::uint32_t x) noexcept {
-    const bool has_left = x > 0 && valid[idx2(width, y, x - 1)];
-    const bool has_up = y > 0 && valid[idx2(width, y - 1, x)];
-    const bool has_diag = x > 0 && y > 0 && valid[idx2(width, y - 1, x - 1)];
-    const auto a = has_left ? decoded[idx2(width, y, x - 1)] : 0u;
-    const auto b = has_up ? decoded[idx2(width, y - 1, x)] : a;
-    const auto c = has_diag ? decoded[idx2(width, y - 1, x - 1)] : a;
+    const bool has_left = x > 0 && selected[idx2(width, y, x - 1)];
+    const bool has_up = y > 0 && selected[idx2(width, y - 1, x)];
+    const bool has_diag = x > 0 && y > 0 && selected[idx2(width, y - 1, x - 1)];
+    const auto a = has_left ? static_cast<std::uint32_t>(decoded[idx2(width, y, x - 1)]) : 0u;
+    const auto b = has_up ? static_cast<std::uint32_t>(decoded[idx2(width, y - 1, x)]) : a;
+    const auto c = has_diag ? static_cast<std::uint32_t>(decoded[idx2(width, y - 1, x - 1)]) : a;
     if (!has_left && !has_up) return 0;
     if (!has_left) return b;
     if (!has_up) return a;
@@ -610,35 +721,6 @@ bool append_mask_stream(
     return append_stream(out, packed);
 }
 
-bool read_mask_stream(
-    const std::uint8_t*& p,
-    const std::uint8_t* end,
-    std::uint32_t width,
-    std::uint32_t height,
-    std::vector<std::uint8_t>& mask) {
-    const auto pixels = std::size_t(width) * height;
-    if (p < end && *p == kStreamMaskBinary) {
-        ++p;
-        std::uint32_t payload_size = 0;
-        if (!read_u32(p, end, payload_size)) return false;
-        if (static_cast<std::size_t>(end - p) < payload_size) return false;
-        mask.assign(pixels, 0);
-        if (!decode_mask_binary_west_north(
-                std::span<const std::uint8_t>(p, payload_size),
-                width,
-                height,
-                mask)) {
-            return false;
-        }
-        p += payload_size;
-        return true;
-    }
-
-    std::vector<std::uint8_t> packed;
-    if (!read_stream(p, end, packed)) return false;
-    return unpack_mask(packed, pixels, mask);
-}
-
 bool compress_stream(
     std::span<const std::uint8_t> plain,
     std::vector<std::uint8_t>& payload) {
@@ -782,36 +864,36 @@ bool read_symbol(
 }
 
 std::vector<std::uint8_t> encode_index_stream(
-    const std::vector<std::uint32_t>& indices,
+    const std::vector<std::uint16_t>& indices,
     const std::vector<std::uint8_t>& selected,
     std::uint32_t width,
     std::uint32_t height,
     std::uint8_t bits) {
     const auto bytes = static_cast<std::uint8_t>((bits + 7) / 8);
     const auto mask = (1u << bits) - 1u;
-    std::vector<std::uint32_t> decoded(indices.size(), 0);
-    std::vector<std::uint8_t> valid(indices.size(), 0);
+    std::vector<std::uint16_t> decoded(indices.size(), 0);
     std::vector<std::uint8_t> out;
+    out.reserve(indices.size() * bytes);
     for (std::uint32_t y = 0; y < height; ++y) {
         for (std::uint32_t x = 0; x < width; ++x) {
             const auto i = idx2(width, y, x);
             if (!selected[i]) continue;
-            const auto pred = predict_index(decoded, valid, width, y, x);
+            const auto pred = predict_index(decoded, selected, width, y, x);
             const auto residual = (indices[i] + mask + 1u - pred) & mask;
             append_symbol(out, residual, bytes);
             decoded[i] = indices[i];
-            valid[i] = 1;
         }
     }
     return out;
 }
 
 std::vector<std::uint8_t> encode_value_stream(
-    const std::vector<std::uint32_t>& indices,
+    const std::vector<std::uint16_t>& indices,
     const std::vector<std::uint8_t>& selected,
     std::uint8_t bits) {
     const auto bytes = static_cast<std::uint8_t>((bits + 7) / 8);
     std::vector<std::uint8_t> out;
+    out.reserve(indices.size() * bytes);
     const auto mask = (1u << bits) - 1u;
     for (std::size_t i = 0; i < indices.size(); ++i) {
         if (!selected[i]) continue;
@@ -820,11 +902,47 @@ std::vector<std::uint8_t> encode_value_stream(
     return out;
 }
 
+std::vector<std::uint16_t> index_symbols_from_indices(
+    const std::vector<std::uint16_t>& indices,
+    const std::vector<std::uint8_t>& selected,
+    std::uint32_t width,
+    std::uint32_t height,
+    std::uint8_t bits) {
+    const auto mask = (1u << bits) - 1u;
+    std::vector<std::uint16_t> decoded(indices.size(), 0);
+    std::vector<std::uint16_t> symbols;
+    symbols.reserve(indices.size());
+    for (std::uint32_t y = 0; y < height; ++y) {
+        for (std::uint32_t x = 0; x < width; ++x) {
+            const auto i = idx2(width, y, x);
+            if (!selected[i]) continue;
+            const auto pred = predict_index(decoded, selected, width, y, x);
+            symbols.push_back(static_cast<std::uint16_t>(
+                (indices[i] + mask + 1u - pred) & mask));
+            decoded[i] = indices[i];
+        }
+    }
+    return symbols;
+}
+
+std::vector<std::uint16_t> value_symbols_from_indices(
+    const std::vector<std::uint16_t>& indices,
+    const std::vector<std::uint8_t>& selected,
+    std::uint8_t bits) {
+    const auto mask = (1u << bits) - 1u;
+    std::vector<std::uint16_t> symbols;
+    symbols.reserve(indices.size());
+    for (std::size_t i = 0; i < indices.size(); ++i) {
+        if (selected[i]) symbols.push_back(static_cast<std::uint16_t>(indices[i] & mask));
+    }
+    return symbols;
+}
+
 bool decode_value_stream(
     const std::vector<std::uint8_t>& stream,
     const std::vector<std::uint8_t>& selected,
     std::uint8_t bits,
-    std::vector<std::uint32_t>& indices) {
+    std::vector<std::uint16_t>& indices) {
     const auto bytes = static_cast<std::uint8_t>((bits + 7) / 8);
     indices.assign(selected.size(), 0);
     std::size_t offset = 0;
@@ -832,7 +950,7 @@ bool decode_value_stream(
         if (!selected[i]) continue;
         std::uint32_t symbol = 0;
         if (!read_symbol(stream, offset, bytes, symbol)) return false;
-        indices[i] = symbol;
+        indices[i] = static_cast<std::uint16_t>(symbol);
     }
     return offset == stream.size();
 }
@@ -843,11 +961,10 @@ bool decode_index_stream(
     std::uint32_t width,
     std::uint32_t height,
     std::uint8_t bits,
-    std::vector<std::uint32_t>& indices) {
+    std::vector<std::uint16_t>& indices) {
     const auto bytes = static_cast<std::uint8_t>((bits + 7) / 8);
     const auto mask = (1u << bits) - 1u;
     indices.assign(std::size_t(width) * height, 0);
-    std::vector<std::uint8_t> valid(indices.size(), 0);
     std::size_t offset = 0;
     for (std::uint32_t y = 0; y < height; ++y) {
         for (std::uint32_t x = 0; x < width; ++x) {
@@ -855,12 +972,53 @@ bool decode_index_stream(
             if (!selected[i]) continue;
             std::uint32_t residual = 0;
             if (!read_symbol(stream, offset, bytes, residual)) return false;
-            const auto pred = predict_index(indices, valid, width, y, x);
-            indices[i] = (pred + residual) & mask;
-            valid[i] = 1;
+            const auto pred = predict_index(indices, selected, width, y, x);
+            indices[i] = static_cast<std::uint16_t>((pred + residual) & mask);
         }
     }
     return offset == stream.size();
+}
+
+bool decode_value_symbols(
+    const std::vector<std::uint16_t>& symbols,
+    const std::vector<std::uint8_t>& selected,
+    std::uint8_t bits,
+    std::vector<std::uint16_t>& indices) {
+    const auto mask = (1u << bits) - 1u;
+    indices.assign(selected.size(), 0);
+    std::size_t offset = 0;
+    for (std::size_t i = 0; i < selected.size(); ++i) {
+        if (!selected[i]) continue;
+        if (offset >= symbols.size()) return false;
+        const auto symbol = symbols[offset++];
+        if (symbol > mask) return false;
+        indices[i] = symbol;
+    }
+    return offset == symbols.size();
+}
+
+bool decode_index_symbols(
+    const std::vector<std::uint16_t>& symbols,
+    const std::vector<std::uint8_t>& selected,
+    std::uint32_t width,
+    std::uint32_t height,
+    std::uint8_t bits,
+    std::vector<std::uint16_t>& indices) {
+    const auto mask = (1u << bits) - 1u;
+    indices.assign(std::size_t(width) * height, 0);
+    std::size_t offset = 0;
+    for (std::uint32_t y = 0; y < height; ++y) {
+        for (std::uint32_t x = 0; x < width; ++x) {
+            const auto i = idx2(width, y, x);
+            if (!selected[i]) continue;
+            if (offset >= symbols.size()) return false;
+            const auto residual = static_cast<std::uint32_t>(symbols[offset++]);
+            if (residual > mask) return false;
+            const auto pred = predict_index(indices, selected, width, y, x);
+            indices[i] = static_cast<std::uint16_t>((pred + residual) & mask);
+        }
+    }
+    return offset == symbols.size();
 }
 
 std::vector<std::uint16_t> symbols_from_index_stream(
@@ -895,12 +1053,10 @@ bool stream_from_symbols(
     return true;
 }
 
-std::vector<std::uint8_t> encode_symbol_rans_index(
-    const std::vector<std::uint8_t>& plain,
+std::vector<std::uint8_t> encode_symbol_rans_symbols(
+    const std::vector<std::uint16_t>& symbols,
     std::uint8_t bits) {
     if (bits == 0 || bits > 14) return {};
-    const auto symbols = symbols_from_index_stream(plain, bits);
-    if (symbols.empty() && !plain.empty()) return {};
     const std::uint32_t alphabet = 1u << bits;
     if (alphabet > rans::PROB_SCALE) return {};
 
@@ -970,10 +1126,18 @@ std::vector<std::uint8_t> encode_symbol_rans_index(
     return out;
 }
 
-bool decode_symbol_rans_index(
+std::vector<std::uint8_t> encode_symbol_rans_index(
+    const std::vector<std::uint8_t>& plain,
+    std::uint8_t bits) {
+    const auto symbols = symbols_from_index_stream(plain, bits);
+    if (symbols.empty() && !plain.empty()) return {};
+    return encode_symbol_rans_symbols(symbols, bits);
+}
+
+bool decode_symbol_rans_symbols(
     std::span<const std::uint8_t> payload,
     std::uint8_t bits,
-    std::vector<std::uint8_t>& plain) {
+    std::vector<std::uint16_t>& symbols) {
     if (bits == 0 || bits > 14 || payload.size() < 4) return false;
     const std::uint32_t alphabet = 1u << bits;
     if (alphabet > rans::PROB_SCALE) return false;
@@ -1000,7 +1164,7 @@ bool decode_symbol_rans_index(
     }
     if (sum != rans::PROB_SCALE || p + 4 > end) return false;
 
-    std::vector<std::uint16_t> symbols(symbol_count, 0);
+    symbols.assign(symbol_count, 0);
     const std::uint8_t* read_ptr = p;
     const std::uint8_t* read_end = end;
     std::uint32_t state = rans::decode_init(read_ptr);
@@ -1012,6 +1176,15 @@ bool decode_symbol_rans_index(
         rans::decode_advance(state, read_ptr, cum[symbol], freq[symbol]);
         if (read_ptr > read_end) return false;
     }
+    return true;
+}
+
+[[maybe_unused]] bool decode_symbol_rans_index(
+    std::span<const std::uint8_t> payload,
+    std::uint8_t bits,
+    std::vector<std::uint8_t>& plain) {
+    std::vector<std::uint16_t> symbols;
+    if (!decode_symbol_rans_symbols(payload, bits, symbols)) return false;
     return stream_from_symbols(symbols, bits, plain);
 }
 
@@ -1056,57 +1229,129 @@ bool append_symbol_index_stream(
     return append_index_stream(out, plain, bits);
 }
 
-bool read_index_stream_payload(
+bool append_symbol_stream(
+    std::vector<std::uint8_t>& out,
+    const std::vector<std::uint16_t>& symbols,
+    std::uint8_t bits) {
+    auto symbol_compressed = encode_symbol_rans_symbols(symbols, bits);
+    if (symbol_compressed.empty()) return false;
+    append_u8(out, kStreamIndexSymbolRans);
+    append_u32(out, static_cast<std::uint32_t>(symbol_compressed.size()));
+    out.insert(
+        out.end(),
+        symbol_compressed.begin(),
+        symbol_compressed.end());
+    return true;
+}
+
+struct StreamSlice {
+    std::uint8_t method = 0;
+    std::span<const std::uint8_t> payload;
+};
+
+bool read_stream_slice(
     const std::uint8_t*& p,
     const std::uint8_t* end,
+    StreamSlice& slice) {
+    std::uint8_t method = 0;
+    std::uint32_t size = 0;
+    if (!read_u8(p, end, method) || !read_u32(p, end, size)) return false;
+    if (static_cast<std::size_t>(end - p) < size) return false;
+    slice.method = method;
+    slice.payload = std::span<const std::uint8_t>(p, size);
+    p += size;
+    return true;
+}
+
+bool decode_stream_slice(
+    const StreamSlice& slice,
+    std::vector<std::uint8_t>& plain) {
+    const auto stream = slice.payload;
+    if (slice.method == kStreamRaw) {
+        plain.assign(stream.begin(), stream.end());
+        return true;
+    }
+    if (slice.method == kStreamRansOrder0) {
+        RansStage rans(RansMode::Order0);
+        ImageMeta dummy;
+        dummy.width = 1;
+        dummy.height = 1;
+        dummy.channels = 1;
+        dummy.format = PixelFormat::Float32;
+        return rans.decode(stream, dummy, plain) == Status::Ok;
+    }
+    if (slice.method == kStreamRansOrder1) {
+        RansStage rans(RansMode::Order1);
+        ImageMeta dummy;
+        dummy.width = 1;
+        dummy.height = 1;
+        dummy.channels = 1;
+        dummy.format = PixelFormat::Float32;
+        return rans.decode(stream, dummy, plain) == Status::Ok;
+    }
+#ifdef RADIANCE_CODEC_HAS_ZSTD
+    if (slice.method == kStreamZstd) {
+        if (stream.size() < 4) return false;
+        const auto raw_size = static_cast<std::uint32_t>(stream[0])
+            | (static_cast<std::uint32_t>(stream[1]) << 8)
+            | (static_cast<std::uint32_t>(stream[2]) << 16)
+            | (static_cast<std::uint32_t>(stream[3]) << 24);
+        plain.assign(raw_size, 0);
+        const auto result = ZSTD_decompress(
+            plain.data(),
+            plain.size(),
+            stream.data() + 4,
+            stream.size() - 4);
+        return !ZSTD_isError(result) && result == raw_size;
+    }
+#endif
+    return false;
+}
+
+bool decode_mask_stream_slice(
+    const StreamSlice& slice,
+    std::uint32_t width,
+    std::uint32_t height,
+    std::vector<std::uint8_t>& mask) {
+    const auto pixels = std::size_t(width) * height;
+    if (slice.method == kStreamMaskBinary) {
+        mask.assign(pixels, 0);
+        return decode_mask_binary_west_north(slice.payload, width, height, mask);
+    }
+    std::vector<std::uint8_t> packed;
+    if (!decode_stream_slice(slice, packed)) return false;
+    return unpack_mask(packed, pixels, mask);
+}
+
+bool decode_index_stream_slice(
+    const StreamSlice& slice,
     const std::vector<std::uint8_t>& selected,
     std::uint32_t width,
     std::uint32_t height,
     std::uint8_t bits,
-    std::vector<std::uint32_t>& indices) {
-    if (p < end && *p == kStreamIndexSymbolRans) {
-        ++p;
-        std::uint32_t payload_size = 0;
-        if (!read_u32(p, end, payload_size)) return false;
-        if (static_cast<std::size_t>(end - p) < payload_size) return false;
-        std::vector<std::uint8_t> stream;
-        if (!decode_symbol_rans_index(
-                std::span<const std::uint8_t>(p, payload_size),
-                bits,
-                stream)) {
-            return false;
-        }
-        p += payload_size;
-        return decode_index_stream(stream, selected, width, height, bits, indices);
+    std::vector<std::uint16_t>& indices) {
+    if (slice.method == kStreamIndexSymbolRans) {
+        std::vector<std::uint16_t> symbols;
+        if (!decode_symbol_rans_symbols(slice.payload, bits, symbols)) return false;
+        return decode_index_symbols(symbols, selected, width, height, bits, indices);
     }
     std::vector<std::uint8_t> stream;
-    if (!read_stream(p, end, stream)) return false;
+    if (!decode_stream_slice(slice, stream)) return false;
     return decode_index_stream(stream, selected, width, height, bits, indices);
 }
 
-bool read_value_stream_payload(
-    const std::uint8_t*& p,
-    const std::uint8_t* end,
+bool decode_value_stream_slice(
+    const StreamSlice& slice,
     const std::vector<std::uint8_t>& selected,
     std::uint8_t bits,
-    std::vector<std::uint32_t>& indices) {
-    if (p < end && *p == kStreamIndexSymbolRans) {
-        ++p;
-        std::uint32_t payload_size = 0;
-        if (!read_u32(p, end, payload_size)) return false;
-        if (static_cast<std::size_t>(end - p) < payload_size) return false;
-        std::vector<std::uint8_t> stream;
-        if (!decode_symbol_rans_index(
-                std::span<const std::uint8_t>(p, payload_size),
-                bits,
-                stream)) {
-            return false;
-        }
-        p += payload_size;
-        return decode_value_stream(stream, selected, bits, indices);
+    std::vector<std::uint16_t>& indices) {
+    if (slice.method == kStreamIndexSymbolRans) {
+        std::vector<std::uint16_t> symbols;
+        if (!decode_symbol_rans_symbols(slice.payload, bits, symbols)) return false;
+        return decode_value_symbols(symbols, selected, bits, indices);
     }
     std::vector<std::uint8_t> stream;
-    if (!read_stream(p, end, stream)) return false;
+    if (!decode_stream_slice(slice, stream)) return false;
     return decode_value_stream(stream, selected, bits, indices);
 }
 
@@ -1158,8 +1403,10 @@ Status reconstruct_near_lossless_router_v1(
         }
     }
 
-    const auto mean = box_mean_reflect(luma_log, meta.width, meta.height, params.mask_radius);
-    const auto mean_sq = box_mean_reflect(luma_log_sq, meta.width, meta.height, params.mask_radius);
+    const auto luma_moments =
+        box_mean_reflect_pair(luma_log, luma_log_sq, meta.width, meta.height, params.mask_radius);
+    const auto& mean = luma_moments.first;
+    const auto& mean_sq = luma_moments.second;
     std::uint64_t dark_count = 0;
 #ifdef RADIANCE_CODEC_HAS_OPENMP
 #pragma omp parallel for reduction(+:dark_count) schedule(static) if(pixels > (8u << 20))
@@ -1217,10 +1464,12 @@ Status reconstruct_near_lossless_router_v1(
         : 0.0f;
     if (!outlier_active) chosen_step = y_range.step;
 
-    auto guide_mean = box_mean_reflect(guide, meta.width, meta.height, params.guide_radius);
     std::vector<double> guide_sq(pixels);
     for (std::size_t i = 0; i < pixels; ++i) guide_sq[i] = guide[i] * guide[i];
-    auto guide_sq_mean = box_mean_reflect(guide_sq, meta.width, meta.height, params.guide_radius);
+    const auto guide_moments =
+        box_mean_reflect_pair(guide, guide_sq, meta.width, meta.height, params.guide_radius);
+    const auto& guide_mean = guide_moments.first;
+    const auto& guide_sq_mean = guide_moments.second;
 
     auto guided_low = [&](const std::vector<float>& plane) {
         std::vector<double> p(pixels), ip(pixels);
@@ -1366,6 +1615,7 @@ Status NearLosslessRouterStage::encode(
     if (meta.format != PixelFormat::Float32) return Status::UnsupportedFormat;
     if (meta.channels < 3 || meta.channels > 4) return Status::UnsupportedFormat;
     if (in.size() != meta.raw_size()) return Status::SizeMismatch;
+    RouterTrace trace("encode");
 
     const auto pixels = std::size_t(meta.width) * meta.height;
     std::vector<float> y_plane(pixels), co_plane(pixels), cg_plane(pixels);
@@ -1400,9 +1650,12 @@ Status NearLosslessRouterStage::encode(
             guide[i2] = y_plane[i2];
         }
     }
+    trace.lap("planes");
 
-    const auto mean = box_mean_reflect(luma_log, meta.width, meta.height, params_.mask_radius);
-    const auto mean_sq = box_mean_reflect(luma_log_sq, meta.width, meta.height, params_.mask_radius);
+    const auto luma_moments =
+        box_mean_reflect_pair(luma_log, luma_log_sq, meta.width, meta.height, params_.mask_radius);
+    const auto& mean = luma_moments.first;
+    const auto& mean_sq = luma_moments.second;
 #ifdef RADIANCE_CODEC_HAS_OPENMP
 #pragma omp parallel for schedule(static) if(pixels > (8u << 20))
 #endif
@@ -1412,6 +1665,7 @@ Status NearLosslessRouterStage::encode(
             route_mask[i] = 1;
         }
     }
+    trace.lap("dark-mask");
 
     std::vector<float> max_rgb_sorted = max_rgb_values;
     std::sort(max_rgb_sorted.begin(), max_rgb_sorted.end());
@@ -1442,16 +1696,19 @@ Status NearLosslessRouterStage::encode(
             if (max_rgb_values[i] > threshold) route_mask[i] = 1;
         }
     }
+    trace.lap("outliers");
 
     const std::vector<std::uint8_t> base_route_mask = route_mask;
 
-    auto guide_mean = box_mean_reflect(guide, meta.width, meta.height, params_.guide_radius);
     std::vector<double> guide_sq(pixels);
 #ifdef RADIANCE_CODEC_HAS_OPENMP
 #pragma omp parallel for schedule(static) if(pixels > (8u << 20))
 #endif
     for (std::size_t i = 0; i < pixels; ++i) guide_sq[i] = guide[i] * guide[i];
-    auto guide_sq_mean = box_mean_reflect(guide_sq, meta.width, meta.height, params_.guide_radius);
+    const auto guide_moments =
+        box_mean_reflect_pair(guide, guide_sq, meta.width, meta.height, params_.guide_radius);
+    const auto& guide_mean = guide_moments.first;
+    const auto& guide_sq_mean = guide_moments.second;
 
     auto guided_low = [&](const std::vector<float>& plane) {
         std::vector<double> p(pixels), ip(pixels);
@@ -1491,6 +1748,7 @@ Status NearLosslessRouterStage::encode(
     std::uint32_t low_w = 0, low_h = 0;
     auto co_coarse = block_mean_downsample(co_low, meta.width, meta.height, params_.low_scale, low_w, low_h);
     auto cg_coarse = block_mean_downsample(cg_low, meta.width, meta.height, params_.low_scale, low_w, low_h);
+    trace.lap("guided-low");
 
     std::vector<float> co_high(pixels), cg_high(pixels);
 #ifdef RADIANCE_CODEC_HAS_OPENMP
@@ -1521,6 +1779,7 @@ Status NearLosslessRouterStage::encode(
 #pragma omp parallel for schedule(static) if(pixels > (8u << 20))
 #endif
     for (std::size_t i = 0; i < pixels; ++i) cg_high[i] = shrink(cg_high[i], cg_thr);
+    trace.lap("high-pass");
 
     auto build_high_mask = [&](const std::vector<std::uint8_t>& mask) {
         std::vector<std::uint8_t> out_mask(pixels, 0);
@@ -1553,7 +1812,9 @@ Status NearLosslessRouterStage::encode(
         auto base_high_mask = build_high_mask(base_route_mask);
         Range base_co_high_range = range_from_mask(co_high, base_high_mask, false);
         Range base_cg_high_range = range_from_mask(cg_high, base_high_mask, false);
-        const auto base_log_ranges = masked_signed_log_ranges(in, meta, base_route_mask);
+        const auto base_log_ranges = params_.visual_guard_dilate_radius > 0
+            ? masked_signed_log_ranges(in, meta, base_route_mask)
+            : std::array<Range, 3>{};
         const auto safe_log_ranges = full_signed_log_ranges(in, meta);
 
         std::vector<std::uint8_t> guard(pixels, 0);
@@ -1563,6 +1824,9 @@ Status NearLosslessRouterStage::encode(
         for (std::uint32_t y = 0; y < meta.height; ++y) {
             for (std::uint32_t x = 0; x < meta.width; ++x) {
                 const auto i2 = idx2(meta.width, y, x);
+                if (base_route_mask[i2] && params_.visual_guard_dilate_radius == 0) {
+                    continue;
+                }
                 const auto base_byte = idx3(meta, y, x, 0) * 4;
                 float safe[3] = {};
                 float cand[3] = {};
@@ -1633,6 +1897,7 @@ Status NearLosslessRouterStage::encode(
             if (guard[i]) route_mask[i] = 1;
         }
     }
+    trace.lap("visual-guard");
 
     Range y_range = range_from_mask(y_plane, route_mask, true);
     y_range.step = (y_range.hi > y_range.lo)
@@ -1680,8 +1945,8 @@ Status NearLosslessRouterStage::encode(
         }
     }
 
-    std::vector<std::uint32_t> y_idx(pixels, 0), co_high_idx(pixels, 0), cg_high_idx(pixels, 0);
-    std::array<std::vector<std::uint32_t>, 3> signed_idx;
+    std::vector<std::uint16_t> y_idx(pixels, 0), co_high_idx(pixels, 0), cg_high_idx(pixels, 0);
+    std::array<std::vector<std::uint16_t>, 3> signed_idx;
     for (auto& v : signed_idx) v.assign(pixels, 0);
     std::vector<std::uint8_t> nonroute_mask(pixels, 0);
 #ifdef RADIANCE_CODEC_HAS_OPENMP
@@ -1690,11 +1955,14 @@ Status NearLosslessRouterStage::encode(
     for (std::size_t i = 0; i < pixels; ++i) {
         nonroute_mask[i] = route_mask[i] ? 0 : 1;
         if (!route_mask[i]) {
-            y_idx[i] = quantize_index(y_plane[i], params_.y_bits, y_range);
+            y_idx[i] = static_cast<std::uint16_t>(
+                quantize_index(y_plane[i], params_.y_bits, y_range));
         }
         if (high_mask[i]) {
-            co_high_idx[i] = quantize_index(co_high[i], params_.high_bits, co_high_range);
-            cg_high_idx[i] = quantize_index(cg_high[i], params_.high_bits, cg_high_range);
+            co_high_idx[i] = static_cast<std::uint16_t>(
+                quantize_index(co_high[i], params_.high_bits, co_high_range));
+            cg_high_idx[i] = static_cast<std::uint16_t>(
+                quantize_index(cg_high[i], params_.high_bits, cg_high_range));
         }
     }
 #ifdef RADIANCE_CODEC_HAS_OPENMP
@@ -1707,14 +1975,14 @@ Status NearLosslessRouterStage::encode(
             const auto base = idx3(meta, y, x, 0) * 4;
             for (std::uint8_t c = 0; c < 3; ++c) {
                 const float v = read_f32(in.data() + base + 4 * c);
-                signed_idx[c][i2] = signed_log_index(
-                    v, params_.anchor_bits, log_ranges[c].lo, log_ranges[c].hi);
+                signed_idx[c][i2] = static_cast<std::uint16_t>(signed_log_index(
+                    v, params_.anchor_bits, log_ranges[c].lo, log_ranges[c].hi));
             }
         }
     }
 
-    std::vector<std::uint32_t> co_low_idx(std::size_t(low_w) * low_h, 0);
-    std::vector<std::uint32_t> cg_low_idx(std::size_t(low_w) * low_h, 0);
+    std::vector<std::uint16_t> co_low_idx(std::size_t(low_w) * low_h, 0);
+    std::vector<std::uint16_t> cg_low_idx(std::size_t(low_w) * low_h, 0);
     std::vector<std::uint8_t> low_all(std::size_t(low_w) * low_h, 1);
 #ifdef RADIANCE_CODEC_HAS_OPENMP
 #pragma omp parallel for schedule(static) if((std::size_t(low_w) * low_h) > (1u << 18))
@@ -1722,10 +1990,13 @@ Status NearLosslessRouterStage::encode(
     for (std::uint32_t y = 0; y < low_h; ++y) {
         for (std::uint32_t x = 0; x < low_w; ++x) {
             const auto i = idx2(low_w, y, x);
-            co_low_idx[i] = quantize_index(co_coarse[i], params_.chroma_low_bits, co_low_range);
-            cg_low_idx[i] = quantize_index(cg_coarse[i], params_.chroma_low_bits, cg_low_range);
+            co_low_idx[i] = static_cast<std::uint16_t>(
+                quantize_index(co_coarse[i], params_.chroma_low_bits, co_low_range));
+            cg_low_idx[i] = static_cast<std::uint16_t>(
+                quantize_index(cg_coarse[i], params_.chroma_low_bits, cg_low_range));
         }
     }
+    trace.lap("indices");
 
     out.clear();
     out.insert(out.end(), std::begin(kRouterMagic), std::end(kRouterMagic));
@@ -1755,7 +2026,7 @@ Status NearLosslessRouterStage::encode(
         return payload;
     };
     auto index_payload = [&](
-        const std::vector<std::uint32_t>& indices,
+        const std::vector<std::uint16_t>& indices,
         const std::vector<std::uint8_t>& selected,
         std::uint32_t width,
         std::uint32_t height,
@@ -1768,26 +2039,28 @@ Status NearLosslessRouterStage::encode(
         return payload;
     };
     auto symbol_payload = [&](
-        const std::vector<std::uint32_t>& indices,
+        const std::vector<std::uint16_t>& indices,
         const std::vector<std::uint8_t>& selected,
         std::uint32_t width,
         std::uint32_t height,
         std::uint8_t bits) {
-        const auto stream = encode_index_stream(indices, selected, width, height, bits);
         std::vector<std::uint8_t> payload;
-        if (!append_symbol_index_stream(payload, stream, bits)) {
-            payload.clear();
+        const auto symbols = index_symbols_from_indices(indices, selected, width, height, bits);
+        if (!append_symbol_stream(payload, symbols, bits)) {
+            const auto stream = encode_index_stream(indices, selected, width, height, bits);
+            if (!append_symbol_index_stream(payload, stream, bits)) payload.clear();
         }
         return payload;
     };
     auto symbol_value_payload = [&](
-        const std::vector<std::uint32_t>& indices,
+        const std::vector<std::uint16_t>& indices,
         const std::vector<std::uint8_t>& selected,
         std::uint8_t bits) {
-        const auto stream = encode_value_stream(indices, selected, bits);
         std::vector<std::uint8_t> payload;
-        if (!append_symbol_index_stream(payload, stream, bits)) {
-            payload.clear();
+        const auto symbols = value_symbols_from_indices(indices, selected, bits);
+        if (!append_symbol_stream(payload, symbols, bits)) {
+            const auto stream = encode_value_stream(indices, selected, bits);
+            if (!append_symbol_index_stream(payload, stream, bits)) payload.clear();
         }
         return payload;
     };
@@ -1872,6 +2145,7 @@ Status NearLosslessRouterStage::encode(
         || !append_payload(sb_future.get())) {
         return Status::DecompressFailed;
     }
+    trace.lap("payloads");
 
     for (std::uint8_t c = 3; c < meta.channels; ++c) {
         const auto first = read_f32(in.data() + c * 4);
@@ -1896,6 +2170,7 @@ Status NearLosslessRouterStage::encode(
             if (!append_stream(out, channel_bytes)) return Status::DecompressFailed;
         }
     }
+    trace.lap("extras");
     return Status::Ok;
 }
 
@@ -1906,6 +2181,7 @@ Status NearLosslessRouterStage::decode(
     if (meta.format != PixelFormat::Float32) return Status::UnsupportedFormat;
     if (meta.channels < 3 || meta.channels > 4) return Status::UnsupportedFormat;
     const auto pixels = std::size_t(meta.width) * meta.height;
+    RouterTrace trace("decode");
     const std::uint8_t* p = in.data();
     const std::uint8_t* end = in.data() + in.size();
     if (end - p < 4 || std::memcmp(p, kRouterMagic, 4) != 0) {
@@ -1947,11 +2223,43 @@ Status NearLosslessRouterStage::decode(
         }
     }
 
-    std::vector<std::uint8_t> route_mask, high_mask;
-    if (!read_mask_stream(p, end, meta.width, meta.height, route_mask)
-        || !read_mask_stream(p, end, meta.width, meta.height, high_mask)) {
+    StreamSlice route_mask_slice, high_mask_slice;
+    if (!read_stream_slice(p, end, route_mask_slice)
+        || !read_stream_slice(p, end, high_mask_slice)) {
         return Status::DecompressFailed;
     }
+    struct MaskDecodeResult {
+        bool ok = false;
+        std::vector<std::uint8_t> mask;
+    };
+    auto decode_mask_task = [](
+        StreamSlice slice,
+        std::uint32_t width,
+        std::uint32_t height) {
+        MaskDecodeResult result;
+        result.ok = decode_mask_stream_slice(slice, width, height, result.mask);
+        return result;
+    };
+    auto route_mask_future = std::async(
+        std::launch::async,
+        decode_mask_task,
+        route_mask_slice,
+        meta.width,
+        meta.height);
+    auto high_mask_future = std::async(
+        std::launch::async,
+        decode_mask_task,
+        high_mask_slice,
+        meta.width,
+        meta.height);
+    auto route_mask_result = route_mask_future.get();
+    auto high_mask_result = high_mask_future.get();
+    if (!route_mask_result.ok || !high_mask_result.ok) {
+        return Status::DecompressFailed;
+    }
+    std::vector<std::uint8_t> route_mask = std::move(route_mask_result.mask);
+    std::vector<std::uint8_t> high_mask = std::move(high_mask_result.mask);
+    trace.lap("masks");
     std::vector<std::uint8_t> nonroute_mask(pixels, 0);
     for (std::size_t i = 0; i < pixels; ++i) {
         nonroute_mask[i] = route_mask[i] ? 0 : 1;
@@ -1959,18 +2267,163 @@ Status NearLosslessRouterStage::decode(
     }
     std::vector<std::uint8_t> low_all(std::size_t(low_w) * low_h, 1);
 
-    std::vector<std::uint32_t> y_idx, co_low_idx, cg_low_idx, co_high_idx, cg_high_idx;
-    std::array<std::vector<std::uint32_t>, 3> signed_idx;
-    if (!read_index_stream_payload(p, end, nonroute_mask, meta.width, meta.height, y_bits, y_idx)
-        || !read_index_stream_payload(p, end, low_all, low_w, low_h, chroma_low_bits, co_low_idx)
-        || !read_index_stream_payload(p, end, low_all, low_w, low_h, chroma_low_bits, cg_low_idx)
-        || !read_value_stream_payload(p, end, high_mask, high_bits, co_high_idx)
-        || !read_value_stream_payload(p, end, high_mask, high_bits, cg_high_idx)
-        || !read_index_stream_payload(p, end, route_mask, meta.width, meta.height, anchor_bits, signed_idx[0])
-        || !read_index_stream_payload(p, end, route_mask, meta.width, meta.height, anchor_bits, signed_idx[1])
-        || !read_index_stream_payload(p, end, route_mask, meta.width, meta.height, anchor_bits, signed_idx[2])) {
+    std::vector<std::uint16_t> y_idx, co_low_idx, cg_low_idx, co_high_idx, cg_high_idx;
+    std::array<std::vector<std::uint16_t>, 3> signed_idx;
+    std::array<StreamSlice, 8> slices;
+    for (auto& slice : slices) {
+        if (!read_stream_slice(p, end, slice)) return Status::DecompressFailed;
+    }
+    trace.lap("slices");
+
+    struct IndexDecodeResult {
+        bool ok = false;
+        std::vector<std::uint16_t> indices;
+    };
+    auto decode_index_task = [](
+        StreamSlice slice,
+        const std::vector<std::uint8_t>& selected,
+        std::uint32_t width,
+        std::uint32_t height,
+        std::uint8_t bits) {
+        IndexDecodeResult result;
+        result.ok = decode_index_stream_slice(
+            slice,
+            selected,
+            width,
+            height,
+            bits,
+            result.indices);
+        return result;
+    };
+    auto decode_value_task = [](
+        StreamSlice slice,
+        const std::vector<std::uint8_t>& selected,
+        std::uint8_t bits) {
+        IndexDecodeResult result;
+        result.ok = decode_value_stream_slice(
+            slice,
+            selected,
+            bits,
+            result.indices);
+        return result;
+    };
+
+    auto y_future = std::async(
+        std::launch::async,
+        decode_index_task,
+        slices[0],
+        std::cref(nonroute_mask),
+        meta.width,
+        meta.height,
+        y_bits);
+    auto co_low_future = std::async(
+        std::launch::async,
+        decode_index_task,
+        slices[1],
+        std::cref(low_all),
+        low_w,
+        low_h,
+        chroma_low_bits);
+    auto cg_low_future = std::async(
+        std::launch::async,
+        decode_index_task,
+        slices[2],
+        std::cref(low_all),
+        low_w,
+        low_h,
+        chroma_low_bits);
+    auto co_high_future = std::async(
+        std::launch::async,
+        decode_value_task,
+        slices[3],
+        std::cref(high_mask),
+        high_bits);
+    auto cg_high_future = std::async(
+        std::launch::async,
+        decode_value_task,
+        slices[4],
+        std::cref(high_mask),
+        high_bits);
+    auto sr_future = std::async(
+        std::launch::async,
+        decode_index_task,
+        slices[5],
+        std::cref(route_mask),
+        meta.width,
+        meta.height,
+        anchor_bits);
+    auto sg_future = std::async(
+        std::launch::async,
+        decode_index_task,
+        slices[6],
+        std::cref(route_mask),
+        meta.width,
+        meta.height,
+        anchor_bits);
+    auto sb_future = std::async(
+        std::launch::async,
+        decode_index_task,
+        slices[7],
+        std::cref(route_mask),
+        meta.width,
+        meta.height,
+        anchor_bits);
+
+    auto y_result = y_future.get();
+    auto co_low_result = co_low_future.get();
+    auto cg_low_result = cg_low_future.get();
+    auto co_high_result = co_high_future.get();
+    auto cg_high_result = cg_high_future.get();
+    auto sr_result = sr_future.get();
+    auto sg_result = sg_future.get();
+    auto sb_result = sb_future.get();
+    if (!y_result.ok
+        || !co_low_result.ok
+        || !cg_low_result.ok
+        || !co_high_result.ok
+        || !cg_high_result.ok
+        || !sr_result.ok
+        || !sg_result.ok
+        || !sb_result.ok) {
         return Status::DecompressFailed;
     }
+    y_idx = std::move(y_result.indices);
+    co_low_idx = std::move(co_low_result.indices);
+    cg_low_idx = std::move(cg_low_result.indices);
+    co_high_idx = std::move(co_high_result.indices);
+    cg_high_idx = std::move(cg_high_result.indices);
+    signed_idx[0] = std::move(sr_result.indices);
+    signed_idx[1] = std::move(sg_result.indices);
+    signed_idx[2] = std::move(sb_result.indices);
+    trace.lap("streams");
+
+    auto make_index_lut = [](std::uint8_t bits, const Range& range) {
+        const auto levels = 1u << bits;
+        std::vector<float> lut(levels, 0.0f);
+        for (std::uint32_t q = 0; q < levels; ++q) {
+            lut[q] = dequantize_index(q, bits, range);
+        }
+        return lut;
+    };
+    auto make_signed_lut = [](std::uint8_t bits, const Range& range) {
+        const auto levels = 1u << bits;
+        std::vector<float> lut(levels, 0.0f);
+        for (std::uint32_t q = 0; q < levels; ++q) {
+            lut[q] = signed_log_dequantize(q, bits, range.lo, range.hi);
+        }
+        return lut;
+    };
+    const auto y_lut = make_index_lut(y_bits, ranges[0]);
+    const auto co_low_lut = make_index_lut(chroma_low_bits, ranges[1]);
+    const auto cg_low_lut = make_index_lut(chroma_low_bits, ranges[2]);
+    const auto co_high_lut = make_index_lut(high_bits, ranges[3]);
+    const auto cg_high_lut = make_index_lut(high_bits, ranges[4]);
+    const std::array<std::vector<float>, 3> signed_lut = {
+        make_signed_lut(anchor_bits, log_ranges[0]),
+        make_signed_lut(anchor_bits, log_ranges[1]),
+        make_signed_lut(anchor_bits, log_ranges[2]),
+    };
+    trace.lap("luts");
 
     out.assign(meta.raw_size(), 0);
 #ifdef RADIANCE_CODEC_HAS_OPENMP
@@ -1984,32 +2437,18 @@ Status NearLosslessRouterStage::decode(
                 for (std::uint8_t c = 0; c < 3; ++c) {
                     write_f32(
                         out.data() + base_byte + 4 * c,
-                        signed_log_dequantize(
-                            signed_idx[c][i2],
-                            anchor_bits,
-                            log_ranges[c].lo,
-                            log_ranges[c].hi));
+                        signed_lut[c][signed_idx[c][i2]]);
                 }
                 continue;
             }
-            const float yq = dequantize_index(y_idx[i2], y_bits, ranges[0]);
+            const float yq = y_lut[y_idx[i2]];
             const auto yy = std::min<std::uint32_t>(low_h - 1, y / low_scale);
             const auto xx = std::min<std::uint32_t>(low_w - 1, x / low_scale);
             const auto li = idx2(low_w, yy, xx);
-            const float co_low_q = dequantize_index(
-                co_low_idx[li],
-                chroma_low_bits,
-                ranges[1]);
-            const float cg_low_q = dequantize_index(
-                cg_low_idx[li],
-                chroma_low_bits,
-                ranges[2]);
-            const float co_h = high_mask[i2]
-                ? dequantize_index(co_high_idx[i2], high_bits, ranges[3])
-                : 0.0f;
-            const float cg_h = high_mask[i2]
-                ? dequantize_index(cg_high_idx[i2], high_bits, ranges[4])
-                : 0.0f;
+            const float co_low_q = co_low_lut[co_low_idx[li]];
+            const float cg_low_q = cg_low_lut[cg_low_idx[li]];
+            const float co_h = high_mask[i2] ? co_high_lut[co_high_idx[i2]] : 0.0f;
+            const float cg_h = high_mask[i2] ? cg_high_lut[cg_high_idx[i2]] : 0.0f;
             const float co = co_low_q + co_h;
             const float cg = cg_low_q + cg_h;
             const float tr = yq - 0.5f * cg + 0.5f * co;
@@ -2020,6 +2459,7 @@ Status NearLosslessRouterStage::decode(
             write_f32(out.data() + base_byte + 8, vst_inverse(tb));
         }
     }
+    trace.lap("reconstruct");
 
     for (std::uint8_t c = 3; c < meta.channels; ++c) {
         std::uint8_t mode = 0;
@@ -2046,6 +2486,7 @@ Status NearLosslessRouterStage::decode(
         }
     }
     if (p != end) return Status::DecompressFailed;
+    trace.lap("extras");
     return Status::Ok;
 }
 
