@@ -88,18 +88,23 @@ bool router_packed_masks_enabled() noexcept {
     return enabled;
 }
 
+bool router_context_masks_enabled() noexcept {
+    static const bool enabled = std::getenv("RADIANCE_CODEC_ROUTER_CONTEXT_MASKS") != nullptr;
+    return enabled;
+}
+
 bool router_packed_high_mask_enabled() noexcept {
-    static const bool enabled = std::getenv("RADIANCE_CODEC_ROUTER_PACKED_HIGH_MASK") != nullptr;
+    static const bool enabled = !router_context_masks_enabled();
     return enabled;
 }
 
 bool router_packed_route_mask_enabled() noexcept {
-    static const bool enabled = std::getenv("RADIANCE_CODEC_ROUTER_PACKED_ROUTE_MASK") != nullptr;
+    static const bool enabled = !router_context_masks_enabled();
     return enabled;
 }
 
 bool router_tiled_masks_enabled() noexcept {
-    static const bool enabled = std::getenv("RADIANCE_CODEC_ROUTER_TILED_MASKS") != nullptr;
+    static const bool enabled = std::getenv("RADIANCE_CODEC_ROUTER_NO_TILED_MASKS") == nullptr;
     return enabled;
 }
 
@@ -746,6 +751,30 @@ bool read_stream(
     const std::uint8_t* end,
     std::vector<std::uint8_t>& plain);
 
+struct StreamSlice {
+    std::uint8_t method = 0;
+    std::span<const std::uint8_t> payload;
+};
+
+bool read_stream_slice(
+    const std::uint8_t*& p,
+    const std::uint8_t* end,
+    StreamSlice& slice);
+
+bool decode_stream_slice(
+    const StreamSlice& slice,
+    std::vector<std::uint8_t>& plain);
+
+bool append_symbol_stream(
+    std::vector<std::uint8_t>& out,
+    const std::vector<std::uint16_t>& symbols,
+    std::uint8_t bits);
+
+bool decode_symbol_rans_symbols(
+    std::span<const std::uint8_t> payload,
+    std::uint8_t bits,
+    std::vector<std::uint16_t>& symbols);
+
 struct BinaryCounts {
     std::uint32_t zeros = 0;
     std::uint32_t ones = 0;
@@ -899,7 +928,13 @@ bool append_tiled_mask_stream(
     append_u8(payload, tile);
     append_u32(payload, tiles_x);
     append_u32(payload, tiles_y);
-    if (!append_stream(payload, modes) || !append_stream(payload, mixed_bits)) return false;
+    std::vector<std::uint16_t> mode_symbols;
+    mode_symbols.reserve(modes.size());
+    for (const auto mode : modes) mode_symbols.push_back(mode);
+    if (!append_symbol_stream(payload, mode_symbols, 2)
+        || !append_stream(payload, mixed_bits)) {
+        return false;
+    }
     append_u8(out, kStreamMaskTiled);
     append_u32(out, static_cast<std::uint32_t>(payload.size()));
     out.insert(out.end(), payload.begin(), payload.end());
@@ -924,10 +959,23 @@ bool decode_tiled_mask_stream(
         || tiles_y != (height + tile - 1) / tile) {
         return false;
     }
-    std::vector<std::uint8_t> modes, mixed_bits;
-    if (!read_stream(p, end, modes) || !read_stream(p, end, mixed_bits) || p != end) {
+    StreamSlice mode_slice, mixed_slice;
+    if (!read_stream_slice(p, end, mode_slice) || !read_stream_slice(p, end, mixed_slice) || p != end) {
         return false;
     }
+    std::vector<std::uint8_t> modes, mixed_bits;
+    if (mode_slice.method == kStreamIndexSymbolRans) {
+        std::vector<std::uint16_t> mode_symbols;
+        if (!decode_symbol_rans_symbols(mode_slice.payload, 2, mode_symbols)) return false;
+        modes.assign(mode_symbols.size(), 0);
+        for (std::size_t i = 0; i < mode_symbols.size(); ++i) {
+            if (mode_symbols[i] > 2) return false;
+            modes[i] = static_cast<std::uint8_t>(mode_symbols[i]);
+        }
+    } else if (!decode_stream_slice(mode_slice, modes)) {
+        return false;
+    }
+    if (!decode_stream_slice(mixed_slice, mixed_bits)) return false;
     if (modes.size() != std::size_t(tiles_x) * tiles_y) return false;
 
     mask.assign(pixels, 0);
@@ -999,14 +1047,7 @@ bool append_mask_stream(
         out.insert(out.end(), packed_payload.begin(), packed_payload.end());
         return true;
     }
-
-    std::vector<std::uint8_t> tiled_payload;
-    if (append_tiled_mask_stream(tiled_payload, mask, width, height)
-        && tiled_payload.size() < packed_payload.size()) {
-        out.insert(out.end(), tiled_payload.begin(), tiled_payload.end());
-    } else {
-        out.insert(out.end(), packed_payload.begin(), packed_payload.end());
-    }
+    out.insert(out.end(), packed_payload.begin(), packed_payload.end());
     return true;
 }
 
@@ -1562,11 +1603,6 @@ bool append_symbol_stream(
         symbol_compressed.end());
     return true;
 }
-
-struct StreamSlice {
-    std::uint8_t method = 0;
-    std::span<const std::uint8_t> payload;
-};
 
 bool read_stream_slice(
     const std::uint8_t*& p,

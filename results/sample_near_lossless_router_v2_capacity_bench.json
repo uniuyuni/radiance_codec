@@ -1,10 +1,54 @@
 {
   "notes": [
     "Metal guided/downsample/high-pass/visual-guard enabled.",
-    "standard keeps binary west/north mask coding for best size.",
-    "tiled_speed enables tiled route/high masks with 8x8 tiles for faster decode with small size cost."
+    "default uses 8x8 tiled route/high masks for decode speed.",
+    "context_size_mode is available with RADIANCE_CODEC_ROUTER_CONTEXT_MASKS=1 when minimum size is preferred."
   ],
-  "standard": [
+  "default_tiled_speed": [
+    {
+      "image": "sample_1920\\u00d71280.exr",
+      "encoded_mib": 2.722882,
+      "ratio": 10.329,
+      "encode_s": 0.376,
+      "decode_s": 0.097
+    },
+    {
+      "image": "sample_DSCF0009.EXR",
+      "encoded_mib": 22.731506,
+      "ratio": 20.045,
+      "encode_s": 3.006,
+      "decode_s": 0.976
+    },
+    {
+      "image": "sample_DSCF0009_denoise.exr",
+      "encoded_mib": 37.351017,
+      "ratio": 12.526,
+      "encode_s": 2.848,
+      "decode_s": 0.948
+    },
+    {
+      "image": "sample_bright_park.EXR",
+      "encoded_mib": 22.243313,
+      "ratio": 20.484,
+      "encode_s": 2.842,
+      "decode_s": 1.072
+    },
+    {
+      "image": "sample_hilberts-mill-conference-room_2K.exr",
+      "encoded_mib": 1.500011,
+      "ratio": 21.333,
+      "encode_s": 0.318,
+      "decode_s": 0.083
+    },
+    {
+      "image": "sample_middle_flower.EXR",
+      "encoded_mib": 18.574637,
+      "ratio": 24.53,
+      "encode_s": 2.746,
+      "decode_s": 1.054
+    }
+  ],
+  "context_size_mode": [
     {
       "image": "sample_1920\\u00d71280.exr",
       "encoded_mib": 2.732368,
@@ -46,50 +90,6 @@
       "ratio": 24.547,
       "encode_s": 2.932,
       "decode_s": 1.542
-    }
-  ],
-  "tiled_speed": [
-    {
-      "image": "sample_1920\\u00d71280.exr",
-      "encoded_mib": 2.723853,
-      "ratio": 10.325,
-      "encode_s": 0.392,
-      "decode_s": 0.103
-    },
-    {
-      "image": "sample_DSCF0009.EXR",
-      "encoded_mib": 22.732477,
-      "ratio": 20.044,
-      "encode_s": 3.202,
-      "decode_s": 1.016
-    },
-    {
-      "image": "sample_DSCF0009_denoise.exr",
-      "encoded_mib": 37.351988,
-      "ratio": 12.525,
-      "encode_s": 3.99,
-      "decode_s": 0.95
-    },
-    {
-      "image": "sample_bright_park.EXR",
-      "encoded_mib": 22.244284,
-      "ratio": 20.484,
-      "encode_s": 3.237,
-      "decode_s": 1.165
-    },
-    {
-      "image": "sample_hilberts-mill-conference-room_2K.exr",
-      "encoded_mib": 1.500982,
-      "ratio": 21.319,
-      "encode_s": 0.34,
-      "decode_s": 0.085
-    },
-    {
-      "image": "sample_middle_flower.EXR",
-      "encoded_mib": 18.575608,
-      "ratio": 24.529,
-      "encode_s": 2.961,
-      "decode_s": 1.134
     }
   ]
 }
