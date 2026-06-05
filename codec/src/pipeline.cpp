@@ -10,9 +10,29 @@
 #include "linear_index.hpp"
 #include "near_lossless_router.hpp"
 
+#include <cstdlib>
+#include <limits>
 #include <memory>
 
 namespace radiance_codec {
+namespace {
+
+std::uint8_t router_anchor_bits_from_env(std::uint8_t fallback) noexcept {
+    const char* raw = std::getenv("RADIANCE_CODEC_ROUTER_ANCHOR_BITS");
+    if (!raw || !*raw) return fallback;
+    char* end = nullptr;
+    const long value = std::strtol(raw, &end, 10);
+    if (end == raw || value <= 0 || value > 16) return fallback;
+    return static_cast<std::uint8_t>(value);
+}
+
+NearLosslessRouterParams router_params_from_env() noexcept {
+    NearLosslessRouterParams params;
+    params.anchor_bits = router_anchor_bits_from_env(params.anchor_bits);
+    return params;
+}
+
+} // namespace
 
 std::vector<std::unique_ptr<IStage>> build_pipeline(
     const PipelineConfig& config) {
@@ -33,7 +53,8 @@ std::vector<std::unique_ptr<IStage>> build_pipeline(
     }
 
     if (config.stages & StageNearLosslessRouter) {
-        stages.emplace_back(std::make_unique<NearLosslessRouterStage>());
+        stages.emplace_back(
+            std::make_unique<NearLosslessRouterStage>(router_params_from_env()));
         return stages;
     }
 

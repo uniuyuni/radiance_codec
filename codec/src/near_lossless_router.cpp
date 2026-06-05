@@ -32,7 +32,7 @@ namespace radiance_codec {
 namespace {
 
 constexpr char kRouterMagic[4] = {'N', 'L', 'R', '1'};
-constexpr std::uint8_t kRouterPayloadVersion = 1;
+constexpr std::uint8_t kRouterPayloadVersion = 2;
 constexpr std::uint8_t kStreamRaw = 0;
 constexpr std::uint8_t kStreamRansOrder0 = 1;
 constexpr std::uint8_t kStreamRansOrder1 = 2;
@@ -41,6 +41,10 @@ constexpr std::uint8_t kStreamIndexSymbolRans = 4;
 constexpr std::uint8_t kStreamMaskBinary = 5;
 constexpr std::uint8_t kExtraConstant = 1;
 constexpr std::uint8_t kExtraRaw = 2;
+constexpr std::uint8_t kDarkRefineBits = 11;
+constexpr float kDarkRefineDisplayLumaMax = 0.075f;
+constexpr float kDarkRefineLiftStops = 3.0f;
+constexpr float kDarkRefineDisplayDiffThreshold = 0.008f;
 
 bool router_trace_enabled() noexcept {
     static const bool enabled = std::getenv("RADIANCE_CODEC_ROUTER_TRACE") != nullptr;
@@ -71,6 +75,15 @@ bool metal_downsample_enabled() noexcept {
 bool fast_outliers_enabled() noexcept {
     static const bool enabled = std::getenv("RADIANCE_CODEC_USE_FAST_OUTLIERS") != nullptr;
     return enabled;
+}
+
+float env_float_or(const char* name, float fallback) noexcept {
+    const char* raw = std::getenv(name);
+    if (!raw || !*raw) return fallback;
+    char* end = nullptr;
+    const float value = std::strtof(raw, &end);
+    if (end == raw || !std::isfinite(value)) return fallback;
+    return value;
 }
 
 class RouterTrace {
@@ -2320,6 +2333,190 @@ Status NearLosslessRouterStage::encode(
     }
     trace.lap("indices");
 
+    const float dark_refine_lift = std::exp2(kDarkRefineLiftStops);
+    const float dark_refine_luma_max = env_float_or(
+        "RADIANCE_CODEC_DARK_REFINE_LUMA_MAX",
+        kDarkRefineDisplayLumaMax);
+    const float dark_refine_diff_threshold = env_float_or(
+        "RADIANCE_CODEC_DARK_REFINE_DIFF_THRESHOLD",
+        kDarkRefineDisplayDiffThreshold);
+    std::vector<std::uint8_t> dark_refine_mask(pixels, 0);
+    Range dark_refine_range;
+    dark_refine_range.lo = std::numeric_limits<float>::infinity();
+    dark_refine_range.hi = -std::numeric_limits<float>::infinity();
+#ifdef RADIANCE_CODEC_HAS_OPENMP
+#pragma omp parallel
+    {
+        Range local_range;
+        local_range.lo = std::numeric_limits<float>::infinity();
+        local_range.hi = -std::numeric_limits<float>::infinity();
+#pragma omp for schedule(static)
+        for (std::int64_t sy = 0; sy < static_cast<std::int64_t>(meta.height); ++sy) {
+            const auto y = static_cast<std::uint32_t>(sy);
+            for (std::uint32_t x = 0; x < meta.width; ++x) {
+                const auto i2 = idx2(meta.width, y, x);
+                const auto base_byte = idx3(meta, y, x, 0) * 4;
+                const float r = read_f32(in.data() + base_byte + 0);
+                const float g = read_f32(in.data() + base_byte + 4);
+                const float b = read_f32(in.data() + base_byte + 8);
+                const float source_luma =
+                    display_luma(r, g, b, params_.visual_guard_white, params_.visual_guard_gamma);
+                if (source_luma >= dark_refine_luma_max) continue;
+
+                float cr = 0.0f, cg = 0.0f, cb = 0.0f;
+                if (route_mask[i2]) {
+                    cr = signed_log_dequantize(
+                        signed_idx[0][i2], params_.anchor_bits, log_ranges[0].lo, log_ranges[0].hi);
+                    cg = signed_log_dequantize(
+                        signed_idx[1][i2], params_.anchor_bits, log_ranges[1].lo, log_ranges[1].hi);
+                    cb = signed_log_dequantize(
+                        signed_idx[2][i2], params_.anchor_bits, log_ranges[2].lo, log_ranges[2].hi);
+                } else {
+                    const float yq = dequantize_index(y_idx[i2], params_.y_bits, y_range);
+                    const auto yy = std::min<std::uint32_t>(low_h - 1, y / params_.low_scale);
+                    const auto xx = std::min<std::uint32_t>(low_w - 1, x / params_.low_scale);
+                    const auto li = idx2(low_w, yy, xx);
+                    const float co_low_q = dequantize_index(
+                        co_low_idx[li], params_.chroma_low_bits, co_low_range);
+                    const float cg_low_q = dequantize_index(
+                        cg_low_idx[li], params_.chroma_low_bits, cg_low_range);
+                    const float co_h = high_mask[i2]
+                        ? dequantize_index(co_high_idx[i2], params_.high_bits, co_high_range)
+                        : 0.0f;
+                    const float cg_h = high_mask[i2]
+                        ? dequantize_index(cg_high_idx[i2], params_.high_bits, cg_high_range)
+                        : 0.0f;
+                    const float co = co_low_q + co_h;
+                    const float cg2 = cg_low_q + cg_h;
+                    const float tr = yq - 0.5f * cg2 + 0.5f * co;
+                    const float tg = yq + 0.5f * cg2;
+                    const float tb = yq - 0.5f * cg2 - 0.5f * co;
+                    cr = vst_inverse(tr);
+                    cg = vst_inverse(tg);
+                    cb = vst_inverse(tb);
+                }
+
+                const float source_lift = display_luma(
+                    r * dark_refine_lift,
+                    g * dark_refine_lift,
+                    b * dark_refine_lift,
+                    params_.visual_guard_white,
+                    params_.visual_guard_gamma);
+                const float cand_lift = display_luma(
+                    cr * dark_refine_lift,
+                    cg * dark_refine_lift,
+                    cb * dark_refine_lift,
+                    params_.visual_guard_white,
+                    params_.visual_guard_gamma);
+                if (std::fabs(cand_lift - source_lift) < dark_refine_diff_threshold) {
+                    continue;
+                }
+
+                dark_refine_mask[i2] = 1;
+                const float sign = std::signbit(g) ? -1.0f : 1.0f;
+                const float tv = sign * std::log2(1.0f + std::fabs(g));
+                local_range.lo = std::min(local_range.lo, tv);
+                local_range.hi = std::max(local_range.hi, tv);
+            }
+        }
+#pragma omp critical
+        {
+            dark_refine_range.lo = std::min(dark_refine_range.lo, local_range.lo);
+            dark_refine_range.hi = std::max(dark_refine_range.hi, local_range.hi);
+        }
+    }
+#else
+    for (std::uint32_t y = 0; y < meta.height; ++y) {
+        for (std::uint32_t x = 0; x < meta.width; ++x) {
+            const auto i2 = idx2(meta.width, y, x);
+            const auto base_byte = idx3(meta, y, x, 0) * 4;
+            const float r = read_f32(in.data() + base_byte + 0);
+            const float g = read_f32(in.data() + base_byte + 4);
+            const float b = read_f32(in.data() + base_byte + 8);
+            const float source_luma =
+                display_luma(r, g, b, params_.visual_guard_white, params_.visual_guard_gamma);
+            if (source_luma >= dark_refine_luma_max) continue;
+
+            float cr = 0.0f, cg = 0.0f, cb = 0.0f;
+            if (route_mask[i2]) {
+                cr = signed_log_dequantize(
+                    signed_idx[0][i2], params_.anchor_bits, log_ranges[0].lo, log_ranges[0].hi);
+                cg = signed_log_dequantize(
+                    signed_idx[1][i2], params_.anchor_bits, log_ranges[1].lo, log_ranges[1].hi);
+                cb = signed_log_dequantize(
+                    signed_idx[2][i2], params_.anchor_bits, log_ranges[2].lo, log_ranges[2].hi);
+            } else {
+                const float yq = dequantize_index(y_idx[i2], params_.y_bits, y_range);
+                const auto yy = std::min<std::uint32_t>(low_h - 1, y / params_.low_scale);
+                const auto xx = std::min<std::uint32_t>(low_w - 1, x / params_.low_scale);
+                const auto li = idx2(low_w, yy, xx);
+                const float co_low_q = dequantize_index(
+                    co_low_idx[li], params_.chroma_low_bits, co_low_range);
+                const float cg_low_q = dequantize_index(
+                    cg_low_idx[li], params_.chroma_low_bits, cg_low_range);
+                const float co_h = high_mask[i2]
+                    ? dequantize_index(co_high_idx[i2], params_.high_bits, co_high_range)
+                    : 0.0f;
+                const float cg_h = high_mask[i2]
+                    ? dequantize_index(cg_high_idx[i2], params_.high_bits, cg_high_range)
+                    : 0.0f;
+                const float co = co_low_q + co_h;
+                const float cg2 = cg_low_q + cg_h;
+                const float tr = yq - 0.5f * cg2 + 0.5f * co;
+                const float tg = yq + 0.5f * cg2;
+                const float tb = yq - 0.5f * cg2 - 0.5f * co;
+                cr = vst_inverse(tr);
+                cg = vst_inverse(tg);
+                cb = vst_inverse(tb);
+            }
+
+            const float source_lift = display_luma(
+                r * dark_refine_lift,
+                g * dark_refine_lift,
+                b * dark_refine_lift,
+                params_.visual_guard_white,
+                params_.visual_guard_gamma);
+            const float cand_lift = display_luma(
+                cr * dark_refine_lift,
+                cg * dark_refine_lift,
+                cb * dark_refine_lift,
+                params_.visual_guard_white,
+                params_.visual_guard_gamma);
+            if (std::fabs(cand_lift - source_lift) < dark_refine_diff_threshold) {
+                continue;
+            }
+
+            dark_refine_mask[i2] = 1;
+            const float sign = std::signbit(g) ? -1.0f : 1.0f;
+            const float tv = sign * std::log2(1.0f + std::fabs(g));
+            dark_refine_range.lo = std::min(dark_refine_range.lo, tv);
+            dark_refine_range.hi = std::max(dark_refine_range.hi, tv);
+        }
+    }
+#endif
+    if (!std::isfinite(dark_refine_range.lo) || !std::isfinite(dark_refine_range.hi)) {
+        dark_refine_range.lo = 0.0f;
+        dark_refine_range.hi = 0.0f;
+    }
+    std::vector<std::uint16_t> dark_refine_idx(pixels, 0);
+#ifdef RADIANCE_CODEC_HAS_OPENMP
+#pragma omp parallel for schedule(static) if(pixels > (8u << 20))
+#endif
+    for (std::uint32_t y = 0; y < meta.height; ++y) {
+        for (std::uint32_t x = 0; x < meta.width; ++x) {
+            const auto i2 = idx2(meta.width, y, x);
+            if (!dark_refine_mask[i2]) continue;
+            const auto base = idx3(meta, y, x, 1) * 4;
+            const float v = read_f32(in.data() + base);
+            dark_refine_idx[i2] = static_cast<std::uint16_t>(signed_log_index(
+                v,
+                kDarkRefineBits,
+                dark_refine_range.lo,
+                dark_refine_range.hi));
+        }
+    }
+    trace.lap("dark-refine");
+
     out.clear();
     out.insert(out.end(), std::begin(kRouterMagic), std::end(kRouterMagic));
     append_u8(out, kRouterPayloadVersion);
@@ -2339,6 +2536,9 @@ Status NearLosslessRouterStage::encode(
         append_f32(out, r.lo);
         append_f32(out, r.hi);
     }
+    append_u8(out, kDarkRefineBits);
+    append_f32(out, dark_refine_range.lo);
+    append_f32(out, dark_refine_range.hi);
 
     auto mask_payload = [&](const std::vector<std::uint8_t>& mask) {
         std::vector<std::uint8_t> payload;
@@ -2449,6 +2649,16 @@ Status NearLosslessRouterStage::encode(
         meta.width,
         meta.height,
         params_.anchor_bits);
+    auto dark_refine_mask_future =
+        std::async(std::launch::async, mask_payload, std::cref(dark_refine_mask));
+    auto dark_refine_g_future = std::async(
+        std::launch::async,
+        symbol_payload,
+        std::cref(dark_refine_idx),
+        std::cref(dark_refine_mask),
+        meta.width,
+        meta.height,
+        kDarkRefineBits);
 
     auto append_payload = [&](std::vector<std::uint8_t>&& payload) {
         if (payload.empty()) return false;
@@ -2464,7 +2674,9 @@ Status NearLosslessRouterStage::encode(
         || !append_payload(cg_high_future.get())
         || !append_payload(sr_future.get())
         || !append_payload(sg_future.get())
-        || !append_payload(sb_future.get())) {
+        || !append_payload(sb_future.get())
+        || !append_payload(dark_refine_mask_future.get())
+        || !append_payload(dark_refine_g_future.get())) {
         return Status::DecompressFailed;
     }
     trace.lap("payloads");
@@ -2544,6 +2756,17 @@ Status NearLosslessRouterStage::decode(
             return Status::DecompressFailed;
         }
     }
+    std::uint8_t dark_refine_bits = 0;
+    if (!read_u8(p, end, dark_refine_bits)
+        || dark_refine_bits == 0
+        || dark_refine_bits > 16) {
+        return Status::DecompressFailed;
+    }
+    Range dark_refine_range;
+    if (!read_f32_payload(p, end, dark_refine_range.lo)
+        || !read_f32_payload(p, end, dark_refine_range.hi)) {
+        return Status::DecompressFailed;
+    }
 
     StreamSlice route_mask_slice, high_mask_slice;
     if (!read_stream_slice(p, end, route_mask_slice)
@@ -2591,7 +2814,7 @@ Status NearLosslessRouterStage::decode(
 
     std::vector<std::uint16_t> y_idx, co_low_idx, cg_low_idx, co_high_idx, cg_high_idx;
     std::array<std::vector<std::uint16_t>, 3> signed_idx;
-    std::array<StreamSlice, 8> slices;
+    std::array<StreamSlice, 10> slices;
     for (auto& slice : slices) {
         if (!read_stream_slice(p, end, slice)) return Status::DecompressFailed;
     }
@@ -2690,6 +2913,12 @@ Status NearLosslessRouterStage::decode(
         meta.width,
         meta.height,
         anchor_bits);
+    auto dark_refine_mask_future = std::async(
+        std::launch::async,
+        decode_mask_task,
+        slices[8],
+        meta.width,
+        meta.height);
 
     auto y_result = y_future.get();
     auto co_low_result = co_low_future.get();
@@ -2699,6 +2928,7 @@ Status NearLosslessRouterStage::decode(
     auto sr_result = sr_future.get();
     auto sg_result = sg_future.get();
     auto sb_result = sb_future.get();
+    auto dark_refine_mask_result = dark_refine_mask_future.get();
     if (!y_result.ok
         || !co_low_result.ok
         || !cg_low_result.ok
@@ -2706,7 +2936,8 @@ Status NearLosslessRouterStage::decode(
         || !cg_high_result.ok
         || !sr_result.ok
         || !sg_result.ok
-        || !sb_result.ok) {
+        || !sb_result.ok
+        || !dark_refine_mask_result.ok) {
         return Status::DecompressFailed;
     }
     y_idx = std::move(y_result.indices);
@@ -2717,6 +2948,21 @@ Status NearLosslessRouterStage::decode(
     signed_idx[0] = std::move(sr_result.indices);
     signed_idx[1] = std::move(sg_result.indices);
     signed_idx[2] = std::move(sb_result.indices);
+    std::vector<std::uint8_t> dark_refine_mask = std::move(dark_refine_mask_result.mask);
+    std::vector<std::uint16_t> dark_refine_idx;
+    auto dark_refine_g_future = std::async(
+        std::launch::async,
+        decode_index_task,
+        slices[9],
+        std::cref(dark_refine_mask),
+        meta.width,
+        meta.height,
+        dark_refine_bits);
+    auto dark_refine_g_result = dark_refine_g_future.get();
+    if (!dark_refine_g_result.ok) {
+        return Status::DecompressFailed;
+    }
+    dark_refine_idx = std::move(dark_refine_g_result.indices);
     trace.lap("streams");
 
     auto make_index_lut = [](std::uint8_t bits, const Range& range) {
@@ -2745,6 +2991,7 @@ Status NearLosslessRouterStage::decode(
         make_signed_lut(anchor_bits, log_ranges[1]),
         make_signed_lut(anchor_bits, log_ranges[2]),
     };
+    const auto dark_refine_lut = make_signed_lut(dark_refine_bits, dark_refine_range);
     trace.lap("luts");
 
     out.assign(meta.raw_size(), 0);
@@ -2782,6 +3029,16 @@ Status NearLosslessRouterStage::decode(
         }
     }
     trace.lap("reconstruct");
+
+#ifdef RADIANCE_CODEC_HAS_OPENMP
+#pragma omp parallel for schedule(static) if(pixels > (8u << 20))
+#endif
+    for (std::size_t i = 0; i < pixels; ++i) {
+        if (!dark_refine_mask[i]) continue;
+        const auto byte = (i * meta.channels + 1) * 4;
+        write_f32(out.data() + byte, dark_refine_lut[dark_refine_idx[i]]);
+    }
+    trace.lap("dark-refine");
 
     for (std::uint8_t c = 3; c < meta.channels; ++c) {
         std::uint8_t mode = 0;
