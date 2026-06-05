@@ -55,6 +55,34 @@ typedef struct {
     size_t   size;
 } radiance_codec_buffer_t;
 
+typedef struct {
+    uint8_t y_bits;
+    uint8_t chroma_low_bits;
+    uint8_t high_bits;
+    uint8_t anchor_bits;
+    uint8_t low_scale;
+    uint8_t guide_radius;
+    float guide_eps;
+    float threshold_mult;
+    float dark_max;
+    uint8_t mask_radius;
+    float smooth_threshold;
+    float target_y_step;
+    float outlier_activation_ratio;
+} radiance_codec_near_lossless_router_params_t;
+
+typedef struct {
+    float route_mask_rate;
+    float dark_mask_rate;
+    float outlier_mask_rate;
+    uint8_t outlier_active;
+    float chosen_percentile;
+    float threshold_maxrgb;
+    float y_step;
+    float max_over_p99;
+    float p99_over_p97;
+} radiance_codec_near_lossless_router_report_t;
+
 /*
  * Encode raw pixels. On RADIANCE_CODEC_OK, *out is populated and must be freed.
  * On any non-OK return code, *out is zero-initialized; nothing to free.
@@ -70,6 +98,13 @@ int radiance_codec_decode(
     const radiance_codec_meta_t* meta,
     const radiance_codec_config_t* config,
     radiance_codec_buffer_t* out);
+
+int radiance_codec_near_lossless_router_v1_reconstruct(
+    const uint8_t* raw, size_t raw_size,
+    const radiance_codec_meta_t* meta,
+    const radiance_codec_near_lossless_router_params_t* params,
+    radiance_codec_buffer_t* out,
+    radiance_codec_near_lossless_router_report_t* report);
 
 void radiance_codec_buffer_free(radiance_codec_buffer_t* buf);
 

@@ -1,0 +1,4711 @@
+{
+  "image": "sample_1920\u00d71280.exr",
+  "shape": [
+    1280,
+    1920,
+    3
+  ],
+  "label": "near_lossless_router_Y8_CL8",
+  "route": {
+    "base": "vst-chroma",
+    "vst_mode": "gamma075",
+    "y_bits": 8,
+    "chroma_low_bits": 8,
+    "high_bits": 5,
+    "threshold_mult": 2.5,
+    "escape": "signed-log10",
+    "mask_mode": "dark-smooth",
+    "dark_max": 0.5,
+    "smooth_threshold": 0.0025,
+    "structure_radius": 2,
+    "outlier_router": {
+      "enabled": true,
+      "target_y_step": 0.0032,
+      "percentiles": "100,99.9,99.5,99,98.5,98,97,95"
+    }
+  },
+  "meta": {
+    "reconstruct_seconds": 8.35124225000618,
+    "base_payload": {
+      "vst_mode": "gamma075",
+      "y_bits": 8,
+      "chroma_low_bits": 8,
+      "high_bits": 5,
+      "low_scale": 2,
+      "guide_radius": 2,
+      "guide_eps": 0.1,
+      "threshold_mult": 2.5,
+      "range_source": "non_escape_pixels",
+      "y_range": {
+        "lo": 0.0,
+        "hi": 1.0,
+        "step": 0.00392156862745098
+      },
+      "chroma_low_ranges": [
+        {
+          "lo": -0.8946682214736938,
+          "hi": 0.6815305948257446,
+          "step": 0.006181171828625249
+        },
+        {
+          "lo": -0.2670067250728607,
+          "hi": 0.2951359152793884,
+          "step": 0.00220448094255784
+        }
+      ],
+      "high_thresholds": [
+        0.01600395349622704,
+        0.012890176373301072
+      ],
+      "high_pixel_rate": 0.3029146321614583,
+      "high_estimated_bytes": 466092
+    },
+    "route_mask_rate": 4.069010416666667e-07,
+    "outlier_router": {
+      "enabled": true,
+      "active": false,
+      "reason": "range ratios below activation threshold",
+      "activation_ratio": 4.0,
+      "max_over_p99": 1.0,
+      "p99_over_p97": 1.0118577075098814,
+      "p97": 0.98828125,
+      "p99": 1.0,
+      "p100": 1.0
+    },
+    "additional_mask": null
+  },
+  "decision": {
+    "decision": "maybe",
+    "failures": [
+      {
+        "severity": "maybe",
+        "exposure": "ev3",
+        "region": "mid_0.25_1",
+        "metric": "chroma_p99_abs",
+        "value": 0.06798601150512695,
+        "threshold": 0.031073896884918212
+      }
+    ]
+  },
+  "signed_log_maxabs": {
+    "candidate": {
+      "all": {
+        "samples": 2457600,
+        "rmse": 0.010354051160189367,
+        "mae": 0.007297984334420307,
+        "p95_abs": 0.022127509117126465,
+        "p99_abs": 0.036619096994400024,
+        "p999_abs": 0.056746721267700195,
+        "max_abs": 0.11145544052124023,
+        "psnr_db": 39.69779386930647
+      },
+      "dark_0_0.25": {
+        "samples": 630409,
+        "rmse": 0.009032042734865457,
+        "mae": 0.007500293265403401,
+        "p95_abs": 0.0165565088391304,
+        "p99_abs": 0.024823695421218872,
+        "p999_abs": 0.04568645358085632,
+        "max_abs": 0.08622725307941437,
+        "psnr_db": 40.884280324513085
+      },
+      "mid_0.25_1": {
+        "samples": 1827191,
+        "rmse": 0.010772586947875862,
+        "mae": 0.007228184641409494,
+        "p95_abs": 0.02407824993133545,
+        "p99_abs": 0.03870052099227905,
+        "p999_abs": 0.05860656499862671,
+        "max_abs": 0.11145544052124023,
+        "psnr_db": 39.35359983881777
+      },
+      "highlight_1_4": {
+        "samples": 0,
+        "rmse": 0.0,
+        "mae": 0.0,
+        "p95_abs": 0.0,
+        "p99_abs": 0.0,
+        "p999_abs": 0.0,
+        "max_abs": 0.0,
+        "psnr_db": Infinity
+      },
+      "extreme_gt4": {
+        "samples": 0,
+        "rmse": 0.0,
+        "mae": 0.0,
+        "p95_abs": 0.0,
+        "p99_abs": 0.0,
+        "p999_abs": 0.0,
+        "max_abs": 0.0,
+        "psnr_db": Infinity
+      },
+      "smooth": {
+        "samples": 735816,
+        "rmse": 0.003659254009862165,
+        "mae": 0.0031963730164118738,
+        "p95_abs": 0.006396234035491943,
+        "p99_abs": 0.009351551532745361,
+        "p999_abs": 0.015570521354675293,
+        "max_abs": 0.043659508228302,
+        "psnr_db": 48.73214885179507
+      },
+      "dark_smooth": {
+        "samples": 11,
+        "rmse": 0.007219416565577987,
+        "mae": 0.005938225849108262,
+        "p95_abs": 0.017897844314575195,
+        "p99_abs": 0.017897844314575195,
+        "p999_abs": 0.017897844314575195,
+        "max_abs": 0.017897844314575195,
+        "psnr_db": 42.829957967134234
+      },
+      "edge": {
+        "samples": 122880,
+        "rmse": 0.012402465883510775,
+        "mae": 0.009706106701983568,
+        "p95_abs": 0.023796170949935913,
+        "p99_abs": 0.041668206453323364,
+        "p999_abs": 0.06586438417434692,
+        "max_abs": 0.1031179428100586,
+        "psnr_db": 38.129839178798065
+      },
+      "texture": {
+        "samples": 614400,
+        "rmse": 0.01337424592360077,
+        "mae": 0.01043345932484255,
+        "p95_abs": 0.02680022269487381,
+        "p99_abs": 0.04331877827644348,
+        "p999_abs": 0.06465345621109009,
+        "max_abs": 0.11145544052124023,
+        "psnr_db": 37.47461390643579
+      },
+      "route_mask": {
+        "samples": 1,
+        "rmse": 0.0004826188087463379,
+        "mae": 0.0004826188087463379,
+        "p95_abs": 0.0004826188087463379,
+        "p99_abs": 0.0004826188087463379,
+        "p999_abs": 0.0004826188087463379,
+        "max_abs": 0.0004826188087463379,
+        "psnr_db": 66.32791513318739
+      },
+      "nonmask": {
+        "samples": 2457599,
+        "rmse": 0.01035405326215036,
+        "mae": 0.007297987107600767,
+        "p95_abs": 0.02212768793106079,
+        "p99_abs": 0.036619484424591064,
+        "p999_abs": 0.056746721267700195,
+        "max_abs": 0.11145544052124023,
+        "psnr_db": 39.69779210599672
+      }
+    },
+    "anchor": {
+      "all": {
+        "samples": 2457600,
+        "rmse": 0.0003651603456636633,
+        "mae": 0.00035079284729685393,
+        "p95_abs": 0.00048100948333740234,
+        "p99_abs": 0.00048404932022094727,
+        "p999_abs": 0.0004857778549194336,
+        "max_abs": 0.0004857778549194336,
+        "psnr_db": 68.75032780974864
+      },
+      "dark_0_0.25": {
+        "samples": 630409,
+        "rmse": 0.00035146588020598294,
+        "mae": 0.0003348425731722417,
+        "p95_abs": 0.0004630833864212036,
+        "p99_abs": 0.00047281384468078613,
+        "p999_abs": 0.00047281384468078613,
+        "max_abs": 0.00047281384468078613,
+        "psnr_db": 69.0823365854293
+      },
+      "mid_0.25_1": {
+        "samples": 1827191,
+        "rmse": 0.0003697674870981843,
+        "mae": 0.00035629593720952463,
+        "p95_abs": 0.00048226118087768555,
+        "p99_abs": 0.00048404932022094727,
+        "p999_abs": 0.0004857778549194336,
+        "max_abs": 0.0004857778549194336,
+        "psnr_db": 68.64142556254234
+      },
+      "highlight_1_4": {
+        "samples": 0,
+        "rmse": 0.0,
+        "mae": 0.0,
+        "p95_abs": 0.0,
+        "p99_abs": 0.0,
+        "p999_abs": 0.0,
+        "max_abs": 0.0,
+        "psnr_db": Infinity
+      },
+      "extreme_gt4": {
+        "samples": 0,
+        "rmse": 0.0,
+        "mae": 0.0,
+        "p95_abs": 0.0,
+        "p99_abs": 0.0,
+        "p999_abs": 0.0,
+        "max_abs": 0.0,
+        "psnr_db": Infinity
+      },
+      "smooth": {
+        "samples": 735816,
+        "rmse": 0.00037146878158407514,
+        "mae": 0.00035838630958970856,
+        "p95_abs": 0.0004826188087463379,
+        "p99_abs": 0.0004857778549194336,
+        "p999_abs": 0.0004857778549194336,
+        "max_abs": 0.0004857778549194336,
+        "psnr_db": 68.6015535737593
+      },
+      "dark_smooth": {
+        "samples": 11,
+        "rmse": 0.0003582820516078726,
+        "mae": 0.00034409592097455805,
+        "p95_abs": 0.0004630833864212036,
+        "p99_abs": 0.0004630833864212036,
+        "p999_abs": 0.0004630833864212036,
+        "max_abs": 0.0004630833864212036,
+        "psnr_db": 68.91549895154812
+      },
+      "edge": {
+        "samples": 122880,
+        "rmse": 0.00034649711604400077,
+        "mae": 0.0003273960946216903,
+        "p95_abs": 0.0004630833864212036,
+        "p99_abs": 0.0004819631576538086,
+        "p999_abs": 0.00048404932022094727,
+        "max_abs": 0.0004857778549194336,
+        "psnr_db": 69.20600751491874
+      },
+      "texture": {
+        "samples": 614400,
+        "rmse": 0.00035458564608749604,
+        "mae": 0.00033804958450976604,
+        "p95_abs": 0.00047281384468078613,
+        "p99_abs": 0.00048226118087768555,
+        "p999_abs": 0.0004857778549194336,
+        "max_abs": 0.0004857778549194336,
+        "psnr_db": 69.0055769793928
+      },
+      "route_mask": {
+        "samples": 1,
+        "rmse": 0.0004826188087463379,
+        "mae": 0.0004826188087463379,
+        "p95_abs": 0.0004826188087463379,
+        "p99_abs": 0.0004826188087463379,
+        "p999_abs": 0.0004826188087463379,
+        "max_abs": 0.0004826188087463379,
+        "psnr_db": 66.32791513318739
+      },
+      "nonmask": {
+        "samples": 2457599,
+        "rmse": 0.0003651602901828966,
+        "mae": 0.0003507927936567111,
+        "p95_abs": 0.00048100948333740234,
+        "p99_abs": 0.00048404932022094727,
+        "p999_abs": 0.0004857778549194336,
+        "max_abs": 0.0004857778549194336,
+        "psnr_db": 68.75032912944246
+      }
+    }
+  },
+  "key_metrics": {
+    "ev0": {
+      "dark_smooth": {
+        "samples": 11,
+        "luma_p99": 0.001355886459350586,
+        "anchor_luma_p99": 0.00017879903316497803,
+        "lowfreq_p99": 0.0003935163840651512,
+        "anchor_lowfreq_p99": 1.4262956028687768e-05,
+        "grad_nrmse": 0.2661063397421637,
+        "anchor_grad_nrmse": 0.06433615719674096,
+        "grad_energy": 0.7838718380182822,
+        "lost_detail_delta": 0.2,
+        "structure_grad_nrmse": 0.2567093580217548,
+        "anchor_structure_grad_nrmse": 0.02167382029442061,
+        "structure_grad_energy": 0.9354144567453699,
+        "structure_lost_detail_delta": 0.0
+      },
+      "dark_0_0.25": {
+        "samples": 630409,
+        "luma_p99": 0.017659738659858704,
+        "anchor_luma_p99": 0.0006946399807929993,
+        "lowfreq_p99": 0.0029443283565342426,
+        "anchor_lowfreq_p99": 7.233346696011722e-05,
+        "grad_nrmse": 0.08406825352034537,
+        "anchor_grad_nrmse": 0.005539867415186866,
+        "grad_energy": 0.9552312043498608,
+        "lost_detail_delta": 0.018508652464763943,
+        "structure_grad_nrmse": 0.04463860663173281,
+        "anchor_structure_grad_nrmse": 0.0023049136235771517,
+        "structure_grad_energy": 0.9801968624256922,
+        "structure_lost_detail_delta": 0.016906006186353694
+      },
+      "mid_0.25_1": {
+        "samples": 1827191,
+        "luma_p99": 0.004618257284164429,
+        "anchor_luma_p99": 0.0001958012580871582,
+        "lowfreq_p99": 0.001282891957089305,
+        "anchor_lowfreq_p99": 5.71824457438197e-05,
+        "grad_nrmse": 0.04037500432865796,
+        "anchor_grad_nrmse": 0.003186454759126985,
+        "grad_energy": 0.9873050905517081,
+        "lost_detail_delta": 0.023892015034852342,
+        "structure_grad_nrmse": 0.03297404750050644,
+        "anchor_structure_grad_nrmse": 0.0014443623081152306,
+        "structure_grad_energy": 0.9871492853546188,
+        "structure_lost_detail_delta": 0.0074793253846627125
+      },
+      "highlight_1_4": {
+        "samples": 0,
+        "luma_p99": 0.0,
+        "anchor_luma_p99": 0.0,
+        "lowfreq_p99": 0.0,
+        "anchor_lowfreq_p99": 0.0,
+        "grad_nrmse": 0.0,
+        "anchor_grad_nrmse": 0.0,
+        "grad_energy": 1.0,
+        "lost_detail_delta": 0.0,
+        "structure_grad_nrmse": 0.0,
+        "anchor_structure_grad_nrmse": 0.0,
+        "structure_grad_energy": 1.0,
+        "structure_lost_detail_delta": 0.0
+      },
+      "extreme_gt4": {
+        "samples": 0,
+        "luma_p99": 0.0,
+        "anchor_luma_p99": 0.0,
+        "lowfreq_p99": 0.0,
+        "anchor_lowfreq_p99": 0.0,
+        "grad_nrmse": 0.0,
+        "anchor_grad_nrmse": 0.0,
+        "grad_energy": 1.0,
+        "lost_detail_delta": 0.0,
+        "structure_grad_nrmse": 0.0,
+        "anchor_structure_grad_nrmse": 0.0,
+        "structure_grad_energy": 1.0,
+        "structure_lost_detail_delta": 0.0
+      },
+      "all": {
+        "samples": 2457600,
+        "luma_p99": 0.007832072675228119,
+        "anchor_luma_p99": 0.0003878399729728699,
+        "lowfreq_p99": 0.0018903493182733655,
+        "anchor_lowfreq_p99": 5.821523882332258e-05,
+        "grad_nrmse": 0.052773400789200085,
+        "anchor_grad_nrmse": 0.0035357492795442987,
+        "grad_energy": 0.9784029448420101,
+        "lost_detail_delta": 0.021670399022801302,
+        "structure_grad_nrmse": 0.03673804547174613,
+        "anchor_structure_grad_nrmse": 0.001734786646058625,
+        "structure_grad_energy": 0.9846257639209264,
+        "structure_lost_detail_delta": 0.009778705211726385
+      }
+    },
+    "ev3": {
+      "dark_smooth": {
+        "samples": 11,
+        "luma_p99": 0.003489077091217041,
+        "anchor_luma_p99": 0.00046008825302124023,
+        "lowfreq_p99": 0.0010632388293743134,
+        "anchor_lowfreq_p99": 3.6540848668664694e-05,
+        "grad_nrmse": 0.26610132362523176,
+        "anchor_grad_nrmse": 0.06434711892393355,
+        "grad_energy": 0.7838789591677569,
+        "lost_detail_delta": 0.2,
+        "structure_grad_nrmse": 0.25670362521929,
+        "anchor_structure_grad_nrmse": 0.021673118340447252,
+        "structure_grad_energy": 0.9354224684697281,
+        "structure_lost_detail_delta": 0.0
+      },
+      "dark_0_0.25": {
+        "samples": 630409,
+        "luma_p99": 0.04544433206319809,
+        "anchor_luma_p99": 0.001787528395652771,
+        "lowfreq_p99": 0.0075638173148036,
+        "anchor_lowfreq_p99": 0.00018624361837282777,
+        "grad_nrmse": 0.08406824982471314,
+        "anchor_grad_nrmse": 0.005539851526926824,
+        "grad_energy": 0.9552311923376328,
+        "lost_detail_delta": 0.01854167879805006,
+        "structure_grad_nrmse": 0.04738234622087049,
+        "anchor_structure_grad_nrmse": 0.002463485511619919,
+        "structure_grad_energy": 0.9787472065063325,
+        "structure_lost_detail_delta": 0.020299027374484722
+      },
+      "mid_0.25_1": {
+        "samples": 1827191,
+        "luma_p99": 0.012814044952392578,
+        "anchor_luma_p99": 0.0005038976669311523,
+        "lowfreq_p99": 0.003719269996508956,
+        "anchor_lowfreq_p99": 0.0001451146526960656,
+        "grad_nrmse": 0.053544341857351956,
+        "anchor_grad_nrmse": 0.003677281900783185,
+        "grad_energy": 0.9816066765007304,
+        "lost_detail_delta": 0.01741488143317658,
+        "structure_grad_nrmse": 0.0421987354755769,
+        "anchor_structure_grad_nrmse": 0.0016645064240197042,
+        "structure_grad_energy": 0.9860229221448914,
+        "structure_lost_detail_delta": 0.017844996971693092
+      },
+      "highlight_1_4": {
+        "samples": 0,
+        "luma_p99": 0.0,
+        "anchor_luma_p99": 0.0,
+        "lowfreq_p99": 0.0,
+        "anchor_lowfreq_p99": 0.0,
+        "grad_nrmse": 0.0,
+        "anchor_grad_nrmse": 0.0,
+        "grad_energy": 1.0,
+        "lost_detail_delta": 0.0,
+        "structure_grad_nrmse": 0.0,
+        "anchor_structure_grad_nrmse": 0.0,
+        "structure_grad_energy": 1.0,
+        "structure_lost_detail_delta": 0.0
+      },
+      "extreme_gt4": {
+        "samples": 0,
+        "luma_p99": 0.0,
+        "anchor_luma_p99": 0.0,
+        "lowfreq_p99": 0.0,
+        "anchor_lowfreq_p99": 0.0,
+        "grad_nrmse": 0.0,
+        "anchor_grad_nrmse": 0.0,
+        "grad_energy": 1.0,
+        "lost_detail_delta": 0.0,
+        "structure_grad_nrmse": 0.0,
+        "anchor_structure_grad_nrmse": 0.0,
+        "structure_grad_energy": 1.0,
+        "structure_lost_detail_delta": 0.0
+      },
+      "all": {
+        "samples": 2457600,
+        "luma_p99": 0.020441710948944092,
+        "anchor_luma_p99": 0.0009981095790863037,
+        "lowfreq_p99": 0.0051848022267222404,
+        "anchor_lowfreq_p99": 0.0001482107036281377,
+        "grad_nrmse": 0.05974794985063377,
+        "anchor_grad_nrmse": 0.0038391079549255935,
+        "grad_energy": 0.9736896008942845,
+        "lost_detail_delta": 0.017006107491856676,
+        "structure_grad_nrmse": 0.04312354277879045,
+        "anchor_structure_grad_nrmse": 0.0019944762254755135,
+        "structure_grad_energy": 0.9825847951901616,
+        "structure_lost_detail_delta": 0.01814942996742671
+      }
+    },
+    "ev5": {
+      "dark_smooth": {
+        "samples": 11,
+        "luma_p99": 0.0031619668006896973,
+        "anchor_luma_p99": 0.0006874799728393555,
+        "lowfreq_p99": 0.001331827719695866,
+        "anchor_lowfreq_p99": 7.554535841336474e-05,
+        "grad_nrmse": 0.41763924803904173,
+        "anchor_grad_nrmse": 0.08073076512745754,
+        "grad_energy": 1.2197223823745773,
+        "lost_detail_delta": 0.0,
+        "structure_grad_nrmse": 0.2766982940150483,
+        "anchor_structure_grad_nrmse": 0.005003487008488876,
+        "structure_grad_energy": 0.7521560780068027,
+        "structure_lost_detail_delta": 0.0
+      },
+      "dark_0_0.25": {
+        "samples": 630409,
+        "luma_p99": 0.08545266091823578,
+        "anchor_luma_p99": 0.00335673987865448,
+        "lowfreq_p99": 0.014488425105810165,
+        "anchor_lowfreq_p99": 0.0003437404229771346,
+        "grad_nrmse": 0.0963107994453088,
+        "anchor_grad_nrmse": 0.0062262222573802985,
+        "grad_energy": 0.9418167084638661,
+        "lost_detail_delta": 0.026727863882836475,
+        "structure_grad_nrmse": 0.07374289605535304,
+        "anchor_structure_grad_nrmse": 0.003899024198664543,
+        "structure_grad_energy": 0.9594171658940089,
+        "structure_lost_detail_delta": 0.02670787426005804
+      },
+      "mid_0.25_1": {
+        "samples": 1827191,
+        "luma_p99": 0.018437445163726807,
+        "anchor_luma_p99": 0.0007279515266418457,
+        "lowfreq_p99": 0.00818760134279728,
+        "anchor_lowfreq_p99": 9.688852878753096e-05,
+        "grad_nrmse": 0.15547740158250564,
+        "anchor_grad_nrmse": 0.005797080590358318,
+        "grad_energy": 0.9132500074541416,
+        "lost_detail_delta": 0.013294069767901302,
+        "structure_grad_nrmse": 0.1144050078256834,
+        "anchor_structure_grad_nrmse": 0.0032148485609272363,
+        "structure_grad_energy": 0.9433987508417586,
+        "structure_lost_detail_delta": 0.014896278371679656
+      },
+      "highlight_1_4": {
+        "samples": 0,
+        "luma_p99": 0.0,
+        "anchor_luma_p99": 0.0,
+        "lowfreq_p99": 0.0,
+        "anchor_lowfreq_p99": 0.0,
+        "grad_nrmse": 0.0,
+        "anchor_grad_nrmse": 0.0,
+        "grad_energy": 1.0,
+        "lost_detail_delta": 0.0,
+        "structure_grad_nrmse": 0.0,
+        "anchor_structure_grad_nrmse": 0.0,
+        "structure_grad_energy": 1.0,
+        "structure_lost_detail_delta": 0.0
+      },
+      "extreme_gt4": {
+        "samples": 0,
+        "luma_p99": 0.0,
+        "anchor_luma_p99": 0.0,
+        "lowfreq_p99": 0.0,
+        "anchor_lowfreq_p99": 0.0,
+        "grad_nrmse": 0.0,
+        "anchor_grad_nrmse": 0.0,
+        "grad_energy": 1.0,
+        "lost_detail_delta": 0.0,
+        "structure_grad_nrmse": 0.0,
+        "anchor_structure_grad_nrmse": 0.0,
+        "structure_grad_energy": 1.0,
+        "structure_lost_detail_delta": 0.0
+      },
+      "all": {
+        "samples": 2457600,
+        "luma_p99": 0.03857740759849548,
+        "anchor_luma_p99": 0.0018721520900726318,
+        "lowfreq_p99": 0.010790010914206505,
+        "anchor_lowfreq_p99": 0.0002094916853820905,
+        "grad_nrmse": 0.09907386471351064,
+        "anchor_grad_nrmse": 0.005814104327221124,
+        "grad_energy": 0.9396463568694494,
+        "lost_detail_delta": 0.01657125407166124,
+        "structure_grad_nrmse": 0.08013142239166803,
+        "anchor_structure_grad_nrmse": 0.0037200202499116613,
+        "structure_grad_energy": 0.9567209700100128,
+        "structure_lost_detail_delta": 0.018304153094462542
+      }
+    }
+  },
+  "candidate_regions": {
+    "ev0": {
+      "all": {
+        "samples": 2457600,
+        "display_luma": {
+          "samples": 2457600,
+          "rmse": 0.0020937992847829693,
+          "mae": 0.001126365827940911,
+          "p95_abs": 0.0035755932331085205,
+          "p99_abs": 0.007832072675228119,
+          "p999_abs": 0.0217141043394804,
+          "max_abs": 0.052104610949754715,
+          "psnr_db": 53.58129905762459
+        },
+        "display_rgb_maxabs": {
+          "samples": 2457600,
+          "rmse": 0.009915526470498738,
+          "mae": 0.005451558294597258,
+          "p95_abs": 0.021306633949279785,
+          "p99_abs": 0.04420255869626999,
+          "p999_abs": 0.059813376516103745,
+          "max_abs": 0.11741455644369125,
+          "psnr_db": 40.07368443469569
+        },
+        "display_luma_gradient": {
+          "gradient_samples": 4912000,
+          "grad_rmse": 0.002523824669776681,
+          "grad_p99_abs": 0.010297760367393494,
+          "grad_nrmse": 0.052773400789200085,
+          "grad_energy_ratio": 0.9784029448420101,
+          "grad_correlation": 0.9988151103532632,
+          "lost_detail_rate": 0.021802524429967426
+        },
+        "display_luma_structure_gradient": {
+          "gradient_samples": 4912000,
+          "grad_rmse": 0.00033080278970598723,
+          "grad_p99_abs": 0.0012819617986679077,
+          "grad_nrmse": 0.03673804547174613,
+          "grad_energy_ratio": 0.9846257639209264,
+          "grad_correlation": 0.999434649746704,
+          "lost_detail_rate": 0.009778705211726385
+        },
+        "display_luma_low_frequency": {
+          "samples": 2457600,
+          "rmse": 0.0005772096232996597,
+          "mae": 0.000359898940348479,
+          "p95_abs": 0.001173457712866366,
+          "p99_abs": 0.0018903493182733655,
+          "p999_abs": 0.00325278309173882,
+          "max_abs": 0.003959007561206818,
+          "psnr_db": 64.77332873829641,
+          "radius": 16,
+          "max_abs_x": 1826,
+          "max_abs_y": 531,
+          "max_abs_signed": 0.003959007561206818
+        },
+        "display_chroma": {
+          "samples": 2457600,
+          "co_rmse": 0.01103877197876381,
+          "cg_rmse": 0.006383572676303955,
+          "co_p99_abs": 0.047422975301742554,
+          "cg_p99_abs": 0.02656400203704834
+        }
+      },
+      "dark_0_0.25": {
+        "samples": 630409,
+        "display_luma": {
+          "samples": 630409,
+          "rmse": 0.0035120728902891807,
+          "mae": 0.0020235010693916596,
+          "p95_abs": 0.006349608302116394,
+          "p99_abs": 0.017659738659858704,
+          "p999_abs": 0.024879472330212593,
+          "max_abs": 0.052104610949754715,
+          "psnr_db": 49.08872958469297
+        },
+        "display_rgb_maxabs": {
+          "samples": 630409,
+          "rmse": 0.016622069122270815,
+          "mae": 0.011605363572321796,
+          "p95_abs": 0.039609357714653015,
+          "p99_abs": 0.051480378955602646,
+          "p999_abs": 0.06418894231319427,
+          "max_abs": 0.11741455644369125,
+          "psnr_db": 35.58629832048136
+        },
+        "display_luma_gradient": {
+          "gradient_samples": 1150597,
+          "grad_rmse": 0.004182513762578113,
+          "grad_p99_abs": 0.019483059644699097,
+          "grad_nrmse": 0.08406825352034537,
+          "grad_energy_ratio": 0.9552312043498608,
+          "grad_correlation": 0.9973497378629694,
+          "lost_detail_rate": 0.01877894692928975
+        },
+        "display_luma_structure_gradient": {
+          "gradient_samples": 1150597,
+          "grad_rmse": 0.0004830726430601082,
+          "grad_p99_abs": 0.001698032021522522,
+          "grad_nrmse": 0.04463860663173281,
+          "grad_energy_ratio": 0.9801968624256922,
+          "grad_correlation": 0.9991836124937827,
+          "lost_detail_rate": 0.016906006186353694
+        },
+        "display_luma_low_frequency": {
+          "samples": 630409,
+          "rmse": 0.000950724479662041,
+          "mae": 0.0007933060240880397,
+          "p95_abs": 0.001675586448982358,
+          "p99_abs": 0.0029443283565342426,
+          "p999_abs": 0.0034746965393424034,
+          "max_abs": 0.003959007561206818,
+          "psnr_db": 60.43890647090621,
+          "radius": 16,
+          "max_abs_x": 1826,
+          "max_abs_y": 531,
+          "max_abs_signed": 0.003959007561206818
+        },
+        "display_chroma": {
+          "samples": 630409,
+          "co_rmse": 0.017774119670007773,
+          "cg_rmse": 0.010549917245499411,
+          "co_p99_abs": 0.05553323030471802,
+          "cg_p99_abs": 0.03131449967622757
+        }
+      },
+      "mid_0.25_1": {
+        "samples": 1827191,
+        "display_luma": {
+          "samples": 1827191,
+          "rmse": 0.0012809743419373448,
+          "mae": 0.0008168403703244248,
+          "p95_abs": 0.0026783496141433716,
+          "p99_abs": 0.004618257284164429,
+          "p999_abs": 0.00918683409690857,
+          "max_abs": 0.041681256145238876,
+          "psnr_db": 57.849191382727284
+        },
+        "display_rgb_maxabs": {
+          "samples": 1827191,
+          "rmse": 0.00607563777581446,
+          "mae": 0.003328400818818837,
+          "p95_abs": 0.011578917503356934,
+          "p99_abs": 0.022325247526168823,
+          "p999_abs": 0.056567516177892685,
+          "max_abs": 0.11729992181062698,
+          "psnr_db": 44.32816252585685
+        },
+        "display_luma_gradient": {
+          "gradient_samples": 3543234,
+          "grad_rmse": 0.0014486492525112497,
+          "grad_p99_abs": 0.005531802773475647,
+          "grad_nrmse": 0.04037500432865796,
+          "grad_energy_ratio": 0.9873050905517081,
+          "grad_correlation": 0.9992560656970696,
+          "lost_detail_rate": 0.023985150289255523
+        },
+        "display_luma_structure_gradient": {
+          "gradient_samples": 3543234,
+          "grad_rmse": 0.0002468336041907056,
+          "grad_p99_abs": 0.0010026097297668457,
+          "grad_nrmse": 0.03297404750050644,
+          "grad_energy_ratio": 0.9871492853546188,
+          "grad_correlation": 0.9995329242722707,
+          "lost_detail_rate": 0.0074793253846627125
+        },
+        "display_luma_low_frequency": {
+          "samples": 1827191,
+          "rmse": 0.00036914573122302086,
+          "mae": 0.00021036682999265254,
+          "p95_abs": 0.000839433167129755,
+          "p99_abs": 0.001282891957089305,
+          "p999_abs": 0.0019167097052559257,
+          "max_abs": 0.003539947560057044,
+          "psnr_db": 68.65604298730659,
+          "radius": 16,
+          "max_abs_x": 1790,
+          "max_abs_y": 523,
+          "max_abs_signed": 0.003539947560057044
+        },
+        "display_chroma": {
+          "samples": 1827191,
+          "co_rmse": 0.0074093947704799825,
+          "cg_rmse": 0.004050790649131434,
+          "co_p99_abs": 0.029466360807418823,
+          "cg_p99_abs": 0.014346018433570862
+        }
+      },
+      "highlight_1_4": {
+        "samples": 0,
+        "display_luma": {
+          "samples": 0,
+          "rmse": 0.0,
+          "mae": 0.0,
+          "p95_abs": 0.0,
+          "p99_abs": 0.0,
+          "p999_abs": 0.0,
+          "max_abs": 0.0,
+          "psnr_db": Infinity
+        },
+        "display_rgb_maxabs": {
+          "samples": 0,
+          "rmse": 0.0,
+          "mae": 0.0,
+          "p95_abs": 0.0,
+          "p99_abs": 0.0,
+          "p999_abs": 0.0,
+          "max_abs": 0.0,
+          "psnr_db": Infinity
+        },
+        "display_luma_gradient": {
+          "gradient_samples": 0,
+          "grad_rmse": 0.0,
+          "grad_p99_abs": 0.0,
+          "grad_nrmse": 0.0,
+          "grad_energy_ratio": 1.0,
+          "grad_correlation": 1.0,
+          "lost_detail_rate": 0.0
+        },
+        "display_luma_structure_gradient": {
+          "gradient_samples": 0,
+          "grad_rmse": 0.0,
+          "grad_p99_abs": 0.0,
+          "grad_nrmse": 0.0,
+          "grad_energy_ratio": 1.0,
+          "grad_correlation": 1.0,
+          "lost_detail_rate": 0.0
+        },
+        "display_luma_low_frequency": {
+          "samples": 0,
+          "rmse": 0.0,
+          "mae": 0.0,
+          "p95_abs": 0.0,
+          "p99_abs": 0.0,
+          "p999_abs": 0.0,
+          "max_abs": 0.0,
+          "psnr_db": Infinity,
+          "radius": 16,
+          "max_abs_x": 0,
+          "max_abs_y": 0,
+          "max_abs_signed": 5.207374124438502e-05
+        },
+        "display_chroma": {
+          "samples": 0,
+          "co_p99_abs": 0.0,
+          "cg_p99_abs": 0.0,
+          "co_rmse": 0.0,
+          "cg_rmse": 0.0
+        }
+      },
+      "extreme_gt4": {
+        "samples": 0,
+        "display_luma": {
+          "samples": 0,
+          "rmse": 0.0,
+          "mae": 0.0,
+          "p95_abs": 0.0,
+          "p99_abs": 0.0,
+          "p999_abs": 0.0,
+          "max_abs": 0.0,
+          "psnr_db": Infinity
+        },
+        "display_rgb_maxabs": {
+          "samples": 0,
+          "rmse": 0.0,
+          "mae": 0.0,
+          "p95_abs": 0.0,
+          "p99_abs": 0.0,
+          "p999_abs": 0.0,
+          "max_abs": 0.0,
+          "psnr_db": Infinity
+        },
+        "display_luma_gradient": {
+          "gradient_samples": 0,
+          "grad_rmse": 0.0,
+          "grad_p99_abs": 0.0,
+          "grad_nrmse": 0.0,
+          "grad_energy_ratio": 1.0,
+          "grad_correlation": 1.0,
+          "lost_detail_rate": 0.0
+        },
+        "display_luma_structure_gradient": {
+          "gradient_samples": 0,
+          "grad_rmse": 0.0,
+          "grad_p99_abs": 0.0,
+          "grad_nrmse": 0.0,
+          "grad_energy_ratio": 1.0,
+          "grad_correlation": 1.0,
+          "lost_detail_rate": 0.0
+        },
+        "display_luma_low_frequency": {
+          "samples": 0,
+          "rmse": 0.0,
+          "mae": 0.0,
+          "p95_abs": 0.0,
+          "p99_abs": 0.0,
+          "p999_abs": 0.0,
+          "max_abs": 0.0,
+          "psnr_db": Infinity,
+          "radius": 16,
+          "max_abs_x": 0,
+          "max_abs_y": 0,
+          "max_abs_signed": 5.207374124438502e-05
+        },
+        "display_chroma": {
+          "samples": 0,
+          "co_p99_abs": 0.0,
+          "cg_p99_abs": 0.0,
+          "co_rmse": 0.0,
+          "cg_rmse": 0.0
+        }
+      },
+      "smooth": {
+        "samples": 735816,
+        "display_luma": {
+          "samples": 735816,
+          "rmse": 0.0005206226989332839,
+          "mae": 0.0004270769406533663,
+          "p95_abs": 0.0009635686874389648,
+          "p99_abs": 0.0012805163860321045,
+          "p999_abs": 0.0018039047718048096,
+          "max_abs": 0.00397491455078125,
+          "psnr_db": 65.66953801510176
+        },
+        "display_rgb_maxabs": {
+          "samples": 735816,
+          "rmse": 0.0013211239585504662,
+          "mae": 0.001147987504181203,
+          "p95_abs": 0.002310454845428467,
+          "p99_abs": 0.003391653299331665,
+          "p999_abs": 0.005737602710723877,
+          "max_abs": 0.021564453840255737,
+          "psnr_db": 57.581128628954296
+        },
+        "display_luma_gradient": {
+          "gradient_samples": 1208427,
+          "grad_rmse": 0.0006174575874875698,
+          "grad_p99_abs": 0.0015977323055267334,
+          "grad_nrmse": 0.10300568952524077,
+          "grad_energy_ratio": 0.9961294344587801,
+          "grad_correlation": 0.9946818202381912,
+          "lost_detail_rate": 0.04006861812918778
+        },
+        "display_luma_structure_gradient": {
+          "gradient_samples": 1208427,
+          "grad_rmse": 8.097667616679667e-05,
+          "grad_p99_abs": 0.0002449452877044678,
+          "grad_nrmse": 0.08565662962983217,
+          "grad_energy_ratio": 0.9897920309197432,
+          "grad_correlation": 0.9963462751058534,
+          "lost_detail_rate": 0.004610952916477371
+        },
+        "display_luma_low_frequency": {
+          "samples": 735816,
+          "rmse": 8.755861731951302e-05,
+          "mae": 4.487644694247708e-05,
+          "p95_abs": 0.0001988163567148149,
+          "p99_abs": 0.0003947255318053067,
+          "p999_abs": 0.0006278055370785296,
+          "max_abs": 0.0011065122671425343,
+          "psnr_db": 81.15402210408463,
+          "radius": 16,
+          "max_abs_x": 99,
+          "max_abs_y": 1108,
+          "max_abs_signed": 0.0011065122671425343
+        },
+        "display_chroma": {
+          "samples": 735816,
+          "co_rmse": 0.0013857270120729384,
+          "cg_rmse": 0.0011072990043882556,
+          "co_p99_abs": 0.004211872816085815,
+          "cg_p99_abs": 0.0035321414470672607
+        }
+      },
+      "dark_smooth": {
+        "samples": 11,
+        "display_luma": {
+          "samples": 11,
+          "rmse": 0.0006300320002823937,
+          "mae": 0.0005123371427709407,
+          "p95_abs": 0.001355886459350586,
+          "p99_abs": 0.001355886459350586,
+          "p999_abs": 0.001355886459350586,
+          "max_abs": 0.001355886459350586,
+          "psnr_db": 64.01274783019446
+        },
+        "display_rgb_maxabs": {
+          "samples": 11,
+          "rmse": 0.004267518857748386,
+          "mae": 0.003628007390282371,
+          "p95_abs": 0.009062811732292175,
+          "p99_abs": 0.009062811732292175,
+          "p999_abs": 0.009062811732292175,
+          "max_abs": 0.009062811732292175,
+          "psnr_db": 47.39649102208311
+        },
+        "display_luma_gradient": {
+          "gradient_samples": 5,
+          "grad_rmse": 0.000861484411922925,
+          "grad_p99_abs": 0.0012722015380859375,
+          "grad_nrmse": 0.2661063397421637,
+          "grad_energy_ratio": 0.7838718380182822,
+          "grad_correlation": 0.9846268226000396,
+          "lost_detail_rate": 0.2
+        },
+        "display_luma_structure_gradient": {
+          "gradient_samples": 5,
+          "grad_rmse": 0.00019125490590639373,
+          "grad_p99_abs": 0.00038214027881622314,
+          "grad_nrmse": 0.2567093580217548,
+          "grad_energy_ratio": 0.9354144567453699,
+          "grad_correlation": 0.9670047850697003,
+          "lost_detail_rate": 0.0
+        },
+        "display_luma_low_frequency": {
+          "samples": 11,
+          "rmse": 0.00020443054959884492,
+          "mae": 0.00012208067311224693,
+          "p95_abs": 0.0003935163840651512,
+          "p99_abs": 0.0003935163840651512,
+          "p999_abs": 0.0003935163840651512,
+          "max_abs": 0.0003935163840651512,
+          "psnr_db": 73.78908407575429,
+          "radius": 16,
+          "max_abs_x": 644,
+          "max_abs_y": 739,
+          "max_abs_signed": 0.0003935163840651512
+        },
+        "display_chroma": {
+          "samples": 11,
+          "co_rmse": 0.006541708855078481,
+          "cg_rmse": 0.002463774071820302,
+          "co_p99_abs": 0.017676740884780884,
+          "cg_p99_abs": 0.004210725426673889
+        }
+      },
+      "edge": {
+        "samples": 122880,
+        "display_luma": {
+          "samples": 122880,
+          "rmse": 0.006474993590797589,
+          "mae": 0.003990923994504669,
+          "p95_abs": 0.016927670687437057,
+          "p99_abs": 0.023206764832139015,
+          "p999_abs": 0.02923433855175972,
+          "max_abs": 0.052104610949754715,
+          "psnr_db": 43.77521314256392
+        },
+        "display_rgb_maxabs": {
+          "samples": 122880,
+          "rmse": 0.016712592164585385,
+          "mae": 0.012294959467792903,
+          "p95_abs": 0.03667953982949257,
+          "p99_abs": 0.051938898861408234,
+          "p999_abs": 0.07135435938835144,
+          "max_abs": 0.11024755984544754,
+          "psnr_db": 35.53912369457167
+        },
+        "display_luma_gradient": {
+          "gradient_samples": 96523,
+          "grad_rmse": 0.009364870762292832,
+          "grad_p99_abs": 0.025286972522735596,
+          "grad_nrmse": 0.07093451419722192,
+          "grad_energy_ratio": 0.9545277407063304,
+          "grad_correlation": 0.9984474107913658,
+          "lost_detail_rate": 0.0107953544750992
+        },
+        "display_luma_structure_gradient": {
+          "gradient_samples": 96523,
+          "grad_rmse": 0.0006314738301125608,
+          "grad_p99_abs": 0.0020788908004760742,
+          "grad_nrmse": 0.038133470239504794,
+          "grad_energy_ratio": 0.9808203004670726,
+          "grad_correlation": 0.9994462284896548,
+          "lost_detail_rate": 0.01497052515980647
+        },
+        "display_luma_low_frequency": {
+          "samples": 122880,
+          "rmse": 0.0011723833503791531,
+          "mae": 0.0010389828598079917,
+          "p95_abs": 0.0021116381976753473,
+          "p99_abs": 0.003148423507809639,
+          "p999_abs": 0.0035233802627772093,
+          "max_abs": 0.003959007561206818,
+          "psnr_db": 58.61860715659637,
+          "radius": 16,
+          "max_abs_x": 1826,
+          "max_abs_y": 531,
+          "max_abs_signed": 0.003959007561206818
+        },
+        "display_chroma": {
+          "samples": 122880,
+          "co_rmse": 0.016692660468915956,
+          "cg_rmse": 0.011942052771267643,
+          "co_p99_abs": 0.05702149122953415,
+          "cg_p99_abs": 0.03506788611412048
+        }
+      },
+      "texture": {
+        "samples": 614400,
+        "display_luma": {
+          "samples": 614400,
+          "rmse": 0.0036425743491386568,
+          "mae": 0.002154810682409902,
+          "p95_abs": 0.006657212972640991,
+          "p99_abs": 0.017890725284814835,
+          "p999_abs": 0.025018885731697083,
+          "max_abs": 0.052104610949754715,
+          "psnr_db": 48.77183150033655
+        },
+        "display_rgb_maxabs": {
+          "samples": 614400,
+          "rmse": 0.016560582354429972,
+          "mae": 0.011734408574626704,
+          "p95_abs": 0.0392923578619957,
+          "p99_abs": 0.05274279788136482,
+          "p999_abs": 0.06778476387262344,
+          "max_abs": 0.11741455644369125,
+          "psnr_db": 35.61848790552937
+        },
+        "display_luma_gradient": {
+          "gradient_samples": 1168826,
+          "grad_rmse": 0.004526518121199448,
+          "grad_p99_abs": 0.02001921832561493,
+          "grad_nrmse": 0.054974555715545166,
+          "grad_energy_ratio": 0.975705760808848,
+          "grad_correlation": 0.9987537268836926,
+          "lost_detail_rate": 0.01382070556267571
+        },
+        "display_luma_structure_gradient": {
+          "gradient_samples": 1168826,
+          "grad_rmse": 0.0005538772425045307,
+          "grad_p99_abs": 0.0018233954906463623,
+          "grad_nrmse": 0.03447433581335784,
+          "grad_energy_ratio": 0.9835387468709135,
+          "grad_correlation": 0.9995335684648361,
+          "lost_detail_rate": 0.013066957784991094
+        },
+        "display_luma_low_frequency": {
+          "samples": 614400,
+          "rmse": 0.0010285351720264488,
+          "mae": 0.000904048068046067,
+          "p95_abs": 0.0017497357912361622,
+          "p99_abs": 0.0029650244396179914,
+          "p999_abs": 0.003478072816506028,
+          "max_abs": 0.003959007561206818,
+          "psnr_db": 59.755617049616994,
+          "radius": 16,
+          "max_abs_x": 1826,
+          "max_abs_y": 531,
+          "max_abs_signed": 0.003959007561206818
+        },
+        "display_chroma": {
+          "samples": 614400,
+          "co_rmse": 0.017938460779473475,
+          "cg_rmse": 0.010570642433877552,
+          "co_p99_abs": 0.057068511843681335,
+          "cg_p99_abs": 0.031778134405612946
+        }
+      },
+      "route_mask": {
+        "samples": 1,
+        "display_luma": {
+          "samples": 1,
+          "rmse": 7.984042167663574e-05,
+          "mae": 7.984042167663574e-05,
+          "p95_abs": 7.984042167663574e-05,
+          "p99_abs": 7.984042167663574e-05,
+          "p999_abs": 7.984042167663574e-05,
+          "max_abs": 7.984042167663574e-05,
+          "psnr_db": 81.95554355982642
+        },
+        "display_rgb_maxabs": {
+          "samples": 1,
+          "rmse": 0.0001774430274963379,
+          "mae": 0.0001774430274963379,
+          "p95_abs": 0.0001774430274963379,
+          "p99_abs": 0.0001774430274963379,
+          "p999_abs": 0.0001774430274963379,
+          "max_abs": 0.0001774430274963379,
+          "psnr_db": 75.01882122577648
+        },
+        "display_luma_gradient": {
+          "gradient_samples": 0,
+          "grad_rmse": 0.0,
+          "grad_p99_abs": 0.0,
+          "grad_nrmse": 0.0,
+          "grad_energy_ratio": 1.0,
+          "grad_correlation": 1.0,
+          "lost_detail_rate": 0.0
+        },
+        "display_luma_structure_gradient": {
+          "gradient_samples": 0,
+          "grad_rmse": 0.0,
+          "grad_p99_abs": 0.0,
+          "grad_nrmse": 0.0,
+          "grad_energy_ratio": 1.0,
+          "grad_correlation": 1.0,
+          "lost_detail_rate": 0.0
+        },
+        "display_luma_low_frequency": {
+          "samples": 1,
+          "rmse": 2.5047771487152204e-05,
+          "mae": 2.5047771487152204e-05,
+          "p95_abs": 2.5047771487152204e-05,
+          "p99_abs": 2.5047771487152204e-05,
+          "p999_abs": 2.5047771487152204e-05,
+          "max_abs": 2.5047771487152204e-05,
+          "psnr_db": 92.02461814953595,
+          "radius": 16,
+          "max_abs_x": 1919,
+          "max_abs_y": 4,
+          "max_abs_signed": -2.5047771487152204e-05
+        },
+        "display_chroma": {
+          "samples": 1,
+          "co_rmse": 4.9561262130737305e-05,
+          "cg_rmse": 0.00010669231414794922,
+          "co_p99_abs": 4.9561262130737305e-05,
+          "cg_p99_abs": 0.00010669231414794922
+        }
+      },
+      "nonmask": {
+        "samples": 2457599,
+        "display_luma": {
+          "samples": 2457599,
+          "rmse": 0.002093799710148257,
+          "mae": 0.001126366253773362,
+          "p95_abs": 0.0035756081342697144,
+          "p99_abs": 0.007832571864128113,
+          "p999_abs": 0.0217141043394804,
+          "max_abs": 0.052104610949754715,
+          "psnr_db": 53.581297293044955
+        },
+        "display_rgb_maxabs": {
+          "samples": 2457599,
+          "rmse": 0.009915528487172337,
+          "mae": 0.005451560440641127,
+          "p95_abs": 0.021307051181793213,
+          "p99_abs": 0.04420255869626999,
+          "p999_abs": 0.059813376516103745,
+          "max_abs": 0.11741455644369125,
+          "psnr_db": 40.07368266811248
+        },
+        "display_luma_gradient": {
+          "gradient_samples": 4911997,
+          "grad_rmse": 0.002523825224456089,
+          "grad_p99_abs": 0.01029786467552185,
+          "grad_nrmse": 0.052773396285298715,
+          "grad_energy_ratio": 0.9784029441696167,
+          "grad_correlation": 0.998815110610224,
+          "lost_detail_rate": 0.0218025377458496
+        },
+        "display_luma_structure_gradient": {
+          "gradient_samples": 4911997,
+          "grad_rmse": 0.00033080284278647006,
+          "grad_p99_abs": 0.0012819916009902954,
+          "grad_nrmse": 0.03673804020575283,
+          "grad_energy_ratio": 0.9846257642114965,
+          "grad_correlation": 0.9994346499388169,
+          "lost_detail_rate": 0.009778711184066277
+        },
+        "display_luma_low_frequency": {
+          "samples": 2457599,
+          "rmse": 0.000577209740512156,
+          "mae": 0.0003598990765998238,
+          "p95_abs": 0.0011734588770195842,
+          "p99_abs": 0.0018903728341683745,
+          "p999_abs": 0.00325278309173882,
+          "max_abs": 0.003959007561206818,
+          "psnr_db": 64.773326974475,
+          "radius": 16,
+          "max_abs_x": 1826,
+          "max_abs_y": 531,
+          "max_abs_signed": 0.003959007561206818
+        },
+        "display_chroma": {
+          "samples": 2457599,
+          "co_rmse": 0.011038774224563133,
+          "cg_rmse": 0.0063835739746827425,
+          "co_p99_abs": 0.0474231094121933,
+          "cg_p99_abs": 0.026564061641693115
+        }
+      }
+    },
+    "ev3": {
+      "all": {
+        "samples": 2457600,
+        "display_luma": {
+          "samples": 2457600,
+          "rmse": 0.005349810698727681,
+          "mae": 0.0025685256502493794,
+          "p95_abs": 0.009405821561813354,
+          "p99_abs": 0.020441710948944092,
+          "p999_abs": 0.05587754771113396,
+          "max_abs": 0.1340823471546173,
+          "psnr_db": 45.43323170145393
+        },
+        "display_rgb_maxabs": {
+          "samples": 2457600,
+          "rmse": 0.025015252514510946,
+          "mae": 0.012399853403631483,
+          "p95_abs": 0.05454359948635101,
+          "p99_abs": 0.11374776065349579,
+          "p999_abs": 0.1539195477962494,
+          "max_abs": 0.30214637517929077,
+          "psnr_db": 32.03590217613497
+        },
+        "display_luma_gradient": {
+          "gradient_samples": 4912000,
+          "grad_rmse": 0.006424969803749085,
+          "grad_p99_abs": 0.026476100087165833,
+          "grad_nrmse": 0.05974794985063377,
+          "grad_energy_ratio": 0.9736896008942845,
+          "grad_correlation": 0.9985223317535646,
+          "lost_detail_rate": 0.01721681596091205
+        },
+        "display_luma_structure_gradient": {
+          "gradient_samples": 4912000,
+          "grad_rmse": 0.0008248561800553249,
+          "grad_p99_abs": 0.0032383203506469727,
+          "grad_nrmse": 0.04312354277879045,
+          "grad_energy_ratio": 0.9825847951901616,
+          "grad_correlation": 0.9992080324309698,
+          "lost_detail_rate": 0.018167548859934855
+        },
+        "display_luma_low_frequency": {
+          "samples": 2457600,
+          "rmse": 0.0016405540243574746,
+          "mae": 0.0010532245543700277,
+          "p95_abs": 0.0032794629223644733,
+          "p99_abs": 0.0051848022267222404,
+          "p999_abs": 0.0083623006939888,
+          "max_abs": 0.010187836363911629,
+          "psnr_db": 55.700189269666936,
+          "radius": 16,
+          "max_abs_x": 1826,
+          "max_abs_y": 531,
+          "max_abs_signed": 0.010187836363911629
+        },
+        "display_chroma": {
+          "samples": 2457600,
+          "co_rmse": 0.02696323513041508,
+          "cg_rmse": 0.01588454536533333,
+          "co_p99_abs": 0.12157246470451355,
+          "cg_p99_abs": 0.06841263175010681
+        }
+      },
+      "dark_0_0.25": {
+        "samples": 630409,
+        "display_luma": {
+          "samples": 630409,
+          "rmse": 0.009037723517913314,
+          "mae": 0.0052071368689142,
+          "p95_abs": 0.016339659690856934,
+          "p99_abs": 0.04544433206319809,
+          "p999_abs": 0.06402309238910675,
+          "max_abs": 0.1340823471546173,
+          "psnr_db": 40.87881897481473
+        },
+        "display_rgb_maxabs": {
+          "samples": 630409,
+          "rmse": 0.04277406723757884,
+          "mae": 0.02986442943350271,
+          "p95_abs": 0.10192794352769852,
+          "p99_abs": 0.13247600197792053,
+          "p999_abs": 0.1651793122291565,
+          "max_abs": 0.30214637517929077,
+          "psnr_db": 27.376389044499035
+        },
+        "display_luma_gradient": {
+          "gradient_samples": 1150597,
+          "grad_rmse": 0.01076298726299377,
+          "grad_p99_abs": 0.05013634264469147,
+          "grad_nrmse": 0.08406824982471314,
+          "grad_energy_ratio": 0.9552311923376328,
+          "grad_correlation": 0.9973497387178648,
+          "lost_detail_rate": 0.018945816823788
+        },
+        "display_luma_structure_gradient": {
+          "gradient_samples": 1150597,
+          "grad_rmse": 0.001233084103648071,
+          "grad_p99_abs": 0.004349604249000549,
+          "grad_nrmse": 0.04738234622087049,
+          "grad_energy_ratio": 0.9787472065063325,
+          "grad_correlation": 0.9990838259919477,
+          "lost_detail_rate": 0.020372032953327707
+        },
+        "display_luma_low_frequency": {
+          "samples": 630409,
+          "rmse": 0.002505981533072995,
+          "mae": 0.0020900444398139575,
+          "p95_abs": 0.0045660268515348434,
+          "p99_abs": 0.0075638173148036,
+          "p999_abs": 0.008932373486459255,
+          "max_abs": 0.010187836363911629,
+          "psnr_db": 52.02044267413224,
+          "radius": 16,
+          "max_abs_x": 1826,
+          "max_abs_y": 531,
+          "max_abs_signed": 0.010187836363911629
+        },
+        "display_chroma": {
+          "samples": 630409,
+          "co_rmse": 0.04573867118853841,
+          "cg_rmse": 0.027148416316659724,
+          "co_p99_abs": 0.14290523529052734,
+          "cg_p99_abs": 0.08058252930641174
+        }
+      },
+      "mid_0.25_1": {
+        "samples": 1827191,
+        "display_luma": {
+          "samples": 1827191,
+          "rmse": 0.0032115367150223136,
+          "mae": 0.0016581641939225529,
+          "p95_abs": 0.006811261177062988,
+          "p99_abs": 0.012814044952392578,
+          "p999_abs": 0.024690836668014526,
+          "max_abs": 0.107259601354599,
+          "psnr_db": 49.8657421733529
+        },
+        "display_rgb_maxabs": {
+          "samples": 1827191,
+          "rmse": 0.014505631376921162,
+          "mae": 0.006374306041360602,
+          "p95_abs": 0.027023673057556152,
+          "p99_abs": 0.05654329061508179,
+          "p999_abs": 0.1455668807029724,
+          "max_abs": 0.30185139179229736,
+          "psnr_db": 36.76926726408571
+        },
+        "display_luma_gradient": {
+          "gradient_samples": 3543234,
+          "grad_rmse": 0.003584516726086836,
+          "grad_p99_abs": 0.014540314674377441,
+          "grad_nrmse": 0.053544341857351956,
+          "grad_energy_ratio": 0.9816066765007304,
+          "grad_correlation": 0.9987119677075738,
+          "lost_detail_rate": 0.017572646909574698
+        },
+        "display_luma_structure_gradient": {
+          "gradient_samples": 3543234,
+          "grad_rmse": 0.0005994831787974648,
+          "grad_p99_abs": 0.0024722814559936523,
+          "grad_nrmse": 0.0421987354755769,
+          "grad_energy_ratio": 0.9860229221448914,
+          "grad_correlation": 0.9991960762094043,
+          "lost_detail_rate": 0.017845561427780383
+        },
+        "display_luma_low_frequency": {
+          "samples": 1827191,
+          "rmse": 0.0012055375819299506,
+          "mae": 0.0006955057460118308,
+          "p95_abs": 0.0028138672932982445,
+          "p99_abs": 0.003719269996508956,
+          "p999_abs": 0.005416971631348133,
+          "max_abs": 0.009095454588532448,
+          "psnr_db": 58.376384923973845,
+          "radius": 16,
+          "max_abs_x": 1790,
+          "max_abs_y": 523,
+          "max_abs_signed": 0.009095454588532448
+        },
+        "display_chroma": {
+          "samples": 1827191,
+          "co_rmse": 0.016002081271805076,
+          "cg_rmse": 0.009224083148621904,
+          "co_p99_abs": 0.06798601150512695,
+          "cg_p99_abs": 0.036215245723724365
+        }
+      },
+      "highlight_1_4": {
+        "samples": 0,
+        "display_luma": {
+          "samples": 0,
+          "rmse": 0.0,
+          "mae": 0.0,
+          "p95_abs": 0.0,
+          "p99_abs": 0.0,
+          "p999_abs": 0.0,
+          "max_abs": 0.0,
+          "psnr_db": Infinity
+        },
+        "display_rgb_maxabs": {
+          "samples": 0,
+          "rmse": 0.0,
+          "mae": 0.0,
+          "p95_abs": 0.0,
+          "p99_abs": 0.0,
+          "p999_abs": 0.0,
+          "max_abs": 0.0,
+          "psnr_db": Infinity
+        },
+        "display_luma_gradient": {
+          "gradient_samples": 0,
+          "grad_rmse": 0.0,
+          "grad_p99_abs": 0.0,
+          "grad_nrmse": 0.0,
+          "grad_energy_ratio": 1.0,
+          "grad_correlation": 1.0,
+          "lost_detail_rate": 0.0
+        },
+        "display_luma_structure_gradient": {
+          "gradient_samples": 0,
+          "grad_rmse": 0.0,
+          "grad_p99_abs": 0.0,
+          "grad_nrmse": 0.0,
+          "grad_energy_ratio": 1.0,
+          "grad_correlation": 1.0,
+          "lost_detail_rate": 0.0
+        },
+        "display_luma_low_frequency": {
+          "samples": 0,
+          "rmse": 0.0,
+          "mae": 0.0,
+          "p95_abs": 0.0,
+          "p99_abs": 0.0,
+          "p999_abs": 0.0,
+          "max_abs": 0.0,
+          "psnr_db": Infinity,
+          "radius": 16,
+          "max_abs_x": 0,
+          "max_abs_y": 0,
+          "max_abs_signed": 0.00021804812422487885
+        },
+        "display_chroma": {
+          "samples": 0,
+          "co_p99_abs": 0.0,
+          "cg_p99_abs": 0.0,
+          "co_rmse": 0.0,
+          "cg_rmse": 0.0
+        }
+      },
+      "extreme_gt4": {
+        "samples": 0,
+        "display_luma": {
+          "samples": 0,
+          "rmse": 0.0,
+          "mae": 0.0,
+          "p95_abs": 0.0,
+          "p99_abs": 0.0,
+          "p999_abs": 0.0,
+          "max_abs": 0.0,
+          "psnr_db": Infinity
+        },
+        "display_rgb_maxabs": {
+          "samples": 0,
+          "rmse": 0.0,
+          "mae": 0.0,
+          "p95_abs": 0.0,
+          "p99_abs": 0.0,
+          "p999_abs": 0.0,
+          "max_abs": 0.0,
+          "psnr_db": Infinity
+        },
+        "display_luma_gradient": {
+          "gradient_samples": 0,
+          "grad_rmse": 0.0,
+          "grad_p99_abs": 0.0,
+          "grad_nrmse": 0.0,
+          "grad_energy_ratio": 1.0,
+          "grad_correlation": 1.0,
+          "lost_detail_rate": 0.0
+        },
+        "display_luma_structure_gradient": {
+          "gradient_samples": 0,
+          "grad_rmse": 0.0,
+          "grad_p99_abs": 0.0,
+          "grad_nrmse": 0.0,
+          "grad_energy_ratio": 1.0,
+          "grad_correlation": 1.0,
+          "lost_detail_rate": 0.0
+        },
+        "display_luma_low_frequency": {
+          "samples": 0,
+          "rmse": 0.0,
+          "mae": 0.0,
+          "p95_abs": 0.0,
+          "p99_abs": 0.0,
+          "p999_abs": 0.0,
+          "max_abs": 0.0,
+          "psnr_db": Infinity,
+          "radius": 16,
+          "max_abs_x": 0,
+          "max_abs_y": 0,
+          "max_abs_signed": 0.00021804812422487885
+        },
+        "display_chroma": {
+          "samples": 0,
+          "co_p99_abs": 0.0,
+          "cg_p99_abs": 0.0,
+          "co_rmse": 0.0,
+          "cg_rmse": 0.0
+        }
+      },
+      "smooth": {
+        "samples": 735816,
+        "display_luma": {
+          "samples": 735816,
+          "rmse": 0.0009834310945921658,
+          "mae": 0.0005088721542725215,
+          "p95_abs": 0.0023154020309448242,
+          "p99_abs": 0.0033502578735351562,
+          "p999_abs": 0.005065441131591797,
+          "max_abs": 0.010775744915008545,
+          "psnr_db": 60.14512128198484
+        },
+        "display_rgb_maxabs": {
+          "samples": 735816,
+          "rmse": 0.0020484239452984777,
+          "mae": 0.0010584063583316417,
+          "p95_abs": 0.004450023174285889,
+          "p99_abs": 0.007052958011627197,
+          "p999_abs": 0.012739956378936768,
+          "max_abs": 0.05549246072769165,
+          "psnr_db": 53.77160312140609
+        },
+        "display_luma_gradient": {
+          "gradient_samples": 1208427,
+          "grad_rmse": 0.0009375772120973837,
+          "grad_p99_abs": 0.003914058208465576,
+          "grad_nrmse": 0.12125881417898549,
+          "grad_energy_ratio": 0.9760519238238557,
+          "grad_correlation": 0.9927615584178159,
+          "lost_detail_rate": 0.014471705779496817
+        },
+        "display_luma_structure_gradient": {
+          "gradient_samples": 1208427,
+          "grad_rmse": 0.00015878088555075303,
+          "grad_p99_abs": 0.0006369352340698242,
+          "grad_nrmse": 0.12112911135208343,
+          "grad_energy_ratio": 0.9744263605371428,
+          "grad_correlation": 0.9928069215133702,
+          "lost_detail_rate": 0.01306160818982032
+        },
+        "display_luma_low_frequency": {
+          "samples": 735816,
+          "rmse": 0.00022997295769231987,
+          "mae": 0.00010671032587432927,
+          "p95_abs": 0.0005116823012940586,
+          "p99_abs": 0.0010247285244986415,
+          "p999_abs": 0.00163400883320719,
+          "max_abs": 0.0030431575141847134,
+          "psnr_db": 72.76646458534192,
+          "radius": 16,
+          "max_abs_x": 99,
+          "max_abs_y": 1108,
+          "max_abs_signed": 0.0030431575141847134
+        },
+        "display_chroma": {
+          "samples": 735816,
+          "co_rmse": 0.0018287911834102184,
+          "cg_rmse": 0.0017727524942004554,
+          "co_p99_abs": 0.007690548896789551,
+          "cg_p99_abs": 0.006866276264190674
+        }
+      },
+      "dark_smooth": {
+        "samples": 11,
+        "display_luma": {
+          "samples": 11,
+          "rmse": 0.0016212518700368863,
+          "mae": 0.0013183680447665129,
+          "p95_abs": 0.003489077091217041,
+          "p99_abs": 0.003489077091217041,
+          "p999_abs": 0.003489077091217041,
+          "max_abs": 0.003489077091217041,
+          "psnr_db": 55.80299019939111
+        },
+        "display_rgb_maxabs": {
+          "samples": 11,
+          "rmse": 0.010981739257004288,
+          "mae": 0.009336070580915972,
+          "p95_abs": 0.023321598768234253,
+          "p99_abs": 0.023321598768234253,
+          "p999_abs": 0.023321598768234253,
+          "max_abs": 0.023321598768234253,
+          "psnr_db": 39.1865774419784
+        },
+        "display_luma_gradient": {
+          "gradient_samples": 5,
+          "grad_rmse": 0.0022168267637413305,
+          "grad_p99_abs": 0.00327378511428833,
+          "grad_nrmse": 0.26610132362523176,
+          "grad_energy_ratio": 0.7838789591677569,
+          "grad_correlation": 0.9846267016974936,
+          "lost_detail_rate": 0.2
+        },
+        "display_luma_structure_gradient": {
+          "gradient_samples": 5,
+          "grad_rmse": 0.0004921533415454719,
+          "grad_p99_abs": 0.0009833574295043945,
+          "grad_nrmse": 0.25670362521929,
+          "grad_energy_ratio": 0.9354224684697281,
+          "grad_correlation": 0.9670060877823676,
+          "lost_detail_rate": 0.0
+        },
+        "display_luma_low_frequency": {
+          "samples": 11,
+          "rmse": 0.000553383545611609,
+          "mae": 0.00033898553473673843,
+          "p95_abs": 0.0010632388293743134,
+          "p99_abs": 0.0010632388293743134,
+          "p999_abs": 0.0010632388293743134,
+          "max_abs": 0.0010632388293743134,
+          "psnr_db": 65.13947516759201,
+          "radius": 16,
+          "max_abs_x": 643,
+          "max_abs_y": 739,
+          "max_abs_signed": 0.0010632388293743134
+        },
+        "display_chroma": {
+          "samples": 11,
+          "co_rmse": 0.016833968325470634,
+          "cg_rmse": 0.00634011706200465,
+          "co_p99_abs": 0.04548808932304382,
+          "cg_p99_abs": 0.010835587978363037
+        }
+      },
+      "edge": {
+        "samples": 122880,
+        "display_luma": {
+          "samples": 122880,
+          "rmse": 0.016629959525377255,
+          "mae": 0.010069766519429398,
+          "p95_abs": 0.04358764737844467,
+          "p99_abs": 0.05971865728497505,
+          "p999_abs": 0.07522958517074585,
+          "max_abs": 0.1340823471546173,
+          "psnr_db": 35.58217615562971
+        },
+        "display_rgb_maxabs": {
+          "samples": 122880,
+          "rmse": 0.04281385437743402,
+          "mae": 0.03103523960079618,
+          "p95_abs": 0.09438855201005936,
+          "p99_abs": 0.13365592062473297,
+          "p999_abs": 0.18361830711364746,
+          "max_abs": 0.2837033271789551,
+          "psnr_db": 27.368313448686695
+        },
+        "display_luma_gradient": {
+          "gradient_samples": 96523,
+          "grad_rmse": 0.024052612572551535,
+          "grad_p99_abs": 0.0650654137134552,
+          "grad_nrmse": 0.07448977722669113,
+          "grad_energy_ratio": 0.9504241026675609,
+          "grad_correlation": 0.9983739062875772,
+          "lost_detail_rate": 0.011489489551713063
+        },
+        "display_luma_structure_gradient": {
+          "gradient_samples": 96523,
+          "grad_rmse": 0.0015901981317865549,
+          "grad_p99_abs": 0.0053161680698394775,
+          "grad_nrmse": 0.042742918110023134,
+          "grad_energy_ratio": 0.9781429984454199,
+          "grad_correlation": 0.999310311205137,
+          "lost_detail_rate": 0.0167732043139977
+        },
+        "display_luma_low_frequency": {
+          "samples": 122880,
+          "rmse": 0.0031611816174202277,
+          "mae": 0.0028213384697146388,
+          "p95_abs": 0.0056260619312524796,
+          "p99_abs": 0.008095004595816135,
+          "p999_abs": 0.009055021218955517,
+          "max_abs": 0.010187836363911629,
+          "psnr_db": 50.00301104380576,
+          "radius": 16,
+          "max_abs_x": 1826,
+          "max_abs_y": 531,
+          "max_abs_signed": 0.010187836363911629
+        },
+        "display_chroma": {
+          "samples": 122880,
+          "co_rmse": 0.04235423245151003,
+          "cg_rmse": 0.030505534208249512,
+          "co_p99_abs": 0.14641079306602478,
+          "cg_p99_abs": 0.0902981162071228
+        }
+      },
+      "texture": {
+        "samples": 614400,
+        "display_luma": {
+          "samples": 614400,
+          "rmse": 0.009311480987097819,
+          "mae": 0.0052783680331598744,
+          "p95_abs": 0.017275959253311157,
+          "p99_abs": 0.046059347689151764,
+          "p999_abs": 0.06438454240560532,
+          "max_abs": 0.1340823471546173,
+          "psnr_db": 40.61962478343968
+        },
+        "display_rgb_maxabs": {
+          "samples": 614400,
+          "rmse": 0.04227029577650038,
+          "mae": 0.02914596789601395,
+          "p95_abs": 0.10111219435930252,
+          "p99_abs": 0.13572461903095245,
+          "p999_abs": 0.17443256080150604,
+          "max_abs": 0.30214637517929077,
+          "psnr_db": 27.479294265727372
+        },
+        "display_luma_gradient": {
+          "gradient_samples": 1168826,
+          "grad_rmse": 0.01157469381607658,
+          "grad_p99_abs": 0.05151038616895676,
+          "grad_nrmse": 0.060587877861700966,
+          "grad_energy_ratio": 0.9711516040150441,
+          "grad_correlation": 0.9985385077977817,
+          "lost_detail_rate": 0.01578678092376453
+        },
+        "display_luma_structure_gradient": {
+          "gradient_samples": 1168826,
+          "grad_rmse": 0.001383313090035553,
+          "grad_p99_abs": 0.0046501606702804565,
+          "grad_nrmse": 0.039597731106428315,
+          "grad_energy_ratio": 0.9811484646524206,
+          "grad_correlation": 0.9993820507458852,
+          "lost_detail_rate": 0.01509121118113389
+        },
+        "display_luma_low_frequency": {
+          "samples": 614400,
+          "rmse": 0.0027998316130559238,
+          "mae": 0.0024913195566335492,
+          "p95_abs": 0.004848988726735115,
+          "p99_abs": 0.007615488022565842,
+          "p999_abs": 0.00894120242446661,
+          "max_abs": 0.010187836363911629,
+          "psnr_db": 51.05736174258179,
+          "radius": 16,
+          "max_abs_x": 1826,
+          "max_abs_y": 531,
+          "max_abs_signed": 0.010187836363911629
+        },
+        "display_chroma": {
+          "samples": 614400,
+          "co_rmse": 0.04518694118312227,
+          "cg_rmse": 0.026780901391337705,
+          "co_p99_abs": 0.14661067724227905,
+          "cg_p99_abs": 0.08179667592048645
+        }
+      },
+      "route_mask": {
+        "samples": 1,
+        "display_luma": {
+          "samples": 1,
+          "rmse": 0.00020545721054077148,
+          "mae": 0.00020545721054077148,
+          "p95_abs": 0.00020545721054077148,
+          "p99_abs": 0.00020545721054077148,
+          "p999_abs": 0.00020545721054077148,
+          "max_abs": 0.00020545721054077148,
+          "psnr_db": 73.74557225055202
+        },
+        "display_rgb_maxabs": {
+          "samples": 1,
+          "rmse": 0.0004565715789794922,
+          "mae": 0.0004565715789794922,
+          "p95_abs": 0.0004565715789794922,
+          "p99_abs": 0.0004565715789794922,
+          "p999_abs": 0.0004565715789794922,
+          "max_abs": 0.0004565715789794922,
+          "psnr_db": 66.8098225260589
+        },
+        "display_luma_gradient": {
+          "gradient_samples": 0,
+          "grad_rmse": 0.0,
+          "grad_p99_abs": 0.0,
+          "grad_nrmse": 0.0,
+          "grad_energy_ratio": 1.0,
+          "grad_correlation": 1.0,
+          "lost_detail_rate": 0.0
+        },
+        "display_luma_structure_gradient": {
+          "gradient_samples": 0,
+          "grad_rmse": 0.0,
+          "grad_p99_abs": 0.0,
+          "grad_nrmse": 0.0,
+          "grad_energy_ratio": 1.0,
+          "grad_correlation": 1.0,
+          "lost_detail_rate": 0.0
+        },
+        "display_luma_low_frequency": {
+          "samples": 1,
+          "rmse": 0.00013026806118432432,
+          "mae": 0.00013026806118432432,
+          "p95_abs": 0.00013026806118432432,
+          "p99_abs": 0.00013026806118432432,
+          "p999_abs": 0.00013026806118432432,
+          "max_abs": 0.00013026806118432432,
+          "psnr_db": 77.70324101064145,
+          "radius": 16,
+          "max_abs_x": 1919,
+          "max_abs_y": 4,
+          "max_abs_signed": 0.00013026806118432432
+        },
+        "display_chroma": {
+          "samples": 1,
+          "co_rmse": 0.00012749433517456055,
+          "cg_rmse": 0.00027447938919067383,
+          "co_p99_abs": 0.00012749433517456055,
+          "cg_p99_abs": 0.00027447938919067383
+        }
+      },
+      "nonmask": {
+        "samples": 2457599,
+        "display_luma": {
+          "samples": 2457599,
+          "rmse": 0.00534981178554446,
+          "mae": 0.0025685266117847806,
+          "p95_abs": 0.009405851364135742,
+          "p99_abs": 0.02044200897216797,
+          "p999_abs": 0.05587754771113396,
+          "max_abs": 0.1340823471546173,
+          "psnr_db": 45.4332299369112
+        },
+        "display_rgb_maxabs": {
+          "samples": 2457599,
+          "rmse": 0.025015257602183257,
+          "mae": 0.012399858263367276,
+          "p95_abs": 0.054543837904930115,
+          "p99_abs": 0.11374776065349579,
+          "p999_abs": 0.1539195477962494,
+          "max_abs": 0.30214637517929077,
+          "psnr_db": 32.03590040957452
+        },
+        "display_luma_gradient": {
+          "gradient_samples": 4911997,
+          "grad_rmse": 0.006424971118656125,
+          "grad_p99_abs": 0.02647620439529419,
+          "grad_nrmse": 0.05974794384940679,
+          "grad_energy_ratio": 0.9736895999559583,
+          "grad_correlation": 0.9985223321457452,
+          "lost_detail_rate": 0.017216826476074802
+        },
+        "display_luma_structure_gradient": {
+          "gradient_samples": 4911997,
+          "grad_rmse": 0.0008248562997811622,
+          "grad_p99_abs": 0.0032383203506469727,
+          "grad_nrmse": 0.04312353597085078,
+          "grad_energy_ratio": 0.9825847956508373,
+          "grad_correlation": 0.999208032721962,
+          "lost_detail_rate": 0.018167559955757303
+        },
+        "display_luma_low_frequency": {
+          "samples": 2457599,
+          "rmse": 0.0016405543560246698,
+          "mae": 0.001053224929922139,
+          "p95_abs": 0.003279465716332197,
+          "p99_abs": 0.005184858106076717,
+          "p999_abs": 0.0083623006939888,
+          "max_abs": 0.010187836363911629,
+          "psnr_db": 55.700187513659934,
+          "radius": 16,
+          "max_abs_x": 1826,
+          "max_abs_y": 531,
+          "max_abs_signed": 0.010187836363911629
+        },
+        "display_chroma": {
+          "samples": 2457599,
+          "co_rmse": 0.026963240615978337,
+          "cg_rmse": 0.0158845485960884,
+          "co_p99_abs": 0.12157297134399414,
+          "cg_p99_abs": 0.0684153139591217
+        }
+      }
+    },
+    "ev5": {
+      "all": {
+        "samples": 2457600,
+        "display_luma": {
+          "samples": 2457600,
+          "rmse": 0.009234720952513018,
+          "mae": 0.002994909920528812,
+          "p95_abs": 0.015537858009338379,
+          "p99_abs": 0.03857740759849548,
+          "p999_abs": 0.10513310134410858,
+          "max_abs": 0.25293102860450745,
+          "psnr_db": 40.691524463846235
+        },
+        "display_rgb_maxabs": {
+          "samples": 2457600,
+          "rmse": 0.04485358921395072,
+          "mae": 0.017378853486946847,
+          "p95_abs": 0.10046394169330597,
+          "p99_abs": 0.21358945965766907,
+          "p999_abs": 0.28903964161872864,
+          "max_abs": 0.5673891305923462,
+          "psnr_db": 26.964055973938756
+        },
+        "display_luma_gradient": {
+          "gradient_samples": 4912000,
+          "grad_rmse": 0.011207158025892377,
+          "grad_p99_abs": 0.04969990253448486,
+          "grad_nrmse": 0.09907386471351064,
+          "grad_energy_ratio": 0.9396463568694494,
+          "grad_correlation": 0.9967152171745189,
+          "lost_detail_rate": 0.016681188925081435
+        },
+        "display_luma_structure_gradient": {
+          "gradient_samples": 4912000,
+          "grad_rmse": 0.0013198890669953525,
+          "grad_p99_abs": 0.005635261535644531,
+          "grad_nrmse": 0.08013142239166803,
+          "grad_energy_ratio": 0.9567209700100128,
+          "grad_correlation": 0.9976231468943394,
+          "lost_detail_rate": 0.01840818403908795
+        },
+        "display_luma_low_frequency": {
+          "samples": 2457600,
+          "rmse": 0.003088878694233207,
+          "mae": 0.001686494121424514,
+          "p95_abs": 0.007151487283408642,
+          "p99_abs": 0.010790010914206505,
+          "p999_abs": 0.015868768095970154,
+          "max_abs": 0.019125040620565414,
+          "psnr_db": 50.2039829376265,
+          "radius": 16,
+          "max_abs_x": 1826,
+          "max_abs_y": 531,
+          "max_abs_signed": 0.019125040620565414
+        },
+        "display_chroma": {
+          "samples": 2457600,
+          "co_rmse": 0.045990240179614235,
+          "cg_rmse": 0.02682456532264736,
+          "co_p99_abs": 0.22229838371276855,
+          "cg_p99_abs": 0.12480077147483826
+        }
+      },
+      "dark_0_0.25": {
+        "samples": 630409,
+        "display_luma": {
+          "samples": 630409,
+          "rmse": 0.016864728056377138,
+          "mae": 0.009233038140024998,
+          "p95_abs": 0.030725419521331787,
+          "p99_abs": 0.08545266091823578,
+          "p999_abs": 0.12055440247058868,
+          "max_abs": 0.25293102860450745,
+          "psnr_db": 35.4604131482765
+        },
+        "display_rgb_maxabs": {
+          "samples": 630409,
+          "rmse": 0.0797415610976078,
+          "mae": 0.054051263596048546,
+          "p95_abs": 0.19139935076236725,
+          "p99_abs": 0.24877162277698517,
+          "p999_abs": 0.31018394231796265,
+          "max_abs": 0.5673891305923462,
+          "psnr_db": 21.96630532846612
+        },
+        "display_luma_gradient": {
+          "gradient_samples": 1150597,
+          "grad_rmse": 0.019958177781620238,
+          "grad_p99_abs": 0.09420269727706909,
+          "grad_nrmse": 0.0963107994453088,
+          "grad_energy_ratio": 0.9418167084638661,
+          "grad_correlation": 0.9968728126062748,
+          "lost_detail_rate": 0.027113750513863673
+        },
+        "display_luma_structure_gradient": {
+          "gradient_samples": 1150597,
+          "grad_rmse": 0.00219878705462729,
+          "grad_p99_abs": 0.007974773645401001,
+          "grad_nrmse": 0.07374289605535304,
+          "grad_energy_ratio": 0.9594171658940089,
+          "grad_correlation": 0.9980242961928747,
+          "lost_detail_rate": 0.027112881399829827
+        },
+        "display_luma_low_frequency": {
+          "samples": 630409,
+          "rmse": 0.005136127717015926,
+          "mae": 0.004220816810279023,
+          "p95_abs": 0.0095998365432024,
+          "p99_abs": 0.014488425105810165,
+          "p999_abs": 0.016914432868361473,
+          "max_abs": 0.019125040620565414,
+          "psnr_db": 45.787283709276174,
+          "radius": 16,
+          "max_abs_x": 1826,
+          "max_abs_y": 531,
+          "max_abs_signed": 0.019125040620565414
+        },
+        "display_chroma": {
+          "samples": 630409,
+          "co_rmse": 0.08229667955628525,
+          "cg_rmse": 0.04906176867256368,
+          "co_p99_abs": 0.2607499361038208,
+          "cg_p99_abs": 0.14868104457855225
+        }
+      },
+      "mid_0.25_1": {
+        "samples": 1827191,
+        "display_luma": {
+          "samples": 1827191,
+          "rmse": 0.004071125083300448,
+          "mae": 0.0008426597328229998,
+          "p95_abs": 0.005412042140960693,
+          "p99_abs": 0.018437445163726807,
+          "p999_abs": 0.050441205501556396,
+          "max_abs": 0.20957857370376587,
+          "psnr_db": 47.80571107865799
+        },
+        "display_rgb_maxabs": {
+          "samples": 1827191,
+          "rmse": 0.022629775275069586,
+          "mae": 0.004726307921393662,
+          "p95_abs": 0.030172497034072876,
+          "p99_abs": 0.0992664098739624,
+          "p999_abs": 0.2733544707298279,
+          "max_abs": 0.5668352246284485,
+          "psnr_db": 32.906395175683876
+        },
+        "display_luma_gradient": {
+          "gradient_samples": 3543234,
+          "grad_rmse": 0.004895909360650673,
+          "grad_p99_abs": 0.022279202938079834,
+          "grad_nrmse": 0.15547740158250564,
+          "grad_energy_ratio": 0.9132500074541416,
+          "grad_correlation": 0.9908854853215115,
+          "lost_detail_rate": 0.013320034747916733
+        },
+        "display_luma_structure_gradient": {
+          "gradient_samples": 3543234,
+          "grad_rmse": 0.0007851410379971685,
+          "grad_p99_abs": 0.0036666393280029297,
+          "grad_nrmse": 0.1144050078256834,
+          "grad_energy_ratio": 0.9433987508417586,
+          "grad_correlation": 0.9947610676818783,
+          "lost_detail_rate": 0.014904462984945391
+        },
+        "display_luma_low_frequency": {
+          "samples": 1827191,
+          "rmse": 0.0019317305834639822,
+          "mae": 0.0008121138119997839,
+          "p95_abs": 0.004637815523892641,
+          "p99_abs": 0.00818760134279728,
+          "p999_abs": 0.011352256871759892,
+          "max_abs": 0.017165502533316612,
+          "psnr_db": 54.281068886297774,
+          "radius": 16,
+          "max_abs_x": 1790,
+          "max_abs_y": 523,
+          "max_abs_signed": 0.017165502533316612
+        },
+        "display_chroma": {
+          "samples": 1827191,
+          "co_rmse": 0.022542056483589496,
+          "cg_rmse": 0.011719381529329985,
+          "co_p99_abs": 0.0990973711013794,
+          "cg_p99_abs": 0.05279994010925293
+        }
+      },
+      "highlight_1_4": {
+        "samples": 0,
+        "display_luma": {
+          "samples": 0,
+          "rmse": 0.0,
+          "mae": 0.0,
+          "p95_abs": 0.0,
+          "p99_abs": 0.0,
+          "p999_abs": 0.0,
+          "max_abs": 0.0,
+          "psnr_db": Infinity
+        },
+        "display_rgb_maxabs": {
+          "samples": 0,
+          "rmse": 0.0,
+          "mae": 0.0,
+          "p95_abs": 0.0,
+          "p99_abs": 0.0,
+          "p999_abs": 0.0,
+          "max_abs": 0.0,
+          "psnr_db": Infinity
+        },
+        "display_luma_gradient": {
+          "gradient_samples": 0,
+          "grad_rmse": 0.0,
+          "grad_p99_abs": 0.0,
+          "grad_nrmse": 0.0,
+          "grad_energy_ratio": 1.0,
+          "grad_correlation": 1.0,
+          "lost_detail_rate": 0.0
+        },
+        "display_luma_structure_gradient": {
+          "gradient_samples": 0,
+          "grad_rmse": 0.0,
+          "grad_p99_abs": 0.0,
+          "grad_nrmse": 0.0,
+          "grad_energy_ratio": 1.0,
+          "grad_correlation": 1.0,
+          "lost_detail_rate": 0.0
+        },
+        "display_luma_low_frequency": {
+          "samples": 0,
+          "rmse": 0.0,
+          "mae": 0.0,
+          "p95_abs": 0.0,
+          "p99_abs": 0.0,
+          "p999_abs": 0.0,
+          "max_abs": 0.0,
+          "psnr_db": Infinity,
+          "radius": 16,
+          "max_abs_x": 0,
+          "max_abs_y": 0,
+          "max_abs_signed": 0.0
+        },
+        "display_chroma": {
+          "samples": 0,
+          "co_p99_abs": 0.0,
+          "cg_p99_abs": 0.0,
+          "co_rmse": 0.0,
+          "cg_rmse": 0.0
+        }
+      },
+      "extreme_gt4": {
+        "samples": 0,
+        "display_luma": {
+          "samples": 0,
+          "rmse": 0.0,
+          "mae": 0.0,
+          "p95_abs": 0.0,
+          "p99_abs": 0.0,
+          "p999_abs": 0.0,
+          "max_abs": 0.0,
+          "psnr_db": Infinity
+        },
+        "display_rgb_maxabs": {
+          "samples": 0,
+          "rmse": 0.0,
+          "mae": 0.0,
+          "p95_abs": 0.0,
+          "p99_abs": 0.0,
+          "p999_abs": 0.0,
+          "max_abs": 0.0,
+          "psnr_db": Infinity
+        },
+        "display_luma_gradient": {
+          "gradient_samples": 0,
+          "grad_rmse": 0.0,
+          "grad_p99_abs": 0.0,
+          "grad_nrmse": 0.0,
+          "grad_energy_ratio": 1.0,
+          "grad_correlation": 1.0,
+          "lost_detail_rate": 0.0
+        },
+        "display_luma_structure_gradient": {
+          "gradient_samples": 0,
+          "grad_rmse": 0.0,
+          "grad_p99_abs": 0.0,
+          "grad_nrmse": 0.0,
+          "grad_energy_ratio": 1.0,
+          "grad_correlation": 1.0,
+          "lost_detail_rate": 0.0
+        },
+        "display_luma_low_frequency": {
+          "samples": 0,
+          "rmse": 0.0,
+          "mae": 0.0,
+          "p95_abs": 0.0,
+          "p99_abs": 0.0,
+          "p999_abs": 0.0,
+          "max_abs": 0.0,
+          "psnr_db": Infinity,
+          "radius": 16,
+          "max_abs_x": 0,
+          "max_abs_y": 0,
+          "max_abs_signed": 0.0
+        },
+        "display_chroma": {
+          "samples": 0,
+          "co_p99_abs": 0.0,
+          "cg_p99_abs": 0.0,
+          "co_rmse": 0.0,
+          "cg_rmse": 0.0
+        }
+      },
+      "smooth": {
+        "samples": 735816,
+        "display_luma": {
+          "samples": 735816,
+          "rmse": 6.476723473149707e-05,
+          "mae": 5.195829982293676e-07,
+          "p95_abs": 0.0,
+          "p99_abs": 0.0,
+          "p999_abs": 0.0,
+          "max_abs": 0.019708752632141113,
+          "psnr_db": 83.77289289927687
+        },
+        "display_rgb_maxabs": {
+          "samples": 735816,
+          "rmse": 0.000321069572610722,
+          "mae": 2.7211391632379895e-06,
+          "p95_abs": 0.0,
+          "p99_abs": 0.0,
+          "p999_abs": 0.0,
+          "max_abs": 0.09270361065864563,
+          "psnr_db": 69.86801700130783
+        },
+        "display_luma_gradient": {
+          "gradient_samples": 1208427,
+          "grad_rmse": 4.106578268333139e-05,
+          "grad_p99_abs": 0.0,
+          "grad_nrmse": 0.5486818550764311,
+          "grad_energy_ratio": 0.9285813105753787,
+          "grad_correlation": 0.8406433849569929,
+          "lost_detail_rate": 1.7377963253055417e-05
+        },
+        "display_luma_structure_gradient": {
+          "gradient_samples": 1208427,
+          "grad_rmse": 1.0085652937050563e-05,
+          "grad_p99_abs": 0.0,
+          "grad_nrmse": 0.3770608620945727,
+          "grad_energy_ratio": 0.9425321119435814,
+          "grad_correlation": 0.9263301834462325,
+          "lost_detail_rate": 7.447698537023751e-06
+        },
+        "display_luma_low_frequency": {
+          "samples": 735816,
+          "rmse": 0.00020777333077051993,
+          "mae": 3.2840535712679374e-05,
+          "p95_abs": 2.701617449929472e-05,
+          "p99_abs": 0.0011252878466621041,
+          "p999_abs": 0.0024988779332488775,
+          "max_abs": 0.0047985222190618515,
+          "psnr_db": 73.64820396161191,
+          "radius": 16,
+          "max_abs_x": 1828,
+          "max_abs_y": 415,
+          "max_abs_signed": 0.0047985222190618515
+        },
+        "display_chroma": {
+          "samples": 735816,
+          "co_rmse": 0.00032087839938764375,
+          "cg_rmse": 0.00017227568105762542,
+          "co_p99_abs": 0.0,
+          "cg_p99_abs": 0.0
+        }
+      },
+      "dark_smooth": {
+        "samples": 11,
+        "display_luma": {
+          "samples": 11,
+          "rmse": 0.0014648953216309568,
+          "mae": 0.001148446039720015,
+          "p95_abs": 0.0031619668006896973,
+          "p99_abs": 0.0031619668006896973,
+          "p999_abs": 0.0031619668006896973,
+          "max_abs": 0.0031619668006896973,
+          "psnr_db": 56.68386815960759
+        },
+        "display_rgb_maxabs": {
+          "samples": 11,
+          "rmse": 0.01895997280103456,
+          "mae": 0.013165021484548395,
+          "p95_abs": 0.04379475116729736,
+          "p99_abs": 0.04379475116729736,
+          "p999_abs": 0.04379475116729736,
+          "max_abs": 0.04379475116729736,
+          "psnr_db": 34.44324580026398
+        },
+        "display_luma_gradient": {
+          "gradient_samples": 5,
+          "grad_rmse": 0.0017654419456050758,
+          "grad_p99_abs": 0.002475142478942871,
+          "grad_nrmse": 0.41763924803904173,
+          "grad_energy_ratio": 1.2197223823745773,
+          "grad_correlation": 0.9482896198310817,
+          "lost_detail_rate": 0.0
+        },
+        "display_luma_structure_gradient": {
+          "gradient_samples": 5,
+          "grad_rmse": 0.0003240788455446295,
+          "grad_p99_abs": 0.0005639791488647461,
+          "grad_nrmse": 0.2766982940150483,
+          "grad_energy_ratio": 0.7521560780068027,
+          "grad_correlation": 0.9899386997696168,
+          "lost_detail_rate": 0.0
+        },
+        "display_luma_low_frequency": {
+          "samples": 11,
+          "rmse": 0.0006956106294655856,
+          "mae": 0.0004740313027220757,
+          "p95_abs": 0.001331827719695866,
+          "p99_abs": 0.001331827719695866,
+          "p999_abs": 0.001331827719695866,
+          "max_abs": 0.001331827719695866,
+          "psnr_db": 63.152675805296255,
+          "radius": 16,
+          "max_abs_x": 643,
+          "max_abs_y": 739,
+          "max_abs_signed": 0.001331827719695866
+        },
+        "display_chroma": {
+          "samples": 11,
+          "co_rmse": 0.018937055332357036,
+          "cg_rmse": 0.010056120814461729,
+          "co_p99_abs": 0.04379475116729736,
+          "cg_p99_abs": 0.02189737558364868
+        }
+      },
+      "edge": {
+        "samples": 122880,
+        "display_luma": {
+          "samples": 122880,
+          "rmse": 0.031122236663906074,
+          "mae": 0.01778824228049037,
+          "p95_abs": 0.08187089115381241,
+          "p99_abs": 0.11226461827754974,
+          "p999_abs": 0.14181025326251984,
+          "max_abs": 0.25293102860450745,
+          "psnr_db": 30.138583981791793
+        },
+        "display_rgb_maxabs": {
+          "samples": 122880,
+          "rmse": 0.07876594360738767,
+          "mae": 0.05279863359100432,
+          "p95_abs": 0.17722633481025696,
+          "p99_abs": 0.25098735094070435,
+          "p999_abs": 0.34480980038642883,
+          "max_abs": 0.5327556729316711,
+          "psnr_db": 22.073230396514283
+        },
+        "display_luma_gradient": {
+          "gradient_samples": 96523,
+          "grad_rmse": 0.0448727459512615,
+          "grad_p99_abs": 0.12191605567932129,
+          "grad_nrmse": 0.10555287258244789,
+          "grad_energy_ratio": 0.9167034661058432,
+          "grad_correlation": 0.9977074940223142,
+          "lost_detail_rate": 0.01615159081255245
+        },
+        "display_luma_structure_gradient": {
+          "gradient_samples": 96523,
+          "grad_rmse": 0.002823390802103512,
+          "grad_p99_abs": 0.009767383337020874,
+          "grad_nrmse": 0.07811119818330073,
+          "grad_energy_ratio": 0.9503923796854044,
+          "grad_correlation": 0.9980847682672083,
+          "lost_detail_rate": 0.025289309283797645
+        },
+        "display_luma_low_frequency": {
+          "samples": 122880,
+          "rmse": 0.006548342290441087,
+          "mae": 0.005810645171021607,
+          "p95_abs": 0.011465313844382763,
+          "p99_abs": 0.015448071993887424,
+          "p999_abs": 0.017165502533316612,
+          "max_abs": 0.019125040620565414,
+          "psnr_db": 43.67737255049052,
+          "radius": 16,
+          "max_abs_x": 1826,
+          "max_abs_y": 531,
+          "max_abs_signed": 0.019125040620565414
+        },
+        "display_chroma": {
+          "samples": 122880,
+          "co_rmse": 0.07407119244281721,
+          "cg_rmse": 0.05502229394063202,
+          "co_p99_abs": 0.2652638554573059,
+          "cg_p99_abs": 0.1672467291355133
+        }
+      },
+      "texture": {
+        "samples": 614400,
+        "display_luma": {
+          "samples": 614400,
+          "rmse": 0.017000001191589238,
+          "mae": 0.008348299508979078,
+          "p95_abs": 0.03203612565994263,
+          "p99_abs": 0.08679971098899841,
+          "p999_abs": 0.121381476521492,
+          "max_abs": 0.25293102860450745,
+          "psnr_db": 35.391020963610266
+        },
+        "display_rgb_maxabs": {
+          "samples": 614400,
+          "rmse": 0.07728678355345076,
+          "mae": 0.04771764526687586,
+          "p95_abs": 0.18983881175518036,
+          "p99_abs": 0.25487208366394043,
+          "p999_abs": 0.3275602459907532,
+          "max_abs": 0.5673891305923462,
+          "psnr_db": 22.237895327467726
+        },
+        "display_luma_gradient": {
+          "gradient_samples": 1168826,
+          "grad_rmse": 0.021091403711512614,
+          "grad_p99_abs": 0.09690055251121521,
+          "grad_nrmse": 0.09766931338424727,
+          "grad_energy_ratio": 0.9368583336973839,
+          "grad_correlation": 0.9970366785704055,
+          "lost_detail_rate": 0.026920174602549907
+        },
+        "display_luma_structure_gradient": {
+          "gradient_samples": 1168826,
+          "grad_rmse": 0.0023803273667656233,
+          "grad_p99_abs": 0.008432388305664062,
+          "grad_nrmse": 0.07564736016135072,
+          "grad_energy_ratio": 0.9547107123973124,
+          "grad_correlation": 0.9980772167525995,
+          "lost_detail_rate": 0.027224753727244262
+        },
+        "display_luma_low_frequency": {
+          "samples": 614400,
+          "rmse": 0.005729231389943921,
+          "mae": 0.00497471293277105,
+          "p95_abs": 0.010175188072025776,
+          "p99_abs": 0.014584003016352654,
+          "p999_abs": 0.01693405956029892,
+          "max_abs": 0.019125040620565414,
+          "psnr_db": 44.83807274562921,
+          "radius": 16,
+          "max_abs_x": 1826,
+          "max_abs_y": 531,
+          "max_abs_signed": 0.019125040620565414
+        },
+        "display_chroma": {
+          "samples": 614400,
+          "co_rmse": 0.07899407024290071,
+          "cg_rmse": 0.04696293664291488,
+          "co_p99_abs": 0.2660026252269745,
+          "cg_p99_abs": 0.14982199668884277
+        }
+      },
+      "route_mask": {
+        "samples": 1,
+        "display_luma": {
+          "samples": 1,
+          "rmse": 0.0,
+          "mae": 0.0,
+          "p95_abs": 0.0,
+          "p99_abs": 0.0,
+          "p999_abs": 0.0,
+          "max_abs": 0.0,
+          "psnr_db": Infinity
+        },
+        "display_rgb_maxabs": {
+          "samples": 1,
+          "rmse": 0.0,
+          "mae": 0.0,
+          "p95_abs": 0.0,
+          "p99_abs": 0.0,
+          "p999_abs": 0.0,
+          "max_abs": 0.0,
+          "psnr_db": Infinity
+        },
+        "display_luma_gradient": {
+          "gradient_samples": 0,
+          "grad_rmse": 0.0,
+          "grad_p99_abs": 0.0,
+          "grad_nrmse": 0.0,
+          "grad_energy_ratio": 1.0,
+          "grad_correlation": 1.0,
+          "lost_detail_rate": 0.0
+        },
+        "display_luma_structure_gradient": {
+          "gradient_samples": 0,
+          "grad_rmse": 0.0,
+          "grad_p99_abs": 0.0,
+          "grad_nrmse": 0.0,
+          "grad_energy_ratio": 1.0,
+          "grad_correlation": 1.0,
+          "lost_detail_rate": 0.0
+        },
+        "display_luma_low_frequency": {
+          "samples": 1,
+          "rmse": 0.0,
+          "mae": 0.0,
+          "p95_abs": 0.0,
+          "p99_abs": 0.0,
+          "p999_abs": 0.0,
+          "max_abs": 0.0,
+          "psnr_db": Infinity,
+          "radius": 16,
+          "max_abs_x": 1919,
+          "max_abs_y": 4,
+          "max_abs_signed": 0.0
+        },
+        "display_chroma": {
+          "samples": 1,
+          "co_rmse": 0.0,
+          "cg_rmse": 0.0,
+          "co_p99_abs": 0.0,
+          "cg_p99_abs": 0.0
+        }
+      },
+      "nonmask": {
+        "samples": 2457599,
+        "display_luma": {
+          "samples": 2457599,
+          "rmse": 0.009234722831322378,
+          "mae": 0.0029949111391612744,
+          "p95_abs": 0.015537858009338379,
+          "p99_abs": 0.03857758641242981,
+          "p999_abs": 0.10513310134410858,
+          "max_abs": 0.25293102860450745,
+          "psnr_db": 40.691522696697106
+        },
+        "display_rgb_maxabs": {
+          "samples": 2457599,
+          "rmse": 0.04485359833943959,
+          "mae": 0.01737886055842331,
+          "p95_abs": 0.10046394169330597,
+          "p99_abs": 0.21358945965766907,
+          "p999_abs": 0.28903964161872864,
+          "max_abs": 0.5673891305923462,
+          "psnr_db": 26.964054206789626
+        },
+        "display_luma_gradient": {
+          "gradient_samples": 4911997,
+          "grad_rmse": 0.011207161448275264,
+          "grad_p99_abs": 0.04970121383666992,
+          "grad_nrmse": 0.09907386471351064,
+          "grad_energy_ratio": 0.9396463568694494,
+          "grad_correlation": 0.996715217174519,
+          "lost_detail_rate": 0.016681199113110206
+        },
+        "display_luma_structure_gradient": {
+          "gradient_samples": 4911997,
+          "grad_rmse": 0.0013198894700561235,
+          "grad_p99_abs": 0.005635261535644531,
+          "grad_nrmse": 0.08013142239166801,
+          "grad_energy_ratio": 0.9567209700100131,
+          "grad_correlation": 0.9976231468943393,
+          "lost_detail_rate": 0.018408195281878224
+        },
+        "display_luma_low_frequency": {
+          "samples": 2457599,
+          "rmse": 0.0030888793226673786,
+          "mae": 0.001686494807661008,
+          "p95_abs": 0.007151526398956776,
+          "p99_abs": 0.01079008262604475,
+          "p999_abs": 0.015868768095970154,
+          "max_abs": 0.019125040620565414,
+          "psnr_db": 50.20398117047737,
+          "radius": 16,
+          "max_abs_x": 1826,
+          "max_abs_y": 531,
+          "max_abs_signed": 0.019125040620565414
+        },
+        "display_chroma": {
+          "samples": 2457599,
+          "co_rmse": 0.04599024953635541,
+          "cg_rmse": 0.02682457078012081,
+          "co_p99_abs": 0.2222989797592163,
+          "cg_p99_abs": 0.12480100989341736
+        }
+      }
+    }
+  },
+  "anchor_regions": {
+    "ev0": {
+      "all": {
+        "samples": 2457600,
+        "display_luma": {
+          "samples": 2457600,
+          "rmse": 0.00012309628213728625,
+          "mae": 9.054693270722207e-05,
+          "p95_abs": 0.00023113936185836792,
+          "p99_abs": 0.0003878399729728699,
+          "p999_abs": 0.0008183866739273071,
+          "max_abs": 0.0010813139379024506,
+          "psnr_db": 78.19510127632807
+        },
+        "display_rgb_maxabs": {
+          "samples": 2457600,
+          "rmse": 0.000247793154194886,
+          "mae": 0.00019462900926403866,
+          "p95_abs": 0.00048641860485076904,
+          "p99_abs": 0.001081317663192749,
+          "p999_abs": 0.001081317663192749,
+          "max_abs": 0.001081317663192749,
+          "psnr_db": 72.11821392178618
+        },
+        "display_luma_gradient": {
+          "gradient_samples": 4912000,
+          "grad_rmse": 0.00016909297343758103,
+          "grad_p99_abs": 0.0005880445241928101,
+          "grad_nrmse": 0.0035357492795442987,
+          "grad_energy_ratio": 0.9998069357157571,
+          "grad_correlation": 0.999993766671992,
+          "lost_detail_rate": 0.0001321254071661238
+        },
+        "display_luma_structure_gradient": {
+          "gradient_samples": 4912000,
+          "grad_rmse": 1.5620653050316196e-05,
+          "grad_p99_abs": 5.404651165008545e-05,
+          "grad_nrmse": 0.001734786646058625,
+          "grad_energy_ratio": 0.9999047215957728,
+          "grad_correlation": 0.999998499653683,
+          "lost_detail_rate": 0.0
+        },
+        "display_luma_low_frequency": {
+          "samples": 2457600,
+          "rmse": 2.2077919101398093e-05,
+          "mae": 1.630506881519003e-05,
+          "p95_abs": 4.6460016164928675e-05,
+          "p99_abs": 5.821523882332258e-05,
+          "p999_abs": 0.00010883084905799478,
+          "max_abs": 0.0001856179442256689,
+          "psnr_db": 93.12083724690743,
+          "radius": 16,
+          "max_abs_x": 1875,
+          "max_abs_y": 687,
+          "max_abs_signed": 0.0001856179442256689
+        },
+        "display_chroma": {
+          "samples": 2457600,
+          "co_rmse": 0.00024116951814165223,
+          "cg_rmse": 0.00019947200166540118,
+          "co_p99_abs": 0.0009498000144958496,
+          "cg_p99_abs": 0.0007069669663906097
+        }
+      },
+      "dark_0_0.25": {
+        "samples": 630409,
+        "display_luma": {
+          "samples": 630409,
+          "rmse": 0.0001951915842920937,
+          "mae": 0.00014672744421454685,
+          "p95_abs": 0.0003577619791030884,
+          "p99_abs": 0.0006946399807929993,
+          "p999_abs": 0.0009325332939624786,
+          "max_abs": 0.0010813139379024506,
+          "psnr_db": 74.1907782184577
+        },
+        "display_rgb_maxabs": {
+          "samples": 630409,
+          "rmse": 0.00040705214205814875,
+          "mae": 0.00033964963502764774,
+          "p95_abs": 0.0007486976683139801,
+          "p99_abs": 0.001081317663192749,
+          "p999_abs": 0.001081317663192749,
+          "max_abs": 0.001081317663192749,
+          "psnr_db": 67.80699910995796
+        },
+        "display_luma_gradient": {
+          "gradient_samples": 1150597,
+          "grad_rmse": 0.0002756161896627196,
+          "grad_p99_abs": 0.0008879117667675018,
+          "grad_nrmse": 0.005539867415186866,
+          "grad_energy_ratio": 0.9994191864486077,
+          "grad_correlation": 0.9999848147869241,
+          "lost_detail_rate": 0.00027029446452580706
+        },
+        "display_luma_structure_gradient": {
+          "gradient_samples": 1150597,
+          "grad_rmse": 2.4943446943864515e-05,
+          "grad_p99_abs": 7.50422477722168e-05,
+          "grad_nrmse": 0.0023049136235771517,
+          "grad_energy_ratio": 0.9997466441672571,
+          "grad_correlation": 0.9999973751161532,
+          "lost_detail_rate": 0.0
+        },
+        "display_luma_low_frequency": {
+          "samples": 630409,
+          "rmse": 2.0279056113932935e-05,
+          "mae": 1.3283221788127453e-05,
+          "p95_abs": 3.939344242098741e-05,
+          "p99_abs": 7.233346696011722e-05,
+          "p999_abs": 0.00015191512648016214,
+          "max_abs": 0.0001856179442256689,
+          "psnr_db": 93.85904526098534,
+          "radius": 16,
+          "max_abs_x": 1875,
+          "max_abs_y": 687,
+          "max_abs_signed": 0.0001856179442256689
+        },
+        "display_chroma": {
+          "samples": 630409,
+          "co_rmse": 0.0003904455274564485,
+          "cg_rmse": 0.00031796495910529324,
+          "co_p99_abs": 0.0011995434761047363,
+          "cg_p99_abs": 0.0009812712669372559
+        }
+      },
+      "mid_0.25_1": {
+        "samples": 1827191,
+        "display_luma": {
+          "samples": 1827191,
+          "rmse": 8.506236564254679e-05,
+          "mae": 7.116379209476221e-05,
+          "p95_abs": 0.00015434622764587402,
+          "p99_abs": 0.0001958012580871582,
+          "p999_abs": 0.00030046701431274414,
+          "max_abs": 0.0009190589189529419,
+          "psnr_db": 81.40525086855136
+        },
+        "display_rgb_maxabs": {
+          "samples": 1827191,
+          "rmse": 0.00015943585995708816,
+          "mae": 0.0001445946627359466,
+          "p95_abs": 0.00022405385971069336,
+          "p99_abs": 0.00035531818866729736,
+          "p999_abs": 0.001081317663192749,
+          "max_abs": 0.001081317663192749,
+          "psnr_db": 75.94827982819044
+        },
+        "display_luma_gradient": {
+          "gradient_samples": 3543234,
+          "grad_rmse": 0.00011432953089973465,
+          "grad_p99_abs": 0.0002908855676651001,
+          "grad_nrmse": 0.003186454759126985,
+          "grad_energy_ratio": 1.0000412427018175,
+          "grad_correlation": 0.9999949243128493,
+          "lost_detail_rate": 9.313525440318082e-05
+        },
+        "display_luma_structure_gradient": {
+          "gradient_samples": 3543234,
+          "grad_rmse": 1.0812053153735923e-05,
+          "grad_p99_abs": 3.001093864440918e-05,
+          "grad_nrmse": 0.0014443623081152306,
+          "grad_energy_ratio": 1.000001893733347,
+          "grad_correlation": 0.9999989569125298,
+          "lost_detail_rate": 0.0
+        },
+        "display_luma_low_frequency": {
+          "samples": 1827191,
+          "rmse": 2.2665452788356102e-05,
+          "mae": 1.73476525201686e-05,
+          "p95_abs": 4.7644254664191976e-05,
+          "p99_abs": 5.71824457438197e-05,
+          "p999_abs": 6.818760448368266e-05,
+          "max_abs": 0.00014554265362676233,
+          "psnr_db": 92.89271201212323,
+          "radius": 16,
+          "max_abs_x": 1860,
+          "max_abs_y": 692,
+          "max_abs_signed": 0.00014554265362676233
+        },
+        "display_chroma": {
+          "samples": 1827191,
+          "co_rmse": 0.0001601029993466839,
+          "cg_rmse": 0.00013651108755419303,
+          "co_p99_abs": 0.00042235851287841797,
+          "cg_p99_abs": 0.0003427267074584961
+        }
+      },
+      "highlight_1_4": {
+        "samples": 0,
+        "display_luma": {
+          "samples": 0,
+          "rmse": 0.0,
+          "mae": 0.0,
+          "p95_abs": 0.0,
+          "p99_abs": 0.0,
+          "p999_abs": 0.0,
+          "max_abs": 0.0,
+          "psnr_db": Infinity
+        },
+        "display_rgb_maxabs": {
+          "samples": 0,
+          "rmse": 0.0,
+          "mae": 0.0,
+          "p95_abs": 0.0,
+          "p99_abs": 0.0,
+          "p999_abs": 0.0,
+          "max_abs": 0.0,
+          "psnr_db": Infinity
+        },
+        "display_luma_gradient": {
+          "gradient_samples": 0,
+          "grad_rmse": 0.0,
+          "grad_p99_abs": 0.0,
+          "grad_nrmse": 0.0,
+          "grad_energy_ratio": 1.0,
+          "grad_correlation": 1.0,
+          "lost_detail_rate": 0.0
+        },
+        "display_luma_structure_gradient": {
+          "gradient_samples": 0,
+          "grad_rmse": 0.0,
+          "grad_p99_abs": 0.0,
+          "grad_nrmse": 0.0,
+          "grad_energy_ratio": 1.0,
+          "grad_correlation": 1.0,
+          "lost_detail_rate": 0.0
+        },
+        "display_luma_low_frequency": {
+          "samples": 0,
+          "rmse": 0.0,
+          "mae": 0.0,
+          "p95_abs": 0.0,
+          "p99_abs": 0.0,
+          "p999_abs": 0.0,
+          "max_abs": 0.0,
+          "psnr_db": Infinity,
+          "radius": 16,
+          "max_abs_x": 0,
+          "max_abs_y": 0,
+          "max_abs_signed": -2.3574484657729045e-05
+        },
+        "display_chroma": {
+          "samples": 0,
+          "co_p99_abs": 0.0,
+          "cg_p99_abs": 0.0,
+          "co_rmse": 0.0,
+          "cg_rmse": 0.0
+        }
+      },
+      "extreme_gt4": {
+        "samples": 0,
+        "display_luma": {
+          "samples": 0,
+          "rmse": 0.0,
+          "mae": 0.0,
+          "p95_abs": 0.0,
+          "p99_abs": 0.0,
+          "p999_abs": 0.0,
+          "max_abs": 0.0,
+          "psnr_db": Infinity
+        },
+        "display_rgb_maxabs": {
+          "samples": 0,
+          "rmse": 0.0,
+          "mae": 0.0,
+          "p95_abs": 0.0,
+          "p99_abs": 0.0,
+          "p999_abs": 0.0,
+          "max_abs": 0.0,
+          "psnr_db": Infinity
+        },
+        "display_luma_gradient": {
+          "gradient_samples": 0,
+          "grad_rmse": 0.0,
+          "grad_p99_abs": 0.0,
+          "grad_nrmse": 0.0,
+          "grad_energy_ratio": 1.0,
+          "grad_correlation": 1.0,
+          "lost_detail_rate": 0.0
+        },
+        "display_luma_structure_gradient": {
+          "gradient_samples": 0,
+          "grad_rmse": 0.0,
+          "grad_p99_abs": 0.0,
+          "grad_nrmse": 0.0,
+          "grad_energy_ratio": 1.0,
+          "grad_correlation": 1.0,
+          "lost_detail_rate": 0.0
+        },
+        "display_luma_low_frequency": {
+          "samples": 0,
+          "rmse": 0.0,
+          "mae": 0.0,
+          "p95_abs": 0.0,
+          "p99_abs": 0.0,
+          "p999_abs": 0.0,
+          "max_abs": 0.0,
+          "psnr_db": Infinity,
+          "radius": 16,
+          "max_abs_x": 0,
+          "max_abs_y": 0,
+          "max_abs_signed": -2.3574484657729045e-05
+        },
+        "display_chroma": {
+          "samples": 0,
+          "co_p99_abs": 0.0,
+          "cg_p99_abs": 0.0,
+          "co_rmse": 0.0,
+          "cg_rmse": 0.0
+        }
+      },
+      "smooth": {
+        "samples": 735816,
+        "display_luma": {
+          "samples": 735816,
+          "rmse": 7.759496356915463e-05,
+          "mae": 6.62415371307291e-05,
+          "p95_abs": 0.0001378953456878662,
+          "p99_abs": 0.00016683340072631836,
+          "p999_abs": 0.00018736720085144043,
+          "max_abs": 0.0003046095371246338,
+          "psnr_db": 82.20332932873006
+        },
+        "display_rgb_maxabs": {
+          "samples": 735816,
+          "rmse": 0.00013411113660982357,
+          "mae": 0.00012906679848827962,
+          "p95_abs": 0.00018662214279174805,
+          "p99_abs": 0.00020045042037963867,
+          "p999_abs": 0.00021156668663024902,
+          "max_abs": 0.00048641860485076904,
+          "psnr_db": 77.45070313538066
+        },
+        "display_luma_gradient": {
+          "gradient_samples": 1208427,
+          "grad_rmse": 0.00010097252706057371,
+          "grad_p99_abs": 0.00024580955505371094,
+          "grad_nrmse": 0.016844468322595205,
+          "grad_energy_ratio": 1.0002349017143712,
+          "grad_correlation": 0.9998581928436165,
+          "lost_detail_rate": 2.5653183849748474e-05
+        },
+        "display_luma_structure_gradient": {
+          "gradient_samples": 1208427,
+          "grad_rmse": 9.383861228071897e-06,
+          "grad_p99_abs": 2.4825334548950195e-05,
+          "grad_nrmse": 0.00992619064846575,
+          "grad_energy_ratio": 1.0002148116105491,
+          "grad_correlation": 0.9999507690170059,
+          "lost_detail_rate": 0.0
+        },
+        "display_luma_low_frequency": {
+          "samples": 735816,
+          "rmse": 2.453135379362413e-05,
+          "mae": 1.8270849222932416e-05,
+          "p95_abs": 5.1134407840436324e-05,
+          "p99_abs": 6.0501013649627566e-05,
+          "p999_abs": 7.0019559643697e-05,
+          "max_abs": 7.615060167154297e-05,
+          "psnr_db": 92.20556968089711,
+          "radius": 16,
+          "max_abs_x": 1354,
+          "max_abs_y": 608,
+          "max_abs_signed": 7.615060167154297e-05
+        },
+        "display_chroma": {
+          "samples": 735816,
+          "co_rmse": 0.00013553990301765903,
+          "cg_rmse": 0.00012306573837047436,
+          "co_p99_abs": 0.00030881166458129883,
+          "cg_p99_abs": 0.00027865171432495117
+        }
+      },
+      "dark_smooth": {
+        "samples": 11,
+        "display_luma": {
+          "samples": 11,
+          "rmse": 0.00011413416248248052,
+          "mae": 9.633329781618986e-05,
+          "p95_abs": 0.00017879903316497803,
+          "p99_abs": 0.00017879903316497803,
+          "p999_abs": 0.00017879903316497803,
+          "max_abs": 0.00017879903316497803,
+          "psnr_db": 78.85168687377845
+        },
+        "display_rgb_maxabs": {
+          "samples": 11,
+          "rmse": 0.0003098135999568175,
+          "mae": 0.0002809762954711914,
+          "p95_abs": 0.00048641860485076904,
+          "p99_abs": 0.00048641860485076904,
+          "p999_abs": 0.00048641860485076904,
+          "max_abs": 0.00048641860485076904,
+          "psnr_db": 70.17799043672922
+        },
+        "display_luma_gradient": {
+          "gradient_samples": 5,
+          "grad_rmse": 0.00020827988014760325,
+          "grad_p99_abs": 0.00035050511360168457,
+          "grad_nrmse": 0.06433615719674096,
+          "grad_energy_ratio": 1.0471238400858658,
+          "grad_correlation": 0.999083926492282,
+          "lost_detail_rate": 0.0
+        },
+        "display_luma_structure_gradient": {
+          "gradient_samples": 5,
+          "grad_rmse": 1.6147539353396746e-05,
+          "grad_p99_abs": 2.390146255493164e-05,
+          "grad_nrmse": 0.02167382029442061,
+          "grad_energy_ratio": 0.9850944805216787,
+          "grad_correlation": 0.999874336939181,
+          "lost_detail_rate": 0.0
+        },
+        "display_luma_low_frequency": {
+          "samples": 11,
+          "rmse": 9.58713034861143e-06,
+          "mae": 9.082488511260387e-06,
+          "p95_abs": 1.4262956028687768e-05,
+          "p99_abs": 1.4262956028687768e-05,
+          "p999_abs": 1.4262956028687768e-05,
+          "max_abs": 1.4262956028687768e-05,
+          "psnr_db": 100.36622735661554,
+          "radius": 16,
+          "max_abs_x": 884,
+          "max_abs_y": 861,
+          "max_abs_signed": 1.4262956028687768e-05
+        },
+        "display_chroma": {
+          "samples": 11,
+          "co_rmse": 0.0003183399747662216,
+          "cg_rmse": 0.00024752127147226004,
+          "co_p99_abs": 0.0005874931812286377,
+          "cg_p99_abs": 0.00037942826747894287
+        }
+      },
+      "edge": {
+        "samples": 122880,
+        "display_luma": {
+          "samples": 122880,
+          "rmse": 0.00025628904662232556,
+          "mae": 0.00017505086246577168,
+          "p95_abs": 0.0006388798356056213,
+          "p99_abs": 0.0008705854415893555,
+          "p999_abs": 0.0010032430291175842,
+          "max_abs": 0.0010813139379024506,
+          "psnr_db": 71.8253990892011
+        },
+        "display_rgb_maxabs": {
+          "samples": 122880,
+          "rmse": 0.00043819491631409056,
+          "mae": 0.00034864804544364837,
+          "p95_abs": 0.001081317663192749,
+          "p99_abs": 0.001081317663192749,
+          "p999_abs": 0.001081317663192749,
+          "max_abs": 0.001081317663192749,
+          "psnr_db": 67.1666533036279
+        },
+        "display_luma_gradient": {
+          "gradient_samples": 96523,
+          "grad_rmse": 0.0003907489322187251,
+          "grad_p99_abs": 0.001085422933101654,
+          "grad_nrmse": 0.0029597403299596926,
+          "grad_energy_ratio": 0.999312155139605,
+          "grad_correlation": 0.9999958536818421,
+          "lost_detail_rate": 0.00011396247526496275
+        },
+        "display_luma_structure_gradient": {
+          "gradient_samples": 96523,
+          "grad_rmse": 2.6801555888373394e-05,
+          "grad_p99_abs": 8.410215377807617e-05,
+          "grad_nrmse": 0.0016184935702870415,
+          "grad_energy_ratio": 0.9997812482996984,
+          "grad_correlation": 0.9999987138840948,
+          "lost_detail_rate": 0.0
+        },
+        "display_luma_low_frequency": {
+          "samples": 122880,
+          "rmse": 2.1148475338761565e-05,
+          "mae": 1.237747964006871e-05,
+          "p95_abs": 4.10054053645581e-05,
+          "p99_abs": 9.014694660436362e-05,
+          "p999_abs": 0.00016627006698399782,
+          "max_abs": 0.0001856179442256689,
+          "psnr_db": 93.49441873677677,
+          "radius": 16,
+          "max_abs_x": 1875,
+          "max_abs_y": 687,
+          "max_abs_signed": 0.0001856179442256689
+        },
+        "display_chroma": {
+          "samples": 122880,
+          "co_rmse": 0.00036223584857623904,
+          "cg_rmse": 0.00037181307084814904,
+          "co_p99_abs": 0.001104019582271576,
+          "cg_p99_abs": 0.0012357309460639954
+        }
+      },
+      "texture": {
+        "samples": 614400,
+        "display_luma": {
+          "samples": 614400,
+          "rmse": 0.00018091271000749597,
+          "mae": 0.00012940943450227374,
+          "p95_abs": 0.00034883618354797363,
+          "p99_abs": 0.0006946399807929993,
+          "p999_abs": 0.0009325332939624786,
+          "max_abs": 0.0010813139379024506,
+          "psnr_db": 74.85061841490806
+        },
+        "display_rgb_maxabs": {
+          "samples": 614400,
+          "rmse": 0.0003663513921971484,
+          "mae": 0.00029222697553147253,
+          "p95_abs": 0.0007486976683139801,
+          "p99_abs": 0.001081317663192749,
+          "p999_abs": 0.001081317663192749,
+          "max_abs": 0.001081317663192749,
+          "psnr_db": 68.72204307458956
+        },
+        "display_luma_gradient": {
+          "gradient_samples": 1168826,
+          "grad_rmse": 0.0002533679396694178,
+          "grad_p99_abs": 0.0008836835622787476,
+          "grad_nrmse": 0.003077153242943035,
+          "grad_energy_ratio": 0.9997242526659816,
+          "grad_correlation": 0.999995302286874,
+          "lost_detail_rate": 0.00021388983475726926
+        },
+        "display_luma_structure_gradient": {
+          "gradient_samples": 1168826,
+          "grad_rmse": 2.3572217312548646e-05,
+          "grad_p99_abs": 7.390603423118591e-05,
+          "grad_nrmse": 0.0014671780552377583,
+          "grad_energy_ratio": 0.9998671011785824,
+          "grad_correlation": 0.9999989323834405,
+          "lost_detail_rate": 0.0
+        },
+        "display_luma_low_frequency": {
+          "samples": 614400,
+          "rmse": 1.8046017753189e-05,
+          "mae": 1.1072210128851004e-05,
+          "p95_abs": 3.345948789501563e-05,
+          "p99_abs": 7.331756933126599e-05,
+          "p999_abs": 0.00015251613513100892,
+          "max_abs": 0.0001856179442256689,
+          "psnr_db": 94.87237239441737,
+          "radius": 16,
+          "max_abs_x": 1875,
+          "max_abs_y": 687,
+          "max_abs_signed": 0.0001856179442256689
+        },
+        "display_chroma": {
+          "samples": 614400,
+          "co_rmse": 0.00034545791355746055,
+          "cg_rmse": 0.0002893587030801429,
+          "co_p99_abs": 0.001141369342803955,
+          "cg_p99_abs": 0.0009741038084030151
+        }
+      },
+      "route_mask": {
+        "samples": 1,
+        "display_luma": {
+          "samples": 1,
+          "rmse": 7.984042167663574e-05,
+          "mae": 7.984042167663574e-05,
+          "p95_abs": 7.984042167663574e-05,
+          "p99_abs": 7.984042167663574e-05,
+          "p999_abs": 7.984042167663574e-05,
+          "max_abs": 7.984042167663574e-05,
+          "psnr_db": 81.95554355982642
+        },
+        "display_rgb_maxabs": {
+          "samples": 1,
+          "rmse": 0.0001774430274963379,
+          "mae": 0.0001774430274963379,
+          "p95_abs": 0.0001774430274963379,
+          "p99_abs": 0.0001774430274963379,
+          "p999_abs": 0.0001774430274963379,
+          "max_abs": 0.0001774430274963379,
+          "psnr_db": 75.01882122577648
+        },
+        "display_luma_gradient": {
+          "gradient_samples": 0,
+          "grad_rmse": 0.0,
+          "grad_p99_abs": 0.0,
+          "grad_nrmse": 0.0,
+          "grad_energy_ratio": 1.0,
+          "grad_correlation": 1.0,
+          "lost_detail_rate": 0.0
+        },
+        "display_luma_structure_gradient": {
+          "gradient_samples": 0,
+          "grad_rmse": 0.0,
+          "grad_p99_abs": 0.0,
+          "grad_nrmse": 0.0,
+          "grad_energy_ratio": 1.0,
+          "grad_correlation": 1.0,
+          "lost_detail_rate": 0.0
+        },
+        "display_luma_low_frequency": {
+          "samples": 1,
+          "rmse": 2.797195702441968e-05,
+          "mae": 2.797195702441968e-05,
+          "p95_abs": 2.797195702441968e-05,
+          "p99_abs": 2.797195702441968e-05,
+          "p999_abs": 2.797195702441968e-05,
+          "max_abs": 2.797195702441968e-05,
+          "psnr_db": 91.0655429534606,
+          "radius": 16,
+          "max_abs_x": 1919,
+          "max_abs_y": 4,
+          "max_abs_signed": -2.797195702441968e-05
+        },
+        "display_chroma": {
+          "samples": 1,
+          "co_rmse": 4.9561262130737305e-05,
+          "cg_rmse": 0.00010669231414794922,
+          "co_p99_abs": 4.9561262130737305e-05,
+          "cg_p99_abs": 0.00010669231414794922
+        }
+      },
+      "nonmask": {
+        "samples": 2457599,
+        "display_luma": {
+          "samples": 2457599,
+          "rmse": 0.00012309629664568816,
+          "mae": 9.054693706371433e-05,
+          "p95_abs": 0.00023113936185836792,
+          "p99_abs": 0.0003878399729728699,
+          "p999_abs": 0.0008183866739273071,
+          "max_abs": 0.0010813139379024506,
+          "psnr_db": 78.19510025258984
+        },
+        "display_rgb_maxabs": {
+          "samples": 2457599,
+          "rmse": 0.0002477931787569439,
+          "mae": 0.0001946290162570354,
+          "p95_abs": 0.00048641860485076904,
+          "p99_abs": 0.001081317663192749,
+          "p999_abs": 0.001081317663192749,
+          "max_abs": 0.001081317663192749,
+          "psnr_db": 72.11821306081278
+        },
+        "display_luma_gradient": {
+          "gradient_samples": 4911997,
+          "grad_rmse": 0.0001690930026139705,
+          "grad_p99_abs": 0.0005880445241928101,
+          "grad_nrmse": 0.0035357488107922567,
+          "grad_energy_ratio": 0.9998069356729778,
+          "grad_correlation": 0.9999937666736577,
+          "lost_detail_rate": 0.0001321254878616579
+        },
+        "display_luma_structure_gradient": {
+          "gradient_samples": 4911997,
+          "grad_rmse": 1.5620648924418134e-05,
+          "grad_p99_abs": 5.405396223068237e-05,
+          "grad_nrmse": 0.0017347856608223035,
+          "grad_energy_ratio": 0.9999047215294797,
+          "grad_correlation": 0.9999984996553984,
+          "lost_detail_rate": 0.0
+        },
+        "display_luma_low_frequency": {
+          "samples": 2457599,
+          "rmse": 2.2077916382976543e-05,
+          "mae": 1.6305064067919133e-05,
+          "p95_abs": 4.6460016164928675e-05,
+          "p99_abs": 5.82157117605675e-05,
+          "p999_abs": 0.00010883084905799478,
+          "max_abs": 0.0001856179442256689,
+          "psnr_db": 93.12083831638824,
+          "radius": 16,
+          "max_abs_x": 1875,
+          "max_abs_y": 687,
+          "max_abs_signed": 0.0001856179442256689
+        },
+        "display_chroma": {
+          "samples": 2457599,
+          "co_rmse": 0.00024116956513558127,
+          "cg_rmse": 0.00019947203063780183,
+          "co_p99_abs": 0.0009498000144958496,
+          "cg_p99_abs": 0.0007069669663906097
+        }
+      }
+    },
+    "ev3": {
+      "all": {
+        "samples": 2457600,
+        "display_luma": {
+          "samples": 2457600,
+          "rmse": 0.00030055820439714047,
+          "mae": 0.0001889389051279977,
+          "p95_abs": 0.0005947649478912354,
+          "p99_abs": 0.0009981095790863037,
+          "p999_abs": 0.002105996012687683,
+          "max_abs": 0.0027826130390167236,
+          "psnr_db": 70.44142825021251
+        },
+        "display_rgb_maxabs": {
+          "samples": 2457600,
+          "rmse": 0.0006100245651290736,
+          "mae": 0.00040669783296531627,
+          "p95_abs": 0.0012517273426055908,
+          "p99_abs": 0.00278259813785553,
+          "p999_abs": 0.00278259813785553,
+          "max_abs": 0.00278259813785553,
+          "psnr_db": 64.29305351994218
+        },
+        "display_luma_gradient": {
+          "gradient_samples": 4912000,
+          "grad_rmse": 0.0004128368043655676,
+          "grad_p99_abs": 0.001512870192527771,
+          "grad_nrmse": 0.0038391079549255935,
+          "grad_energy_ratio": 0.9997016822048159,
+          "grad_correlation": 0.9999926729360151,
+          "lost_detail_rate": 0.00021070846905537458
+        },
+        "display_luma_structure_gradient": {
+          "gradient_samples": 4912000,
+          "grad_rmse": 3.814983497520144e-05,
+          "grad_p99_abs": 0.00013899803161621094,
+          "grad_nrmse": 0.0019944762254755135,
+          "grad_energy_ratio": 0.9998236783856213,
+          "grad_correlation": 0.9999980262289303,
+          "lost_detail_rate": 1.8118892508143324e-05
+        },
+        "display_luma_low_frequency": {
+          "samples": 2457600,
+          "rmse": 5.374770017207584e-05,
+          "mae": 3.7074807057736895e-05,
+          "p95_abs": 0.00011616080155363306,
+          "p99_abs": 0.0001482107036281377,
+          "p999_abs": 0.0002801375521812588,
+          "max_abs": 0.00047766233910806477,
+          "psnr_db": 85.39280228366874,
+          "radius": 16,
+          "max_abs_x": 1875,
+          "max_abs_y": 687,
+          "max_abs_signed": 0.00047766233910806477
+        },
+        "display_chroma": {
+          "samples": 2457600,
+          "co_rmse": 0.0005782661209782993,
+          "cg_rmse": 0.00048287910213332656,
+          "co_p99_abs": 0.0024442076683044434,
+          "cg_p99_abs": 0.0018192827701568604
+        }
+      },
+      "dark_0_0.25": {
+        "samples": 630409,
+        "display_luma": {
+          "samples": 630409,
+          "rmse": 0.0005022907451848592,
+          "mae": 0.00037757637561606746,
+          "p95_abs": 0.0009206235408782959,
+          "p99_abs": 0.001787528395652771,
+          "p999_abs": 0.002399727702140808,
+          "max_abs": 0.0027826130390167236,
+          "psnr_db": 65.98089647472162
+        },
+        "display_rgb_maxabs": {
+          "samples": 630409,
+          "rmse": 0.0010474752774495965,
+          "mae": 0.0008740250482873281,
+          "p95_abs": 0.0019266381859779358,
+          "p99_abs": 0.00278259813785553,
+          "p999_abs": 0.00278259813785553,
+          "max_abs": 0.00278259813785553,
+          "psnr_db": 59.597124369503966
+        },
+        "display_luma_gradient": {
+          "gradient_samples": 1150597,
+          "grad_rmse": 0.0007092493485651491,
+          "grad_p99_abs": 0.0022849440574645996,
+          "grad_nrmse": 0.005539851526926824,
+          "grad_energy_ratio": 0.9994191525036515,
+          "grad_correlation": 0.9999848148942062,
+          "lost_detail_rate": 0.000404138025737943
+        },
+        "display_luma_structure_gradient": {
+          "gradient_samples": 1150597,
+          "grad_rmse": 6.411005503581099e-05,
+          "grad_p99_abs": 0.00019305944442749023,
+          "grad_nrmse": 0.002463485511619919,
+          "grad_energy_ratio": 0.9997087278070984,
+          "grad_correlation": 0.9999970071675834,
+          "lost_detail_rate": 7.300557884298325e-05
+        },
+        "display_luma_low_frequency": {
+          "samples": 630409,
+          "rmse": 5.2126698743453216e-05,
+          "mae": 3.406303350402975e-05,
+          "p95_abs": 0.00010137712524738163,
+          "p99_abs": 0.00018624361837282777,
+          "p999_abs": 0.00039114843821153045,
+          "max_abs": 0.00047766233910806477,
+          "psnr_db": 85.65879557354874,
+          "radius": 16,
+          "max_abs_x": 1875,
+          "max_abs_y": 687,
+          "max_abs_signed": 0.00047766233910806477
+        },
+        "display_chroma": {
+          "samples": 630409,
+          "co_rmse": 0.0010047388261741534,
+          "cg_rmse": 0.0008182233700371327,
+          "co_p99_abs": 0.003086864948272705,
+          "cg_p99_abs": 0.00252513587474823
+        }
+      },
+      "mid_0.25_1": {
+        "samples": 1827191,
+        "display_luma": {
+          "samples": 1827191,
+          "rmse": 0.0001856240322644906,
+          "mae": 0.00012385607627599836,
+          "p95_abs": 0.000387728214263916,
+          "p99_abs": 0.0005038976669311523,
+          "p999_abs": 0.00077056884765625,
+          "max_abs": 0.0023650527000427246,
+          "psnr_db": 74.62731594982203
+        },
+        "display_rgb_maxabs": {
+          "samples": 1827191,
+          "rmse": 0.0003492393439387334,
+          "mae": 0.00024546275546989617,
+          "p95_abs": 0.0005766153335571289,
+          "p99_abs": 0.0009143054485321045,
+          "p999_abs": 0.00278259813785553,
+          "max_abs": 0.00278259813785553,
+          "psnr_db": 69.1375367258481
+        },
+        "display_luma_gradient": {
+          "gradient_samples": 3543234,
+          "grad_rmse": 0.00024617500230015156,
+          "grad_p99_abs": 0.0007441043853759766,
+          "grad_nrmse": 0.003677281900783185,
+          "grad_energy_ratio": 0.9999071046567223,
+          "grad_correlation": 0.9999932424859419,
+          "lost_detail_rate": 0.0001577654763981154
+        },
+        "display_luma_structure_gradient": {
+          "gradient_samples": 3543234,
+          "grad_rmse": 2.364629155244827e-05,
+          "grad_p99_abs": 7.534027099609375e-05,
+          "grad_nrmse": 0.0016645064240197042,
+          "grad_energy_ratio": 0.9999191094849165,
+          "grad_correlation": 0.9999986178690189,
+          "lost_detail_rate": 5.64456087292005e-07
+        },
+        "display_luma_low_frequency": {
+          "samples": 1827191,
+          "rmse": 5.429574287188427e-05,
+          "mae": 3.811391525946237e-05,
+          "p95_abs": 0.00011879052181029692,
+          "p99_abs": 0.0001451146526960656,
+          "p999_abs": 0.0001682465081103146,
+          "max_abs": 0.0003743623092304915,
+          "psnr_db": 85.30468440996457,
+          "radius": 16,
+          "max_abs_x": 1860,
+          "max_abs_y": 692,
+          "max_abs_signed": 0.0003743623092304915
+        },
+        "display_chroma": {
+          "samples": 1827191,
+          "co_rmse": 0.0003185418712299807,
+          "cg_rmse": 0.00028746488955913184,
+          "co_p99_abs": 0.0010738968849182129,
+          "cg_p99_abs": 0.0008682012557983398
+        }
+      },
+      "highlight_1_4": {
+        "samples": 0,
+        "display_luma": {
+          "samples": 0,
+          "rmse": 0.0,
+          "mae": 0.0,
+          "p95_abs": 0.0,
+          "p99_abs": 0.0,
+          "p999_abs": 0.0,
+          "max_abs": 0.0,
+          "psnr_db": Infinity
+        },
+        "display_rgb_maxabs": {
+          "samples": 0,
+          "rmse": 0.0,
+          "mae": 0.0,
+          "p95_abs": 0.0,
+          "p99_abs": 0.0,
+          "p999_abs": 0.0,
+          "max_abs": 0.0,
+          "psnr_db": Infinity
+        },
+        "display_luma_gradient": {
+          "gradient_samples": 0,
+          "grad_rmse": 0.0,
+          "grad_p99_abs": 0.0,
+          "grad_nrmse": 0.0,
+          "grad_energy_ratio": 1.0,
+          "grad_correlation": 1.0,
+          "lost_detail_rate": 0.0
+        },
+        "display_luma_structure_gradient": {
+          "gradient_samples": 0,
+          "grad_rmse": 0.0,
+          "grad_p99_abs": 0.0,
+          "grad_nrmse": 0.0,
+          "grad_energy_ratio": 1.0,
+          "grad_correlation": 1.0,
+          "lost_detail_rate": 0.0
+        },
+        "display_luma_low_frequency": {
+          "samples": 0,
+          "rmse": 0.0,
+          "mae": 0.0,
+          "p95_abs": 0.0,
+          "p99_abs": 0.0,
+          "p999_abs": 0.0,
+          "max_abs": 0.0,
+          "psnr_db": Infinity,
+          "radius": 16,
+          "max_abs_x": 0,
+          "max_abs_y": 0,
+          "max_abs_signed": -5.207792855799198e-05
+        },
+        "display_chroma": {
+          "samples": 0,
+          "co_p99_abs": 0.0,
+          "cg_p99_abs": 0.0,
+          "co_rmse": 0.0,
+          "cg_rmse": 0.0
+        }
+      },
+      "extreme_gt4": {
+        "samples": 0,
+        "display_luma": {
+          "samples": 0,
+          "rmse": 0.0,
+          "mae": 0.0,
+          "p95_abs": 0.0,
+          "p99_abs": 0.0,
+          "p999_abs": 0.0,
+          "max_abs": 0.0,
+          "psnr_db": Infinity
+        },
+        "display_rgb_maxabs": {
+          "samples": 0,
+          "rmse": 0.0,
+          "mae": 0.0,
+          "p95_abs": 0.0,
+          "p99_abs": 0.0,
+          "p999_abs": 0.0,
+          "max_abs": 0.0,
+          "psnr_db": Infinity
+        },
+        "display_luma_gradient": {
+          "gradient_samples": 0,
+          "grad_rmse": 0.0,
+          "grad_p99_abs": 0.0,
+          "grad_nrmse": 0.0,
+          "grad_energy_ratio": 1.0,
+          "grad_correlation": 1.0,
+          "lost_detail_rate": 0.0
+        },
+        "display_luma_structure_gradient": {
+          "gradient_samples": 0,
+          "grad_rmse": 0.0,
+          "grad_p99_abs": 0.0,
+          "grad_nrmse": 0.0,
+          "grad_energy_ratio": 1.0,
+          "grad_correlation": 1.0,
+          "lost_detail_rate": 0.0
+        },
+        "display_luma_low_frequency": {
+          "samples": 0,
+          "rmse": 0.0,
+          "mae": 0.0,
+          "p95_abs": 0.0,
+          "p99_abs": 0.0,
+          "p999_abs": 0.0,
+          "max_abs": 0.0,
+          "psnr_db": Infinity,
+          "radius": 16,
+          "max_abs_x": 0,
+          "max_abs_y": 0,
+          "max_abs_signed": -5.207792855799198e-05
+        },
+        "display_chroma": {
+          "samples": 0,
+          "co_p99_abs": 0.0,
+          "cg_p99_abs": 0.0,
+          "co_rmse": 0.0,
+          "cg_rmse": 0.0
+        }
+      },
+      "smooth": {
+        "samples": 735816,
+        "display_luma": {
+          "samples": 735816,
+          "rmse": 0.000137576604280056,
+          "mae": 7.57066819341775e-05,
+          "p95_abs": 0.00032651424407958984,
+          "p99_abs": 0.00042492151260375977,
+          "p999_abs": 0.0004788637161254883,
+          "max_abs": 0.0007838904857635498,
+          "psnr_db": 77.22910828363237
+        },
+        "display_rgb_maxabs": {
+          "samples": 735816,
+          "rmse": 0.00021470094887625176,
+          "mae": 0.0001276832062829265,
+          "p95_abs": 0.00048023462295532227,
+          "p99_abs": 0.0005158782005310059,
+          "p999_abs": 0.0005444884300231934,
+          "max_abs": 0.0012517273426055908,
+          "psnr_db": 73.36332072368215
+        },
+        "display_luma_gradient": {
+          "gradient_samples": 1208427,
+          "grad_rmse": 0.00015974977073379083,
+          "grad_p99_abs": 0.0005881786346435547,
+          "grad_nrmse": 0.0206607706699811,
+          "grad_energy_ratio": 1.0003616173895942,
+          "grad_correlation": 0.9997867087910395,
+          "lost_detail_rate": 9.102742656362361e-06
+        },
+        "display_luma_structure_gradient": {
+          "gradient_samples": 1208427,
+          "grad_rmse": 1.4779516730513701e-05,
+          "grad_p99_abs": 5.5909156799316406e-05,
+          "grad_nrmse": 0.011274844081960618,
+          "grad_energy_ratio": 1.0001443279148154,
+          "grad_correlation": 0.9999364585315449,
+          "lost_detail_rate": 0.0
+        },
+        "display_luma_low_frequency": {
+          "samples": 735816,
+          "rmse": 5.518346474047913e-05,
+          "mae": 3.302813569721528e-05,
+          "p95_abs": 0.0001256953546544537,
+          "p99_abs": 0.0001518740609753877,
+          "p999_abs": 0.00017076062795240432,
+          "max_abs": 0.00018219371850136667,
+          "psnr_db": 85.16382070909287,
+          "radius": 16,
+          "max_abs_x": 959,
+          "max_abs_y": 382,
+          "max_abs_signed": -0.00018219371850136667
+        },
+        "display_chroma": {
+          "samples": 735816,
+          "co_rmse": 0.00016410392476307566,
+          "cg_rmse": 0.0001977394641429982,
+          "co_p99_abs": 0.0006985068321228027,
+          "cg_p99_abs": 0.0006237030029296875
+        }
+      },
+      "dark_smooth": {
+        "samples": 11,
+        "display_luma": {
+          "samples": 11,
+          "rmse": 0.0002937507441127852,
+          "mae": 0.00024792281064120204,
+          "p95_abs": 0.00046008825302124023,
+          "p99_abs": 0.00046008825302124023,
+          "p999_abs": 0.00046008825302124023,
+          "max_abs": 0.00046008825302124023,
+          "psnr_db": 70.64042049177148
+        },
+        "display_rgb_maxabs": {
+          "samples": 11,
+          "rmse": 0.0007972560756535355,
+          "mae": 0.0007230490446090698,
+          "p95_abs": 0.0012517273426055908,
+          "p99_abs": 0.0012517273426055908,
+          "p999_abs": 0.0012517273426055908,
+          "max_abs": 0.0012517273426055908,
+          "psnr_db": 61.968043248843365
+        },
+        "display_luma_gradient": {
+          "gradient_samples": 5,
+          "grad_rmse": 0.0005360605255805514,
+          "grad_p99_abs": 0.0009019970893859863,
+          "grad_nrmse": 0.06434711892393355,
+          "grad_energy_ratio": 1.047138938564494,
+          "grad_correlation": 0.999083945733384,
+          "lost_detail_rate": 0.0
+        },
+        "display_luma_structure_gradient": {
+          "gradient_samples": 5,
+          "grad_rmse": 4.1551799682804136e-05,
+          "grad_p99_abs": 6.151199340820312e-05,
+          "grad_nrmse": 0.021673118340447252,
+          "grad_energy_ratio": 0.9850850002498827,
+          "grad_correlation": 0.9998744946674701,
+          "lost_detail_rate": 0.0
+        },
+        "display_luma_low_frequency": {
+          "samples": 11,
+          "rmse": 2.4989757704218437e-05,
+          "mae": 2.381649383923187e-05,
+          "p95_abs": 3.6540848668664694e-05,
+          "p99_abs": 3.6540848668664694e-05,
+          "p999_abs": 3.6540848668664694e-05,
+          "max_abs": 3.6540848668664694e-05,
+          "psnr_db": 92.04475909374236,
+          "radius": 16,
+          "max_abs_x": 884,
+          "max_abs_y": 861,
+          "max_abs_signed": 3.6540848668664694e-05
+        },
+        "display_chroma": {
+          "samples": 11,
+          "co_rmse": 0.0008191897557112378,
+          "cg_rmse": 0.0006369554081752056,
+          "co_p99_abs": 0.0015117824077606201,
+          "cg_p99_abs": 0.0009763240814208984
+        }
+      },
+      "edge": {
+        "samples": 122880,
+        "display_luma": {
+          "samples": 122880,
+          "rmse": 0.0006575578327100147,
+          "mae": 0.00043953995186711835,
+          "p95_abs": 0.001644045114517212,
+          "p99_abs": 0.0022403299808502197,
+          "p999_abs": 0.0025817006826400757,
+          "max_abs": 0.0027826130390167236,
+          "psnr_db": 63.641320892587785
+        },
+        "display_rgb_maxabs": {
+          "samples": 122880,
+          "rmse": 0.0011253120222320134,
+          "mae": 0.0008835717979309265,
+          "p95_abs": 0.00278259813785553,
+          "p99_abs": 0.00278259813785553,
+          "p999_abs": 0.00278259813785553,
+          "max_abs": 0.00278259813785553,
+          "psnr_db": 58.9745408266955
+        },
+        "display_luma_gradient": {
+          "gradient_samples": 96523,
+          "grad_rmse": 0.0010033336543558923,
+          "grad_p99_abs": 0.002793148159980774,
+          "grad_nrmse": 0.0031072757760336723,
+          "grad_energy_ratio": 0.99923846526144,
+          "grad_correlation": 0.9999954589280206,
+          "lost_detail_rate": 0.00015540337536131284
+        },
+        "display_luma_structure_gradient": {
+          "gradient_samples": 96523,
+          "grad_rmse": 6.85820191301003e-05,
+          "grad_p99_abs": 0.0002161562442779541,
+          "grad_nrmse": 0.001843415338568254,
+          "grad_energy_ratio": 0.9997049030476801,
+          "grad_correlation": 0.9999983439623586,
+          "lost_detail_rate": 7.252157516861267e-05
+        },
+        "display_luma_low_frequency": {
+          "samples": 122880,
+          "rmse": 5.440533294460627e-05,
+          "mae": 3.189575655179373e-05,
+          "p95_abs": 0.00010542703239480034,
+          "p99_abs": 0.0002321823121747002,
+          "p999_abs": 0.000427934224717319,
+          "max_abs": 0.00047766233910806477,
+          "psnr_db": 85.28717055202989,
+          "radius": 16,
+          "max_abs_x": 1875,
+          "max_abs_y": 687,
+          "max_abs_signed": 0.00047766233910806477
+        },
+        "display_chroma": {
+          "samples": 122880,
+          "co_rmse": 0.000928489353955478,
+          "cg_rmse": 0.0009536962981986853,
+          "co_p99_abs": 0.002815425395965576,
+          "cg_p99_abs": 0.0031799376010894775
+        }
+      },
+      "texture": {
+        "samples": 614400,
+        "display_luma": {
+          "samples": 614400,
+          "rmse": 0.0004615708872409001,
+          "mae": 0.0003172587064364052,
+          "p95_abs": 0.0008976757526397705,
+          "p99_abs": 0.001787528395652771,
+          "p999_abs": 0.002399727702140808,
+          "max_abs": 0.0027826130390167236,
+          "psnr_db": 66.71523182674126
+        },
+        "display_rgb_maxabs": {
+          "samples": 614400,
+          "rmse": 0.0009384921860136504,
+          "mae": 0.0007307521280502746,
+          "p95_abs": 0.0019266381859779358,
+          "p99_abs": 0.00278259813785553,
+          "p999_abs": 0.00278259813785553,
+          "max_abs": 0.00278259813785553,
+          "psnr_db": 60.55138678019805
+        },
+        "display_luma_gradient": {
+          "gradient_samples": 1168826,
+          "grad_rmse": 0.0006464671639058221,
+          "grad_p99_abs": 0.0022739022970199585,
+          "grad_nrmse": 0.003383940360817492,
+          "grad_energy_ratio": 0.9996343763069607,
+          "grad_correlation": 0.9999943392444531,
+          "lost_detail_rate": 0.00032169031147493294
+        },
+        "display_luma_structure_gradient": {
+          "gradient_samples": 1168826,
+          "grad_rmse": 6.0159133860927935e-05,
+          "grad_p99_abs": 0.0001901090145111084,
+          "grad_nrmse": 0.0017220723373328494,
+          "grad_energy_ratio": 0.9997959208154245,
+          "grad_correlation": 0.9999985377591764,
+          "lost_detail_rate": 5.475579769786093e-05
+        },
+        "display_luma_low_frequency": {
+          "samples": 614400,
+          "rmse": 4.634134575821577e-05,
+          "mae": 2.8451057774397024e-05,
+          "p95_abs": 8.592817903263494e-05,
+          "p99_abs": 0.0001886685931822285,
+          "p999_abs": 0.00039249504334293306,
+          "max_abs": 0.00047766233910806477,
+          "psnr_db": 86.68062716798575,
+          "radius": 16,
+          "max_abs_x": 1875,
+          "max_abs_y": 687,
+          "max_abs_signed": 0.00047766233910806477
+        },
+        "display_chroma": {
+          "samples": 614400,
+          "co_rmse": 0.0008826269848429969,
+          "cg_rmse": 0.0007385236751908883,
+          "co_p99_abs": 0.002937138080596924,
+          "cg_p99_abs": 0.002506643533706665
+        }
+      },
+      "route_mask": {
+        "samples": 1,
+        "display_luma": {
+          "samples": 1,
+          "rmse": 0.00020545721054077148,
+          "mae": 0.00020545721054077148,
+          "p95_abs": 0.00020545721054077148,
+          "p99_abs": 0.00020545721054077148,
+          "p999_abs": 0.00020545721054077148,
+          "max_abs": 0.00020545721054077148,
+          "psnr_db": 73.74557225055202
+        },
+        "display_rgb_maxabs": {
+          "samples": 1,
+          "rmse": 0.0004565715789794922,
+          "mae": 0.0004565715789794922,
+          "p95_abs": 0.0004565715789794922,
+          "p99_abs": 0.0004565715789794922,
+          "p999_abs": 0.0004565715789794922,
+          "max_abs": 0.0004565715789794922,
+          "psnr_db": 66.8098225260589
+        },
+        "display_luma_gradient": {
+          "gradient_samples": 0,
+          "grad_rmse": 0.0,
+          "grad_p99_abs": 0.0,
+          "grad_nrmse": 0.0,
+          "grad_energy_ratio": 1.0,
+          "grad_correlation": 1.0,
+          "lost_detail_rate": 0.0
+        },
+        "display_luma_structure_gradient": {
+          "gradient_samples": 0,
+          "grad_rmse": 0.0,
+          "grad_p99_abs": 0.0,
+          "grad_nrmse": 0.0,
+          "grad_energy_ratio": 1.0,
+          "grad_correlation": 1.0,
+          "lost_detail_rate": 0.0
+        },
+        "display_luma_low_frequency": {
+          "samples": 1,
+          "rmse": 6.423464947147295e-05,
+          "mae": 6.423464947147295e-05,
+          "p95_abs": 6.423464947147295e-05,
+          "p99_abs": 6.423464947147295e-05,
+          "p999_abs": 6.423464947147295e-05,
+          "max_abs": 6.423464947147295e-05,
+          "psnr_db": 83.8446128296156,
+          "radius": 16,
+          "max_abs_x": 1919,
+          "max_abs_y": 4,
+          "max_abs_signed": -6.423464947147295e-05
+        },
+        "display_chroma": {
+          "samples": 1,
+          "co_rmse": 0.00012749433517456055,
+          "cg_rmse": 0.00027447938919067383,
+          "co_p99_abs": 0.00012749433517456055,
+          "cg_p99_abs": 0.00027447938919067383
+        }
+      },
+      "nonmask": {
+        "samples": 2457599,
+        "display_luma": {
+          "samples": 2457599,
+          "rmse": 0.0003005582369717467,
+          "mae": 0.0001889388984066793,
+          "p95_abs": 0.0005947649478912354,
+          "p99_abs": 0.0009981095790863037,
+          "p999_abs": 0.002105996012687683,
+          "max_abs": 0.0027826130390167236,
+          "psnr_db": 70.44142730883271
+        },
+        "display_rgb_maxabs": {
+          "samples": 2457599,
+          "rmse": 0.0006100246197157927,
+          "mae": 0.0004066978126716288,
+          "p95_abs": 0.0012517273426055908,
+          "p99_abs": 0.00278259813785553,
+          "p999_abs": 0.00278259813785553,
+          "max_abs": 0.00278259813785553,
+          "psnr_db": 64.2930527427043
+        },
+        "display_luma_gradient": {
+          "gradient_samples": 4911997,
+          "grad_rmse": 0.0004128368444423408,
+          "grad_p99_abs": 0.0015128850936889648,
+          "grad_nrmse": 0.0038391071563083612,
+          "grad_energy_ratio": 0.9997016821432857,
+          "grad_correlation": 0.9999926729390999,
+          "lost_detail_rate": 0.00021070859774547908
+        },
+        "display_luma_structure_gradient": {
+          "gradient_samples": 4911997,
+          "grad_rmse": 3.8149822058453e-05,
+          "grad_p99_abs": 0.00013899803161621094,
+          "grad_nrmse": 0.001994474945824771,
+          "grad_energy_ratio": 0.999823678285088,
+          "grad_correlation": 0.9999980262315007,
+          "lost_detail_rate": 1.8118903574248926e-05
+        },
+        "display_luma_low_frequency": {
+          "samples": 2457599,
+          "rmse": 5.3747695488631915e-05,
+          "mae": 3.707479600636423e-05,
+          "p95_abs": 0.00011616173287620768,
+          "p99_abs": 0.0001482107036281377,
+          "p999_abs": 0.0002801375521812588,
+          "max_abs": 0.00047766233910806477,
+          "psnr_db": 85.39280304053607,
+          "radius": 16,
+          "max_abs_x": 1875,
+          "max_abs_y": 687,
+          "max_abs_signed": 0.00047766233910806477
+        },
+        "display_chroma": {
+          "samples": 2457599,
+          "co_rmse": 0.0005782662329079731,
+          "cg_rmse": 0.00048287916863294563,
+          "co_p99_abs": 0.0024442076683044434,
+          "cg_p99_abs": 0.0018192827701568604
+        }
+      }
+    },
+    "ev5": {
+      "all": {
+        "samples": 2457600,
+        "display_luma": {
+          "samples": 2457600,
+          "rmse": 0.00047524822530463763,
+          "mae": 0.00018184425020460063,
+          "p95_abs": 0.001102149486541748,
+          "p99_abs": 0.0018721520900726318,
+          "p999_abs": 0.003954768180847168,
+          "max_abs": 0.00522536039352417,
+          "psnr_db": 66.4615899244673
+        },
+        "display_rgb_maxabs": {
+          "samples": 2457600,
+          "rmse": 0.0010432652047427657,
+          "mae": 0.0004726384153339798,
+          "p95_abs": 0.002350538969039917,
+          "p99_abs": 0.005225330591201782,
+          "p999_abs": 0.005225330591201782,
+          "max_abs": 0.005225330591201782,
+          "psnr_db": 59.632105541617904
+        },
+        "display_luma_gradient": {
+          "gradient_samples": 4912000,
+          "grad_rmse": 0.0006576869304797196,
+          "grad_p99_abs": 0.0028311610221862793,
+          "grad_nrmse": 0.005814104327221124,
+          "grad_energy_ratio": 0.9992021814100255,
+          "grad_correlation": 0.9999834031113812,
+          "lost_detail_rate": 0.00010993485342019544
+        },
+        "display_luma_structure_gradient": {
+          "gradient_samples": 4912000,
+          "grad_rmse": 6.127451516909874e-05,
+          "grad_p99_abs": 0.00025713443756103516,
+          "grad_nrmse": 0.0037200202499116613,
+          "grad_energy_ratio": 0.9993600394305683,
+          "grad_correlation": 0.9999932811996678,
+          "lost_detail_rate": 0.00010403094462540717
+        },
+        "display_luma_low_frequency": {
+          "samples": 2457600,
+          "rmse": 5.293946805597158e-05,
+          "mae": 2.1703593416787116e-05,
+          "p95_abs": 0.00011294624709989876,
+          "p99_abs": 0.0002094916853820905,
+          "p999_abs": 0.0005192305543459952,
+          "max_abs": 0.0009022892918437719,
+          "psnr_db": 85.52440853742816,
+          "radius": 16,
+          "max_abs_x": 1875,
+          "max_abs_y": 687,
+          "max_abs_signed": 0.0009022892918437719
+        },
+        "display_chroma": {
+          "samples": 2457600,
+          "co_rmse": 0.0009913038956918538,
+          "cg_rmse": 0.0007842363481143407,
+          "co_p99_abs": 0.0046426355838775635,
+          "cg_p99_abs": 0.0033808350563049316
+        }
+      },
+      "dark_0_0.25": {
+        "samples": 630409,
+        "display_luma": {
+          "samples": 630409,
+          "rmse": 0.0009111788781571247,
+          "mae": 0.000630268596286214,
+          "p95_abs": 0.001728832721710205,
+          "p99_abs": 0.00335673987865448,
+          "p999_abs": 0.004506334662437439,
+          "max_abs": 0.00522536039352417,
+          "psnr_db": 60.807927121997196
+        },
+        "display_rgb_maxabs": {
+          "samples": 630409,
+          "rmse": 0.0019401490284536524,
+          "mae": 0.0015496158549827552,
+          "p95_abs": 0.0036179572343826294,
+          "p99_abs": 0.005225330591201782,
+          "p999_abs": 0.005225330591201782,
+          "max_abs": 0.005225330591201782,
+          "psnr_db": 54.24329818748565
+        },
+        "display_luma_gradient": {
+          "gradient_samples": 1150597,
+          "grad_rmse": 0.001290240050299257,
+          "grad_p99_abs": 0.0042875707149505615,
+          "grad_nrmse": 0.0062262222573802985,
+          "grad_energy_ratio": 0.9990237308403082,
+          "grad_correlation": 0.9999810751531928,
+          "lost_detail_rate": 0.0003858866310271972
+        },
+        "display_luma_structure_gradient": {
+          "gradient_samples": 1150597,
+          "grad_rmse": 0.00011625694666598073,
+          "grad_p99_abs": 0.0003616213798522949,
+          "grad_nrmse": 0.003899024198664543,
+          "grad_energy_ratio": 0.999222762411832,
+          "grad_correlation": 0.9999926951767002,
+          "lost_detail_rate": 0.00040500713977178804
+        },
+        "display_luma_low_frequency": {
+          "samples": 630409,
+          "rmse": 9.873929445064815e-05,
+          "mae": 6.52801556539943e-05,
+          "p95_abs": 0.0001909036363940686,
+          "p99_abs": 0.0003437404229771346,
+          "p999_abs": 0.0007319407886825502,
+          "max_abs": 0.0009022892918437719,
+          "psnr_db": 80.11019960781182,
+          "radius": 16,
+          "max_abs_x": 1875,
+          "max_abs_y": 687,
+          "max_abs_signed": 0.0009022892918437719
+        },
+        "display_chroma": {
+          "samples": 630409,
+          "co_rmse": 0.0018394263402448541,
+          "cg_rmse": 0.0014894703868084305,
+          "co_p99_abs": 0.005796670913696289,
+          "cg_p99_abs": 0.004741877317428589
+        }
+      },
+      "mid_0.25_1": {
+        "samples": 1827191,
+        "display_luma": {
+          "samples": 1827191,
+          "rmse": 0.00013167529879065188,
+          "mae": 2.7130953352238837e-05,
+          "p95_abs": 0.00016051530838012695,
+          "p99_abs": 0.0007279515266418457,
+          "p999_abs": 0.0014170408248901367,
+          "max_abs": 0.004506319761276245,
+          "psnr_db": 77.60991374982405
+        },
+        "display_rgb_maxabs": {
+          "samples": 1827191,
+          "rmse": 0.00040647069008807076,
+          "mae": 0.00010106463309033654,
+          "p95_abs": 0.0009611845016479492,
+          "p99_abs": 0.0017169713973999023,
+          "p999_abs": 0.005225330591201782,
+          "max_abs": 0.005225330591201782,
+          "psnr_db": 67.81941530358488
+        },
+        "display_luma_gradient": {
+          "gradient_samples": 3543234,
+          "grad_rmse": 0.0001825473080840011,
+          "grad_p99_abs": 0.0009697079658508301,
+          "grad_nrmse": 0.005797080590358318,
+          "grad_energy_ratio": 1.0000038004996845,
+          "grad_correlation": 0.9999831969993961,
+          "lost_detail_rate": 2.596498001543223e-05
+        },
+        "display_luma_structure_gradient": {
+          "gradient_samples": 3543234,
+          "grad_rmse": 2.2062928748504162e-05,
+          "grad_p99_abs": 0.00010675191879272461,
+          "grad_nrmse": 0.0032148485609272363,
+          "grad_energy_ratio": 0.9998950288081415,
+          "grad_correlation": 0.9999948373419103,
+          "lost_detail_rate": 8.184613265734071e-06
+        },
+        "display_luma_low_frequency": {
+          "samples": 1827191,
+          "rmse": 2.0144810322475067e-05,
+          "mae": 6.669009170588694e-06,
+          "p95_abs": 3.750265022972599e-05,
+          "p99_abs": 9.688852878753096e-05,
+          "p999_abs": 0.0001776663411874324,
+          "max_abs": 0.0006978382589295506,
+          "psnr_db": 93.91673634887294,
+          "radius": 16,
+          "max_abs_x": 1860,
+          "max_abs_y": 692,
+          "max_abs_signed": 0.0006978382589295506
+        },
+        "display_chroma": {
+          "samples": 1827191,
+          "co_rmse": 0.0003928975287847032,
+          "cg_rmse": 0.00024858816984387665,
+          "co_p99_abs": 0.0017169713973999023,
+          "cg_p99_abs": 0.001188516616821289
+        }
+      },
+      "highlight_1_4": {
+        "samples": 0,
+        "display_luma": {
+          "samples": 0,
+          "rmse": 0.0,
+          "mae": 0.0,
+          "p95_abs": 0.0,
+          "p99_abs": 0.0,
+          "p999_abs": 0.0,
+          "max_abs": 0.0,
+          "psnr_db": Infinity
+        },
+        "display_rgb_maxabs": {
+          "samples": 0,
+          "rmse": 0.0,
+          "mae": 0.0,
+          "p95_abs": 0.0,
+          "p99_abs": 0.0,
+          "p999_abs": 0.0,
+          "max_abs": 0.0,
+          "psnr_db": Infinity
+        },
+        "display_luma_gradient": {
+          "gradient_samples": 0,
+          "grad_rmse": 0.0,
+          "grad_p99_abs": 0.0,
+          "grad_nrmse": 0.0,
+          "grad_energy_ratio": 1.0,
+          "grad_correlation": 1.0,
+          "lost_detail_rate": 0.0
+        },
+        "display_luma_structure_gradient": {
+          "gradient_samples": 0,
+          "grad_rmse": 0.0,
+          "grad_p99_abs": 0.0,
+          "grad_nrmse": 0.0,
+          "grad_energy_ratio": 1.0,
+          "grad_correlation": 1.0,
+          "lost_detail_rate": 0.0
+        },
+        "display_luma_low_frequency": {
+          "samples": 0,
+          "rmse": 0.0,
+          "mae": 0.0,
+          "p95_abs": 0.0,
+          "p99_abs": 0.0,
+          "p999_abs": 0.0,
+          "max_abs": 0.0,
+          "psnr_db": Infinity,
+          "radius": 16,
+          "max_abs_x": 0,
+          "max_abs_y": 0,
+          "max_abs_signed": 0.0
+        },
+        "display_chroma": {
+          "samples": 0,
+          "co_p99_abs": 0.0,
+          "cg_p99_abs": 0.0,
+          "co_rmse": 0.0,
+          "cg_rmse": 0.0
+        }
+      },
+      "extreme_gt4": {
+        "samples": 0,
+        "display_luma": {
+          "samples": 0,
+          "rmse": 0.0,
+          "mae": 0.0,
+          "p95_abs": 0.0,
+          "p99_abs": 0.0,
+          "p999_abs": 0.0,
+          "max_abs": 0.0,
+          "psnr_db": Infinity
+        },
+        "display_rgb_maxabs": {
+          "samples": 0,
+          "rmse": 0.0,
+          "mae": 0.0,
+          "p95_abs": 0.0,
+          "p99_abs": 0.0,
+          "p999_abs": 0.0,
+          "max_abs": 0.0,
+          "psnr_db": Infinity
+        },
+        "display_luma_gradient": {
+          "gradient_samples": 0,
+          "grad_rmse": 0.0,
+          "grad_p99_abs": 0.0,
+          "grad_nrmse": 0.0,
+          "grad_energy_ratio": 1.0,
+          "grad_correlation": 1.0,
+          "lost_detail_rate": 0.0
+        },
+        "display_luma_structure_gradient": {
+          "gradient_samples": 0,
+          "grad_rmse": 0.0,
+          "grad_p99_abs": 0.0,
+          "grad_nrmse": 0.0,
+          "grad_energy_ratio": 1.0,
+          "grad_correlation": 1.0,
+          "lost_detail_rate": 0.0
+        },
+        "display_luma_low_frequency": {
+          "samples": 0,
+          "rmse": 0.0,
+          "mae": 0.0,
+          "p95_abs": 0.0,
+          "p99_abs": 0.0,
+          "p999_abs": 0.0,
+          "max_abs": 0.0,
+          "psnr_db": Infinity,
+          "radius": 16,
+          "max_abs_x": 0,
+          "max_abs_y": 0,
+          "max_abs_signed": 0.0
+        },
+        "display_chroma": {
+          "samples": 0,
+          "co_p99_abs": 0.0,
+          "cg_p99_abs": 0.0,
+          "co_rmse": 0.0,
+          "cg_rmse": 0.0
+        }
+      },
+      "smooth": {
+        "samples": 735816,
+        "display_luma": {
+          "samples": 735816,
+          "rmse": 3.0864479882932168e-06,
+          "mae": 2.483972392167289e-08,
+          "p95_abs": 0.0,
+          "p99_abs": 0.0,
+          "p999_abs": 0.0,
+          "max_abs": 0.0014491677284240723,
+          "psnr_db": 110.2108207441793
+        },
+        "display_rgb_maxabs": {
+          "samples": 735816,
+          "rmse": 1.2271769490117343e-05,
+          "mae": 1.2007498809323562e-07,
+          "p95_abs": 0.0,
+          "p99_abs": 0.0,
+          "p999_abs": 0.0,
+          "max_abs": 0.002350538969039917,
+          "psnr_db": 98.22185621997207
+        },
+        "display_luma_gradient": {
+          "gradient_samples": 1208427,
+          "grad_rmse": 2.1700313174363964e-06,
+          "grad_p99_abs": 0.0,
+          "grad_nrmse": 0.028993890558629033,
+          "grad_energy_ratio": 0.9964715666656566,
+          "grad_correlation": 0.9995844357854072,
+          "lost_detail_rate": 8.275220596693056e-07
+        },
+        "display_luma_structure_gradient": {
+          "gradient_samples": 1208427,
+          "grad_rmse": 2.1015762353519512e-07,
+          "grad_p99_abs": 0.0,
+          "grad_nrmse": 0.007856924603743189,
+          "grad_energy_ratio": 0.9980189698223534,
+          "grad_correlation": 0.9999710392360205,
+          "lost_detail_rate": 0.0
+        },
+        "display_luma_low_frequency": {
+          "samples": 735816,
+          "rmse": 1.2724607562470787e-06,
+          "mae": 1.7572580021599852e-07,
+          "p95_abs": 3.8082114883764007e-07,
+          "p99_abs": 5.2207701628503855e-06,
+          "p999_abs": 1.6645240975776687e-05,
+          "max_abs": 0.0001000928896246478,
+          "psnr_db": 117.90711205578722,
+          "radius": 16,
+          "max_abs_x": 523,
+          "max_abs_y": 1028,
+          "max_abs_signed": -0.0001000928896246478
+        },
+        "display_chroma": {
+          "samples": 735816,
+          "co_rmse": 1.2169001727745281e-05,
+          "cg_rmse": 6.393832172875165e-06,
+          "co_p99_abs": 0.0,
+          "cg_p99_abs": 0.0
+        }
+      },
+      "dark_smooth": {
+        "samples": 11,
+        "display_luma": {
+          "samples": 11,
+          "rmse": 0.00030866035056414644,
+          "mae": 0.00019461458379572088,
+          "p95_abs": 0.0006874799728393555,
+          "p99_abs": 0.0006874799728393555,
+          "p999_abs": 0.0006874799728393555,
+          "max_abs": 0.0006874799728393555,
+          "psnr_db": 70.21038309789519
+        },
+        "display_rgb_maxabs": {
+          "samples": 11,
+          "rmse": 0.00139981218632798,
+          "mae": 0.0011390203779393976,
+          "p95_abs": 0.002350538969039917,
+          "p99_abs": 0.002350538969039917,
+          "p999_abs": 0.002350538969039917,
+          "max_abs": 0.002350538969039917,
+          "psnr_db": 57.07860459947881
+        },
+        "display_luma_gradient": {
+          "gradient_samples": 5,
+          "grad_rmse": 0.0003412645715794447,
+          "grad_p99_abs": 0.0006874799728393555,
+          "grad_nrmse": 0.08073076512745754,
+          "grad_energy_ratio": 1.0593879282985073,
+          "grad_correlation": 0.9985885574440709,
+          "lost_detail_rate": 0.0
+        },
+        "display_luma_structure_gradient": {
+          "gradient_samples": 5,
+          "grad_rmse": 5.8602612610269285e-06,
+          "grad_p99_abs": 1.0251998901367188e-05,
+          "grad_nrmse": 0.005003487008488876,
+          "grad_energy_ratio": 0.9980816655100857,
+          "grad_correlation": 0.9999893020402204,
+          "lost_detail_rate": 0.0
+        },
+        "display_luma_low_frequency": {
+          "samples": 11,
+          "rmse": 4.222605946654024e-05,
+          "mae": 3.323773245256234e-05,
+          "p95_abs": 7.554535841336474e-05,
+          "p99_abs": 7.554535841336474e-05,
+          "p999_abs": 7.554535841336474e-05,
+          "max_abs": 7.554535841336474e-05,
+          "psnr_db": 87.48838890040855,
+          "radius": 16,
+          "max_abs_x": 342,
+          "max_abs_y": 754,
+          "max_abs_signed": -7.554535841336474e-05
+        },
+        "display_chroma": {
+          "samples": 11,
+          "co_rmse": 0.0013384544314175046,
+          "cg_rmse": 0.0007847733128263658,
+          "co_p99_abs": 0.0023505091667175293,
+          "cg_p99_abs": 0.0011752843856811523
+        }
+      },
+      "edge": {
+        "samples": 122880,
+        "display_luma": {
+          "samples": 122880,
+          "rmse": 0.0012119526771927993,
+          "mae": 0.0007356458373881954,
+          "p95_abs": 0.003087282180786133,
+          "p99_abs": 0.004207015037536621,
+          "p999_abs": 0.004848092794418335,
+          "max_abs": 0.00522536039352417,
+          "psnr_db": 58.3302867524916
+        },
+        "display_rgb_maxabs": {
+          "samples": 122880,
+          "rmse": 0.0020808535417416382,
+          "mae": 0.001509289578704435,
+          "p95_abs": 0.005225330591201782,
+          "p99_abs": 0.005225330591201782,
+          "p999_abs": 0.005225330591201782,
+          "max_abs": 0.005225330591201782,
+          "psnr_db": 53.63516971966749
+        },
+        "display_luma_gradient": {
+          "gradient_samples": 96523,
+          "grad_rmse": 0.0018610347572569855,
+          "grad_p99_abs": 0.0052451640367507935,
+          "grad_nrmse": 0.0043776586531524934,
+          "grad_energy_ratio": 0.9985881979183292,
+          "grad_correlation": 0.9999914025069583,
+          "lost_detail_rate": 9.324202521678771e-05
+        },
+        "display_luma_structure_gradient": {
+          "gradient_samples": 96523,
+          "grad_rmse": 0.00012479831093215762,
+          "grad_p99_abs": 0.0004048943519592285,
+          "grad_nrmse": 0.003452637725850876,
+          "grad_energy_ratio": 0.9991215076726842,
+          "grad_correlation": 0.9999944206193083,
+          "lost_detail_rate": 0.00041440900096350095
+        },
+        "display_luma_low_frequency": {
+          "samples": 122880,
+          "rmse": 9.912880055334465e-05,
+          "mae": 5.470298586771364e-05,
+          "p95_abs": 0.0001927174744196236,
+          "p99_abs": 0.00042878786916844547,
+          "p999_abs": 0.0008000936941243708,
+          "max_abs": 0.0009022892918437719,
+          "psnr_db": 80.07600297402561,
+          "radius": 16,
+          "max_abs_x": 1875,
+          "max_abs_y": 687,
+          "max_abs_signed": 0.0009022892918437719
+        },
+        "display_chroma": {
+          "samples": 122880,
+          "co_rmse": 0.001694797510026015,
+          "cg_rmse": 0.0017536447226646538,
+          "co_p99_abs": 0.005225330591201782,
+          "cg_p99_abs": 0.00597149133682251
+        }
+      },
+      "texture": {
+        "samples": 614400,
+        "display_luma": {
+          "samples": 614400,
+          "rmse": 0.0008222797821517057,
+          "mae": 0.00047574313352924944,
+          "p95_abs": 0.0016857385635375977,
+          "p99_abs": 0.00335673987865448,
+          "p999_abs": 0.004506334662437439,
+          "max_abs": 0.00522536039352417,
+          "psnr_db": 61.69960775696915
+        },
+        "display_rgb_maxabs": {
+          "samples": 614400,
+          "rmse": 0.0017130612591392343,
+          "mae": 0.00118100941957285,
+          "p95_abs": 0.0036179572343826294,
+          "p99_abs": 0.005225330591201782,
+          "p999_abs": 0.005225330591201782,
+          "max_abs": 0.005225330591201782,
+          "psnr_db": 55.32454212737466
+        },
+        "display_luma_gradient": {
+          "gradient_samples": 1168826,
+          "grad_rmse": 0.0011511640238200341,
+          "grad_p99_abs": 0.004245460033416748,
+          "grad_nrmse": 0.005330768939659474,
+          "grad_energy_ratio": 0.9990962667487846,
+          "grad_correlation": 0.9999861873351863,
+          "lost_detail_rate": 0.00025581224236969404
+        },
+        "display_luma_structure_gradient": {
+          "gradient_samples": 1168826,
+          "grad_rmse": 0.00010770981353615333,
+          "grad_p99_abs": 0.0003555119037628174,
+          "grad_nrmse": 0.0034230430533396467,
+          "grad_energy_ratio": 0.9992796616973793,
+          "grad_correlation": 0.99999439679556,
+          "lost_detail_rate": 0.00027377898848930464
+        },
+        "display_luma_low_frequency": {
+          "samples": 614400,
+          "rmse": 8.364182737249108e-05,
+          "mae": 4.738775657712297e-05,
+          "p95_abs": 0.0001557896612212062,
+          "p99_abs": 0.0003490114468149841,
+          "p999_abs": 0.0007351110107265413,
+          "max_abs": 0.0009022892918437719,
+          "psnr_db": 81.55152974924421,
+          "radius": 16,
+          "max_abs_x": 1875,
+          "max_abs_y": 687,
+          "max_abs_signed": 0.0009022892918437719
+        },
+        "display_chroma": {
+          "samples": 614400,
+          "co_rmse": 0.001592244597828822,
+          "cg_rmse": 0.0013220309365255386,
+          "co_p99_abs": 0.005334913730621338,
+          "cg_p99_abs": 0.0047070980072021484
+        }
+      },
+      "route_mask": {
+        "samples": 1,
+        "display_luma": {
+          "samples": 1,
+          "rmse": 0.0,
+          "mae": 0.0,
+          "p95_abs": 0.0,
+          "p99_abs": 0.0,
+          "p999_abs": 0.0,
+          "max_abs": 0.0,
+          "psnr_db": Infinity
+        },
+        "display_rgb_maxabs": {
+          "samples": 1,
+          "rmse": 0.0,
+          "mae": 0.0,
+          "p95_abs": 0.0,
+          "p99_abs": 0.0,
+          "p999_abs": 0.0,
+          "max_abs": 0.0,
+          "psnr_db": Infinity
+        },
+        "display_luma_gradient": {
+          "gradient_samples": 0,
+          "grad_rmse": 0.0,
+          "grad_p99_abs": 0.0,
+          "grad_nrmse": 0.0,
+          "grad_energy_ratio": 1.0,
+          "grad_correlation": 1.0,
+          "lost_detail_rate": 0.0
+        },
+        "display_luma_structure_gradient": {
+          "gradient_samples": 0,
+          "grad_rmse": 0.0,
+          "grad_p99_abs": 0.0,
+          "grad_nrmse": 0.0,
+          "grad_energy_ratio": 1.0,
+          "grad_correlation": 1.0,
+          "lost_detail_rate": 0.0
+        },
+        "display_luma_low_frequency": {
+          "samples": 1,
+          "rmse": 0.0,
+          "mae": 0.0,
+          "p95_abs": 0.0,
+          "p99_abs": 0.0,
+          "p999_abs": 0.0,
+          "max_abs": 0.0,
+          "psnr_db": Infinity,
+          "radius": 16,
+          "max_abs_x": 1919,
+          "max_abs_y": 4,
+          "max_abs_signed": 0.0
+        },
+        "display_chroma": {
+          "samples": 1,
+          "co_rmse": 0.0,
+          "cg_rmse": 0.0,
+          "co_p99_abs": 0.0,
+          "cg_p99_abs": 0.0
+        }
+      },
+      "nonmask": {
+        "samples": 2457599,
+        "display_luma": {
+          "samples": 2457599,
+          "rmse": 0.0004752483219941661,
+          "mae": 0.00018184432419724556,
+          "p95_abs": 0.001102149486541748,
+          "p99_abs": 0.0018742084503173828,
+          "p999_abs": 0.003954768180847168,
+          "max_abs": 0.00522536039352417,
+          "psnr_db": 66.46158815731818
+        },
+        "display_rgb_maxabs": {
+          "samples": 2457599,
+          "rmse": 0.0010432654169956798,
+          "mae": 0.00047263860765112164,
+          "p95_abs": 0.002350538969039917,
+          "p99_abs": 0.005225330591201782,
+          "p999_abs": 0.005225330591201782,
+          "max_abs": 0.005225330591201782,
+          "psnr_db": 59.632103774468774
+        },
+        "display_luma_gradient": {
+          "gradient_samples": 4911997,
+          "grad_rmse": 0.0006576871313206902,
+          "grad_p99_abs": 0.0028311610221862793,
+          "grad_nrmse": 0.005814104327221123,
+          "grad_energy_ratio": 0.9992021814100255,
+          "grad_correlation": 0.9999834031113811,
+          "lost_detail_rate": 0.00010993492056285866
+        },
+        "display_luma_structure_gradient": {
+          "gradient_samples": 4911997,
+          "grad_rmse": 6.127453388078742e-05,
+          "grad_p99_abs": 0.00025713443756103516,
+          "grad_nrmse": 0.0037200202499116605,
+          "grad_energy_ratio": 0.9993600394305682,
+          "grad_correlation": 0.9999932811996681,
+          "lost_detail_rate": 0.00010403100816226068
+        },
+        "display_luma_low_frequency": {
+          "samples": 2457599,
+          "rmse": 5.293947882653721e-05,
+          "mae": 2.170360224800548e-05,
+          "p95_abs": 0.00011294631258351728,
+          "p99_abs": 0.00020949692407157272,
+          "p999_abs": 0.0005192305543459952,
+          "max_abs": 0.0009022892918437719,
+          "psnr_db": 85.52440677027903,
+          "radius": 16,
+          "max_abs_x": 1875,
+          "max_abs_y": 687,
+          "max_abs_signed": 0.0009022892918437719
+        },
+        "display_chroma": {
+          "samples": 2457599,
+          "co_rmse": 0.0009913040973732092,
+          "cg_rmse": 0.000784236507667683,
+          "co_p99_abs": 0.0046426355838775635,
+          "cg_p99_abs": 0.0033808350563049316
+        }
+      }
+    }
+  },
+  "pngs": {
+    "original_png": "/Users/uniuyuni/LibraryProjects/radiance_codec/outputs/previews/near_lossless_quality_audit/near_lossless_router_v1/sample_1920\u00d71280_full_near_lossless_router_Y8_CL8_original_w4_g2.2.png",
+    "candidate_png": "/Users/uniuyuni/LibraryProjects/radiance_codec/outputs/previews/near_lossless_quality_audit/near_lossless_router_v1/sample_1920\u00d71280_full_near_lossless_router_Y8_CL8_candidate_w4_g2.2.png",
+    "signedlog_anchor_png": "/Users/uniuyuni/LibraryProjects/radiance_codec/outputs/previews/near_lossless_quality_audit/near_lossless_router_v1/sample_1920\u00d71280_full_near_lossless_router_Y8_CL8_signedlog10_anchor_w4_g2.2.png",
+    "display_diff_ev0_x4_png": "/Users/uniuyuni/LibraryProjects/radiance_codec/outputs/previews/near_lossless_quality_audit/near_lossless_router_v1/sample_1920\u00d71280_full_near_lossless_router_Y8_CL8_displaydiff_ev0_x4_neutralgray.png",
+    "chroma_diff_ev0_x4_png": "/Users/uniuyuni/LibraryProjects/radiance_codec/outputs/previews/near_lossless_quality_audit/near_lossless_router_v1/sample_1920\u00d71280_full_near_lossless_router_Y8_CL8_chromadiff_ev0_x4_rg.png",
+    "route_mask_png": "/Users/uniuyuni/LibraryProjects/radiance_codec/outputs/previews/near_lossless_quality_audit/near_lossless_router_v1/sample_1920\u00d71280_full_near_lossless_router_Y8_CL8_route_mask.png"
+  },
+  "note": "Quality audit for the current visual-guard research route. Candidate is compared against original and signed-log10 anchor."
+}

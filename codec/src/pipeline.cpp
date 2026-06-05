@@ -8,6 +8,7 @@
 #include "grouped_delta.hpp"
 #include "mantissa_quantize.hpp"
 #include "linear_index.hpp"
+#include "near_lossless_router.hpp"
 
 #include <memory>
 
@@ -28,6 +29,11 @@ std::vector<std::unique_ptr<IStage>> build_pipeline(
                 config.near_lossless_bits,
                 config.effort,
                 config.near_lossless_policy));
+        return stages;
+    }
+
+    if (config.stages & StageNearLosslessRouter) {
+        stages.emplace_back(std::make_unique<NearLosslessRouterStage>());
         return stages;
     }
 

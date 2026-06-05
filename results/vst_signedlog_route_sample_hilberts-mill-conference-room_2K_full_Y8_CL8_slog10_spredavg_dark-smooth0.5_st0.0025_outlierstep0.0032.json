@@ -1,0 +1,274 @@
+{
+  "image": "sample_hilberts-mill-conference-room_2K.exr",
+  "shape": [
+    1024,
+    2048,
+    4
+  ],
+  "raw_bytes": 33554432,
+  "mask_mode": "dark-smooth",
+  "dark_max": 0.5,
+  "mask_radius": 2,
+  "smooth_threshold": 0.0025,
+  "additional_mask": null,
+  "outlier_router": {
+    "enabled": true,
+    "active": true,
+    "activation_ratio": 4.0,
+    "max_over_p99": 21.755714465827502,
+    "p99_over_p97": 8.880725964766361,
+    "p97": 0.7718997460603713,
+    "p99": 6.8550301170349,
+    "p100": 149.13607788085938,
+    "target_y_step": 0.0032,
+    "percentiles": [
+      100.0,
+      99.9,
+      99.5,
+      99.0,
+      98.5,
+      98.0,
+      97.0,
+      95.0
+    ],
+    "chosen": {
+      "percentile": 97.0,
+      "threshold_maxrgb": 0.7718997460603713,
+      "outlier_pixel_rate": 0.03000020980834961,
+      "route_mask_rate": 0.08463525772094727,
+      "y_range": {
+        "lo": 0.01554376445710659,
+        "hi": 0.8152547478675842,
+        "step": 0.0031361215035705004
+      },
+      "y_step_ok": true
+    },
+    "rows": [
+      {
+        "percentile": 100.0,
+        "threshold_maxrgb": 149.13607788085938,
+        "outlier_pixel_rate": 0.0,
+        "route_mask_rate": 0.054635047912597656,
+        "y_range": {
+          "lo": 0.01554376445710659,
+          "hi": 40.264129638671875,
+          "step": 0.15783759166358732
+        },
+        "y_step_ok": false
+      },
+      {
+        "percentile": 99.9,
+        "threshold_maxrgb": 65.62862865448015,
+        "outlier_pixel_rate": 0.0010004043579101562,
+        "route_mask_rate": 0.05563545227050781,
+        "y_range": {
+          "lo": 0.01554376445710659,
+          "hi": 22.424991607666016,
+          "step": 0.0878801876204271
+        },
+        "y_step_ok": false
+      },
+      {
+        "percentile": 99.5,
+        "threshold_maxrgb": 39.025490150450146,
+        "outlier_pixel_rate": 0.005000114440917969,
+        "route_mask_rate": 0.059635162353515625,
+        "y_range": {
+          "lo": 0.01554376445710659,
+          "hi": 15.411152839660645,
+          "step": 0.0603749375498178
+        },
+        "y_step_ok": false
+      },
+      {
+        "percentile": 99.0,
+        "threshold_maxrgb": 6.8550301170349,
+        "outlier_pixel_rate": 0.010000228881835938,
+        "route_mask_rate": 0.0646352767944336,
+        "y_range": {
+          "lo": 0.01554376445710659,
+          "hi": 4.124472141265869,
+          "step": 0.016113444614936325
+        },
+        "y_step_ok": false
+      },
+      {
+        "percentile": 98.5,
+        "threshold_maxrgb": 1.8412660878896647,
+        "outlier_pixel_rate": 0.015000343322753906,
+        "route_mask_rate": 0.06963539123535156,
+        "y_range": {
+          "lo": 0.01554376445710659,
+          "hi": 1.5506631135940552,
+          "step": 0.0060200758789684256
+        },
+        "y_step_ok": false
+      },
+      {
+        "percentile": 98.0,
+        "threshold_maxrgb": 0.9664575040340421,
+        "outlier_pixel_rate": 0.020000457763671875,
+        "route_mask_rate": 0.07463550567626953,
+        "y_range": {
+          "lo": 0.01554376445710659,
+          "hi": 0.957757294178009,
+          "step": 0.003694955018513343
+        },
+        "y_step_ok": false
+      },
+      {
+        "percentile": 97.0,
+        "threshold_maxrgb": 0.7718997460603713,
+        "outlier_pixel_rate": 0.03000020980834961,
+        "route_mask_rate": 0.08463525772094727,
+        "y_range": {
+          "lo": 0.01554376445710659,
+          "hi": 0.8152547478675842,
+          "step": 0.0031361215035705004
+        },
+        "y_step_ok": true
+      },
+      {
+        "percentile": 95.0,
+        "threshold_maxrgb": 0.6369420588016508,
+        "outlier_pixel_rate": 0.05000019073486328,
+        "route_mask_rate": 0.10462141036987305,
+        "y_range": {
+          "lo": 0.01554376445710659,
+          "hi": 0.7062013149261475,
+          "step": 0.002708460982231533
+        },
+        "y_step_ok": true
+      }
+    ]
+  },
+  "signedlog_predictor": "avg",
+  "mask_pixel_rate": 0.08463525772094727,
+  "low_nonmask_pixel_rate": 0.8910808563232422,
+  "estimated_bytes": 1504988,
+  "estimated_ratio": 22.29548142576552,
+  "payload": {
+    "vst_y_nonmask": {
+      "predictor": "med",
+      "estimated_bits": 6836138.44273673,
+      "estimated_bytes": 854550,
+      "channels": [
+        {
+          "channel": 0,
+          "bits": 8,
+          "predictor": "med",
+          "samples": 1919659,
+          "estimated_bits": 6836138.44273673,
+          "bits_per_sample": 3.561121242229339
+        }
+      ]
+    },
+    "vst_chroma_low_nonmask": {
+      "predictor": "med",
+      "estimated_bits": 1668300.3662314739,
+      "estimated_bytes": 208570,
+      "channels": [
+        {
+          "channel": 0,
+          "bits": 8,
+          "predictor": "med",
+          "samples": 467183,
+          "estimated_bits": 922992.9796249362,
+          "bits_per_sample": 1.975656176755011
+        },
+        {
+          "channel": 1,
+          "bits": 8,
+          "predictor": "med",
+          "samples": 467183,
+          "estimated_bits": 745307.3866065376,
+          "bits_per_sample": 1.5953221470099246
+        }
+      ]
+    },
+    "vst_chroma_high_nonmask": {
+      "estimated_bits": 776508.1575764894,
+      "estimated_bytes": 97064,
+      "ranges": [
+        {
+          "lo": -0.4330487847328186,
+          "hi": 0.49223604798316956
+        },
+        {
+          "lo": -0.16703906655311584,
+          "hi": 0.11168067157268524
+        }
+      ],
+      "channels": [
+        {
+          "channel": 0,
+          "bits": 5,
+          "samples": 365988,
+          "estimated_bits": 477085.29448483593,
+          "bits_per_sample": 1.3035544730560453
+        },
+        {
+          "channel": 1,
+          "bits": 5,
+          "samples": 365988,
+          "estimated_bits": 299422.86309165345,
+          "bits_per_sample": 0.8181220780234691
+        }
+      ]
+    },
+    "vst_chroma_high_nonmask_mask": {
+      "sample_count": 2097152,
+      "finite_bits": 862473.7241329511,
+      "bits_per_sample": 0.4112595196404224,
+      "payload_bytes": 107814,
+      "model_bytes": 16,
+      "total_bytes": 107830
+    },
+    "vst_chroma_high_thresholds": [
+      0.011656013800296931,
+      0.0033487403762410394
+    ],
+    "vst_chroma_high_nonmask_pixel_rate": 0.1745166778564453,
+    "signedlog10_mask": {
+      "predictor": "avg",
+      "estimated_bits": 1716615.9977310698,
+      "estimated_bytes": 214609,
+      "channels": [
+        {
+          "channel": 0,
+          "bits": 10,
+          "predictor": "avg",
+          "samples": 177493,
+          "estimated_bits": 575293.8241110643,
+          "bits_per_sample": 3.2412197895751627
+        },
+        {
+          "channel": 1,
+          "bits": 10,
+          "predictor": "avg",
+          "samples": 177493,
+          "estimated_bits": 569486.7566839575,
+          "bits_per_sample": 3.208502626492073
+        },
+        {
+          "channel": 2,
+          "bits": 10,
+          "predictor": "avg",
+          "samples": 177493,
+          "estimated_bits": 571835.4169360481,
+          "bits_per_sample": 3.2217350370777895
+        }
+      ]
+    },
+    "mask": {
+      "sample_count": 2097152,
+      "finite_bits": 174660.26133581286,
+      "bits_per_sample": 0.08328450266638415,
+      "payload_bytes": 21837,
+      "model_bytes": 16,
+      "total_bytes": 21853
+    },
+    "metadata_bytes": 512
+  },
+  "note": "Sizing probe for VST nonmask + signed-log masked route. Includes VST Y/low/high for nonmask and signed-log indices for mask. This is an entropy probe, not a final bitstream byte count."
+}

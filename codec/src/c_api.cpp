@@ -3,6 +3,7 @@
 
 #include "radiance_codec/c_api.h"
 #include "radiance_codec/codec.hpp"
+#include "near_lossless_router.hpp"
 
 #include <cstdlib>
 #include <cstring>
@@ -39,6 +40,40 @@ int populate_buffer(const std::vector<std::uint8_t>& src,
     std::memcpy(out->data, src.data(), src.size());
     out->size = src.size();
     return RADIANCE_CODEC_OK;
+}
+
+radiance_codec::NearLosslessRouterParams router_params_to_cpp(
+    const radiance_codec_near_lossless_router_params_t& p) {
+    radiance_codec::NearLosslessRouterParams out;
+    out.y_bits = p.y_bits;
+    out.chroma_low_bits = p.chroma_low_bits;
+    out.high_bits = p.high_bits;
+    out.anchor_bits = p.anchor_bits;
+    out.low_scale = p.low_scale;
+    out.guide_radius = p.guide_radius;
+    out.guide_eps = p.guide_eps;
+    out.threshold_mult = p.threshold_mult;
+    out.dark_max = p.dark_max;
+    out.mask_radius = p.mask_radius;
+    out.smooth_threshold = p.smooth_threshold;
+    out.target_y_step = p.target_y_step;
+    out.outlier_activation_ratio = p.outlier_activation_ratio;
+    return out;
+}
+
+void router_report_to_c(
+    const radiance_codec::NearLosslessRouterReport& src,
+    radiance_codec_near_lossless_router_report_t* dst) {
+    if (!dst) return;
+    dst->route_mask_rate = src.route_mask_rate;
+    dst->dark_mask_rate = src.dark_mask_rate;
+    dst->outlier_mask_rate = src.outlier_mask_rate;
+    dst->outlier_active = src.outlier_active;
+    dst->chosen_percentile = src.chosen_percentile;
+    dst->threshold_maxrgb = src.threshold_maxrgb;
+    dst->y_step = src.y_step;
+    dst->max_over_p99 = src.max_over_p99;
+    dst->p99_over_p97 = src.p99_over_p97;
 }
 
 } // namespace
@@ -97,6 +132,32 @@ int radiance_codec_decode(
         return static_cast<int>(status);
     }
     return populate_buffer(raw, out);
+}
+
+int radiance_codec_near_lossless_router_v1_reconstruct(
+    const uint8_t* raw, size_t raw_size,
+    const radiance_codec_meta_t* meta,
+    const radiance_codec_near_lossless_router_params_t* params,
+    radiance_codec_buffer_t* out,
+    radiance_codec_near_lossless_router_report_t* report) {
+
+    if (!raw || !meta || !params || !out) return RADIANCE_CODEC_INVALID_ARG;
+    out->data = nullptr;
+    out->size = 0;
+
+    std::vector<std::uint8_t> decoded;
+    radiance_codec::NearLosslessRouterReport cpp_report;
+    auto status = radiance_codec::reconstruct_near_lossless_router_v1(
+        std::span<const std::uint8_t>(raw, raw_size),
+        meta_to_cpp(*meta),
+        router_params_to_cpp(*params),
+        decoded,
+        &cpp_report);
+    if (status != radiance_codec::Status::Ok) {
+        return static_cast<int>(status);
+    }
+    router_report_to_c(cpp_report, report);
+    return populate_buffer(decoded, out);
 }
 
 } // extern "C"

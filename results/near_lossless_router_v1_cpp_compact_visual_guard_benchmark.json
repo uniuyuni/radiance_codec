@@ -1,0 +1,98 @@
+[
+  {
+    "image": "sample_1920\u00d71280.exr",
+    "shape": [
+      1280,
+      1920,
+      3
+    ],
+    "raw_bytes": 29491200,
+    "encoded_bytes": 2952867,
+    "ratio": 9.987310637424578,
+    "read_s": 0.02031254197936505,
+    "encode_s": 1.9037505410378799,
+    "decode_s": 0.15365937497699633,
+    "finite": true,
+    "visual_guard": "internal_L0.010_R0_d0"
+  },
+  {
+    "image": "sample_DSCF0009.EXR",
+    "shape": [
+      5152,
+      7728,
+      3
+    ],
+    "raw_bytes": 477775872,
+    "encoded_bytes": 31039702,
+    "ratio": 15.392411692612255,
+    "read_s": 0.4051270000054501,
+    "encode_s": 36.46446037502028,
+    "decode_s": 2.6348689579754137,
+    "finite": true,
+    "visual_guard": "internal_L0.010_R0_d0"
+  },
+  {
+    "image": "sample_bright_park.EXR",
+    "shape": [
+      5152,
+      7728,
+      3
+    ],
+    "raw_bytes": 477775872,
+    "encoded_bytes": 27457442,
+    "ratio": 17.400596603281542,
+    "read_s": 0.4271293750498444,
+    "encode_s": 35.53994991700165,
+    "decode_s": 2.4058692079852335,
+    "finite": true,
+    "visual_guard": "internal_L0.010_R0_d0"
+  },
+  {
+    "image": "sample_middle_flower.EXR",
+    "shape": [
+      7728,
+      5152,
+      3
+    ],
+    "raw_bytes": 477775872,
+    "encoded_bytes": 20348992,
+    "ratio": 23.47909282189506,
+    "read_s": 0.43756716698408127,
+    "encode_s": 33.98666683305055,
+    "decode_s": 2.1906782079604454,
+    "finite": true,
+    "visual_guard": "internal_L0.010_R0_d0"
+  },
+  {
+    "image": "sample_hilberts-mill-conference-room_2K.exr",
+    "shape": [
+      1024,
+      2048,
+      4
+    ],
+    "raw_bytes": 33554432,
+    "encoded_bytes": 1705275,
+    "ratio": 19.676845083637538,
+    "read_s": 0.05747987498762086,
+    "encode_s": 1.7741076670354232,
+    "decode_s": 0.1404180409736,
+    "finite": true,
+    "visual_guard": "internal_L0.010_R0_d0"
+  },
+  {
+    "image": "sample_DSCF0009_denoise.exr",
+    "shape": [
+      5152,
+      7935,
+      3
+    ],
+    "raw_bytes": 490573440,
+    "encoded_bytes": 55810527,
+    "ratio": 8.789980427885943,
+    "read_s": 0.28096950001781806,
+    "encode_s": 37.373871958989184,
+    "decode_s": 3.0744895830284804,
+    "finite": true,
+    "visual_guard": "internal_L0.010_R0_d0"
+  }
+]

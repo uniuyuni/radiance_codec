@@ -93,6 +93,38 @@ class _Buffer(ctypes.Structure):
     ]
 
 
+class _NearLosslessRouterParams(ctypes.Structure):
+    _fields_ = [
+        ("y_bits", ctypes.c_uint8),
+        ("chroma_low_bits", ctypes.c_uint8),
+        ("high_bits", ctypes.c_uint8),
+        ("anchor_bits", ctypes.c_uint8),
+        ("low_scale", ctypes.c_uint8),
+        ("guide_radius", ctypes.c_uint8),
+        ("guide_eps", ctypes.c_float),
+        ("threshold_mult", ctypes.c_float),
+        ("dark_max", ctypes.c_float),
+        ("mask_radius", ctypes.c_uint8),
+        ("smooth_threshold", ctypes.c_float),
+        ("target_y_step", ctypes.c_float),
+        ("outlier_activation_ratio", ctypes.c_float),
+    ]
+
+
+class _NearLosslessRouterReport(ctypes.Structure):
+    _fields_ = [
+        ("route_mask_rate", ctypes.c_float),
+        ("dark_mask_rate", ctypes.c_float),
+        ("outlier_mask_rate", ctypes.c_float),
+        ("outlier_active", ctypes.c_uint8),
+        ("chosen_percentile", ctypes.c_float),
+        ("threshold_maxrgb", ctypes.c_float),
+        ("y_step", ctypes.c_float),
+        ("max_over_p99", ctypes.c_float),
+        ("p99_over_p97", ctypes.c_float),
+    ]
+
+
 # ─── function signatures ──────────────────────────────────────────
 
 _lib.radiance_codec_version.restype = ctypes.c_char_p
@@ -117,6 +149,15 @@ _lib.radiance_codec_decode.argtypes = [
     ctypes.POINTER(_Buffer),
 ]
 
+_lib.radiance_codec_near_lossless_router_v1_reconstruct.restype = ctypes.c_int
+_lib.radiance_codec_near_lossless_router_v1_reconstruct.argtypes = [
+    ctypes.POINTER(ctypes.c_uint8), ctypes.c_size_t,
+    ctypes.POINTER(_Meta),
+    ctypes.POINTER(_NearLosslessRouterParams),
+    ctypes.POINTER(_Buffer),
+    ctypes.POINTER(_NearLosslessRouterReport),
+]
+
 
 # ─── public API ───────────────────────────────────────────────────
 
@@ -131,6 +172,7 @@ class Stage(enum.IntFlag):
     GROUPED_DELTA   = 0x0040
     MANTISSA_QUANTIZE = 0x0080
     LINEAR_INDEX    = 0x0100
+    NEAR_LOSSLESS_ROUTER = 0x0200
     ALL = (COLOR_TRANSFORM | LOG_MAGNITUDE | SPATIAL_PREDICT
            | BITSHUFFLE | RANS)
 
@@ -258,6 +300,23 @@ def encode_near_lossless(pixels: np.ndarray,
     )
 
 
+def encode_near_lossless_router_v1(pixels: np.ndarray,
+                                   effort: int = 11) -> bytes:
+    """Encode with the visual near-lossless router v1.
+
+    Decoding returns the router-reconstructed candidate, not the original
+    bit-exact image. The current production path wraps that candidate in the
+    existing grouped-delta entropy stage.
+    """
+    return encode(
+        pixels,
+        stages=Stage.NEAR_LOSSLESS_ROUTER,
+        effort=effort,
+        near_lossless_bits=0,
+        near_lossless_policy=NearLosslessPolicy.FIXED,
+    )
+
+
 _LINEAR_INDEX_TRANSFORM_POLICIES = {
     "linear": NearLosslessPolicy.LINEAR_RANGE,
     "signed-log": NearLosslessPolicy.LOG_RANGE,
@@ -344,6 +403,84 @@ def encode_linear_index_near_lossless(pixels: np.ndarray,
         near_lossless_bits=bits,
         near_lossless_policy=_linear_index_policy_for_transform(transform),
     )
+
+
+def reconstruct_near_lossless_router_v1(
+    pixels: np.ndarray,
+    *,
+    y_bits: int = 8,
+    chroma_low_bits: int = 8,
+    high_bits: int = 5,
+    anchor_bits: int = 10,
+    low_scale: int = 2,
+    guide_radius: int = 2,
+    guide_eps: float = 0.1,
+    threshold_mult: float = 2.5,
+    dark_max: float = 0.5,
+    mask_radius: int = 2,
+    smooth_threshold: float = 0.0025,
+    target_y_step: float = 0.0032,
+    outlier_activation_ratio: float = 4.0,
+) -> tuple[np.ndarray, dict[str, float | bool]]:
+    """Reconstruct the current research near-lossless router v1 candidate.
+
+    This is a C++ acceleration path for the VST/YCoCg + signed-log10 escape
+    research route. It is not yet the final compressed bitstream API.
+    """
+    if pixels.dtype != np.float32:
+        raise CodecError(f"expected float32, got {pixels.dtype}")
+    if pixels.ndim != 3:
+        raise CodecError(f"expected HxWxC array, got shape {pixels.shape}")
+    h, w, c = pixels.shape
+    if c < 3 or c > 4:
+        raise CodecError(f"channels must be 3 or 4, got {c}")
+    arr = np.ascontiguousarray(pixels)
+    raw = arr.tobytes()
+    meta = _Meta(width=w, height=h, channels=c, format=1)
+    params = _NearLosslessRouterParams(
+        y_bits=y_bits,
+        chroma_low_bits=chroma_low_bits,
+        high_bits=high_bits,
+        anchor_bits=anchor_bits,
+        low_scale=low_scale,
+        guide_radius=guide_radius,
+        guide_eps=guide_eps,
+        threshold_mult=threshold_mult,
+        dark_max=dark_max,
+        mask_radius=mask_radius,
+        smooth_threshold=smooth_threshold,
+        target_y_step=target_y_step,
+        outlier_activation_ratio=outlier_activation_ratio,
+    )
+    out = _Buffer()
+    report = _NearLosslessRouterReport()
+    in_ptr = (ctypes.c_uint8 * len(raw)).from_buffer_copy(raw)
+    rc = _lib.radiance_codec_near_lossless_router_v1_reconstruct(
+        in_ptr,
+        len(raw),
+        ctypes.byref(meta),
+        ctypes.byref(params),
+        ctypes.byref(out),
+        ctypes.byref(report),
+    )
+    if rc != 0:
+        raise CodecError(f"near-lossless router reconstruct failed: {_STATUS_NAMES.get(rc, rc)}")
+    try:
+        raw_out = bytes(ctypes.string_at(out.data, out.size))
+    finally:
+        _lib.radiance_codec_buffer_free(ctypes.byref(out))
+    decoded = np.frombuffer(raw_out, dtype=np.float32).reshape(arr.shape).copy()
+    return decoded, {
+        "route_mask_rate": float(report.route_mask_rate),
+        "dark_mask_rate": float(report.dark_mask_rate),
+        "outlier_mask_rate": float(report.outlier_mask_rate),
+        "outlier_active": bool(report.outlier_active),
+        "chosen_percentile": float(report.chosen_percentile),
+        "threshold_maxrgb": float(report.threshold_maxrgb),
+        "y_step": float(report.y_step),
+        "max_over_p99": float(report.max_over_p99),
+        "p99_over_p97": float(report.p99_over_p97),
+    }
 
 
 def linear_index_bits_for_preset(preset: LinearIndexPreset | str) -> int:

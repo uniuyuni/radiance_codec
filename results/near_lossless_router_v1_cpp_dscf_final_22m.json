@@ -1,0 +1,62 @@
+{
+  "image": "sample_DSCF0009.EXR",
+  "raw_bytes": 477775872,
+  "encoded_bytes": 23204463,
+  "encoded_mib": 22.12950038909912,
+  "ratio": 20.589826707043382,
+  "encode_s": 125.02134204196045,
+  "decode_s": 5.5721090830047615,
+  "finite": true,
+  "streams": [
+    {
+      "stream": "route_mask",
+      "method": "maskbin",
+      "payload_bytes": 811266
+    },
+    {
+      "stream": "high_mask",
+      "method": "maskbin",
+      "payload_bytes": 1738206
+    },
+    {
+      "stream": "Y",
+      "method": "rans1",
+      "payload_bytes": 7649107
+    },
+    {
+      "stream": "Co_low",
+      "method": "sym",
+      "payload_bytes": 1321837
+    },
+    {
+      "stream": "Cg_low",
+      "method": "sym",
+      "payload_bytes": 1621920
+    },
+    {
+      "stream": "Co_high",
+      "method": "sym",
+      "payload_bytes": 563723
+    },
+    {
+      "stream": "Cg_high",
+      "method": "sym",
+      "payload_bytes": 667889
+    },
+    {
+      "stream": "SLog_R",
+      "method": "sym",
+      "payload_bytes": 3268885
+    },
+    {
+      "stream": "SLog_G",
+      "method": "sym",
+      "payload_bytes": 2623972
+    },
+    {
+      "stream": "SLog_B",
+      "method": "sym",
+      "payload_bytes": 2937501
+    }
+  ]
+}

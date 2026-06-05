@@ -1,8 +1,9 @@
 // C++ public API for the HDR codec.
 //
 // The codec is built from a pipeline of independent stages. Most stages are
-// bit-exact reversible; StageMantissaQuantize is intentionally near-lossless
-// and decodes to the quantized pixels. The classic pipeline order (encoding
+// bit-exact reversible; StageMantissaQuantize and StageNearLosslessRouter are
+// intentionally near-lossless and decode to the quantized pixels. The classic
+// pipeline order (encoding
 // direction):
 //
 //   raw float32 bytes
@@ -56,6 +57,7 @@ enum Stage : uint32_t {
     StageGroupedDelta   = 0x0040,
     StageMantissaQuantize = 0x0080,
     StageLinearIndex    = 0x0100,
+    StageNearLosslessRouter = 0x0200,
 
     // Convenience presets
     StageAll = StageColorTransform | StageLogMagnitude

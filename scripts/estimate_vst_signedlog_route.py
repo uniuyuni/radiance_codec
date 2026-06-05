@@ -91,6 +91,91 @@ def strip_arrays(row: dict) -> dict:
     return {key: value for key, value in row.items() if not isinstance(value, np.ndarray)}
 
 
+def parse_floats(text: str) -> tuple[float, ...]:
+    return tuple(float(part) for part in text.split(",") if part.strip())
+
+
+def quantize_range_from_mask(values: np.ndarray, bits: int, range_mask: np.ndarray) -> tuple[np.ndarray, np.ndarray, dict]:
+    levels = (1 << bits) - 1
+    vals = values.astype(np.float64)
+    selected = vals[range_mask]
+    if selected.size == 0:
+        selected = vals.reshape(-1)
+    lo = float(np.min(selected))
+    hi = float(np.max(selected))
+    q = np.zeros(vals.shape, dtype=np.uint16)
+    if not hi > lo:
+        return q, np.full(vals.shape, lo, dtype=np.float32), {"lo": lo, "hi": hi, "step": 0.0}
+    qf = np.floor((vals - lo) / (hi - lo) * levels + 0.5)
+    q = np.clip(qf, 0, levels).astype(np.uint16)
+    rec = lo + q.astype(np.float64) * (hi - lo) / levels
+    return q, rec.astype(np.float32), {"lo": lo, "hi": hi, "step": (hi - lo) / levels}
+
+
+def choose_outlier_mask(
+    pixels: np.ndarray,
+    base_mask: np.ndarray,
+    args: argparse.Namespace,
+) -> tuple[np.ndarray, dict | None]:
+    if not args.enable_outlier_router:
+        return np.zeros(base_mask.shape, dtype=bool), None
+    rgb = pixels[:, :, :3].astype(np.float32)
+    max_rgb = np.max(rgb, axis=2)
+    p97, p99, p100 = np.percentile(max_rgb.reshape(-1).astype(np.float64), (97.0, 99.0, 100.0))
+    max_over_p99 = float(p100 / max(p99, 1.0e-12))
+    p99_over_p97 = float(p99 / max(p97, 1.0e-12))
+    if max(max_over_p99, p99_over_p97) < args.outlier_activation_ratio:
+        return np.zeros(base_mask.shape, dtype=bool), {
+            "enabled": True,
+            "active": False,
+            "reason": "range ratios below activation threshold",
+            "activation_ratio": args.outlier_activation_ratio,
+            "max_over_p99": max_over_p99,
+            "p99_over_p97": p99_over_p97,
+            "p97": float(p97),
+            "p99": float(p99),
+            "p100": float(p100),
+        }
+    t_rgb = forward_vst(rgb, args.vst_mode, args.vst_a, args.vst_b, args.vst_eps).astype(np.float32)
+    y_plane = forward_color(t_rgb, "ycocg")[:, :, 0]
+    percentiles = parse_floats(args.outlier_percentiles)
+    rows = []
+    chosen = None
+    for percentile in sorted(percentiles, reverse=True):
+        threshold = float(np.percentile(max_rgb.reshape(-1).astype(np.float64), percentile))
+        outlier = max_rgb > np.float32(threshold)
+        route_mask = base_mask | outlier
+        _q, _rec, y_range = quantize_range_from_mask(y_plane, args.y_bits, ~route_mask)
+        row = {
+            "percentile": percentile,
+            "threshold_maxrgb": threshold,
+            "outlier_pixel_rate": float(np.mean(outlier)),
+            "route_mask_rate": float(np.mean(route_mask)),
+            "y_range": y_range,
+            "y_step_ok": y_range["step"] <= args.target_y_step,
+        }
+        rows.append(row)
+        if chosen is None and row["y_step_ok"]:
+            chosen = row
+    if chosen is None:
+        chosen = rows[-1]
+    outlier_mask = max_rgb > np.float32(chosen["threshold_maxrgb"])
+    return outlier_mask, {
+        "enabled": True,
+        "active": True,
+        "activation_ratio": args.outlier_activation_ratio,
+        "max_over_p99": max_over_p99,
+        "p99_over_p97": p99_over_p97,
+        "p97": float(p97),
+        "p99": float(p99),
+        "p100": float(p100),
+        "target_y_step": args.target_y_step,
+        "percentiles": list(percentiles),
+        "chosen": chosen,
+        "rows": rows,
+    }
+
+
 def quantize_vst_base_indices(
     pixels: np.ndarray,
     vst_mode: str,
@@ -102,13 +187,14 @@ def quantize_vst_base_indices(
     low_scale: int,
     guide_radius: int,
     guide_eps: float,
+    route_mask: np.ndarray,
 ) -> tuple[np.ndarray, np.ndarray, np.ndarray]:
     rgb = pixels[:, :, :3]
     t_rgb = forward_vst(rgb, vst_mode, vst_a, vst_b, vst_eps).astype(np.float32)
     planes = forward_color(t_rgb, "ycocg")[:, :, :3]
     y_plane = planes[:, :, 0]
     chroma = planes[:, :, 1:3]
-    y_idx, _, _ = quantize_range(y_plane, y_bits)
+    y_idx, _, _ = quantize_range_from_mask(y_plane, y_bits, ~route_mask)
 
     guide = y_plane.astype(np.float64)
     low_full = np.zeros(chroma.shape, dtype=np.float32)
@@ -123,7 +209,7 @@ def quantize_vst_base_indices(
     low_masks = []
     for channel in range(2):
         coarse = block_mean_downsample(low_full[:, :, channel], low_scale)
-        q, _, _ = quantize_range(coarse, chroma_low_bits)
+        q, _, _ = quantize_range_from_mask(coarse, chroma_low_bits, ~downsample_mask_any(route_mask, low_scale))
         low_indices.append(q)
         low_masks.append(np.ones(q.shape, dtype=bool))
     high = chroma - low_full
@@ -184,6 +270,10 @@ def main() -> int:
     parser.add_argument("--dark-max", type=float, default=0.5)
     parser.add_argument("--mask-radius", type=int, default=2)
     parser.add_argument("--smooth-threshold", type=float, default=0.004)
+    parser.add_argument("--enable-outlier-router", action="store_true")
+    parser.add_argument("--outlier-percentiles", default="100,99.9,99.5,99,98.5,98,97,95")
+    parser.add_argument("--target-y-step", type=float, default=0.0032)
+    parser.add_argument("--outlier-activation-ratio", type=float, default=4.0)
     parser.add_argument(
         "--additional-mask-png",
         type=Path,
@@ -212,6 +302,9 @@ def main() -> int:
             "new_pixel_rate": float(np.mean(additional_mask & ~mask)),
         }
         mask = mask | additional_mask
+    outlier_mask, outlier_summary = choose_outlier_mask(pixels, mask, args)
+    if outlier_summary is not None:
+        mask = mask | outlier_mask
     nonmask = ~mask
     low_nonmask = ~downsample_mask_any(mask, args.low_scale)
 
@@ -226,6 +319,7 @@ def main() -> int:
         args.low_scale,
         args.guide_radius,
         args.guide_eps,
+        mask,
     )
     signed_idx = quantize_indices(pixels[:, :, :3], args.signedlog_bits, "signed-log")
     high_kept, high_thresholds = shrink_highpass(high, args.base_threshold)
@@ -277,6 +371,7 @@ def main() -> int:
         "mask_radius": args.mask_radius,
         "smooth_threshold": args.smooth_threshold,
         "additional_mask": additional_mask_summary,
+        "outlier_router": outlier_summary,
         "signedlog_predictor": args.signedlog_predictor,
         "mask_pixel_rate": float(np.mean(mask)),
         "low_nonmask_pixel_rate": float(np.mean(low_nonmask)),
@@ -308,6 +403,15 @@ def main() -> int:
         f"_spred{safe_name(args.signedlog_predictor)}"
         f"_{args.mask_mode}{args.dark_max:g}_st{args.smooth_threshold:g}.json"
     )
+    if args.enable_outlier_router:
+        output = RESULTS_DIR / (
+            f"vst_signedlog_route_{safe_name(path.stem)}_{crop_label}"
+            f"_Y{args.y_bits}_CL{args.chroma_low_bits}"
+            f"_slog{args.signedlog_bits}"
+            f"_spred{safe_name(args.signedlog_predictor)}"
+            f"_{args.mask_mode}{args.dark_max:g}_st{args.smooth_threshold:g}"
+            f"_outlierstep{args.target_y_step:g}.json"
+        )
     if args.additional_mask_png is not None:
         output = RESULTS_DIR / (
             f"vst_signedlog_route_{safe_name(path.stem)}_{crop_label}"
@@ -315,6 +419,7 @@ def main() -> int:
             f"_slog{args.signedlog_bits}"
             f"_spred{safe_name(args.signedlog_predictor)}"
             f"_{args.mask_mode}{args.dark_max:g}_st{args.smooth_threshold:g}"
+            f"{'_outlierstep' + format(args.target_y_step, 'g') if args.enable_outlier_router else ''}"
             f"_plus_{safe_name(args.additional_mask_png.stem)}.json"
         )
     output.write_text(json.dumps(summary, indent=2))

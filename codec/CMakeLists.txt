@@ -35,14 +35,22 @@ add_library(radiance_codec SHARED
     src/mantissa_quantize.cpp
     src/linear_index.cpp
     src/linear_index_transform.cpp
+    src/near_lossless_router.cpp
     src/c_api.cpp
 )
+find_path(ZSTD_INCLUDE_DIR zstd.h)
+find_library(ZSTD_LIBRARY zstd)
 target_include_directories(radiance_codec
     PUBLIC
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
     PRIVATE
         ${CMAKE_CURRENT_SOURCE_DIR}/src
 )
+if(ZSTD_INCLUDE_DIR AND ZSTD_LIBRARY)
+    target_include_directories(radiance_codec PRIVATE ${ZSTD_INCLUDE_DIR})
+    target_link_libraries(radiance_codec PRIVATE ${ZSTD_LIBRARY})
+    target_compile_definitions(radiance_codec PRIVATE RADIANCE_CODEC_HAS_ZSTD=1)
+endif()
 set_target_properties(radiance_codec PROPERTIES
     OUTPUT_NAME "radiance_codec"
     VERSION ${PROJECT_VERSION}
@@ -86,6 +94,14 @@ add_executable(test_predictor
     tests/test_predictor.cpp
 )
 target_link_libraries(test_predictor PRIVATE radiance_codec)
+
+add_executable(test_near_lossless_router
+    tests/test_near_lossless_router.cpp
+)
+target_link_libraries(test_near_lossless_router PRIVATE radiance_codec)
+target_include_directories(test_near_lossless_router PRIVATE
+    ${CMAKE_CURRENT_SOURCE_DIR}/src
+)
 
 # ─── install ───
 install(TARGETS radiance_codec
