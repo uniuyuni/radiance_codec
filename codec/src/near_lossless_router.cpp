@@ -2,6 +2,10 @@
 #include "rans.hpp"
 #include "rans_internal.hpp"
 
+#ifdef RADIANCE_CODEC_HAS_METAL
+#include "near_lossless_router_metal.hpp"
+#endif
+
 #ifdef RADIANCE_CODEC_HAS_ZSTD
 #include <zstd.h>
 #endif
@@ -40,6 +44,17 @@ constexpr std::uint8_t kExtraRaw = 2;
 
 bool router_trace_enabled() noexcept {
     static const bool enabled = std::getenv("RADIANCE_CODEC_ROUTER_TRACE") != nullptr;
+    return enabled;
+}
+
+bool metal_guided_enabled() noexcept {
+    static const bool enabled = std::getenv("RADIANCE_CODEC_USE_METAL_GUIDED") != nullptr;
+    return enabled;
+}
+
+bool metal_visual_guard_enabled() noexcept {
+    static const bool enabled =
+        std::getenv("RADIANCE_CODEC_USE_METAL_VISUAL_GUARD") != nullptr;
     return enabled;
 }
 
@@ -1464,39 +1479,57 @@ Status reconstruct_near_lossless_router_v1(
         : 0.0f;
     if (!outlier_active) chosen_step = y_range.step;
 
-    std::vector<double> guide_sq(pixels);
-    for (std::size_t i = 0; i < pixels; ++i) guide_sq[i] = guide[i] * guide[i];
-    const auto guide_moments =
-        box_mean_reflect_pair(guide, guide_sq, meta.width, meta.height, params.guide_radius);
-    const auto& guide_mean = guide_moments.first;
-    const auto& guide_sq_mean = guide_moments.second;
+    std::vector<float> co_low, cg_low;
+    bool used_metal_guided = false;
+#ifdef RADIANCE_CODEC_HAS_METAL
+    if (metal_guided_enabled()) {
+        used_metal_guided = metal_guided_low_pair(
+            co_plane,
+            cg_plane,
+            y_plane,
+            meta.width,
+            meta.height,
+            params.guide_radius,
+            params.guide_eps,
+            co_low,
+            cg_low);
+    }
+#endif
+    if (!used_metal_guided) {
+        std::vector<double> guide_sq(pixels);
+        for (std::size_t i = 0; i < pixels; ++i) guide_sq[i] = guide[i] * guide[i];
+        const auto guide_moments =
+            box_mean_reflect_pair(guide, guide_sq, meta.width, meta.height, params.guide_radius);
+        const auto& guide_mean = guide_moments.first;
+        const auto& guide_sq_mean = guide_moments.second;
 
-    auto guided_low = [&](const std::vector<float>& plane) {
-        std::vector<double> p(pixels), ip(pixels);
-        for (std::size_t i = 0; i < pixels; ++i) {
-            p[i] = plane[i];
-            ip[i] = guide[i] * p[i];
-        }
-        auto p_mean = box_mean_reflect(p, meta.width, meta.height, params.guide_radius);
-        auto ip_mean = box_mean_reflect(ip, meta.width, meta.height, params.guide_radius);
-        std::vector<double> a(pixels), b(pixels);
-        for (std::size_t i = 0; i < pixels; ++i) {
-            const double var_i = guide_sq_mean[i] - guide_mean[i] * guide_mean[i];
-            const double cov_ip = ip_mean[i] - guide_mean[i] * p_mean[i];
-            a[i] = cov_ip / (var_i + params.guide_eps);
-            b[i] = p_mean[i] - a[i] * guide_mean[i];
-        }
-        auto a_mean = box_mean_reflect(a, meta.width, meta.height, params.guide_radius);
-        auto b_mean = box_mean_reflect(b, meta.width, meta.height, params.guide_radius);
-        std::vector<float> low(pixels);
-        for (std::size_t i = 0; i < pixels; ++i) {
-            low[i] = static_cast<float>(a_mean[i] * guide[i] + b_mean[i]);
-        }
-        return low;
-    };
+        auto guided_low = [&](const std::vector<float>& plane) {
+            std::vector<double> p(pixels), ip(pixels);
+            for (std::size_t i = 0; i < pixels; ++i) {
+                p[i] = plane[i];
+                ip[i] = guide[i] * p[i];
+            }
+            auto p_mean = box_mean_reflect(p, meta.width, meta.height, params.guide_radius);
+            auto ip_mean = box_mean_reflect(ip, meta.width, meta.height, params.guide_radius);
+            std::vector<double> a(pixels), b(pixels);
+            for (std::size_t i = 0; i < pixels; ++i) {
+                const double var_i = guide_sq_mean[i] - guide_mean[i] * guide_mean[i];
+                const double cov_ip = ip_mean[i] - guide_mean[i] * p_mean[i];
+                a[i] = cov_ip / (var_i + params.guide_eps);
+                b[i] = p_mean[i] - a[i] * guide_mean[i];
+            }
+            auto a_mean = box_mean_reflect(a, meta.width, meta.height, params.guide_radius);
+            auto b_mean = box_mean_reflect(b, meta.width, meta.height, params.guide_radius);
+            std::vector<float> low(pixels);
+            for (std::size_t i = 0; i < pixels; ++i) {
+                low[i] = static_cast<float>(a_mean[i] * guide[i] + b_mean[i]);
+            }
+            return low;
+        };
 
-    auto co_low = guided_low(co_plane);
-    auto cg_low = guided_low(cg_plane);
+        co_low = guided_low(co_plane);
+        cg_low = guided_low(cg_plane);
+    }
     std::uint32_t low_w = 0, low_h = 0, low_mask_w = 0, low_mask_h = 0;
     auto low_mask = downsample_mask_any(route_mask, meta.width, meta.height, params.low_scale, low_mask_w, low_mask_h);
     (void)low_mask_w;
@@ -1700,55 +1733,73 @@ Status NearLosslessRouterStage::encode(
 
     const std::vector<std::uint8_t> base_route_mask = route_mask;
 
-    std::vector<double> guide_sq(pixels);
+    std::vector<float> co_low, cg_low;
+    bool used_metal_guided = false;
+#ifdef RADIANCE_CODEC_HAS_METAL
+    if (metal_guided_enabled()) {
+        used_metal_guided = metal_guided_low_pair(
+            co_plane,
+            cg_plane,
+            y_plane,
+            meta.width,
+            meta.height,
+            params_.guide_radius,
+            params_.guide_eps,
+            co_low,
+            cg_low);
+    }
+#endif
+    if (!used_metal_guided) {
+        std::vector<double> guide_sq(pixels);
 #ifdef RADIANCE_CODEC_HAS_OPENMP
 #pragma omp parallel for schedule(static) if(pixels > (8u << 20))
 #endif
-    for (std::size_t i = 0; i < pixels; ++i) guide_sq[i] = guide[i] * guide[i];
-    const auto guide_moments =
-        box_mean_reflect_pair(guide, guide_sq, meta.width, meta.height, params_.guide_radius);
-    const auto& guide_mean = guide_moments.first;
-    const auto& guide_sq_mean = guide_moments.second;
+        for (std::size_t i = 0; i < pixels; ++i) guide_sq[i] = guide[i] * guide[i];
+        const auto guide_moments =
+            box_mean_reflect_pair(guide, guide_sq, meta.width, meta.height, params_.guide_radius);
+        const auto& guide_mean = guide_moments.first;
+        const auto& guide_sq_mean = guide_moments.second;
 
-    auto guided_low = [&](const std::vector<float>& plane) {
-        std::vector<double> p(pixels), ip(pixels);
+        auto guided_low = [&](const std::vector<float>& plane) {
+            std::vector<double> p(pixels), ip(pixels);
 #ifdef RADIANCE_CODEC_HAS_OPENMP
 #pragma omp parallel for schedule(static) if(pixels > (8u << 20))
 #endif
-        for (std::size_t i = 0; i < pixels; ++i) {
-            p[i] = plane[i];
-            ip[i] = guide[i] * p[i];
-        }
-        auto p_mean = box_mean_reflect(p, meta.width, meta.height, params_.guide_radius);
-        auto ip_mean = box_mean_reflect(ip, meta.width, meta.height, params_.guide_radius);
-        std::vector<double> a(pixels), b(pixels);
+            for (std::size_t i = 0; i < pixels; ++i) {
+                p[i] = plane[i];
+                ip[i] = guide[i] * p[i];
+            }
+            auto p_mean = box_mean_reflect(p, meta.width, meta.height, params_.guide_radius);
+            auto ip_mean = box_mean_reflect(ip, meta.width, meta.height, params_.guide_radius);
+            std::vector<double> a(pixels), b(pixels);
 #ifdef RADIANCE_CODEC_HAS_OPENMP
 #pragma omp parallel for schedule(static) if(pixels > (8u << 20))
 #endif
-        for (std::size_t i = 0; i < pixels; ++i) {
-            const double var_i = guide_sq_mean[i] - guide_mean[i] * guide_mean[i];
-            const double cov_ip = ip_mean[i] - guide_mean[i] * p_mean[i];
-            a[i] = cov_ip / (var_i + params_.guide_eps);
-            b[i] = p_mean[i] - a[i] * guide_mean[i];
-        }
-        auto a_mean = box_mean_reflect(a, meta.width, meta.height, params_.guide_radius);
-        auto b_mean = box_mean_reflect(b, meta.width, meta.height, params_.guide_radius);
-        std::vector<float> low(pixels);
+            for (std::size_t i = 0; i < pixels; ++i) {
+                const double var_i = guide_sq_mean[i] - guide_mean[i] * guide_mean[i];
+                const double cov_ip = ip_mean[i] - guide_mean[i] * p_mean[i];
+                a[i] = cov_ip / (var_i + params_.guide_eps);
+                b[i] = p_mean[i] - a[i] * guide_mean[i];
+            }
+            auto a_mean = box_mean_reflect(a, meta.width, meta.height, params_.guide_radius);
+            auto b_mean = box_mean_reflect(b, meta.width, meta.height, params_.guide_radius);
+            std::vector<float> low(pixels);
 #ifdef RADIANCE_CODEC_HAS_OPENMP
 #pragma omp parallel for schedule(static) if(pixels > (8u << 20))
 #endif
-        for (std::size_t i = 0; i < pixels; ++i) {
-            low[i] = static_cast<float>(a_mean[i] * guide[i] + b_mean[i]);
-        }
-        return low;
-    };
+            for (std::size_t i = 0; i < pixels; ++i) {
+                low[i] = static_cast<float>(a_mean[i] * guide[i] + b_mean[i]);
+            }
+            return low;
+        };
 
-    auto co_low = guided_low(co_plane);
-    auto cg_low = guided_low(cg_plane);
+        co_low = guided_low(co_plane);
+        cg_low = guided_low(cg_plane);
+    }
     std::uint32_t low_w = 0, low_h = 0;
     auto co_coarse = block_mean_downsample(co_low, meta.width, meta.height, params_.low_scale, low_w, low_h);
     auto cg_coarse = block_mean_downsample(cg_low, meta.width, meta.height, params_.low_scale, low_w, low_h);
-    trace.lap("guided-low");
+    trace.lap(used_metal_guided ? "guided-metal" : "guided-low");
 
     std::vector<float> co_high(pixels), cg_high(pixels);
 #ifdef RADIANCE_CODEC_HAS_OPENMP
@@ -1794,6 +1845,7 @@ Status NearLosslessRouterStage::encode(
         return out_mask;
     };
 
+    bool used_metal_visual_guard = false;
     if (params_.visual_guard_enabled
         && params_.visual_guard_luma_threshold > 0.0f) {
         Range base_y_range = range_from_mask(y_plane, base_route_mask, true);
@@ -1818,74 +1870,129 @@ Status NearLosslessRouterStage::encode(
         const auto safe_log_ranges = full_signed_log_ranges(in, meta);
 
         std::vector<std::uint8_t> guard(pixels, 0);
+        auto compute_visual_guard_hit = [&](std::uint32_t y, std::uint32_t x) -> bool {
+            const auto i2 = idx2(meta.width, y, x);
+            if (base_route_mask[i2] && params_.visual_guard_dilate_radius == 0) {
+                return false;
+            }
+            const auto base_byte = idx3(meta, y, x, 0) * 4;
+            float safe[3] = {};
+            float cand[3] = {};
+            for (std::uint8_t c = 0; c < 3; ++c) {
+                const float original = read_f32(in.data() + base_byte + 4 * c);
+                safe[c] = signed_log_quantize(
+                    original,
+                    params_.anchor_bits,
+                    safe_log_ranges[c].lo,
+                    safe_log_ranges[c].hi);
+            }
+            if (base_route_mask[i2]) {
+                for (std::uint8_t c = 0; c < 3; ++c) {
+                    const float original = read_f32(in.data() + base_byte + 4 * c);
+                    cand[c] = signed_log_quantize(
+                        original,
+                        params_.anchor_bits,
+                        base_log_ranges[c].lo,
+                        base_log_ranges[c].hi);
+                }
+            } else {
+                const float yq = quantize_value(y_plane[i2], params_.y_bits, base_y_range);
+                const float co_low_q = quantize_value(
+                    upsample_at(co_coarse, low_w, low_h, params_.low_scale, y, x),
+                    params_.chroma_low_bits,
+                    base_co_low_range);
+                const float cg_low_q = quantize_value(
+                    upsample_at(cg_coarse, low_w, low_h, params_.low_scale, y, x),
+                    params_.chroma_low_bits,
+                    base_cg_low_range);
+                const float co_h = base_high_mask[i2]
+                    ? quantize_value(co_high[i2], params_.high_bits, base_co_high_range)
+                    : 0.0f;
+                const float cg_h = base_high_mask[i2]
+                    ? quantize_value(cg_high[i2], params_.high_bits, base_cg_high_range)
+                    : 0.0f;
+                const float co = co_low_q + co_h;
+                const float cg = cg_low_q + cg_h;
+                const float tr = yq - 0.5f * cg + 0.5f * co;
+                const float tg = yq + 0.5f * cg;
+                const float tb = yq - 0.5f * cg - 0.5f * co;
+                cand[0] = vst_inverse(tr);
+                cand[1] = vst_inverse(tg);
+                cand[2] = vst_inverse(tb);
+            }
+            const float luma_diff = std::fabs(
+                display_luma(cand[0], cand[1], cand[2], params_.visual_guard_white, params_.visual_guard_gamma)
+                - display_luma(safe[0], safe[1], safe[2], params_.visual_guard_white, params_.visual_guard_gamma));
+            bool hit = luma_diff >= params_.visual_guard_luma_threshold;
+            if (!hit && params_.visual_guard_rgb_threshold > 0.0f) {
+                float max_rgb = 0.0f;
+                for (std::uint8_t c = 0; c < 3; ++c) {
+                    const float dc = display_component(cand[c], params_.visual_guard_white, params_.visual_guard_gamma);
+                    const float ds = display_component(safe[c], params_.visual_guard_white, params_.visual_guard_gamma);
+                    max_rgb = std::max(max_rgb, std::fabs(dc - ds));
+                }
+                hit = max_rgb >= params_.visual_guard_rgb_threshold;
+            }
+            return hit;
+        };
+#ifdef RADIANCE_CODEC_HAS_METAL
+        if (metal_visual_guard_enabled()) {
+            MetalVisualGuardConfig config;
+            config.width = meta.width;
+            config.height = meta.height;
+            config.channels = meta.channels;
+            config.low_w = low_w;
+            config.low_h = low_h;
+            config.count = static_cast<std::uint32_t>(pixels);
+            config.low_scale = params_.low_scale;
+            config.y_bits = params_.y_bits;
+            config.chroma_low_bits = params_.chroma_low_bits;
+            config.high_bits = params_.high_bits;
+            config.anchor_bits = params_.anchor_bits;
+            config.visual_guard_dilate_radius = params_.visual_guard_dilate_radius;
+            config.visual_guard_luma_threshold = params_.visual_guard_luma_threshold;
+            config.visual_guard_rgb_threshold = params_.visual_guard_rgb_threshold;
+            config.visual_guard_white = params_.visual_guard_white;
+            config.visual_guard_gamma = params_.visual_guard_gamma;
+            config.base_y_lo = base_y_range.lo;
+            config.base_y_hi = base_y_range.hi;
+            config.base_co_low_lo = base_co_low_range.lo;
+            config.base_co_low_hi = base_co_low_range.hi;
+            config.base_cg_low_lo = base_cg_low_range.lo;
+            config.base_cg_low_hi = base_cg_low_range.hi;
+            config.base_co_high_lo = base_co_high_range.lo;
+            config.base_co_high_hi = base_co_high_range.hi;
+            config.base_cg_high_lo = base_cg_high_range.lo;
+            config.base_cg_high_hi = base_cg_high_range.hi;
+            for (std::uint8_t c = 0; c < 3; ++c) {
+                config.base_log_lo[c] = base_log_ranges[c].lo;
+                config.base_log_hi[c] = base_log_ranges[c].hi;
+                config.safe_log_lo[c] = safe_log_ranges[c].lo;
+                config.safe_log_hi[c] = safe_log_ranges[c].hi;
+            }
+            used_metal_visual_guard = metal_visual_guard(
+                in.data(),
+                in.size(),
+                base_route_mask,
+                base_high_mask,
+                y_plane,
+                co_coarse,
+                cg_coarse,
+                co_high,
+                cg_high,
+                config,
+                guard);
+        }
+#endif
+        if (!used_metal_visual_guard) {
 #ifdef RADIANCE_CODEC_HAS_OPENMP
 #pragma omp parallel for schedule(static) if(pixels > (8u << 20))
 #endif
-        for (std::uint32_t y = 0; y < meta.height; ++y) {
-            for (std::uint32_t x = 0; x < meta.width; ++x) {
-                const auto i2 = idx2(meta.width, y, x);
-                if (base_route_mask[i2] && params_.visual_guard_dilate_radius == 0) {
-                    continue;
+            for (std::uint32_t y = 0; y < meta.height; ++y) {
+                for (std::uint32_t x = 0; x < meta.width; ++x) {
+                    const auto i2 = idx2(meta.width, y, x);
+                    guard[i2] = compute_visual_guard_hit(y, x) ? 1 : 0;
                 }
-                const auto base_byte = idx3(meta, y, x, 0) * 4;
-                float safe[3] = {};
-                float cand[3] = {};
-                for (std::uint8_t c = 0; c < 3; ++c) {
-                    const float original = read_f32(in.data() + base_byte + 4 * c);
-                    safe[c] = signed_log_quantize(
-                        original,
-                        params_.anchor_bits,
-                        safe_log_ranges[c].lo,
-                        safe_log_ranges[c].hi);
-                }
-                if (base_route_mask[i2]) {
-                    for (std::uint8_t c = 0; c < 3; ++c) {
-                        const float original = read_f32(in.data() + base_byte + 4 * c);
-                        cand[c] = signed_log_quantize(
-                            original,
-                            params_.anchor_bits,
-                            base_log_ranges[c].lo,
-                            base_log_ranges[c].hi);
-                    }
-                } else {
-                    const float yq = quantize_value(y_plane[i2], params_.y_bits, base_y_range);
-                    const float co_low_q = quantize_value(
-                        upsample_at(co_coarse, low_w, low_h, params_.low_scale, y, x),
-                        params_.chroma_low_bits,
-                        base_co_low_range);
-                    const float cg_low_q = quantize_value(
-                        upsample_at(cg_coarse, low_w, low_h, params_.low_scale, y, x),
-                        params_.chroma_low_bits,
-                        base_cg_low_range);
-                    const float co_h = base_high_mask[i2]
-                        ? quantize_value(co_high[i2], params_.high_bits, base_co_high_range)
-                        : 0.0f;
-                    const float cg_h = base_high_mask[i2]
-                        ? quantize_value(cg_high[i2], params_.high_bits, base_cg_high_range)
-                        : 0.0f;
-                    const float co = co_low_q + co_h;
-                    const float cg = cg_low_q + cg_h;
-                    const float tr = yq - 0.5f * cg + 0.5f * co;
-                    const float tg = yq + 0.5f * cg;
-                    const float tb = yq - 0.5f * cg - 0.5f * co;
-                    cand[0] = vst_inverse(tr);
-                    cand[1] = vst_inverse(tg);
-                    cand[2] = vst_inverse(tb);
-                }
-                const float luma_diff = std::fabs(
-                    display_luma(cand[0], cand[1], cand[2], params_.visual_guard_white, params_.visual_guard_gamma)
-                    - display_luma(safe[0], safe[1], safe[2], params_.visual_guard_white, params_.visual_guard_gamma));
-                bool hit = luma_diff >= params_.visual_guard_luma_threshold;
-                if (!hit && params_.visual_guard_rgb_threshold > 0.0f) {
-                    float max_rgb = 0.0f;
-                    for (std::uint8_t c = 0; c < 3; ++c) {
-                        const float dc = display_component(cand[c], params_.visual_guard_white, params_.visual_guard_gamma);
-                        const float ds = display_component(safe[c], params_.visual_guard_white, params_.visual_guard_gamma);
-                        max_rgb = std::max(max_rgb, std::fabs(dc - ds));
-                    }
-                    hit = max_rgb >= params_.visual_guard_rgb_threshold;
-                }
-                guard[i2] = hit ? 1 : 0;
             }
         }
         guard = dilate_mask_square(
@@ -1897,7 +2004,7 @@ Status NearLosslessRouterStage::encode(
             if (guard[i]) route_mask[i] = 1;
         }
     }
-    trace.lap("visual-guard");
+    trace.lap(used_metal_visual_guard ? "visual-metal" : "visual-guard");
 
     Range y_range = range_from_mask(y_plane, route_mask, true);
     y_range.step = (y_range.hi > y_range.lo)

@@ -1,0 +1,66 @@
+#pragma once
+
+#include <cstddef>
+#include <cstdint>
+#include <vector>
+
+namespace radiance_codec {
+
+struct MetalVisualGuardConfig {
+    std::uint32_t width = 0;
+    std::uint32_t height = 0;
+    std::uint32_t channels = 0;
+    std::uint32_t low_w = 0;
+    std::uint32_t low_h = 0;
+    std::uint32_t count = 0;
+    std::uint8_t low_scale = 1;
+    std::uint8_t y_bits = 8;
+    std::uint8_t chroma_low_bits = 8;
+    std::uint8_t high_bits = 5;
+    std::uint8_t anchor_bits = 10;
+    std::uint8_t visual_guard_dilate_radius = 0;
+    float visual_guard_luma_threshold = 0.0f;
+    float visual_guard_rgb_threshold = 0.0f;
+    float visual_guard_white = 1.0f;
+    float visual_guard_gamma = 2.2f;
+    float base_y_lo = 0.0f;
+    float base_y_hi = 0.0f;
+    float base_co_low_lo = 0.0f;
+    float base_co_low_hi = 0.0f;
+    float base_cg_low_lo = 0.0f;
+    float base_cg_low_hi = 0.0f;
+    float base_co_high_lo = 0.0f;
+    float base_co_high_hi = 0.0f;
+    float base_cg_high_lo = 0.0f;
+    float base_cg_high_hi = 0.0f;
+    float base_log_lo[3] = {};
+    float base_log_hi[3] = {};
+    float safe_log_lo[3] = {};
+    float safe_log_hi[3] = {};
+};
+
+bool metal_guided_low_pair(
+    const std::vector<float>& first_plane,
+    const std::vector<float>& second_plane,
+    const std::vector<float>& guide,
+    std::uint32_t width,
+    std::uint32_t height,
+    std::uint8_t radius,
+    float eps,
+    std::vector<float>& first_low,
+    std::vector<float>& second_low) noexcept;
+
+bool metal_visual_guard(
+    const std::uint8_t* raw,
+    std::size_t raw_size,
+    const std::vector<std::uint8_t>& base_route_mask,
+    const std::vector<std::uint8_t>& base_high_mask,
+    const std::vector<float>& y_plane,
+    const std::vector<float>& co_coarse,
+    const std::vector<float>& cg_coarse,
+    const std::vector<float>& co_high,
+    const std::vector<float>& cg_high,
+    const MetalVisualGuardConfig& config,
+    std::vector<std::uint8_t>& guard) noexcept;
+
+} // namespace radiance_codec

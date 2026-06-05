@@ -56,6 +56,21 @@ if(OpenMP_CXX_FOUND)
     target_link_libraries(radiance_codec PRIVATE OpenMP::OpenMP_CXX)
     target_compile_definitions(radiance_codec PRIVATE RADIANCE_CODEC_HAS_OPENMP=1)
 endif()
+if(APPLE)
+    enable_language(OBJCXX)
+    find_library(METAL_FRAMEWORK Metal)
+    find_library(FOUNDATION_FRAMEWORK Foundation)
+    if(METAL_FRAMEWORK AND FOUNDATION_FRAMEWORK)
+        target_sources(radiance_codec PRIVATE src/near_lossless_router_metal.mm)
+        target_link_libraries(radiance_codec PRIVATE
+            ${METAL_FRAMEWORK}
+            ${FOUNDATION_FRAMEWORK}
+        )
+        target_compile_definitions(radiance_codec PRIVATE RADIANCE_CODEC_HAS_METAL=1)
+        set_source_files_properties(src/near_lossless_router_metal.mm
+            PROPERTIES COMPILE_FLAGS "-fobjc-arc")
+    endif()
+endif()
 set_target_properties(radiance_codec PROPERTIES
     OUTPUT_NAME "radiance_codec"
     VERSION ${PROJECT_VERSION}
