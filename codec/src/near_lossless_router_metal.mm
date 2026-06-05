@@ -29,6 +29,21 @@ struct MetalGuidedParams {
     float eps = 0.0f;
 };
 
+struct MetalHighPassParams {
+    std::uint32_t count = 0;
+    float first_threshold = 0.0f;
+    float second_threshold = 0.0f;
+};
+
+struct MetalDownsampleParams {
+    std::uint32_t width = 0;
+    std::uint32_t height = 0;
+    std::uint32_t out_w = 0;
+    std::uint32_t out_h = 0;
+    std::uint32_t count = 0;
+    std::uint32_t scale = 1;
+};
+
 struct MetalVisualGuardParams {
     std::uint32_t width = 0;
     std::uint32_t height = 0;
@@ -81,6 +96,21 @@ struct Params {
     uint count;
     uint radius;
     float eps;
+};
+
+struct HighPassParams {
+    uint count;
+    float first_threshold;
+    float second_threshold;
+};
+
+struct DownsampleParams {
+    uint width;
+    uint height;
+    uint out_w;
+    uint out_h;
+    uint count;
+    uint scale;
 };
 
 uint reflect_index_metal(int i, uint n) {
@@ -318,6 +348,55 @@ kernel void reconstruct_low_pair(
     low1[gid] = a1_mean[gid] * g + b1_mean[gid];
 }
 
+float shrink_metal(float v, float threshold) {
+    const float mag = max(fabs(v) - threshold, 0.0f);
+    return signbit(v) ? -mag : mag;
+}
+
+kernel void high_pass_shrink_pair(
+    device const float* first_plane [[buffer(0)]],
+    device const float* second_plane [[buffer(1)]],
+    device const float* first_low [[buffer(2)]],
+    device const float* second_low [[buffer(3)]],
+    device float* first_high [[buffer(4)]],
+    device float* second_high [[buffer(5)]],
+    constant HighPassParams& params [[buffer(6)]],
+    uint gid [[thread_position_in_grid]]) {
+    if (gid >= params.count) return;
+    first_high[gid] = shrink_metal(first_plane[gid] - first_low[gid], params.first_threshold);
+    second_high[gid] = shrink_metal(second_plane[gid] - second_low[gid], params.second_threshold);
+}
+
+kernel void block_mean_downsample_pair(
+    device const float* first_plane [[buffer(0)]],
+    device const float* second_plane [[buffer(1)]],
+    device float* first_out [[buffer(2)]],
+    device float* second_out [[buffer(3)]],
+    constant DownsampleParams& params [[buffer(4)]],
+    uint gid [[thread_position_in_grid]]) {
+    if (gid >= params.count) return;
+    const uint xb = gid % params.out_w;
+    const uint yb = gid / params.out_w;
+    const uint y0 = yb * params.scale;
+    const uint x0 = xb * params.scale;
+    const uint y1 = min(y0 + params.scale, params.height);
+    const uint x1 = min(x0 + params.scale, params.width);
+    float sum0 = 0.0f;
+    float sum1 = 0.0f;
+    uint n = 0;
+    for (uint y = y0; y < y1; ++y) {
+        for (uint x = x0; x < x1; ++x) {
+            const uint i = y * params.width + x;
+            sum0 += first_plane[i];
+            sum1 += second_plane[i];
+            ++n;
+        }
+    }
+    const float inv = 1.0f / float(max(n, 1u));
+    first_out[gid] = sum0 * inv;
+    second_out[gid] = sum1 * inv;
+}
+
 struct VisualGuardParams {
     uint width;
     uint height;
@@ -509,7 +588,18 @@ struct MetalGuidedContext {
     __strong id<MTLComputePipelineState> compute_ab_pair = nil;
     __strong id<MTLComputePipelineState> reconstruct_low = nil;
     __strong id<MTLComputePipelineState> reconstruct_low_pair = nil;
+    __strong id<MTLComputePipelineState> high_pass_shrink_pair = nil;
+    __strong id<MTLComputePipelineState> block_mean_downsample_pair = nil;
     __strong id<MTLComputePipelineState> visual_guard = nil;
+    __strong id<MTLBuffer> cached_first_low = nil;
+    __strong id<MTLBuffer> cached_second_low = nil;
+    std::uint32_t cached_low_count = 0;
+    __strong id<MTLBuffer> cached_first_coarse = nil;
+    __strong id<MTLBuffer> cached_second_coarse = nil;
+    std::uint32_t cached_coarse_count = 0;
+    __strong id<MTLBuffer> cached_first_high = nil;
+    __strong id<MTLBuffer> cached_second_high = nil;
+    std::uint32_t cached_high_count = 0;
     bool ok = false;
 
     MetalGuidedContext() {
@@ -551,11 +641,14 @@ struct MetalGuidedContext {
             compute_ab_pair = make_pipeline(@"compute_ab_pair");
             reconstruct_low = make_pipeline(@"reconstruct_low");
             reconstruct_low_pair = make_pipeline(@"reconstruct_low_pair");
+            high_pass_shrink_pair = make_pipeline(@"high_pass_shrink_pair");
+            block_mean_downsample_pair = make_pipeline(@"block_mean_downsample_pair");
             visual_guard = make_pipeline(@"visual_guard_kernel");
             ok = prepare_guide && prepare_plane && prepare_planes_pair
                 && box_h_pair && box_v_pair && box_h_quad && box_v_quad
                 && compute_ab && compute_ab_pair
-                && reconstruct_low && reconstruct_low_pair && visual_guard;
+                && reconstruct_low && reconstruct_low_pair
+                && high_pass_shrink_pair && block_mean_downsample_pair && visual_guard;
             if (!ok) metal_trace("pipeline creation failed");
         }
     }
@@ -827,7 +920,208 @@ bool metal_guided_low_pair(
         second_low.assign(count, 0.0f);
         std::memcpy(first_low.data(), [first_buffer contents], bytes);
         std::memcpy(second_low.data(), [second_buffer contents], bytes);
+        ctx->cached_first_low = first_buffer;
+        ctx->cached_second_low = second_buffer;
+        ctx->cached_low_count = count;
+        ctx->cached_first_coarse = nil;
+        ctx->cached_second_coarse = nil;
+        ctx->cached_coarse_count = 0;
+        ctx->cached_first_high = nil;
+        ctx->cached_second_high = nil;
+        ctx->cached_high_count = 0;
         metal_trace("guided-low completed");
+        return true;
+    }
+}
+
+bool metal_high_pass_shrink_pair(
+    const std::vector<float>& first_plane,
+    const std::vector<float>& second_plane,
+    const std::vector<float>& first_low,
+    const std::vector<float>& second_low,
+    bool use_cached_low_pair,
+    float first_threshold,
+    float second_threshold,
+    std::vector<float>& first_high,
+    std::vector<float>& second_high) noexcept {
+    const auto count = first_plane.size();
+    if (count == 0 || count > 0xffffffffull) return false;
+    if (second_plane.size() != count || first_low.size() != count || second_low.size() != count) {
+        return false;
+    }
+    MetalGuidedContext* ctx = context();
+    if (!ctx) {
+        metal_trace("context unavailable");
+        return false;
+    }
+
+    @autoreleasepool {
+        const std::size_t bytes = count * sizeof(float);
+        MetalHighPassParams params;
+        params.count = static_cast<std::uint32_t>(count);
+        params.first_threshold = first_threshold;
+        params.second_threshold = second_threshold;
+
+        id<MTLBuffer> first_plane_buffer =
+            make_buffer_with_bytes(ctx->device, first_plane.data(), bytes);
+        id<MTLBuffer> second_plane_buffer =
+            make_buffer_with_bytes(ctx->device, second_plane.data(), bytes);
+        const bool can_use_cached_low = use_cached_low_pair
+            && ctx->cached_first_low
+            && ctx->cached_second_low
+            && ctx->cached_low_count == count;
+        id<MTLBuffer> first_low_buffer = can_use_cached_low
+            ? ctx->cached_first_low
+            : make_buffer_with_bytes(ctx->device, first_low.data(), bytes);
+        id<MTLBuffer> second_low_buffer = can_use_cached_low
+            ? ctx->cached_second_low
+            : make_buffer_with_bytes(ctx->device, second_low.data(), bytes);
+        id<MTLBuffer> first_high_buffer = make_buffer(ctx->device, bytes);
+        id<MTLBuffer> second_high_buffer = make_buffer(ctx->device, bytes);
+        id<MTLBuffer> params_buffer = make_buffer_with_bytes(ctx->device, &params, sizeof(params));
+        if (!first_plane_buffer || !second_plane_buffer || !first_low_buffer || !second_low_buffer
+            || !first_high_buffer || !second_high_buffer || !params_buffer) {
+            metal_trace("high-pass buffer allocation failed");
+            return false;
+        }
+
+        id<MTLCommandBuffer> command = [ctx->queue commandBuffer];
+        if (!command) {
+            metal_trace("high-pass command buffer failed");
+            return false;
+        }
+        id<MTLComputeCommandEncoder> encoder = [command computeCommandEncoder];
+        if (!encoder) {
+            metal_trace("high-pass encoder failed");
+            return false;
+        }
+        [encoder setBuffer:first_plane_buffer offset:0 atIndex:0];
+        [encoder setBuffer:second_plane_buffer offset:0 atIndex:1];
+        [encoder setBuffer:first_low_buffer offset:0 atIndex:2];
+        [encoder setBuffer:second_low_buffer offset:0 atIndex:3];
+        [encoder setBuffer:first_high_buffer offset:0 atIndex:4];
+        [encoder setBuffer:second_high_buffer offset:0 atIndex:5];
+        [encoder setBuffer:params_buffer offset:0 atIndex:6];
+        dispatch(encoder, ctx->high_pass_shrink_pair, static_cast<std::uint32_t>(count));
+        [encoder endEncoding];
+        [command commit];
+        [command waitUntilCompleted];
+        if (command.status != MTLCommandBufferStatusCompleted) {
+            metal_trace("high-pass command failed");
+            return false;
+        }
+
+        first_high.assign(count, 0.0f);
+        second_high.assign(count, 0.0f);
+        std::memcpy(first_high.data(), [first_high_buffer contents], bytes);
+        std::memcpy(second_high.data(), [second_high_buffer contents], bytes);
+        ctx->cached_first_high = first_high_buffer;
+        ctx->cached_second_high = second_high_buffer;
+        ctx->cached_high_count = static_cast<std::uint32_t>(count);
+        metal_trace("high-pass completed");
+        return true;
+    }
+}
+
+bool metal_block_mean_downsample_pair(
+    const std::vector<float>& first_plane,
+    const std::vector<float>& second_plane,
+    std::uint32_t width,
+    std::uint32_t height,
+    std::uint8_t scale,
+    bool use_cached_input_pair,
+    std::uint32_t& out_w,
+    std::uint32_t& out_h,
+    std::vector<float>& first_out,
+    std::vector<float>& second_out) noexcept {
+    if (width == 0 || height == 0 || scale == 0) return false;
+    const auto count64 = std::uint64_t(width) * height;
+    if (count64 == 0 || count64 > 0xffffffffull) return false;
+    const auto count = static_cast<std::size_t>(count64);
+    if (first_plane.size() != count || second_plane.size() != count) return false;
+    if (scale <= 1) {
+        out_w = width;
+        out_h = height;
+        first_out = first_plane;
+        second_out = second_plane;
+        return true;
+    }
+    const std::uint32_t ow = (width + scale - 1) / scale;
+    const std::uint32_t oh = (height + scale - 1) / scale;
+    const auto out_count64 = std::uint64_t(ow) * oh;
+    if (out_count64 == 0 || out_count64 > 0xffffffffull) return false;
+    const auto out_count = static_cast<std::size_t>(out_count64);
+
+    MetalGuidedContext* ctx = context();
+    if (!ctx) {
+        metal_trace("context unavailable");
+        return false;
+    }
+
+    @autoreleasepool {
+        MetalDownsampleParams params;
+        params.width = width;
+        params.height = height;
+        params.out_w = ow;
+        params.out_h = oh;
+        params.count = static_cast<std::uint32_t>(out_count);
+        params.scale = scale;
+
+        const std::size_t in_bytes = count * sizeof(float);
+        const std::size_t out_bytes = out_count * sizeof(float);
+        const bool can_use_cached_input = use_cached_input_pair
+            && ctx->cached_first_low
+            && ctx->cached_second_low
+            && ctx->cached_low_count == count;
+        id<MTLBuffer> first_buffer = can_use_cached_input
+            ? ctx->cached_first_low
+            : make_buffer_with_bytes(ctx->device, first_plane.data(), in_bytes);
+        id<MTLBuffer> second_buffer = can_use_cached_input
+            ? ctx->cached_second_low
+            : make_buffer_with_bytes(ctx->device, second_plane.data(), in_bytes);
+        id<MTLBuffer> first_out_buffer = make_buffer(ctx->device, out_bytes);
+        id<MTLBuffer> second_out_buffer = make_buffer(ctx->device, out_bytes);
+        id<MTLBuffer> params_buffer = make_buffer_with_bytes(ctx->device, &params, sizeof(params));
+        if (!first_buffer || !second_buffer || !first_out_buffer || !second_out_buffer
+            || !params_buffer) {
+            metal_trace("downsample buffer allocation failed");
+            return false;
+        }
+
+        id<MTLCommandBuffer> command = [ctx->queue commandBuffer];
+        if (!command) {
+            metal_trace("downsample command buffer failed");
+            return false;
+        }
+        id<MTLComputeCommandEncoder> encoder = [command computeCommandEncoder];
+        if (!encoder) {
+            metal_trace("downsample encoder failed");
+            return false;
+        }
+        [encoder setBuffer:first_buffer offset:0 atIndex:0];
+        [encoder setBuffer:second_buffer offset:0 atIndex:1];
+        [encoder setBuffer:first_out_buffer offset:0 atIndex:2];
+        [encoder setBuffer:second_out_buffer offset:0 atIndex:3];
+        [encoder setBuffer:params_buffer offset:0 atIndex:4];
+        dispatch(encoder, ctx->block_mean_downsample_pair, static_cast<std::uint32_t>(out_count));
+        [encoder endEncoding];
+        [command commit];
+        [command waitUntilCompleted];
+        if (command.status != MTLCommandBufferStatusCompleted) {
+            metal_trace("downsample command failed");
+            return false;
+        }
+
+        out_w = ow;
+        out_h = oh;
+        first_out.assign(out_count, 0.0f);
+        second_out.assign(out_count, 0.0f);
+        std::memcpy(first_out.data(), [first_out_buffer contents], out_bytes);
+        std::memcpy(second_out.data(), [second_out_buffer contents], out_bytes);
+        ctx->cached_first_coarse = first_out_buffer;
+        ctx->cached_second_coarse = second_out_buffer;
+        ctx->cached_coarse_count = static_cast<std::uint32_t>(out_count);
+        metal_trace("downsample completed");
         return true;
     }
 }
@@ -842,6 +1136,8 @@ bool metal_visual_guard(
     const std::vector<float>& cg_coarse,
     const std::vector<float>& co_high,
     const std::vector<float>& cg_high,
+    bool use_cached_coarse_pair,
+    bool use_cached_high_pass,
     const MetalVisualGuardConfig& config,
     std::vector<std::uint8_t>& guard) noexcept {
     if (!raw || config.count == 0 || config.width == 0 || config.height == 0
@@ -915,14 +1211,26 @@ bool metal_visual_guard(
             make_buffer_with_bytes(ctx->device, base_high_mask.data(), base_high_mask.size());
         id<MTLBuffer> y_buffer =
             make_buffer_with_bytes(ctx->device, y_plane.data(), full_float_bytes);
-        id<MTLBuffer> co_coarse_buffer =
-            make_buffer_with_bytes(ctx->device, co_coarse.data(), low_float_bytes);
-        id<MTLBuffer> cg_coarse_buffer =
-            make_buffer_with_bytes(ctx->device, cg_coarse.data(), low_float_bytes);
-        id<MTLBuffer> co_high_buffer =
-            make_buffer_with_bytes(ctx->device, co_high.data(), full_float_bytes);
-        id<MTLBuffer> cg_high_buffer =
-            make_buffer_with_bytes(ctx->device, cg_high.data(), full_float_bytes);
+        const bool can_use_cached_coarse = use_cached_coarse_pair
+            && ctx->cached_first_coarse
+            && ctx->cached_second_coarse
+            && ctx->cached_coarse_count == low_count;
+        id<MTLBuffer> co_coarse_buffer = can_use_cached_coarse
+            ? ctx->cached_first_coarse
+            : make_buffer_with_bytes(ctx->device, co_coarse.data(), low_float_bytes);
+        id<MTLBuffer> cg_coarse_buffer = can_use_cached_coarse
+            ? ctx->cached_second_coarse
+            : make_buffer_with_bytes(ctx->device, cg_coarse.data(), low_float_bytes);
+        const bool can_use_cached_high = use_cached_high_pass
+            && ctx->cached_first_high
+            && ctx->cached_second_high
+            && ctx->cached_high_count == count;
+        id<MTLBuffer> co_high_buffer = can_use_cached_high
+            ? ctx->cached_first_high
+            : make_buffer_with_bytes(ctx->device, co_high.data(), full_float_bytes);
+        id<MTLBuffer> cg_high_buffer = can_use_cached_high
+            ? ctx->cached_second_high
+            : make_buffer_with_bytes(ctx->device, cg_high.data(), full_float_bytes);
         id<MTLBuffer> guard_buffer = make_buffer(ctx->device, count);
         id<MTLBuffer> params_buffer = make_buffer_with_bytes(ctx->device, &params, sizeof(params));
         if (!raw_buffer || !base_route_buffer || !base_high_buffer || !y_buffer

@@ -50,6 +50,29 @@ bool metal_guided_low_pair(
     std::vector<float>& first_low,
     std::vector<float>& second_low) noexcept;
 
+bool metal_high_pass_shrink_pair(
+    const std::vector<float>& first_plane,
+    const std::vector<float>& second_plane,
+    const std::vector<float>& first_low,
+    const std::vector<float>& second_low,
+    bool use_cached_low_pair,
+    float first_threshold,
+    float second_threshold,
+    std::vector<float>& first_high,
+    std::vector<float>& second_high) noexcept;
+
+bool metal_block_mean_downsample_pair(
+    const std::vector<float>& first_plane,
+    const std::vector<float>& second_plane,
+    std::uint32_t width,
+    std::uint32_t height,
+    std::uint8_t scale,
+    bool use_cached_input_pair,
+    std::uint32_t& out_w,
+    std::uint32_t& out_h,
+    std::vector<float>& first_out,
+    std::vector<float>& second_out) noexcept;
+
 bool metal_visual_guard(
     const std::uint8_t* raw,
     std::size_t raw_size,
@@ -60,6 +83,8 @@ bool metal_visual_guard(
     const std::vector<float>& cg_coarse,
     const std::vector<float>& co_high,
     const std::vector<float>& cg_high,
+    bool use_cached_coarse_pair,
+    bool use_cached_high_pass,
     const MetalVisualGuardConfig& config,
     std::vector<std::uint8_t>& guard) noexcept;
 
