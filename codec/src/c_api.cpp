@@ -58,6 +58,12 @@ radiance_codec::NearLosslessRouterParams router_params_to_cpp(
     out.smooth_threshold = p.smooth_threshold;
     out.target_y_step = p.target_y_step;
     out.outlier_activation_ratio = p.outlier_activation_ratio;
+    out.visual_guard_enabled = p.visual_guard_enabled;
+    out.visual_guard_dilate_radius = p.visual_guard_dilate_radius;
+    out.visual_guard_luma_threshold = p.visual_guard_luma_threshold;
+    out.visual_guard_rgb_threshold = p.visual_guard_rgb_threshold;
+    out.visual_guard_white = p.visual_guard_white;
+    out.visual_guard_gamma = p.visual_guard_gamma;
     return out;
 }
 

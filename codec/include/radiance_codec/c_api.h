@@ -69,6 +69,12 @@ typedef struct {
     float smooth_threshold;
     float target_y_step;
     float outlier_activation_ratio;
+    uint8_t visual_guard_enabled;
+    uint8_t visual_guard_dilate_radius;
+    float visual_guard_luma_threshold;
+    float visual_guard_rgb_threshold;
+    float visual_guard_white;
+    float visual_guard_gamma;
 } radiance_codec_near_lossless_router_params_t;
 
 typedef struct {

@@ -40,6 +40,7 @@ add_library(radiance_codec SHARED
 )
 find_path(ZSTD_INCLUDE_DIR zstd.h)
 find_library(ZSTD_LIBRARY zstd)
+find_package(OpenMP)
 target_include_directories(radiance_codec
     PUBLIC
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
@@ -50,6 +51,10 @@ if(ZSTD_INCLUDE_DIR AND ZSTD_LIBRARY)
     target_include_directories(radiance_codec PRIVATE ${ZSTD_INCLUDE_DIR})
     target_link_libraries(radiance_codec PRIVATE ${ZSTD_LIBRARY})
     target_compile_definitions(radiance_codec PRIVATE RADIANCE_CODEC_HAS_ZSTD=1)
+endif()
+if(OpenMP_CXX_FOUND)
+    target_link_libraries(radiance_codec PRIVATE OpenMP::OpenMP_CXX)
+    target_compile_definitions(radiance_codec PRIVATE RADIANCE_CODEC_HAS_OPENMP=1)
 endif()
 set_target_properties(radiance_codec PROPERTIES
     OUTPUT_NAME "radiance_codec"

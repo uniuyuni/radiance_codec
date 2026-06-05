@@ -108,6 +108,12 @@ class _NearLosslessRouterParams(ctypes.Structure):
         ("smooth_threshold", ctypes.c_float),
         ("target_y_step", ctypes.c_float),
         ("outlier_activation_ratio", ctypes.c_float),
+        ("visual_guard_enabled", ctypes.c_uint8),
+        ("visual_guard_dilate_radius", ctypes.c_uint8),
+        ("visual_guard_luma_threshold", ctypes.c_float),
+        ("visual_guard_rgb_threshold", ctypes.c_float),
+        ("visual_guard_white", ctypes.c_float),
+        ("visual_guard_gamma", ctypes.c_float),
     ]
 
 
@@ -421,6 +427,12 @@ def reconstruct_near_lossless_router_v1(
     smooth_threshold: float = 0.0025,
     target_y_step: float = 0.0032,
     outlier_activation_ratio: float = 4.0,
+    visual_guard_enabled: bool = True,
+    visual_guard_dilate_radius: int = 0,
+    visual_guard_luma_threshold: float = 0.010,
+    visual_guard_rgb_threshold: float = 0.0,
+    visual_guard_white: float = 4.0,
+    visual_guard_gamma: float = 2.2,
 ) -> tuple[np.ndarray, dict[str, float | bool]]:
     """Reconstruct the current research near-lossless router v1 candidate.
 
@@ -451,6 +463,12 @@ def reconstruct_near_lossless_router_v1(
         smooth_threshold=smooth_threshold,
         target_y_step=target_y_step,
         outlier_activation_ratio=outlier_activation_ratio,
+        visual_guard_enabled=1 if visual_guard_enabled else 0,
+        visual_guard_dilate_radius=visual_guard_dilate_radius,
+        visual_guard_luma_threshold=visual_guard_luma_threshold,
+        visual_guard_rgb_threshold=visual_guard_rgb_threshold,
+        visual_guard_white=visual_guard_white,
+        visual_guard_gamma=visual_guard_gamma,
     )
     out = _Buffer()
     report = _NearLosslessRouterReport()
