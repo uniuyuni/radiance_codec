@@ -39,12 +39,13 @@ constexpr std::uint8_t kStreamRansOrder1 = 2;
 constexpr std::uint8_t kStreamZstd = 3;
 constexpr std::uint8_t kStreamIndexSymbolRans = 4;
 constexpr std::uint8_t kStreamMaskBinary = 5;
+constexpr std::uint8_t kStreamMaskTiled = 6;
 constexpr std::uint8_t kExtraConstant = 1;
 constexpr std::uint8_t kExtraRaw = 2;
-constexpr std::uint8_t kDarkRefineBits = 11;
-constexpr float kDarkRefineDisplayLumaMax = 0.075f;
+constexpr std::uint8_t kDarkRefineBits = 9;
+constexpr float kDarkRefineDisplayLumaMax = 0.060f;
 constexpr float kDarkRefineLiftStops = 3.0f;
-constexpr float kDarkRefineDisplayDiffThreshold = 0.008f;
+constexpr float kDarkRefineDisplayDiffThreshold = 0.012f;
 
 bool router_trace_enabled() noexcept {
     static const bool enabled = std::getenv("RADIANCE_CODEC_ROUTER_TRACE") != nullptr;
@@ -73,8 +74,42 @@ bool metal_downsample_enabled() noexcept {
 }
 
 bool fast_outliers_enabled() noexcept {
-    static const bool enabled = std::getenv("RADIANCE_CODEC_USE_FAST_OUTLIERS") != nullptr;
+    static const bool enabled = std::getenv("RADIANCE_CODEC_USE_SLOW_OUTLIERS") == nullptr;
     return enabled;
+}
+
+bool router_order1_streams_enabled() noexcept {
+    static const bool enabled = std::getenv("RADIANCE_CODEC_ROUTER_NO_ORDER1_STREAMS") == nullptr;
+    return enabled;
+}
+
+bool router_packed_masks_enabled() noexcept {
+    static const bool enabled = std::getenv("RADIANCE_CODEC_ROUTER_PACKED_MASKS") != nullptr;
+    return enabled;
+}
+
+bool router_packed_high_mask_enabled() noexcept {
+    static const bool enabled = std::getenv("RADIANCE_CODEC_ROUTER_PACKED_HIGH_MASK") != nullptr;
+    return enabled;
+}
+
+bool router_packed_route_mask_enabled() noexcept {
+    static const bool enabled = std::getenv("RADIANCE_CODEC_ROUTER_PACKED_ROUTE_MASK") != nullptr;
+    return enabled;
+}
+
+bool router_tiled_masks_enabled() noexcept {
+    static const bool enabled = std::getenv("RADIANCE_CODEC_ROUTER_TILED_MASKS") != nullptr;
+    return enabled;
+}
+
+std::uint8_t router_mask_tile_size() noexcept {
+    const char* raw = std::getenv("RADIANCE_CODEC_ROUTER_MASK_TILE_SIZE");
+    if (!raw || !*raw) return 8;
+    char* end = nullptr;
+    const long value = std::strtol(raw, &end, 10);
+    if (end == raw || value < 4 || value > 64) return 8;
+    return static_cast<std::uint8_t>(value);
 }
 
 float env_float_or(const char* name, float fallback) noexcept {
@@ -246,6 +281,63 @@ BoxMeanPair box_mean_reflect_pair(
         for (std::uint32_t x = 0; x < width; ++x) {
             double sum_first = 0.0;
             double sum_second = 0.0;
+            for (std::int32_t dy = -r; dy <= r; ++dy) {
+                const auto yy = reflect_index(static_cast<std::int32_t>(y) + dy, height);
+                const auto i = idx2(width, yy, x);
+                sum_first += tmp_first[i];
+                sum_second += tmp_second[i];
+            }
+            const auto out_i = idx2(width, y, x);
+            out_first[out_i] = sum_first / denom;
+            out_second[out_i] = sum_second / denom;
+        }
+    }
+    return {std::move(out_first), std::move(out_second)};
+}
+
+struct BoxMeanPairF32 {
+    std::vector<float> first;
+    std::vector<float> second;
+};
+
+BoxMeanPairF32 box_mean_reflect_pair_f32(
+    const std::vector<float>& first,
+    const std::vector<float>& second,
+    std::uint32_t width,
+    std::uint32_t height,
+    std::uint8_t radius) {
+    if (radius == 0) return {first, second};
+    std::vector<float> tmp_first(first.size(), 0.0f);
+    std::vector<float> tmp_second(second.size(), 0.0f);
+    std::vector<float> out_first(first.size(), 0.0f);
+    std::vector<float> out_second(second.size(), 0.0f);
+    const auto r = static_cast<std::int32_t>(radius);
+    const float denom = float(2 * r + 1);
+#ifdef RADIANCE_CODEC_HAS_OPENMP
+#pragma omp parallel for schedule(static) if(height > 128)
+#endif
+    for (std::uint32_t y = 0; y < height; ++y) {
+        for (std::uint32_t x = 0; x < width; ++x) {
+            float sum_first = 0.0f;
+            float sum_second = 0.0f;
+            for (std::int32_t dx = -r; dx <= r; ++dx) {
+                const auto xx = reflect_index(static_cast<std::int32_t>(x) + dx, width);
+                const auto i = idx2(width, y, xx);
+                sum_first += first[i];
+                sum_second += second[i];
+            }
+            const auto out_i = idx2(width, y, x);
+            tmp_first[out_i] = sum_first / denom;
+            tmp_second[out_i] = sum_second / denom;
+        }
+    }
+#ifdef RADIANCE_CODEC_HAS_OPENMP
+#pragma omp parallel for schedule(static) if(height > 128)
+#endif
+    for (std::uint32_t y = 0; y < height; ++y) {
+        for (std::uint32_t x = 0; x < width; ++x) {
+            float sum_first = 0.0f;
+            float sum_second = 0.0f;
             for (std::int32_t dy = -r; dy <= r; ++dy) {
                 const auto yy = reflect_index(static_cast<std::int32_t>(y) + dy, height);
                 const auto i = idx2(width, yy, x);
@@ -742,12 +834,148 @@ bool decode_mask_binary_west_north(
     return true;
 }
 
-bool append_mask_stream(
+bool append_tiled_mask_stream(
     std::vector<std::uint8_t>& out,
     const std::vector<std::uint8_t>& mask,
     std::uint32_t width,
     std::uint32_t height) {
-    if (mask.size() == std::size_t(width) * height) {
+    const std::uint8_t tile = router_mask_tile_size();
+    if (mask.size() != std::size_t(width) * height || width == 0 || height == 0) {
+        return false;
+    }
+    const std::uint32_t tiles_x = (width + tile - 1) / tile;
+    const std::uint32_t tiles_y = (height + tile - 1) / tile;
+    const auto tile_count = std::size_t(tiles_x) * tiles_y;
+    std::vector<std::uint8_t> modes(tile_count, 0);
+    std::vector<std::uint8_t> mixed_bits;
+    mixed_bits.reserve((mask.size() + 7) / 8);
+
+    for (std::uint32_t ty = 0; ty < tiles_y; ++ty) {
+        for (std::uint32_t tx = 0; tx < tiles_x; ++tx) {
+            const std::uint32_t x0 = tx * tile;
+            const std::uint32_t y0 = ty * tile;
+            const std::uint32_t x1 = std::min<std::uint32_t>(width, x0 + tile);
+            const std::uint32_t y1 = std::min<std::uint32_t>(height, y0 + tile);
+            std::uint32_t ones = 0;
+            std::uint32_t count = 0;
+            for (std::uint32_t y = y0; y < y1; ++y) {
+                for (std::uint32_t x = x0; x < x1; ++x) {
+                    const auto bit = mask[idx2(width, y, x)];
+                    if (bit > 1) return false;
+                    ones += bit;
+                    ++count;
+                }
+            }
+            const auto tile_i = idx2(tiles_x, ty, tx);
+            if (ones == 0) {
+                modes[tile_i] = 0;
+                continue;
+            }
+            if (ones == count) {
+                modes[tile_i] = 1;
+                continue;
+            }
+            modes[tile_i] = 2;
+            std::uint8_t byte = 0;
+            std::uint8_t bit_index = 0;
+            for (std::uint32_t y = y0; y < y1; ++y) {
+                for (std::uint32_t x = x0; x < x1; ++x) {
+                    if (mask[idx2(width, y, x)]) {
+                        byte |= static_cast<std::uint8_t>(1u << bit_index);
+                    }
+                    ++bit_index;
+                    if (bit_index == 8) {
+                        mixed_bits.push_back(byte);
+                        byte = 0;
+                        bit_index = 0;
+                    }
+                }
+            }
+            if (bit_index != 0) mixed_bits.push_back(byte);
+        }
+    }
+
+    std::vector<std::uint8_t> payload;
+    append_u8(payload, tile);
+    append_u32(payload, tiles_x);
+    append_u32(payload, tiles_y);
+    if (!append_stream(payload, modes) || !append_stream(payload, mixed_bits)) return false;
+    append_u8(out, kStreamMaskTiled);
+    append_u32(out, static_cast<std::uint32_t>(payload.size()));
+    out.insert(out.end(), payload.begin(), payload.end());
+    return true;
+}
+
+bool decode_tiled_mask_stream(
+    std::span<const std::uint8_t> payload,
+    std::uint32_t width,
+    std::uint32_t height,
+    std::vector<std::uint8_t>& mask) {
+    const auto pixels = std::size_t(width) * height;
+    const std::uint8_t* p = payload.data();
+    const std::uint8_t* end = payload.data() + payload.size();
+    std::uint8_t tile = 0;
+    std::uint32_t tiles_x = 0, tiles_y = 0;
+    if (!read_u8(p, end, tile)
+        || !read_u32(p, end, tiles_x)
+        || !read_u32(p, end, tiles_y)
+        || tile == 0
+        || tiles_x != (width + tile - 1) / tile
+        || tiles_y != (height + tile - 1) / tile) {
+        return false;
+    }
+    std::vector<std::uint8_t> modes, mixed_bits;
+    if (!read_stream(p, end, modes) || !read_stream(p, end, mixed_bits) || p != end) {
+        return false;
+    }
+    if (modes.size() != std::size_t(tiles_x) * tiles_y) return false;
+
+    mask.assign(pixels, 0);
+    std::size_t byte_offset = 0;
+    for (std::uint32_t ty = 0; ty < tiles_y; ++ty) {
+        for (std::uint32_t tx = 0; tx < tiles_x; ++tx) {
+            const auto mode = modes[idx2(tiles_x, ty, tx)];
+            const std::uint32_t x0 = tx * tile;
+            const std::uint32_t y0 = ty * tile;
+            const std::uint32_t x1 = std::min<std::uint32_t>(width, x0 + tile);
+            const std::uint32_t y1 = std::min<std::uint32_t>(height, y0 + tile);
+            const std::size_t tile_pixels =
+                std::size_t(x1 - x0) * std::size_t(y1 - y0);
+            if (mode == 0) continue;
+            if (mode == 1) {
+                for (std::uint32_t y = y0; y < y1; ++y) {
+                    for (std::uint32_t x = x0; x < x1; ++x) {
+                        mask[idx2(width, y, x)] = 1;
+                    }
+                }
+                continue;
+            }
+            if (mode != 2) return false;
+            std::size_t local_bit = 0;
+            if (byte_offset + (tile_pixels + 7) / 8 > mixed_bits.size()) return false;
+            for (std::uint32_t y = y0; y < y1; ++y) {
+                for (std::uint32_t x = x0; x < x1; ++x) {
+                    const auto bit =
+                        (mixed_bits[byte_offset + local_bit / 8] >> (local_bit % 8)) & 1u;
+                    mask[idx2(width, y, x)] = static_cast<std::uint8_t>(bit);
+                    ++local_bit;
+                }
+            }
+            byte_offset += (tile_pixels + 7) / 8;
+        }
+    }
+    return byte_offset == mixed_bits.size();
+}
+
+bool append_mask_stream(
+    std::vector<std::uint8_t>& out,
+    const std::vector<std::uint8_t>& mask,
+    std::uint32_t width,
+    std::uint32_t height,
+    bool force_packed = false) {
+    if (!force_packed
+        && !router_packed_masks_enabled()
+        && mask.size() == std::size_t(width) * height) {
         auto compressed = encode_mask_binary_west_north(mask, width, height);
         if (!compressed.empty()) {
             append_u8(out, kStreamMaskBinary);
@@ -760,8 +988,26 @@ bool append_mask_stream(
         }
     }
 
+    if ((force_packed || router_packed_masks_enabled()) && router_tiled_masks_enabled()) {
+        if (append_tiled_mask_stream(out, mask, width, height)) return true;
+    }
+
     auto packed = pack_mask(mask);
-    return append_stream(out, packed);
+    std::vector<std::uint8_t> packed_payload;
+    if (!append_stream(packed_payload, packed)) return false;
+    if (!force_packed && !router_packed_masks_enabled()) {
+        out.insert(out.end(), packed_payload.begin(), packed_payload.end());
+        return true;
+    }
+
+    std::vector<std::uint8_t> tiled_payload;
+    if (append_tiled_mask_stream(tiled_payload, mask, width, height)
+        && tiled_payload.size() < packed_payload.size()) {
+        out.insert(out.end(), tiled_payload.begin(), tiled_payload.end());
+    } else {
+        out.insert(out.end(), packed_payload.begin(), packed_payload.end());
+    }
+    return true;
 }
 
 bool compress_stream(
@@ -783,7 +1029,10 @@ bool compress_stream(
     RansStage rans0(RansMode::Order0);
     RansStage rans1(RansMode::Order1);
     const auto status0 = rans0.encode(plain, dummy, compressed0);
-    const auto status1 = rans1.encode(plain, dummy, compressed1);
+    const bool try_order1 = router_order1_streams_enabled();
+    const auto status1 = try_order1
+        ? rans1.encode(plain, dummy, compressed1)
+        : Status::UnsupportedFormat;
     std::uint8_t method = kStreamRaw;
     std::span<const std::uint8_t> selected = plain;
     if (status0 == Status::Ok && compressed0.size() < selected.size()) {
@@ -833,6 +1082,33 @@ bool append_stream(
     std::vector<std::uint8_t> payload;
     if (!compress_stream(plain, payload)) return false;
     out.insert(out.end(), payload.begin(), payload.end());
+    return true;
+}
+
+bool append_order1_or_raw_stream(
+    std::vector<std::uint8_t>& out,
+    std::span<const std::uint8_t> plain) {
+    if (plain.empty()) {
+        append_u8(out, kStreamRaw);
+        append_u32(out, 0);
+        return true;
+    }
+    std::vector<std::uint8_t> compressed;
+    ImageMeta dummy;
+    dummy.width = static_cast<std::uint32_t>(std::min<std::size_t>(plain.size(), 0xffffffffu));
+    dummy.height = 1;
+    dummy.channels = 1;
+    dummy.format = PixelFormat::Float32;
+    RansStage rans1(RansMode::Order1);
+    const auto status = rans1.encode(plain, dummy, compressed);
+    const bool use_rans1 = status == Status::Ok && compressed.size() < plain.size();
+    const auto selected = use_rans1
+        ? std::span<const std::uint8_t>(compressed)
+        : plain;
+    append_u8(out, use_rans1 ? kStreamRansOrder1 : kStreamRaw);
+    if (selected.size() > 0xffffffffu) return false;
+    append_u32(out, static_cast<std::uint32_t>(selected.size()));
+    out.insert(out.end(), selected.begin(), selected.end());
     return true;
 }
 
@@ -1361,6 +1637,9 @@ bool decode_mask_stream_slice(
         mask.assign(pixels, 0);
         return decode_mask_binary_west_north(slice.payload, width, height, mask);
     }
+    if (slice.method == kStreamMaskTiled) {
+        return decode_tiled_mask_stream(slice.payload, width, height, mask);
+    }
     std::vector<std::uint8_t> packed;
     if (!decode_stream_slice(slice, packed)) return false;
     return unpack_mask(packed, pixels, mask);
@@ -1463,7 +1742,7 @@ Status reconstruct_near_lossless_router_v1(
         }
     }
 
-    const bool fast_outliers = fast_outliers_enabled();
+    const bool fast_outliers = fast_outliers_enabled() && pixels >= (8ull << 20);
     std::vector<float> max_rgb_sampled_sorted;
     auto build_sampled_sorted = [&]() {
         constexpr std::size_t kMaxSamples = 1u << 20;
@@ -1704,7 +1983,7 @@ Status NearLosslessRouterStage::encode(
 
     const auto pixels = std::size_t(meta.width) * meta.height;
     std::vector<float> y_plane(pixels), co_plane(pixels), cg_plane(pixels);
-    std::vector<double> guide(pixels), luma_log(pixels), luma_log_sq(pixels);
+    std::vector<float> luma_log(pixels), luma_log_sq(pixels);
     std::vector<float> max_rgb_values(pixels);
     std::vector<std::uint8_t> route_mask(pixels, 0);
     std::vector<std::uint8_t> dark_mask(pixels, 0);
@@ -1721,7 +2000,7 @@ Status NearLosslessRouterStage::encode(
             const float b = read_f32(in.data() + base + 8);
             const float lum = 0.2126f * r + 0.7152f * g + 0.0722f * b;
             dark_mask[i2] = lum <= params_.dark_max ? 1 : 0;
-            const double ll = std::log2(1.0 + std::max(0.0f, lum));
+            const float ll = std::log2(1.0f + std::max(0.0f, lum));
             luma_log[i2] = ll;
             luma_log_sq[i2] = ll * ll;
             max_rgb_values[i2] = std::max({r, g, b});
@@ -1732,27 +2011,26 @@ Status NearLosslessRouterStage::encode(
             y_plane[i2] = (tr + 2.0f * tg + tb) * 0.25f;
             co_plane[i2] = tr - tb;
             cg_plane[i2] = tg - (tr + tb) * 0.5f;
-            guide[i2] = y_plane[i2];
         }
     }
     trace.lap("planes");
 
     const auto luma_moments =
-        box_mean_reflect_pair(luma_log, luma_log_sq, meta.width, meta.height, params_.mask_radius);
+        box_mean_reflect_pair_f32(luma_log, luma_log_sq, meta.width, meta.height, params_.mask_radius);
     const auto& mean = luma_moments.first;
     const auto& mean_sq = luma_moments.second;
 #ifdef RADIANCE_CODEC_HAS_OPENMP
 #pragma omp parallel for schedule(static) if(pixels > (8u << 20))
 #endif
     for (std::size_t i = 0; i < pixels; ++i) {
-        const double var = std::max(0.0, mean_sq[i] - mean[i] * mean[i]);
+        const float var = std::max(0.0f, mean_sq[i] - mean[i] * mean[i]);
         if (dark_mask[i] && std::sqrt(var) <= params_.smooth_threshold) {
             route_mask[i] = 1;
         }
     }
     trace.lap("dark-mask");
 
-    const bool fast_outliers = fast_outliers_enabled();
+    const bool fast_outliers = fast_outliers_enabled() && pixels >= (8ull << 20);
     std::vector<float> max_rgb_sampled_sorted;
     auto build_sampled_sorted = [&]() {
         constexpr std::size_t kMaxSamples = 1u << 20;
@@ -1845,6 +2123,8 @@ Status NearLosslessRouterStage::encode(
     }
 #endif
     if (!used_metal_guided) {
+        std::vector<double> guide(pixels);
+        for (std::size_t i = 0; i < pixels; ++i) guide[i] = y_plane[i];
         std::vector<double> guide_sq(pixels);
 #ifdef RADIANCE_CODEC_HAS_OPENMP
 #pragma omp parallel for schedule(static) if(pixels > (8u << 20))
@@ -2540,14 +2820,14 @@ Status NearLosslessRouterStage::encode(
     append_f32(out, dark_refine_range.lo);
     append_f32(out, dark_refine_range.hi);
 
-    auto mask_payload = [&](const std::vector<std::uint8_t>& mask) {
+    auto mask_payload = [&](const std::vector<std::uint8_t>& mask, bool force_packed = false) {
         std::vector<std::uint8_t> payload;
-        if (!append_mask_stream(payload, mask, meta.width, meta.height)) {
+        if (!append_mask_stream(payload, mask, meta.width, meta.height, force_packed)) {
             payload.clear();
         }
         return payload;
     };
-    auto index_payload = [&](
+    auto byte_index_payload = [&](
         const std::vector<std::uint16_t>& indices,
         const std::vector<std::uint8_t>& selected,
         std::uint32_t width,
@@ -2555,7 +2835,12 @@ Status NearLosslessRouterStage::encode(
         std::uint8_t bits) {
         const auto stream = encode_index_stream(indices, selected, width, height, bits);
         std::vector<std::uint8_t> payload;
-        if (!append_index_stream(payload, stream, bits)) {
+        const auto sample_count = std::uint64_t(width) * height;
+        const bool large_image = sample_count >= (8ull << 20);
+        const bool ok = large_image
+            ? append_order1_or_raw_stream(payload, stream)
+            : append_index_stream(payload, stream, bits);
+        if (!ok) {
             payload.clear();
         }
         return payload;
@@ -2587,11 +2872,20 @@ Status NearLosslessRouterStage::encode(
         return payload;
     };
 
-    auto route_mask_future = std::async(std::launch::async, mask_payload, std::cref(route_mask));
-    auto high_mask_future = std::async(std::launch::async, mask_payload, std::cref(high_mask));
+    auto route_mask_future =
+        std::async(
+            std::launch::async,
+            mask_payload,
+            std::cref(route_mask),
+            router_packed_route_mask_enabled());
+    auto high_mask_future = std::async(
+        std::launch::async,
+        mask_payload,
+        std::cref(high_mask),
+        router_packed_high_mask_enabled());
     auto y_future = std::async(
         std::launch::async,
-        index_payload,
+        byte_index_payload,
         std::cref(y_idx),
         std::cref(nonroute_mask),
         meta.width,
@@ -2650,7 +2944,7 @@ Status NearLosslessRouterStage::encode(
         meta.height,
         params_.anchor_bits);
     auto dark_refine_mask_future =
-        std::async(std::launch::async, mask_payload, std::cref(dark_refine_mask));
+        std::async(std::launch::async, mask_payload, std::cref(dark_refine_mask), false);
     auto dark_refine_g_future = std::async(
         std::launch::async,
         symbol_payload,

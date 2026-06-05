@@ -26,9 +26,35 @@ std::uint8_t router_anchor_bits_from_env(std::uint8_t fallback) noexcept {
     return static_cast<std::uint8_t>(value);
 }
 
+std::uint8_t router_u8_from_env(const char* name, std::uint8_t fallback, std::uint8_t min_value, std::uint8_t max_value) noexcept {
+    const char* raw = std::getenv(name);
+    if (!raw || !*raw) return fallback;
+    char* end = nullptr;
+    const long value = std::strtol(raw, &end, 10);
+    if (end == raw || value < min_value || value > max_value) return fallback;
+    return static_cast<std::uint8_t>(value);
+}
+
+std::uint8_t router_bool_from_env(const char* name, std::uint8_t fallback) noexcept {
+    const char* raw = std::getenv(name);
+    if (!raw || !*raw) return fallback;
+    if (raw[0] == '0' || raw[0] == 'n' || raw[0] == 'N' || raw[0] == 'f' || raw[0] == 'F') {
+        return 0;
+    }
+    return 1;
+}
+
 NearLosslessRouterParams router_params_from_env() noexcept {
     NearLosslessRouterParams params;
     params.anchor_bits = router_anchor_bits_from_env(params.anchor_bits);
+    params.guide_radius = router_u8_from_env(
+        "RADIANCE_CODEC_ROUTER_GUIDE_RADIUS",
+        params.guide_radius,
+        1,
+        8);
+    params.visual_guard_enabled = router_bool_from_env(
+        "RADIANCE_CODEC_ROUTER_VISUAL_GUARD",
+        params.visual_guard_enabled);
     return params;
 }
 
