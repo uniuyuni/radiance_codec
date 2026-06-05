@@ -1,0 +1,3421 @@
+[
+  {
+    "image": "sample_DSCF0009.EXR",
+    "shape": [
+      1024,
+      1024,
+      3
+    ],
+    "crop_size": 1024,
+    "mask_mode": "dark-smooth",
+    "dark_max": "0.03,0.05,0.08",
+    "anchor": "quant:signed-log:10",
+    "rows": [
+      {
+        "label": "base-ycocg10-6-6_gamma075__dark-ycocg10-6-6_gamma075",
+        "base_color": "ycocg",
+        "dark_color": "ycocg",
+        "base_bits": [
+          10,
+          6,
+          6
+        ],
+        "dark_bits": [
+          10,
+          6,
+          6
+        ],
+        "base_transform": "gamma075",
+        "dark_transform": "gamma075",
+        "mask_pixel_rate": 0.6687421798706055,
+        "raw_bytes": 12582912,
+        "estimated_bytes": 607825,
+        "estimated_ratio": 20.701537449101306,
+        "base_payload": {
+          "estimated_bits": 2210896.2834619763,
+          "estimated_bytes": 276395,
+          "channels": [
+            {
+              "channel": 0,
+              "bits": 10,
+              "samples": 347349,
+              "estimated_bits": 1188915.7298431797,
+              "bits_per_sample": 3.422827559149961
+            },
+            {
+              "channel": 1,
+              "bits": 6,
+              "samples": 347349,
+              "estimated_bits": 323055.8396693556,
+              "bits_per_sample": 0.9300612342898802
+            },
+            {
+              "channel": 2,
+              "bits": 6,
+              "samples": 347349,
+              "estimated_bits": 698924.713949441,
+              "bits_per_sample": 2.0121684932141477
+            }
+          ]
+        },
+        "dark_payload": {
+          "estimated_bits": 2563557.818879102,
+          "estimated_bytes": 320477,
+          "channels": [
+            {
+              "channel": 0,
+              "bits": 10,
+              "samples": 701227,
+              "estimated_bits": 1547677.9839425879,
+              "bits_per_sample": 2.2070998178087664
+            },
+            {
+              "channel": 1,
+              "bits": 6,
+              "samples": 701227,
+              "estimated_bits": 244171.057080187,
+              "bits_per_sample": 0.34820544143363985
+            },
+            {
+              "channel": 2,
+              "bits": 6,
+              "samples": 701227,
+              "estimated_bits": 771708.7778563271,
+              "bits_per_sample": 1.1005120707792586
+            }
+          ]
+        },
+        "mask_payload": {
+          "sample_count": 1048576,
+          "finite_bits": 86435.1133264002,
+          "bits_per_sample": 0.08243094761505146,
+          "payload_bytes": 10809,
+          "model_bytes": 16,
+          "total_bytes": 10825
+        },
+        "gate": {
+          "decision": "pass",
+          "failures": []
+        },
+        "key_metrics": {
+          "dark_0_0.25": {
+            "samples": 958785,
+            "luma_rmse": 0.0024488406497280837,
+            "luma_p99": 0.009210666925074712,
+            "grad_nrmse": 0.6066771972236358,
+            "grad_energy_ratio": 1.1599335391786285,
+            "grad_correlation": 0.8523715053021745,
+            "lost_detail_rate": 0.23628765571795657,
+            "lost_detail_delta_vs_anchor": 0.03284717461036896
+          },
+          "mid_0.25_1": {
+            "samples": 63494,
+            "luma_rmse": 0.0003266958032122497,
+            "luma_p99": 0.0007598936365378822,
+            "grad_nrmse": 0.06978944080732238,
+            "grad_energy_ratio": 1.002722082034582,
+            "grad_correlation": 0.9975750228279964,
+            "lost_detail_rate": 0.04213637558655524,
+            "lost_detail_delta_vs_anchor": 0.023494076688362904
+          },
+          "highlight_1_4": {
+            "samples": 22158,
+            "luma_rmse": 0.0002356330578657284,
+            "luma_p99": 0.0005383746171585758,
+            "grad_nrmse": 0.03798803791393747,
+            "grad_energy_ratio": 1.0006241668834714,
+            "grad_correlation": 0.999279099242253,
+            "lost_detail_rate": 0.01874595992243051,
+            "lost_detail_delta_vs_anchor": 0.009603841536614645
+          },
+          "extreme_gt4": {
+            "samples": 4139,
+            "luma_rmse": 0.0002783827877547215,
+            "luma_p99": 0.0006663486184518951,
+            "grad_nrmse": 0.1264783989640916,
+            "grad_energy_ratio": 1.007978976922488,
+            "grad_correlation": 0.9920965011688851,
+            "lost_detail_rate": 0.051814115308151096,
+            "lost_detail_delta_vs_anchor": 0.028454274353876742
+          }
+        },
+        "elapsed_sec": 1.7575965829892084
+      },
+      {
+        "label": "base-ycocg10-6-6_gamma075__dark-ycocg10-6-6_gamma075",
+        "base_color": "ycocg",
+        "dark_color": "ycocg",
+        "base_bits": [
+          10,
+          6,
+          6
+        ],
+        "dark_bits": [
+          10,
+          6,
+          6
+        ],
+        "base_transform": "gamma075",
+        "dark_transform": "gamma075",
+        "mask_pixel_rate": 0.6721258163452148,
+        "raw_bytes": 12582912,
+        "estimated_bytes": 608436,
+        "estimated_ratio": 20.680748673648502,
+        "base_payload": {
+          "estimated_bits": 2193688.0872437577,
+          "estimated_bytes": 274244,
+          "channels": [
+            {
+              "channel": 0,
+              "bits": 10,
+              "samples": 343801,
+              "estimated_bits": 1179475.3906387582,
+              "bits_per_sample": 3.43069214644157
+            },
+            {
+              "channel": 1,
+              "bits": 6,
+              "samples": 343801,
+              "estimated_bits": 320853.83151467337,
+              "bits_per_sample": 0.9332545033745492
+            },
+            {
+              "channel": 2,
+              "bits": 6,
+              "samples": 343801,
+              "estimated_bits": 693358.8650903263,
+              "bits_per_sample": 2.0167447595857086
+            }
+          ]
+        },
+        "dark_payload": {
+          "estimated_bits": 2579572.4615620906,
+          "estimated_bytes": 322479,
+          "channels": [
+            {
+              "channel": 0,
+              "bits": 10,
+              "samples": 704775,
+              "estimated_bits": 1555988.5907159732,
+              "bits_per_sample": 2.2077806260380592
+            },
+            {
+              "channel": 1,
+              "bits": 6,
+              "samples": 704775,
+              "estimated_bits": 246302.46325889888,
+              "bits_per_sample": 0.34947673123890444
+            },
+            {
+              "channel": 2,
+              "bits": 6,
+              "samples": 704775,
+              "estimated_bits": 777281.4075872186,
+              "bits_per_sample": 1.1028788018689917
+            }
+          ]
+        },
+        "mask_payload": {
+          "sample_count": 1048576,
+          "finite_bits": 92514.01689487477,
+          "bits_per_sample": 0.08822824182021596,
+          "payload_bytes": 11569,
+          "model_bytes": 16,
+          "total_bytes": 11585
+        },
+        "gate": {
+          "decision": "pass",
+          "failures": []
+        },
+        "key_metrics": {
+          "dark_0_0.25": {
+            "samples": 958785,
+            "luma_rmse": 0.0024488406497280837,
+            "luma_p99": 0.009210666925074712,
+            "grad_nrmse": 0.6066771972236358,
+            "grad_energy_ratio": 1.1599335391786285,
+            "grad_correlation": 0.8523715053021745,
+            "lost_detail_rate": 0.23628765571795657,
+            "lost_detail_delta_vs_anchor": 0.03284717461036896
+          },
+          "mid_0.25_1": {
+            "samples": 63494,
+            "luma_rmse": 0.0003266958032122497,
+            "luma_p99": 0.0007598936365378822,
+            "grad_nrmse": 0.06978944080732238,
+            "grad_energy_ratio": 1.002722082034582,
+            "grad_correlation": 0.9975750228279964,
+            "lost_detail_rate": 0.04213637558655524,
+            "lost_detail_delta_vs_anchor": 0.023494076688362904
+          },
+          "highlight_1_4": {
+            "samples": 22158,
+            "luma_rmse": 0.0002356330578657284,
+            "luma_p99": 0.0005383746171585758,
+            "grad_nrmse": 0.03798803791393747,
+            "grad_energy_ratio": 1.0006241668834714,
+            "grad_correlation": 0.999279099242253,
+            "lost_detail_rate": 0.01874595992243051,
+            "lost_detail_delta_vs_anchor": 0.009603841536614645
+          },
+          "extreme_gt4": {
+            "samples": 4139,
+            "luma_rmse": 0.0002783827877547215,
+            "luma_p99": 0.0006663486184518951,
+            "grad_nrmse": 0.1264783989640916,
+            "grad_energy_ratio": 1.007978976922488,
+            "grad_correlation": 0.9920965011688851,
+            "lost_detail_rate": 0.051814115308151096,
+            "lost_detail_delta_vs_anchor": 0.028454274353876742
+          }
+        },
+        "elapsed_sec": 2.3291350419749506
+      },
+      {
+        "label": "base-ycocg10-6-6_gamma075__dark-ycocg10-6-6_gamma075",
+        "base_color": "ycocg",
+        "dark_color": "ycocg",
+        "base_bits": [
+          10,
+          6,
+          6
+        ],
+        "dark_bits": [
+          10,
+          6,
+          6
+        ],
+        "base_transform": "gamma075",
+        "dark_transform": "gamma075",
+        "mask_pixel_rate": 0.6721687316894531,
+        "raw_bytes": 12582912,
+        "estimated_bytes": 608460,
+        "estimated_ratio": 20.679932945468888,
+        "base_payload": {
+          "estimated_bits": 2193447.6549218395,
+          "estimated_bytes": 274213,
+          "channels": [
+            {
+              "channel": 0,
+              "bits": 10,
+              "samples": 343756,
+              "estimated_bits": 1179356.3403765028,
+              "bits_per_sample": 3.430794925402038
+            },
+            {
+              "channel": 1,
+              "bits": 6,
+              "samples": 343756,
+              "estimated_bits": 320806.68183054036,
+              "bits_per_sample": 0.9332395124173553
+            },
+            {
+              "channel": 2,
+              "bits": 6,
+              "samples": 343756,
+              "estimated_bits": 693284.6327147965,
+              "bits_per_sample": 2.0167928202410907
+            }
+          ]
+        },
+        "dark_payload": {
+          "estimated_bits": 2579816.474361074,
+          "estimated_bytes": 322510,
+          "channels": [
+            {
+              "channel": 0,
+              "bits": 10,
+              "samples": 704820,
+              "estimated_bits": 1556091.9658910413,
+              "bits_per_sample": 2.2077863367824997
+            },
+            {
+              "channel": 1,
+              "bits": 6,
+              "samples": 704820,
+              "estimated_bits": 246365.731031233,
+              "bits_per_sample": 0.3495441829562626
+            },
+            {
+              "channel": 2,
+              "bits": 6,
+              "samples": 704820,
+              "estimated_bits": 777358.7774387997,
+              "bits_per_sample": 1.1029181598689024
+            }
+          ]
+        },
+        "mask_payload": {
+          "sample_count": 1048576,
+          "finite_bits": 92706.77814985698,
+          "bits_per_sample": 0.08841207327829073,
+          "payload_bytes": 11593,
+          "model_bytes": 16,
+          "total_bytes": 11609
+        },
+        "gate": {
+          "decision": "pass",
+          "failures": []
+        },
+        "key_metrics": {
+          "dark_0_0.25": {
+            "samples": 958785,
+            "luma_rmse": 0.0024488406497280837,
+            "luma_p99": 0.009210666925074712,
+            "grad_nrmse": 0.6066771972236358,
+            "grad_energy_ratio": 1.1599335391786285,
+            "grad_correlation": 0.8523715053021745,
+            "lost_detail_rate": 0.23628765571795657,
+            "lost_detail_delta_vs_anchor": 0.03284717461036896
+          },
+          "mid_0.25_1": {
+            "samples": 63494,
+            "luma_rmse": 0.0003266958032122497,
+            "luma_p99": 0.0007598936365378822,
+            "grad_nrmse": 0.06978944080732238,
+            "grad_energy_ratio": 1.002722082034582,
+            "grad_correlation": 0.9975750228279964,
+            "lost_detail_rate": 0.04213637558655524,
+            "lost_detail_delta_vs_anchor": 0.023494076688362904
+          },
+          "highlight_1_4": {
+            "samples": 22158,
+            "luma_rmse": 0.0002356330578657284,
+            "luma_p99": 0.0005383746171585758,
+            "grad_nrmse": 0.03798803791393747,
+            "grad_energy_ratio": 1.0006241668834714,
+            "grad_correlation": 0.999279099242253,
+            "lost_detail_rate": 0.01874595992243051,
+            "lost_detail_delta_vs_anchor": 0.009603841536614645
+          },
+          "extreme_gt4": {
+            "samples": 4139,
+            "luma_rmse": 0.0002783827877547215,
+            "luma_p99": 0.0006663486184518951,
+            "grad_nrmse": 0.1264783989640916,
+            "grad_energy_ratio": 1.007978976922488,
+            "grad_correlation": 0.9920965011688851,
+            "lost_detail_rate": 0.051814115308151096,
+            "lost_detail_delta_vs_anchor": 0.028454274353876742
+          }
+        },
+        "elapsed_sec": 1.0353559169743676
+      },
+      {
+        "label": "base-ycocg10-5-5_gamma075__dark-ycocg10-0-0_gamma075",
+        "base_color": "ycocg",
+        "dark_color": "ycocg",
+        "base_bits": [
+          10,
+          5,
+          5
+        ],
+        "dark_bits": [
+          10,
+          0,
+          0
+        ],
+        "base_transform": "gamma075",
+        "dark_transform": "gamma075",
+        "mask_pixel_rate": 0.6687421798706055,
+        "raw_bytes": 12582912,
+        "estimated_bytes": 436801,
+        "estimated_ratio": 28.806967017016902,
+        "base_payload": {
+          "estimated_bits": 1858587.1488674763,
+          "estimated_bytes": 232356,
+          "channels": [
+            {
+              "channel": 0,
+              "bits": 10,
+              "samples": 347349,
+              "estimated_bits": 1188915.7298431797,
+              "bits_per_sample": 3.422827559149961
+            },
+            {
+              "channel": 1,
+              "bits": 5,
+              "samples": 347349,
+              "estimated_bits": 191739.61127665345,
+              "bits_per_sample": 0.5520085311218788
+            },
+            {
+              "channel": 2,
+              "bits": 5,
+              "samples": 347349,
+              "estimated_bits": 477931.8077476432,
+              "bits_per_sample": 1.375941222653997
+            }
+          ]
+        },
+        "dark_payload": {
+          "estimated_bits": 1547677.9839425879,
+          "estimated_bytes": 193492,
+          "channels": [
+            {
+              "channel": 0,
+              "bits": 10,
+              "samples": 701227,
+              "estimated_bits": 1547677.9839425879,
+              "bits_per_sample": 2.2070998178087664
+            },
+            {
+              "channel": 1,
+              "bits": 0,
+              "samples": 701227,
+              "estimated_bits": 0.0,
+              "bits_per_sample": 0.0
+            },
+            {
+              "channel": 2,
+              "bits": 0,
+              "samples": 701227,
+              "estimated_bits": 0.0,
+              "bits_per_sample": 0.0
+            }
+          ]
+        },
+        "mask_payload": {
+          "sample_count": 1048576,
+          "finite_bits": 86435.1133264002,
+          "bits_per_sample": 0.08243094761505146,
+          "payload_bytes": 10809,
+          "model_bytes": 16,
+          "total_bytes": 10825
+        },
+        "gate": {
+          "decision": "maybe",
+          "failures": [
+            {
+              "severity": "maybe",
+              "region": "dark_0_0.25",
+              "metric": "lost_detail_rate_delta",
+              "value": 0.0902504907103146,
+              "threshold": 0.04,
+              "detail": "dark detail loss is above the review band"
+            },
+            {
+              "severity": "maybe",
+              "region": "extreme_gt4",
+              "metric": "lost_detail_rate_delta",
+              "value": 0.0625,
+              "threshold": 0.06,
+              "detail": "extreme_gt4 detail loss needs a quick look"
+            }
+          ]
+        },
+        "key_metrics": {
+          "dark_0_0.25": {
+            "samples": 958785,
+            "luma_rmse": 0.003050955045726854,
+            "luma_p99": 0.010753570413959794,
+            "grad_nrmse": 0.5021060887637624,
+            "grad_energy_ratio": 0.9928385918671099,
+            "grad_correlation": 0.8730613210082917,
+            "lost_detail_rate": 0.2936909718179022,
+            "lost_detail_delta_vs_anchor": 0.0902504907103146
+          },
+          "mid_0.25_1": {
+            "samples": 63494,
+            "luma_rmse": 0.00045630135901643767,
+            "luma_p99": 0.0011389780124159588,
+            "grad_nrmse": 0.09370185084936133,
+            "grad_energy_ratio": 1.004843159604804,
+            "grad_correlation": 0.9956428122269938,
+            "lost_detail_rate": 0.0629217421785996,
+            "lost_detail_delta_vs_anchor": 0.04427944328040726
+          },
+          "highlight_1_4": {
+            "samples": 22158,
+            "luma_rmse": 0.00031811592074371516,
+            "luma_p99": 0.0007838380851270323,
+            "grad_nrmse": 0.050765021430448136,
+            "grad_energy_ratio": 1.001010709661773,
+            "grad_correlation": 0.9987132675794829,
+            "lost_detail_rate": 0.027680302890386924,
+            "lost_detail_delta_vs_anchor": 0.018538184504571058
+          },
+          "extreme_gt4": {
+            "samples": 4139,
+            "luma_rmse": 0.0005238429766901058,
+            "luma_p99": 0.0011910929360776357,
+            "grad_nrmse": 0.21913514111744709,
+            "grad_energy_ratio": 1.0215411590803252,
+            "grad_correlation": 0.9767233125580306,
+            "lost_detail_rate": 0.08585984095427436,
+            "lost_detail_delta_vs_anchor": 0.0625
+          }
+        },
+        "elapsed_sec": 1.8331427910015918
+      },
+      {
+        "label": "base-ycocg10-5-5_gamma075__dark-ycocg10-0-0_gamma075",
+        "base_color": "ycocg",
+        "dark_color": "ycocg",
+        "base_bits": [
+          10,
+          5,
+          5
+        ],
+        "dark_bits": [
+          10,
+          0,
+          0
+        ],
+        "base_transform": "gamma075",
+        "dark_transform": "gamma075",
+        "mask_pixel_rate": 0.6721258163452148,
+        "raw_bytes": 12582912,
+        "estimated_bytes": 436894,
+        "estimated_ratio": 28.800834985145137,
+        "base_payload": {
+          "estimated_bits": 1844936.460322536,
+          "estimated_bytes": 230650,
+          "channels": [
+            {
+              "channel": 0,
+              "bits": 10,
+              "samples": 343801,
+              "estimated_bits": 1179475.3906387582,
+              "bits_per_sample": 3.43069214644157
+            },
+            {
+              "channel": 1,
+              "bits": 5,
+              "samples": 343801,
+              "estimated_bits": 191197.70972576586,
+              "bits_per_sample": 0.5561290098800349
+            },
+            {
+              "channel": 2,
+              "bits": 5,
+              "samples": 343801,
+              "estimated_bits": 474263.359958012,
+              "bits_per_sample": 1.3794705656993784
+            }
+          ]
+        },
+        "dark_payload": {
+          "estimated_bits": 1555988.5907159732,
+          "estimated_bytes": 194531,
+          "channels": [
+            {
+              "channel": 0,
+              "bits": 10,
+              "samples": 704775,
+              "estimated_bits": 1555988.5907159732,
+              "bits_per_sample": 2.2077806260380592
+            },
+            {
+              "channel": 1,
+              "bits": 0,
+              "samples": 704775,
+              "estimated_bits": 0.0,
+              "bits_per_sample": 0.0
+            },
+            {
+              "channel": 2,
+              "bits": 0,
+              "samples": 704775,
+              "estimated_bits": 0.0,
+              "bits_per_sample": 0.0
+            }
+          ]
+        },
+        "mask_payload": {
+          "sample_count": 1048576,
+          "finite_bits": 92514.01689487477,
+          "bits_per_sample": 0.08822824182021596,
+          "payload_bytes": 11569,
+          "model_bytes": 16,
+          "total_bytes": 11585
+        },
+        "gate": {
+          "decision": "maybe",
+          "failures": [
+            {
+              "severity": "maybe",
+              "region": "dark_0_0.25",
+              "metric": "lost_detail_rate_delta",
+              "value": 0.09001916890199424,
+              "threshold": 0.04,
+              "detail": "dark detail loss is above the review band"
+            },
+            {
+              "severity": "maybe",
+              "region": "extreme_gt4",
+              "metric": "lost_detail_rate_delta",
+              "value": 0.0625,
+              "threshold": 0.06,
+              "detail": "extreme_gt4 detail loss needs a quick look"
+            }
+          ]
+        },
+        "key_metrics": {
+          "dark_0_0.25": {
+            "samples": 958785,
+            "luma_rmse": 0.003051612389794815,
+            "luma_p99": 0.010753570413959794,
+            "grad_nrmse": 0.5021439173385307,
+            "grad_energy_ratio": 0.9927586428106121,
+            "grad_correlation": 0.8730325450743857,
+            "lost_detail_rate": 0.29345965000958185,
+            "lost_detail_delta_vs_anchor": 0.09001916890199424
+          },
+          "mid_0.25_1": {
+            "samples": 63494,
+            "luma_rmse": 0.00045630135901643767,
+            "luma_p99": 0.0011389780124159588,
+            "grad_nrmse": 0.09370185084936133,
+            "grad_energy_ratio": 1.004843159604804,
+            "grad_correlation": 0.9956428122269938,
+            "lost_detail_rate": 0.0629217421785996,
+            "lost_detail_delta_vs_anchor": 0.04427944328040726
+          },
+          "highlight_1_4": {
+            "samples": 22158,
+            "luma_rmse": 0.00031811592074371516,
+            "luma_p99": 0.0007838380851270323,
+            "grad_nrmse": 0.050765021430448136,
+            "grad_energy_ratio": 1.001010709661773,
+            "grad_correlation": 0.9987132675794829,
+            "lost_detail_rate": 0.027680302890386924,
+            "lost_detail_delta_vs_anchor": 0.018538184504571058
+          },
+          "extreme_gt4": {
+            "samples": 4139,
+            "luma_rmse": 0.0005238429766901058,
+            "luma_p99": 0.0011910929360776357,
+            "grad_nrmse": 0.21913514111744709,
+            "grad_energy_ratio": 1.0215411590803252,
+            "grad_correlation": 0.9767233125580306,
+            "lost_detail_rate": 0.08585984095427436,
+            "lost_detail_delta_vs_anchor": 0.0625
+          }
+        },
+        "elapsed_sec": 1.8624560410098638
+      },
+      {
+        "label": "base-ycocg10-5-5_gamma075__dark-ycocg10-0-0_gamma075",
+        "base_color": "ycocg",
+        "dark_color": "ycocg",
+        "base_bits": [
+          10,
+          5,
+          5
+        ],
+        "dark_bits": [
+          10,
+          0,
+          0
+        ],
+        "base_transform": "gamma075",
+        "dark_transform": "gamma075",
+        "mask_pixel_rate": 0.6721687316894531,
+        "raw_bytes": 12582912,
+        "estimated_bytes": 436907,
+        "estimated_ratio": 28.799978027360513,
+        "base_payload": {
+          "estimated_bits": 1844744.7647046703,
+          "estimated_bytes": 230626,
+          "channels": [
+            {
+              "channel": 0,
+              "bits": 10,
+              "samples": 343756,
+              "estimated_bits": 1179356.3403765028,
+              "bits_per_sample": 3.430794925402038
+            },
+            {
+              "channel": 1,
+              "bits": 5,
+              "samples": 343756,
+              "estimated_bits": 191170.03677278393,
+              "bits_per_sample": 0.5561213092216105
+            },
+            {
+              "channel": 2,
+              "bits": 5,
+              "samples": 343756,
+              "estimated_bits": 474218.3875553837,
+              "bits_per_sample": 1.3795203212609635
+            }
+          ]
+        },
+        "dark_payload": {
+          "estimated_bits": 1556091.9658910413,
+          "estimated_bytes": 194544,
+          "channels": [
+            {
+              "channel": 0,
+              "bits": 10,
+              "samples": 704820,
+              "estimated_bits": 1556091.9658910413,
+              "bits_per_sample": 2.2077863367824997
+            },
+            {
+              "channel": 1,
+              "bits": 0,
+              "samples": 704820,
+              "estimated_bits": 0.0,
+              "bits_per_sample": 0.0
+            },
+            {
+              "channel": 2,
+              "bits": 0,
+              "samples": 704820,
+              "estimated_bits": 0.0,
+              "bits_per_sample": 0.0
+            }
+          ]
+        },
+        "mask_payload": {
+          "sample_count": 1048576,
+          "finite_bits": 92706.77814985698,
+          "bits_per_sample": 0.08841207327829073,
+          "payload_bytes": 11593,
+          "model_bytes": 16,
+          "total_bytes": 11609
+        },
+        "gate": {
+          "decision": "maybe",
+          "failures": [
+            {
+              "severity": "maybe",
+              "region": "dark_0_0.25",
+              "metric": "lost_detail_rate_delta",
+              "value": 0.09001551370412009,
+              "threshold": 0.04,
+              "detail": "dark detail loss is above the review band"
+            },
+            {
+              "severity": "maybe",
+              "region": "extreme_gt4",
+              "metric": "lost_detail_rate_delta",
+              "value": 0.0625,
+              "threshold": 0.06,
+              "detail": "extreme_gt4 detail loss needs a quick look"
+            }
+          ]
+        },
+        "key_metrics": {
+          "dark_0_0.25": {
+            "samples": 958785,
+            "luma_rmse": 0.0030516749176130353,
+            "luma_p99": 0.010753570413959794,
+            "grad_nrmse": 0.5021590177021382,
+            "grad_energy_ratio": 0.9927661361503146,
+            "grad_correlation": 0.8730258108666951,
+            "lost_detail_rate": 0.2934559948117077,
+            "lost_detail_delta_vs_anchor": 0.09001551370412009
+          },
+          "mid_0.25_1": {
+            "samples": 63494,
+            "luma_rmse": 0.00045630135901643767,
+            "luma_p99": 0.0011389780124159588,
+            "grad_nrmse": 0.09370185084936133,
+            "grad_energy_ratio": 1.004843159604804,
+            "grad_correlation": 0.9956428122269938,
+            "lost_detail_rate": 0.0629217421785996,
+            "lost_detail_delta_vs_anchor": 0.04427944328040726
+          },
+          "highlight_1_4": {
+            "samples": 22158,
+            "luma_rmse": 0.00031811592074371516,
+            "luma_p99": 0.0007838380851270323,
+            "grad_nrmse": 0.050765021430448136,
+            "grad_energy_ratio": 1.001010709661773,
+            "grad_correlation": 0.9987132675794829,
+            "lost_detail_rate": 0.027680302890386924,
+            "lost_detail_delta_vs_anchor": 0.018538184504571058
+          },
+          "extreme_gt4": {
+            "samples": 4139,
+            "luma_rmse": 0.0005238429766901058,
+            "luma_p99": 0.0011910929360776357,
+            "grad_nrmse": 0.21913514111744709,
+            "grad_energy_ratio": 1.0215411590803252,
+            "grad_correlation": 0.9767233125580306,
+            "lost_detail_rate": 0.08585984095427436,
+            "lost_detail_delta_vs_anchor": 0.0625
+          }
+        },
+        "elapsed_sec": 2.1482182499894407
+      },
+      {
+        "label": "base-ycocg10-6-6_gamma075__dark-ycocg10-0-0_gamma075",
+        "base_color": "ycocg",
+        "dark_color": "ycocg",
+        "base_bits": [
+          10,
+          6,
+          6
+        ],
+        "dark_bits": [
+          10,
+          0,
+          0
+        ],
+        "base_transform": "gamma075",
+        "dark_transform": "gamma075",
+        "mask_pixel_rate": 0.6721258163452148,
+        "raw_bytes": 12582912,
+        "estimated_bytes": 480488,
+        "estimated_ratio": 26.187775761309336,
+        "base_payload": {
+          "estimated_bits": 2193688.0872437577,
+          "estimated_bytes": 274244,
+          "channels": [
+            {
+              "channel": 0,
+              "bits": 10,
+              "samples": 343801,
+              "estimated_bits": 1179475.3906387582,
+              "bits_per_sample": 3.43069214644157
+            },
+            {
+              "channel": 1,
+              "bits": 6,
+              "samples": 343801,
+              "estimated_bits": 320853.83151467337,
+              "bits_per_sample": 0.9332545033745492
+            },
+            {
+              "channel": 2,
+              "bits": 6,
+              "samples": 343801,
+              "estimated_bits": 693358.8650903263,
+              "bits_per_sample": 2.0167447595857086
+            }
+          ]
+        },
+        "dark_payload": {
+          "estimated_bits": 1555988.5907159732,
+          "estimated_bytes": 194531,
+          "channels": [
+            {
+              "channel": 0,
+              "bits": 10,
+              "samples": 704775,
+              "estimated_bits": 1555988.5907159732,
+              "bits_per_sample": 2.2077806260380592
+            },
+            {
+              "channel": 1,
+              "bits": 0,
+              "samples": 704775,
+              "estimated_bits": 0.0,
+              "bits_per_sample": 0.0
+            },
+            {
+              "channel": 2,
+              "bits": 0,
+              "samples": 704775,
+              "estimated_bits": 0.0,
+              "bits_per_sample": 0.0
+            }
+          ]
+        },
+        "mask_payload": {
+          "sample_count": 1048576,
+          "finite_bits": 92514.01689487477,
+          "bits_per_sample": 0.08822824182021596,
+          "payload_bytes": 11569,
+          "model_bytes": 16,
+          "total_bytes": 11585
+        },
+        "gate": {
+          "decision": "maybe",
+          "failures": [
+            {
+              "severity": "maybe",
+              "region": "dark_0_0.25",
+              "metric": "lost_detail_rate_delta",
+              "value": 0.08398025984279517,
+              "threshold": 0.04,
+              "detail": "dark detail loss is above the review band"
+            }
+          ]
+        },
+        "key_metrics": {
+          "dark_0_0.25": {
+            "samples": 958785,
+            "luma_rmse": 0.0028892756788328326,
+            "luma_p99": 0.010416926145441395,
+            "grad_nrmse": 0.4530746218844091,
+            "grad_energy_ratio": 0.9656155453197837,
+            "grad_correlation": 0.8943190572784046,
+            "lost_detail_rate": 0.2874207409503828,
+            "lost_detail_delta_vs_anchor": 0.08398025984279517
+          },
+          "mid_0.25_1": {
+            "samples": 63494,
+            "luma_rmse": 0.0003266958032122497,
+            "luma_p99": 0.0007598936365378822,
+            "grad_nrmse": 0.06978944080732238,
+            "grad_energy_ratio": 1.002722082034582,
+            "grad_correlation": 0.9975750228279964,
+            "lost_detail_rate": 0.04213637558655524,
+            "lost_detail_delta_vs_anchor": 0.023494076688362904
+          },
+          "highlight_1_4": {
+            "samples": 22158,
+            "luma_rmse": 0.0002356330578657284,
+            "luma_p99": 0.0005383746171585758,
+            "grad_nrmse": 0.03798803791393747,
+            "grad_energy_ratio": 1.0006241668834714,
+            "grad_correlation": 0.999279099242253,
+            "lost_detail_rate": 0.01874595992243051,
+            "lost_detail_delta_vs_anchor": 0.009603841536614645
+          },
+          "extreme_gt4": {
+            "samples": 4139,
+            "luma_rmse": 0.0002783827877547215,
+            "luma_p99": 0.0006663486184518951,
+            "grad_nrmse": 0.1264783989640916,
+            "grad_energy_ratio": 1.007978976922488,
+            "grad_correlation": 0.9920965011688851,
+            "lost_detail_rate": 0.051814115308151096,
+            "lost_detail_delta_vs_anchor": 0.028454274353876742
+          }
+        },
+        "elapsed_sec": 1.7767409170046449
+      },
+      {
+        "label": "base-ycocg10-6-6_gamma075__dark-ycocg10-0-0_gamma075",
+        "base_color": "ycocg",
+        "dark_color": "ycocg",
+        "base_bits": [
+          10,
+          6,
+          6
+        ],
+        "dark_bits": [
+          10,
+          0,
+          0
+        ],
+        "base_transform": "gamma075",
+        "dark_transform": "gamma075",
+        "mask_pixel_rate": 0.6721687316894531,
+        "raw_bytes": 12582912,
+        "estimated_bytes": 480494,
+        "estimated_ratio": 26.187448750660778,
+        "base_payload": {
+          "estimated_bits": 2193447.6549218395,
+          "estimated_bytes": 274213,
+          "channels": [
+            {
+              "channel": 0,
+              "bits": 10,
+              "samples": 343756,
+              "estimated_bits": 1179356.3403765028,
+              "bits_per_sample": 3.430794925402038
+            },
+            {
+              "channel": 1,
+              "bits": 6,
+              "samples": 343756,
+              "estimated_bits": 320806.68183054036,
+              "bits_per_sample": 0.9332395124173553
+            },
+            {
+              "channel": 2,
+              "bits": 6,
+              "samples": 343756,
+              "estimated_bits": 693284.6327147965,
+              "bits_per_sample": 2.0167928202410907
+            }
+          ]
+        },
+        "dark_payload": {
+          "estimated_bits": 1556091.9658910413,
+          "estimated_bytes": 194544,
+          "channels": [
+            {
+              "channel": 0,
+              "bits": 10,
+              "samples": 704820,
+              "estimated_bits": 1556091.9658910413,
+              "bits_per_sample": 2.2077863367824997
+            },
+            {
+              "channel": 1,
+              "bits": 0,
+              "samples": 704820,
+              "estimated_bits": 0.0,
+              "bits_per_sample": 0.0
+            },
+            {
+              "channel": 2,
+              "bits": 0,
+              "samples": 704820,
+              "estimated_bits": 0.0,
+              "bits_per_sample": 0.0
+            }
+          ]
+        },
+        "mask_payload": {
+          "sample_count": 1048576,
+          "finite_bits": 92706.77814985698,
+          "bits_per_sample": 0.08841207327829073,
+          "payload_bytes": 11593,
+          "model_bytes": 16,
+          "total_bytes": 11609
+        },
+        "gate": {
+          "decision": "maybe",
+          "failures": [
+            {
+              "severity": "maybe",
+              "region": "dark_0_0.25",
+              "metric": "lost_detail_rate_delta",
+              "value": 0.0839813041850449,
+              "threshold": 0.04,
+              "detail": "dark detail loss is above the review band"
+            }
+          ]
+        },
+        "key_metrics": {
+          "dark_0_0.25": {
+            "samples": 958785,
+            "luma_rmse": 0.0028893441707969233,
+            "luma_p99": 0.010416926145441395,
+            "grad_nrmse": 0.4530932350084838,
+            "grad_energy_ratio": 0.965623407660633,
+            "grad_correlation": 0.8943109042871706,
+            "lost_detail_rate": 0.2874217852926325,
+            "lost_detail_delta_vs_anchor": 0.0839813041850449
+          },
+          "mid_0.25_1": {
+            "samples": 63494,
+            "luma_rmse": 0.0003266958032122497,
+            "luma_p99": 0.0007598936365378822,
+            "grad_nrmse": 0.06978944080732238,
+            "grad_energy_ratio": 1.002722082034582,
+            "grad_correlation": 0.9975750228279964,
+            "lost_detail_rate": 0.04213637558655524,
+            "lost_detail_delta_vs_anchor": 0.023494076688362904
+          },
+          "highlight_1_4": {
+            "samples": 22158,
+            "luma_rmse": 0.0002356330578657284,
+            "luma_p99": 0.0005383746171585758,
+            "grad_nrmse": 0.03798803791393747,
+            "grad_energy_ratio": 1.0006241668834714,
+            "grad_correlation": 0.999279099242253,
+            "lost_detail_rate": 0.01874595992243051,
+            "lost_detail_delta_vs_anchor": 0.009603841536614645
+          },
+          "extreme_gt4": {
+            "samples": 4139,
+            "luma_rmse": 0.0002783827877547215,
+            "luma_p99": 0.0006663486184518951,
+            "grad_nrmse": 0.1264783989640916,
+            "grad_energy_ratio": 1.007978976922488,
+            "grad_correlation": 0.9920965011688851,
+            "lost_detail_rate": 0.051814115308151096,
+            "lost_detail_delta_vs_anchor": 0.028454274353876742
+          }
+        },
+        "elapsed_sec": 1.0892152499873191
+      },
+      {
+        "label": "base-ycocg10-6-6_gamma075__dark-ycocg10-0-0_gamma075",
+        "base_color": "ycocg",
+        "dark_color": "ycocg",
+        "base_bits": [
+          10,
+          6,
+          6
+        ],
+        "dark_bits": [
+          10,
+          0,
+          0
+        ],
+        "base_transform": "gamma075",
+        "dark_transform": "gamma075",
+        "mask_pixel_rate": 0.6687421798706055,
+        "raw_bytes": 12582912,
+        "estimated_bytes": 480840,
+        "estimated_ratio": 26.168604941352633,
+        "base_payload": {
+          "estimated_bits": 2210896.2834619763,
+          "estimated_bytes": 276395,
+          "channels": [
+            {
+              "channel": 0,
+              "bits": 10,
+              "samples": 347349,
+              "estimated_bits": 1188915.7298431797,
+              "bits_per_sample": 3.422827559149961
+            },
+            {
+              "channel": 1,
+              "bits": 6,
+              "samples": 347349,
+              "estimated_bits": 323055.8396693556,
+              "bits_per_sample": 0.9300612342898802
+            },
+            {
+              "channel": 2,
+              "bits": 6,
+              "samples": 347349,
+              "estimated_bits": 698924.713949441,
+              "bits_per_sample": 2.0121684932141477
+            }
+          ]
+        },
+        "dark_payload": {
+          "estimated_bits": 1547677.9839425879,
+          "estimated_bytes": 193492,
+          "channels": [
+            {
+              "channel": 0,
+              "bits": 10,
+              "samples": 701227,
+              "estimated_bits": 1547677.9839425879,
+              "bits_per_sample": 2.2070998178087664
+            },
+            {
+              "channel": 1,
+              "bits": 0,
+              "samples": 701227,
+              "estimated_bits": 0.0,
+              "bits_per_sample": 0.0
+            },
+            {
+              "channel": 2,
+              "bits": 0,
+              "samples": 701227,
+              "estimated_bits": 0.0,
+              "bits_per_sample": 0.0
+            }
+          ]
+        },
+        "mask_payload": {
+          "sample_count": 1048576,
+          "finite_bits": 86435.1133264002,
+          "bits_per_sample": 0.08243094761505146,
+          "payload_bytes": 10809,
+          "model_bytes": 16,
+          "total_bytes": 10825
+        },
+        "gate": {
+          "decision": "maybe",
+          "failures": [
+            {
+              "severity": "maybe",
+              "region": "dark_0_0.25",
+              "metric": "lost_detail_rate_delta",
+              "value": 0.08374267198097629,
+              "threshold": 0.04,
+              "detail": "dark detail loss is above the review band"
+            }
+          ]
+        },
+        "key_metrics": {
+          "dark_0_0.25": {
+            "samples": 958785,
+            "luma_rmse": 0.0028880543545522657,
+            "luma_p99": 0.010416926145441395,
+            "grad_nrmse": 0.4528777741046107,
+            "grad_energy_ratio": 0.9656115400980494,
+            "grad_correlation": 0.8944111044474403,
+            "lost_detail_rate": 0.2871831530885639,
+            "lost_detail_delta_vs_anchor": 0.08374267198097629
+          },
+          "mid_0.25_1": {
+            "samples": 63494,
+            "luma_rmse": 0.0003266958032122497,
+            "luma_p99": 0.0007598936365378822,
+            "grad_nrmse": 0.06978944080732238,
+            "grad_energy_ratio": 1.002722082034582,
+            "grad_correlation": 0.9975750228279964,
+            "lost_detail_rate": 0.04213637558655524,
+            "lost_detail_delta_vs_anchor": 0.023494076688362904
+          },
+          "highlight_1_4": {
+            "samples": 22158,
+            "luma_rmse": 0.0002356330578657284,
+            "luma_p99": 0.0005383746171585758,
+            "grad_nrmse": 0.03798803791393747,
+            "grad_energy_ratio": 1.0006241668834714,
+            "grad_correlation": 0.999279099242253,
+            "lost_detail_rate": 0.01874595992243051,
+            "lost_detail_delta_vs_anchor": 0.009603841536614645
+          },
+          "extreme_gt4": {
+            "samples": 4139,
+            "luma_rmse": 0.0002783827877547215,
+            "luma_p99": 0.0006663486184518951,
+            "grad_nrmse": 0.1264783989640916,
+            "grad_energy_ratio": 1.007978976922488,
+            "grad_correlation": 0.9920965011688851,
+            "lost_detail_rate": 0.051814115308151096,
+            "lost_detail_delta_vs_anchor": 0.028454274353876742
+          }
+        },
+        "elapsed_sec": 1.8509896250034217
+      },
+      {
+        "label": "base-ycocg10-5-5_gamma075__dark-ycocg10-6-6_gamma075",
+        "base_color": "ycocg",
+        "dark_color": "ycocg",
+        "base_bits": [
+          10,
+          5,
+          5
+        ],
+        "dark_bits": [
+          10,
+          6,
+          6
+        ],
+        "base_transform": "gamma075",
+        "dark_transform": "gamma075",
+        "mask_pixel_rate": 0.6687421798706055,
+        "raw_bytes": 12582912,
+        "estimated_bytes": 563786,
+        "estimated_ratio": 22.3185960630452,
+        "base_payload": {
+          "estimated_bits": 1858587.1488674763,
+          "estimated_bytes": 232356,
+          "channels": [
+            {
+              "channel": 0,
+              "bits": 10,
+              "samples": 347349,
+              "estimated_bits": 1188915.7298431797,
+              "bits_per_sample": 3.422827559149961
+            },
+            {
+              "channel": 1,
+              "bits": 5,
+              "samples": 347349,
+              "estimated_bits": 191739.61127665345,
+              "bits_per_sample": 0.5520085311218788
+            },
+            {
+              "channel": 2,
+              "bits": 5,
+              "samples": 347349,
+              "estimated_bits": 477931.8077476432,
+              "bits_per_sample": 1.375941222653997
+            }
+          ]
+        },
+        "dark_payload": {
+          "estimated_bits": 2563557.818879102,
+          "estimated_bytes": 320477,
+          "channels": [
+            {
+              "channel": 0,
+              "bits": 10,
+              "samples": 701227,
+              "estimated_bits": 1547677.9839425879,
+              "bits_per_sample": 2.2070998178087664
+            },
+            {
+              "channel": 1,
+              "bits": 6,
+              "samples": 701227,
+              "estimated_bits": 244171.057080187,
+              "bits_per_sample": 0.34820544143363985
+            },
+            {
+              "channel": 2,
+              "bits": 6,
+              "samples": 701227,
+              "estimated_bits": 771708.7778563271,
+              "bits_per_sample": 1.1005120707792586
+            }
+          ]
+        },
+        "mask_payload": {
+          "sample_count": 1048576,
+          "finite_bits": 86435.1133264002,
+          "bits_per_sample": 0.08243094761505146,
+          "payload_bytes": 10809,
+          "model_bytes": 16,
+          "total_bytes": 10825
+        },
+        "gate": {
+          "decision": "maybe",
+          "failures": [
+            {
+              "severity": "maybe",
+              "region": "extreme_gt4",
+              "metric": "lost_detail_rate_delta",
+              "value": 0.0625,
+              "threshold": 0.06,
+              "detail": "extreme_gt4 detail loss needs a quick look"
+            }
+          ]
+        },
+        "key_metrics": {
+          "dark_0_0.25": {
+            "samples": 958785,
+            "luma_rmse": 0.002638993987101621,
+            "luma_p99": 0.009687737589364424,
+            "grad_nrmse": 0.6419681144422418,
+            "grad_energy_ratio": 1.1814492078271086,
+            "grad_correlation": 0.8395194467831352,
+            "lost_detail_rate": 0.24240906781488616,
+            "lost_detail_delta_vs_anchor": 0.03896858670729855
+          },
+          "mid_0.25_1": {
+            "samples": 63494,
+            "luma_rmse": 0.00045630135901643767,
+            "luma_p99": 0.0011389780124159588,
+            "grad_nrmse": 0.09370185084936133,
+            "grad_energy_ratio": 1.004843159604804,
+            "grad_correlation": 0.9956428122269938,
+            "lost_detail_rate": 0.0629217421785996,
+            "lost_detail_delta_vs_anchor": 0.04427944328040726
+          },
+          "highlight_1_4": {
+            "samples": 22158,
+            "luma_rmse": 0.00031811592074371516,
+            "luma_p99": 0.0007838380851270323,
+            "grad_nrmse": 0.050765021430448136,
+            "grad_energy_ratio": 1.001010709661773,
+            "grad_correlation": 0.9987132675794829,
+            "lost_detail_rate": 0.027680302890386924,
+            "lost_detail_delta_vs_anchor": 0.018538184504571058
+          },
+          "extreme_gt4": {
+            "samples": 4139,
+            "luma_rmse": 0.0005238429766901058,
+            "luma_p99": 0.0011910929360776357,
+            "grad_nrmse": 0.21913514111744709,
+            "grad_energy_ratio": 1.0215411590803252,
+            "grad_correlation": 0.9767233125580306,
+            "lost_detail_rate": 0.08585984095427436,
+            "lost_detail_delta_vs_anchor": 0.0625
+          }
+        },
+        "elapsed_sec": 2.1748235000122804
+      },
+      {
+        "label": "base-ycocg10-5-5_gamma075__dark-ycocg10-6-6_gamma075",
+        "base_color": "ycocg",
+        "dark_color": "ycocg",
+        "base_bits": [
+          10,
+          5,
+          5
+        ],
+        "dark_bits": [
+          10,
+          6,
+          6
+        ],
+        "base_transform": "gamma075",
+        "dark_transform": "gamma075",
+        "mask_pixel_rate": 0.6721258163452148,
+        "raw_bytes": 12582912,
+        "estimated_bytes": 564842,
+        "estimated_ratio": 22.276870346043673,
+        "base_payload": {
+          "estimated_bits": 1844936.460322536,
+          "estimated_bytes": 230650,
+          "channels": [
+            {
+              "channel": 0,
+              "bits": 10,
+              "samples": 343801,
+              "estimated_bits": 1179475.3906387582,
+              "bits_per_sample": 3.43069214644157
+            },
+            {
+              "channel": 1,
+              "bits": 5,
+              "samples": 343801,
+              "estimated_bits": 191197.70972576586,
+              "bits_per_sample": 0.5561290098800349
+            },
+            {
+              "channel": 2,
+              "bits": 5,
+              "samples": 343801,
+              "estimated_bits": 474263.359958012,
+              "bits_per_sample": 1.3794705656993784
+            }
+          ]
+        },
+        "dark_payload": {
+          "estimated_bits": 2579572.4615620906,
+          "estimated_bytes": 322479,
+          "channels": [
+            {
+              "channel": 0,
+              "bits": 10,
+              "samples": 704775,
+              "estimated_bits": 1555988.5907159732,
+              "bits_per_sample": 2.2077806260380592
+            },
+            {
+              "channel": 1,
+              "bits": 6,
+              "samples": 704775,
+              "estimated_bits": 246302.46325889888,
+              "bits_per_sample": 0.34947673123890444
+            },
+            {
+              "channel": 2,
+              "bits": 6,
+              "samples": 704775,
+              "estimated_bits": 777281.4075872186,
+              "bits_per_sample": 1.1028788018689917
+            }
+          ]
+        },
+        "mask_payload": {
+          "sample_count": 1048576,
+          "finite_bits": 92514.01689487477,
+          "bits_per_sample": 0.08822824182021596,
+          "payload_bytes": 11569,
+          "model_bytes": 16,
+          "total_bytes": 11585
+        },
+        "gate": {
+          "decision": "maybe",
+          "failures": [
+            {
+              "severity": "maybe",
+              "region": "extreme_gt4",
+              "metric": "lost_detail_rate_delta",
+              "value": 0.0625,
+              "threshold": 0.06,
+              "detail": "extreme_gt4 detail loss needs a quick look"
+            }
+          ]
+        },
+        "key_metrics": {
+          "dark_0_0.25": {
+            "samples": 958785,
+            "luma_rmse": 0.002638417093072086,
+            "luma_p99": 0.009687737589364424,
+            "grad_nrmse": 0.6418601209170309,
+            "grad_energy_ratio": 1.181379468795492,
+            "grad_correlation": 0.8395579434313354,
+            "lost_detail_rate": 0.24197201058336437,
+            "lost_detail_delta_vs_anchor": 0.03853152947577676
+          },
+          "mid_0.25_1": {
+            "samples": 63494,
+            "luma_rmse": 0.00045630135901643767,
+            "luma_p99": 0.0011389780124159588,
+            "grad_nrmse": 0.09370185084936133,
+            "grad_energy_ratio": 1.004843159604804,
+            "grad_correlation": 0.9956428122269938,
+            "lost_detail_rate": 0.0629217421785996,
+            "lost_detail_delta_vs_anchor": 0.04427944328040726
+          },
+          "highlight_1_4": {
+            "samples": 22158,
+            "luma_rmse": 0.00031811592074371516,
+            "luma_p99": 0.0007838380851270323,
+            "grad_nrmse": 0.050765021430448136,
+            "grad_energy_ratio": 1.001010709661773,
+            "grad_correlation": 0.9987132675794829,
+            "lost_detail_rate": 0.027680302890386924,
+            "lost_detail_delta_vs_anchor": 0.018538184504571058
+          },
+          "extreme_gt4": {
+            "samples": 4139,
+            "luma_rmse": 0.0005238429766901058,
+            "luma_p99": 0.0011910929360776357,
+            "grad_nrmse": 0.21913514111744709,
+            "grad_energy_ratio": 1.0215411590803252,
+            "grad_correlation": 0.9767233125580306,
+            "lost_detail_rate": 0.08585984095427436,
+            "lost_detail_delta_vs_anchor": 0.0625
+          }
+        },
+        "elapsed_sec": 1.723883583996212
+      },
+      {
+        "label": "base-ycocg10-5-5_gamma075__dark-ycocg10-6-6_gamma075",
+        "base_color": "ycocg",
+        "dark_color": "ycocg",
+        "base_bits": [
+          10,
+          5,
+          5
+        ],
+        "dark_bits": [
+          10,
+          6,
+          6
+        ],
+        "base_transform": "gamma075",
+        "dark_transform": "gamma075",
+        "mask_pixel_rate": 0.6721687316894531,
+        "raw_bytes": 12582912,
+        "estimated_bytes": 564873,
+        "estimated_ratio": 22.275647800479046,
+        "base_payload": {
+          "estimated_bits": 1844744.7647046703,
+          "estimated_bytes": 230626,
+          "channels": [
+            {
+              "channel": 0,
+              "bits": 10,
+              "samples": 343756,
+              "estimated_bits": 1179356.3403765028,
+              "bits_per_sample": 3.430794925402038
+            },
+            {
+              "channel": 1,
+              "bits": 5,
+              "samples": 343756,
+              "estimated_bits": 191170.03677278393,
+              "bits_per_sample": 0.5561213092216105
+            },
+            {
+              "channel": 2,
+              "bits": 5,
+              "samples": 343756,
+              "estimated_bits": 474218.3875553837,
+              "bits_per_sample": 1.3795203212609635
+            }
+          ]
+        },
+        "dark_payload": {
+          "estimated_bits": 2579816.474361074,
+          "estimated_bytes": 322510,
+          "channels": [
+            {
+              "channel": 0,
+              "bits": 10,
+              "samples": 704820,
+              "estimated_bits": 1556091.9658910413,
+              "bits_per_sample": 2.2077863367824997
+            },
+            {
+              "channel": 1,
+              "bits": 6,
+              "samples": 704820,
+              "estimated_bits": 246365.731031233,
+              "bits_per_sample": 0.3495441829562626
+            },
+            {
+              "channel": 2,
+              "bits": 6,
+              "samples": 704820,
+              "estimated_bits": 777358.7774387997,
+              "bits_per_sample": 1.1029181598689024
+            }
+          ]
+        },
+        "mask_payload": {
+          "sample_count": 1048576,
+          "finite_bits": 92706.77814985698,
+          "bits_per_sample": 0.08841207327829073,
+          "payload_bytes": 11593,
+          "model_bytes": 16,
+          "total_bytes": 11609
+        },
+        "gate": {
+          "decision": "maybe",
+          "failures": [
+            {
+              "severity": "maybe",
+              "region": "extreme_gt4",
+              "metric": "lost_detail_rate_delta",
+              "value": 0.0625,
+              "threshold": 0.06,
+              "detail": "extreme_gt4 detail loss needs a quick look"
+            }
+          ]
+        },
+        "key_metrics": {
+          "dark_0_0.25": {
+            "samples": 958785,
+            "luma_rmse": 0.0026384144089265107,
+            "luma_p99": 0.009687737589364424,
+            "grad_nrmse": 0.6418598747564467,
+            "grad_energy_ratio": 1.1813799256455404,
+            "grad_correlation": 0.8395582093592642,
+            "lost_detail_rate": 0.24196365584536633,
+            "lost_detail_delta_vs_anchor": 0.03852317473777872
+          },
+          "mid_0.25_1": {
+            "samples": 63494,
+            "luma_rmse": 0.00045630135901643767,
+            "luma_p99": 0.0011389780124159588,
+            "grad_nrmse": 0.09370185084936133,
+            "grad_energy_ratio": 1.004843159604804,
+            "grad_correlation": 0.9956428122269938,
+            "lost_detail_rate": 0.0629217421785996,
+            "lost_detail_delta_vs_anchor": 0.04427944328040726
+          },
+          "highlight_1_4": {
+            "samples": 22158,
+            "luma_rmse": 0.00031811592074371516,
+            "luma_p99": 0.0007838380851270323,
+            "grad_nrmse": 0.050765021430448136,
+            "grad_energy_ratio": 1.001010709661773,
+            "grad_correlation": 0.9987132675794829,
+            "lost_detail_rate": 0.027680302890386924,
+            "lost_detail_delta_vs_anchor": 0.018538184504571058
+          },
+          "extreme_gt4": {
+            "samples": 4139,
+            "luma_rmse": 0.0005238429766901058,
+            "luma_p99": 0.0011910929360776357,
+            "grad_nrmse": 0.21913514111744709,
+            "grad_energy_ratio": 1.0215411590803252,
+            "grad_correlation": 0.9767233125580306,
+            "lost_detail_rate": 0.08585984095427436,
+            "lost_detail_delta_vs_anchor": 0.0625
+          }
+        },
+        "elapsed_sec": 1.586452375020599
+      },
+      {
+        "label": "base-ycocg10-5-5_gamma075__dark-ycocg10-4-4_gamma075",
+        "base_color": "ycocg",
+        "dark_color": "ycocg",
+        "base_bits": [
+          10,
+          5,
+          5
+        ],
+        "dark_bits": [
+          10,
+          4,
+          4
+        ],
+        "base_transform": "gamma075",
+        "dark_transform": "gamma075",
+        "mask_pixel_rate": 0.6687421798706055,
+        "raw_bytes": 12582912,
+        "estimated_bytes": 438410,
+        "estimated_ratio": 28.701243128578273,
+        "base_payload": {
+          "estimated_bits": 1858587.1488674763,
+          "estimated_bytes": 232356,
+          "channels": [
+            {
+              "channel": 0,
+              "bits": 10,
+              "samples": 347349,
+              "estimated_bits": 1188915.7298431797,
+              "bits_per_sample": 3.422827559149961
+            },
+            {
+              "channel": 1,
+              "bits": 5,
+              "samples": 347349,
+              "estimated_bits": 191739.61127665345,
+              "bits_per_sample": 0.5520085311218788
+            },
+            {
+              "channel": 2,
+              "bits": 5,
+              "samples": 347349,
+              "estimated_bits": 477931.8077476432,
+              "bits_per_sample": 1.375941222653997
+            }
+          ]
+        },
+        "dark_payload": {
+          "estimated_bits": 1560546.1297709022,
+          "estimated_bytes": 195101,
+          "channels": [
+            {
+              "channel": 0,
+              "bits": 10,
+              "samples": 701227,
+              "estimated_bits": 1547677.9839425879,
+              "bits_per_sample": 2.2070998178087664
+            },
+            {
+              "channel": 1,
+              "bits": 4,
+              "samples": 701227,
+              "estimated_bits": 2546.8767255857288,
+              "bits_per_sample": 0.0036320288944745836
+            },
+            {
+              "channel": 2,
+              "bits": 4,
+              "samples": 701227,
+              "estimated_bits": 10321.269102728667,
+              "bits_per_sample": 0.014718870070217872
+            }
+          ]
+        },
+        "mask_payload": {
+          "sample_count": 1048576,
+          "finite_bits": 86435.1133264002,
+          "bits_per_sample": 0.08243094761505146,
+          "payload_bytes": 10809,
+          "model_bytes": 16,
+          "total_bytes": 10825
+        },
+        "gate": {
+          "decision": "reject",
+          "failures": [
+            {
+              "severity": "reject",
+              "region": "dark_0_0.25",
+              "metric": "lost_detail_rate_delta",
+              "value": 0.10925960834032605,
+              "threshold": 0.1,
+              "detail": "dark gradients lose too much detail versus the anchor"
+            },
+            {
+              "severity": "maybe",
+              "region": "extreme_gt4",
+              "metric": "lost_detail_rate_delta",
+              "value": 0.0625,
+              "threshold": 0.06,
+              "detail": "extreme_gt4 detail loss needs a quick look"
+            }
+          ]
+        },
+        "key_metrics": {
+          "dark_0_0.25": {
+            "samples": 958785,
+            "luma_rmse": 0.006486477691697779,
+            "luma_p99": 0.016863561095494323,
+            "grad_nrmse": 0.5310390328486684,
+            "grad_energy_ratio": 0.9313314417701138,
+            "grad_correlation": 0.8511340479429866,
+            "lost_detail_rate": 0.31270008944791367,
+            "lost_detail_delta_vs_anchor": 0.10925960834032605
+          },
+          "mid_0.25_1": {
+            "samples": 63494,
+            "luma_rmse": 0.00045630135901643767,
+            "luma_p99": 0.0011389780124159588,
+            "grad_nrmse": 0.09370185084936133,
+            "grad_energy_ratio": 1.004843159604804,
+            "grad_correlation": 0.9956428122269938,
+            "lost_detail_rate": 0.0629217421785996,
+            "lost_detail_delta_vs_anchor": 0.04427944328040726
+          },
+          "highlight_1_4": {
+            "samples": 22158,
+            "luma_rmse": 0.00031811592074371516,
+            "luma_p99": 0.0007838380851270323,
+            "grad_nrmse": 0.050765021430448136,
+            "grad_energy_ratio": 1.001010709661773,
+            "grad_correlation": 0.9987132675794829,
+            "lost_detail_rate": 0.027680302890386924,
+            "lost_detail_delta_vs_anchor": 0.018538184504571058
+          },
+          "extreme_gt4": {
+            "samples": 4139,
+            "luma_rmse": 0.0005238429766901058,
+            "luma_p99": 0.0011910929360776357,
+            "grad_nrmse": 0.21913514111744709,
+            "grad_energy_ratio": 1.0215411590803252,
+            "grad_correlation": 0.9767233125580306,
+            "lost_detail_rate": 0.08585984095427436,
+            "lost_detail_delta_vs_anchor": 0.0625
+          }
+        },
+        "elapsed_sec": 2.17774204199668
+      },
+      {
+        "label": "base-ycocg10-5-5_gamma075__dark-ycocg10-4-4_gamma075",
+        "base_color": "ycocg",
+        "dark_color": "ycocg",
+        "base_bits": [
+          10,
+          5,
+          5
+        ],
+        "dark_bits": [
+          10,
+          4,
+          4
+        ],
+        "base_transform": "gamma075",
+        "dark_transform": "gamma075",
+        "mask_pixel_rate": 0.6721258163452148,
+        "raw_bytes": 12582912,
+        "estimated_bytes": 438869,
+        "estimated_ratio": 28.67122535426289,
+        "base_payload": {
+          "estimated_bits": 1844936.460322536,
+          "estimated_bytes": 230650,
+          "channels": [
+            {
+              "channel": 0,
+              "bits": 10,
+              "samples": 343801,
+              "estimated_bits": 1179475.3906387582,
+              "bits_per_sample": 3.43069214644157
+            },
+            {
+              "channel": 1,
+              "bits": 5,
+              "samples": 343801,
+              "estimated_bits": 191197.70972576586,
+              "bits_per_sample": 0.5561290098800349
+            },
+            {
+              "channel": 2,
+              "bits": 5,
+              "samples": 343801,
+              "estimated_bits": 474263.359958012,
+              "bits_per_sample": 1.3794705656993784
+            }
+          ]
+        },
+        "dark_payload": {
+          "estimated_bits": 1571787.5826874143,
+          "estimated_bytes": 196506,
+          "channels": [
+            {
+              "channel": 0,
+              "bits": 10,
+              "samples": 704775,
+              "estimated_bits": 1555988.5907159732,
+              "bits_per_sample": 2.2077806260380592
+            },
+            {
+              "channel": 1,
+              "bits": 4,
+              "samples": 704775,
+              "estimated_bits": 2587.70216661044,
+              "bits_per_sample": 0.003671671337108212
+            },
+            {
+              "channel": 2,
+              "bits": 4,
+              "samples": 704775,
+              "estimated_bits": 13211.28980483079,
+              "bits_per_sample": 0.018745400737584038
+            }
+          ]
+        },
+        "mask_payload": {
+          "sample_count": 1048576,
+          "finite_bits": 92514.01689487477,
+          "bits_per_sample": 0.08822824182021596,
+          "payload_bytes": 11569,
+          "model_bytes": 16,
+          "total_bytes": 11585
+        },
+        "gate": {
+          "decision": "reject",
+          "failures": [
+            {
+              "severity": "reject",
+              "region": "dark_0_0.25",
+              "metric": "lost_detail_rate_delta",
+              "value": 0.10878286610331367,
+              "threshold": 0.1,
+              "detail": "dark gradients lose too much detail versus the anchor"
+            },
+            {
+              "severity": "maybe",
+              "region": "extreme_gt4",
+              "metric": "lost_detail_rate_delta",
+              "value": 0.0625,
+              "threshold": 0.06,
+              "detail": "extreme_gt4 detail loss needs a quick look"
+            }
+          ]
+        },
+        "key_metrics": {
+          "dark_0_0.25": {
+            "samples": 958785,
+            "luma_rmse": 0.0064875931152791185,
+            "luma_p99": 0.016863561095494323,
+            "grad_nrmse": 0.531610360782295,
+            "grad_energy_ratio": 0.9317983793179715,
+            "grad_correlation": 0.8508485736845358,
+            "lost_detail_rate": 0.3122233472109013,
+            "lost_detail_delta_vs_anchor": 0.10878286610331367
+          },
+          "mid_0.25_1": {
+            "samples": 63494,
+            "luma_rmse": 0.00045630135901643767,
+            "luma_p99": 0.0011389780124159588,
+            "grad_nrmse": 0.09370185084936133,
+            "grad_energy_ratio": 1.004843159604804,
+            "grad_correlation": 0.9956428122269938,
+            "lost_detail_rate": 0.0629217421785996,
+            "lost_detail_delta_vs_anchor": 0.04427944328040726
+          },
+          "highlight_1_4": {
+            "samples": 22158,
+            "luma_rmse": 0.00031811592074371516,
+            "luma_p99": 0.0007838380851270323,
+            "grad_nrmse": 0.050765021430448136,
+            "grad_energy_ratio": 1.001010709661773,
+            "grad_correlation": 0.9987132675794829,
+            "lost_detail_rate": 0.027680302890386924,
+            "lost_detail_delta_vs_anchor": 0.018538184504571058
+          },
+          "extreme_gt4": {
+            "samples": 4139,
+            "luma_rmse": 0.0005238429766901058,
+            "luma_p99": 0.0011910929360776357,
+            "grad_nrmse": 0.21913514111744709,
+            "grad_energy_ratio": 1.0215411590803252,
+            "grad_correlation": 0.9767233125580306,
+            "lost_detail_rate": 0.08585984095427436,
+            "lost_detail_delta_vs_anchor": 0.0625
+          }
+        },
+        "elapsed_sec": 1.5971748339943588
+      },
+      {
+        "label": "base-ycocg10-5-5_gamma075__dark-ycocg10-4-4_gamma075",
+        "base_color": "ycocg",
+        "dark_color": "ycocg",
+        "base_bits": [
+          10,
+          5,
+          5
+        ],
+        "dark_bits": [
+          10,
+          4,
+          4
+        ],
+        "base_transform": "gamma075",
+        "dark_transform": "gamma075",
+        "mask_pixel_rate": 0.6721687316894531,
+        "raw_bytes": 12582912,
+        "estimated_bytes": 438893,
+        "estimated_ratio": 28.669657524726983,
+        "base_payload": {
+          "estimated_bits": 1844744.7647046703,
+          "estimated_bytes": 230626,
+          "channels": [
+            {
+              "channel": 0,
+              "bits": 10,
+              "samples": 343756,
+              "estimated_bits": 1179356.3403765028,
+              "bits_per_sample": 3.430794925402038
+            },
+            {
+              "channel": 1,
+              "bits": 5,
+              "samples": 343756,
+              "estimated_bits": 191170.03677278393,
+              "bits_per_sample": 0.5561213092216105
+            },
+            {
+              "channel": 2,
+              "bits": 5,
+              "samples": 343756,
+              "estimated_bits": 474218.3875553837,
+              "bits_per_sample": 1.3795203212609635
+            }
+          ]
+        },
+        "dark_payload": {
+          "estimated_bits": 1571980.844068052,
+          "estimated_bytes": 196530,
+          "channels": [
+            {
+              "channel": 0,
+              "bits": 10,
+              "samples": 704820,
+              "estimated_bits": 1556091.9658910413,
+              "bits_per_sample": 2.2077863367824997
+            },
+            {
+              "channel": 1,
+              "bits": 4,
+              "samples": 704820,
+              "estimated_bits": 2626.2188897718884,
+              "bits_per_sample": 0.003726084517709328
+            },
+            {
+              "channel": 2,
+              "bits": 4,
+              "samples": 704820,
+              "estimated_bits": 13262.659287238761,
+              "bits_per_sample": 0.018817087039582816
+            }
+          ]
+        },
+        "mask_payload": {
+          "sample_count": 1048576,
+          "finite_bits": 92706.77814985698,
+          "bits_per_sample": 0.08841207327829073,
+          "payload_bytes": 11593,
+          "model_bytes": 16,
+          "total_bytes": 11609
+        },
+        "gate": {
+          "decision": "reject",
+          "failures": [
+            {
+              "severity": "reject",
+              "region": "dark_0_0.25",
+              "metric": "lost_detail_rate_delta",
+              "value": 0.10877607787869026,
+              "threshold": 0.1,
+              "detail": "dark gradients lose too much detail versus the anchor"
+            },
+            {
+              "severity": "maybe",
+              "region": "extreme_gt4",
+              "metric": "lost_detail_rate_delta",
+              "value": 0.0625,
+              "threshold": 0.06,
+              "detail": "extreme_gt4 detail loss needs a quick look"
+            }
+          ]
+        },
+        "key_metrics": {
+          "dark_0_0.25": {
+            "samples": 958785,
+            "luma_rmse": 0.006487610432429749,
+            "luma_p99": 0.016863561095494323,
+            "grad_nrmse": 0.5316224313592188,
+            "grad_energy_ratio": 0.9318056257031311,
+            "grad_correlation": 0.850842316696258,
+            "lost_detail_rate": 0.31221655898627787,
+            "lost_detail_delta_vs_anchor": 0.10877607787869026
+          },
+          "mid_0.25_1": {
+            "samples": 63494,
+            "luma_rmse": 0.00045630135901643767,
+            "luma_p99": 0.0011389780124159588,
+            "grad_nrmse": 0.09370185084936133,
+            "grad_energy_ratio": 1.004843159604804,
+            "grad_correlation": 0.9956428122269938,
+            "lost_detail_rate": 0.0629217421785996,
+            "lost_detail_delta_vs_anchor": 0.04427944328040726
+          },
+          "highlight_1_4": {
+            "samples": 22158,
+            "luma_rmse": 0.00031811592074371516,
+            "luma_p99": 0.0007838380851270323,
+            "grad_nrmse": 0.050765021430448136,
+            "grad_energy_ratio": 1.001010709661773,
+            "grad_correlation": 0.9987132675794829,
+            "lost_detail_rate": 0.027680302890386924,
+            "lost_detail_delta_vs_anchor": 0.018538184504571058
+          },
+          "extreme_gt4": {
+            "samples": 4139,
+            "luma_rmse": 0.0005238429766901058,
+            "luma_p99": 0.0011910929360776357,
+            "grad_nrmse": 0.21913514111744709,
+            "grad_energy_ratio": 1.0215411590803252,
+            "grad_correlation": 0.9767233125580306,
+            "lost_detail_rate": 0.08585984095427436,
+            "lost_detail_delta_vs_anchor": 0.0625
+          }
+        },
+        "elapsed_sec": 1.8004812500148546
+      },
+      {
+        "label": "base-ycocg10-6-6_gamma075__dark-ycocg10-4-4_gamma075",
+        "base_color": "ycocg",
+        "dark_color": "ycocg",
+        "base_bits": [
+          10,
+          6,
+          6
+        ],
+        "dark_bits": [
+          10,
+          4,
+          4
+        ],
+        "base_transform": "gamma075",
+        "dark_transform": "gamma075",
+        "mask_pixel_rate": 0.6687421798706055,
+        "raw_bytes": 12582912,
+        "estimated_bytes": 482449,
+        "estimated_ratio": 26.081330876424243,
+        "base_payload": {
+          "estimated_bits": 2210896.2834619763,
+          "estimated_bytes": 276395,
+          "channels": [
+            {
+              "channel": 0,
+              "bits": 10,
+              "samples": 347349,
+              "estimated_bits": 1188915.7298431797,
+              "bits_per_sample": 3.422827559149961
+            },
+            {
+              "channel": 1,
+              "bits": 6,
+              "samples": 347349,
+              "estimated_bits": 323055.8396693556,
+              "bits_per_sample": 0.9300612342898802
+            },
+            {
+              "channel": 2,
+              "bits": 6,
+              "samples": 347349,
+              "estimated_bits": 698924.713949441,
+              "bits_per_sample": 2.0121684932141477
+            }
+          ]
+        },
+        "dark_payload": {
+          "estimated_bits": 1560546.1297709022,
+          "estimated_bytes": 195101,
+          "channels": [
+            {
+              "channel": 0,
+              "bits": 10,
+              "samples": 701227,
+              "estimated_bits": 1547677.9839425879,
+              "bits_per_sample": 2.2070998178087664
+            },
+            {
+              "channel": 1,
+              "bits": 4,
+              "samples": 701227,
+              "estimated_bits": 2546.8767255857288,
+              "bits_per_sample": 0.0036320288944745836
+            },
+            {
+              "channel": 2,
+              "bits": 4,
+              "samples": 701227,
+              "estimated_bits": 10321.269102728667,
+              "bits_per_sample": 0.014718870070217872
+            }
+          ]
+        },
+        "mask_payload": {
+          "sample_count": 1048576,
+          "finite_bits": 86435.1133264002,
+          "bits_per_sample": 0.08243094761505146,
+          "payload_bytes": 10809,
+          "model_bytes": 16,
+          "total_bytes": 10825
+        },
+        "gate": {
+          "decision": "reject",
+          "failures": [
+            {
+              "severity": "reject",
+              "region": "dark_0_0.25",
+              "metric": "lost_detail_rate_delta",
+              "value": 0.10302540728042314,
+              "threshold": 0.1,
+              "detail": "dark gradients lose too much detail versus the anchor"
+            }
+          ]
+        },
+        "key_metrics": {
+          "dark_0_0.25": {
+            "samples": 958785,
+            "luma_rmse": 0.00641146817107401,
+            "luma_p99": 0.01679016164430712,
+            "grad_nrmse": 0.47460567016816274,
+            "grad_energy_ratio": 0.8968365320068526,
+            "grad_correlation": 0.8803528662312798,
+            "lost_detail_rate": 0.30646588838801075,
+            "lost_detail_delta_vs_anchor": 0.10302540728042314
+          },
+          "mid_0.25_1": {
+            "samples": 63494,
+            "luma_rmse": 0.0003266958032122497,
+            "luma_p99": 0.0007598936365378822,
+            "grad_nrmse": 0.06978944080732238,
+            "grad_energy_ratio": 1.002722082034582,
+            "grad_correlation": 0.9975750228279964,
+            "lost_detail_rate": 0.04213637558655524,
+            "lost_detail_delta_vs_anchor": 0.023494076688362904
+          },
+          "highlight_1_4": {
+            "samples": 22158,
+            "luma_rmse": 0.0002356330578657284,
+            "luma_p99": 0.0005383746171585758,
+            "grad_nrmse": 0.03798803791393747,
+            "grad_energy_ratio": 1.0006241668834714,
+            "grad_correlation": 0.999279099242253,
+            "lost_detail_rate": 0.01874595992243051,
+            "lost_detail_delta_vs_anchor": 0.009603841536614645
+          },
+          "extreme_gt4": {
+            "samples": 4139,
+            "luma_rmse": 0.0002783827877547215,
+            "luma_p99": 0.0006663486184518951,
+            "grad_nrmse": 0.1264783989640916,
+            "grad_energy_ratio": 1.007978976922488,
+            "grad_correlation": 0.9920965011688851,
+            "lost_detail_rate": 0.051814115308151096,
+            "lost_detail_delta_vs_anchor": 0.028454274353876742
+          }
+        },
+        "elapsed_sec": 1.7354799580061808
+      },
+      {
+        "label": "base-ycocg10-6-6_gamma075__dark-ycocg10-4-4_gamma075",
+        "base_color": "ycocg",
+        "dark_color": "ycocg",
+        "base_bits": [
+          10,
+          6,
+          6
+        ],
+        "dark_bits": [
+          10,
+          4,
+          4
+        ],
+        "base_transform": "gamma075",
+        "dark_transform": "gamma075",
+        "mask_pixel_rate": 0.6721258163452148,
+        "raw_bytes": 12582912,
+        "estimated_bytes": 482463,
+        "estimated_ratio": 26.080574054383444,
+        "base_payload": {
+          "estimated_bits": 2193688.0872437577,
+          "estimated_bytes": 274244,
+          "channels": [
+            {
+              "channel": 0,
+              "bits": 10,
+              "samples": 343801,
+              "estimated_bits": 1179475.3906387582,
+              "bits_per_sample": 3.43069214644157
+            },
+            {
+              "channel": 1,
+              "bits": 6,
+              "samples": 343801,
+              "estimated_bits": 320853.83151467337,
+              "bits_per_sample": 0.9332545033745492
+            },
+            {
+              "channel": 2,
+              "bits": 6,
+              "samples": 343801,
+              "estimated_bits": 693358.8650903263,
+              "bits_per_sample": 2.0167447595857086
+            }
+          ]
+        },
+        "dark_payload": {
+          "estimated_bits": 1571787.5826874143,
+          "estimated_bytes": 196506,
+          "channels": [
+            {
+              "channel": 0,
+              "bits": 10,
+              "samples": 704775,
+              "estimated_bits": 1555988.5907159732,
+              "bits_per_sample": 2.2077806260380592
+            },
+            {
+              "channel": 1,
+              "bits": 4,
+              "samples": 704775,
+              "estimated_bits": 2587.70216661044,
+              "bits_per_sample": 0.003671671337108212
+            },
+            {
+              "channel": 2,
+              "bits": 4,
+              "samples": 704775,
+              "estimated_bits": 13211.28980483079,
+              "bits_per_sample": 0.018745400737584038
+            }
+          ]
+        },
+        "mask_payload": {
+          "sample_count": 1048576,
+          "finite_bits": 92514.01689487477,
+          "bits_per_sample": 0.08822824182021596,
+          "payload_bytes": 11569,
+          "model_bytes": 16,
+          "total_bytes": 11585
+        },
+        "gate": {
+          "decision": "reject",
+          "failures": [
+            {
+              "severity": "reject",
+              "region": "dark_0_0.25",
+              "metric": "lost_detail_rate_delta",
+              "value": 0.10281183929034854,
+              "threshold": 0.1,
+              "detail": "dark gradients lose too much detail versus the anchor"
+            }
+          ]
+        },
+        "key_metrics": {
+          "dark_0_0.25": {
+            "samples": 958785,
+            "luma_rmse": 0.006412834022502276,
+            "luma_p99": 0.01679016164430712,
+            "grad_nrmse": 0.47547154985956125,
+            "grad_energy_ratio": 0.897456070204447,
+            "grad_correlation": 0.8799061344925594,
+            "lost_detail_rate": 0.30625232039793615,
+            "lost_detail_delta_vs_anchor": 0.10281183929034854
+          },
+          "mid_0.25_1": {
+            "samples": 63494,
+            "luma_rmse": 0.0003266958032122497,
+            "luma_p99": 0.0007598936365378822,
+            "grad_nrmse": 0.06978944080732238,
+            "grad_energy_ratio": 1.002722082034582,
+            "grad_correlation": 0.9975750228279964,
+            "lost_detail_rate": 0.04213637558655524,
+            "lost_detail_delta_vs_anchor": 0.023494076688362904
+          },
+          "highlight_1_4": {
+            "samples": 22158,
+            "luma_rmse": 0.0002356330578657284,
+            "luma_p99": 0.0005383746171585758,
+            "grad_nrmse": 0.03798803791393747,
+            "grad_energy_ratio": 1.0006241668834714,
+            "grad_correlation": 0.999279099242253,
+            "lost_detail_rate": 0.01874595992243051,
+            "lost_detail_delta_vs_anchor": 0.009603841536614645
+          },
+          "extreme_gt4": {
+            "samples": 4139,
+            "luma_rmse": 0.0002783827877547215,
+            "luma_p99": 0.0006663486184518951,
+            "grad_nrmse": 0.1264783989640916,
+            "grad_energy_ratio": 1.007978976922488,
+            "grad_correlation": 0.9920965011688851,
+            "lost_detail_rate": 0.051814115308151096,
+            "lost_detail_delta_vs_anchor": 0.028454274353876742
+          }
+        },
+        "elapsed_sec": 1.8134614580194466
+      },
+      {
+        "label": "base-ycocg10-6-6_gamma075__dark-ycocg10-4-4_gamma075",
+        "base_color": "ycocg",
+        "dark_color": "ycocg",
+        "base_bits": [
+          10,
+          6,
+          6
+        ],
+        "dark_bits": [
+          10,
+          4,
+          4
+        ],
+        "base_transform": "gamma075",
+        "dark_transform": "gamma075",
+        "mask_pixel_rate": 0.6721687316894531,
+        "raw_bytes": 12582912,
+        "estimated_bytes": 482480,
+        "estimated_ratio": 26.079655115237937,
+        "base_payload": {
+          "estimated_bits": 2193447.6549218395,
+          "estimated_bytes": 274213,
+          "channels": [
+            {
+              "channel": 0,
+              "bits": 10,
+              "samples": 343756,
+              "estimated_bits": 1179356.3403765028,
+              "bits_per_sample": 3.430794925402038
+            },
+            {
+              "channel": 1,
+              "bits": 6,
+              "samples": 343756,
+              "estimated_bits": 320806.68183054036,
+              "bits_per_sample": 0.9332395124173553
+            },
+            {
+              "channel": 2,
+              "bits": 6,
+              "samples": 343756,
+              "estimated_bits": 693284.6327147965,
+              "bits_per_sample": 2.0167928202410907
+            }
+          ]
+        },
+        "dark_payload": {
+          "estimated_bits": 1571980.844068052,
+          "estimated_bytes": 196530,
+          "channels": [
+            {
+              "channel": 0,
+              "bits": 10,
+              "samples": 704820,
+              "estimated_bits": 1556091.9658910413,
+              "bits_per_sample": 2.2077863367824997
+            },
+            {
+              "channel": 1,
+              "bits": 4,
+              "samples": 704820,
+              "estimated_bits": 2626.2188897718884,
+              "bits_per_sample": 0.003726084517709328
+            },
+            {
+              "channel": 2,
+              "bits": 4,
+              "samples": 704820,
+              "estimated_bits": 13262.659287238761,
+              "bits_per_sample": 0.018817087039582816
+            }
+          ]
+        },
+        "mask_payload": {
+          "sample_count": 1048576,
+          "finite_bits": 92706.77814985698,
+          "bits_per_sample": 0.08841207327829073,
+          "payload_bytes": 11593,
+          "model_bytes": 16,
+          "total_bytes": 11609
+        },
+        "gate": {
+          "decision": "reject",
+          "failures": [
+            {
+              "severity": "reject",
+              "region": "dark_0_0.25",
+              "metric": "lost_detail_rate_delta",
+              "value": 0.10281236146147343,
+              "threshold": 0.1,
+              "detail": "dark gradients lose too much detail versus the anchor"
+            }
+          ]
+        },
+        "key_metrics": {
+          "dark_0_0.25": {
+            "samples": 958785,
+            "luma_rmse": 0.006412852645859013,
+            "luma_p99": 0.01679016164430712,
+            "grad_nrmse": 0.47548506210818053,
+            "grad_energy_ratio": 0.8974628252134838,
+            "grad_correlation": 0.8798991077855841,
+            "lost_detail_rate": 0.30625284256906105,
+            "lost_detail_delta_vs_anchor": 0.10281236146147343
+          },
+          "mid_0.25_1": {
+            "samples": 63494,
+            "luma_rmse": 0.0003266958032122497,
+            "luma_p99": 0.0007598936365378822,
+            "grad_nrmse": 0.06978944080732238,
+            "grad_energy_ratio": 1.002722082034582,
+            "grad_correlation": 0.9975750228279964,
+            "lost_detail_rate": 0.04213637558655524,
+            "lost_detail_delta_vs_anchor": 0.023494076688362904
+          },
+          "highlight_1_4": {
+            "samples": 22158,
+            "luma_rmse": 0.0002356330578657284,
+            "luma_p99": 0.0005383746171585758,
+            "grad_nrmse": 0.03798803791393747,
+            "grad_energy_ratio": 1.0006241668834714,
+            "grad_correlation": 0.999279099242253,
+            "lost_detail_rate": 0.01874595992243051,
+            "lost_detail_delta_vs_anchor": 0.009603841536614645
+          },
+          "extreme_gt4": {
+            "samples": 4139,
+            "luma_rmse": 0.0002783827877547215,
+            "luma_p99": 0.0006663486184518951,
+            "grad_nrmse": 0.1264783989640916,
+            "grad_energy_ratio": 1.007978976922488,
+            "grad_correlation": 0.9920965011688851,
+            "lost_detail_rate": 0.051814115308151096,
+            "lost_detail_delta_vs_anchor": 0.028454274353876742
+          }
+        },
+        "elapsed_sec": 0.9909552090102807
+      },
+      {
+        "label": "base-ycocg10-5-5_gamma075__dark-ycocg10-5-5_gamma075",
+        "base_color": "ycocg",
+        "dark_color": "ycocg",
+        "base_bits": [
+          10,
+          5,
+          5
+        ],
+        "dark_bits": [
+          10,
+          5,
+          5
+        ],
+        "base_transform": "gamma075",
+        "dark_transform": "gamma075",
+        "mask_pixel_rate": 0.6687421798706055,
+        "raw_bytes": 12582912,
+        "estimated_bytes": 579361,
+        "estimated_ratio": 21.718603772086833,
+        "base_payload": {
+          "estimated_bits": 1858587.1488674763,
+          "estimated_bytes": 232356,
+          "channels": [
+            {
+              "channel": 0,
+              "bits": 10,
+              "samples": 347349,
+              "estimated_bits": 1188915.7298431797,
+              "bits_per_sample": 3.422827559149961
+            },
+            {
+              "channel": 1,
+              "bits": 5,
+              "samples": 347349,
+              "estimated_bits": 191739.61127665345,
+              "bits_per_sample": 0.5520085311218788
+            },
+            {
+              "channel": 2,
+              "bits": 5,
+              "samples": 347349,
+              "estimated_bits": 477931.8077476432,
+              "bits_per_sample": 1.375941222653997
+            }
+          ]
+        },
+        "dark_payload": {
+          "estimated_bits": 2688158.1890925844,
+          "estimated_bytes": 336052,
+          "channels": [
+            {
+              "channel": 0,
+              "bits": 10,
+              "samples": 701227,
+              "estimated_bits": 1547677.9839425879,
+              "bits_per_sample": 2.2070998178087664
+            },
+            {
+              "channel": 1,
+              "bits": 5,
+              "samples": 701227,
+              "estimated_bits": 560128.9712775645,
+              "bits_per_sample": 0.7987840902839801
+            },
+            {
+              "channel": 2,
+              "bits": 5,
+              "samples": 701227,
+              "estimated_bits": 580351.2338724318,
+              "bits_per_sample": 0.8276224872579518
+            }
+          ]
+        },
+        "mask_payload": {
+          "sample_count": 1048576,
+          "finite_bits": 86435.1133264002,
+          "bits_per_sample": 0.08243094761505146,
+          "payload_bytes": 10809,
+          "model_bytes": 16,
+          "total_bytes": 10825
+        },
+        "gate": {
+          "decision": "reject",
+          "failures": [
+            {
+              "severity": "maybe",
+              "region": "dark_0_0.25",
+              "metric": "lost_detail_rate_delta",
+              "value": 0.04449472372186869,
+              "threshold": 0.04,
+              "detail": "dark detail loss is above the review band"
+            },
+            {
+              "severity": "reject",
+              "region": "dark_0_0.25",
+              "metric": "grad_nrmse",
+              "value": 1.2835319936660907,
+              "threshold": 1.261120815965832,
+              "detail": "dark gradient error is beyond the anchor-relative limit"
+            },
+            {
+              "severity": "maybe",
+              "region": "extreme_gt4",
+              "metric": "lost_detail_rate_delta",
+              "value": 0.0625,
+              "threshold": 0.06,
+              "detail": "extreme_gt4 detail loss needs a quick look"
+            }
+          ]
+        },
+        "key_metrics": {
+          "dark_0_0.25": {
+            "samples": 958785,
+            "luma_rmse": 0.008542568233605831,
+            "luma_p99": 0.025118974841997557,
+            "grad_nrmse": 1.2835319936660907,
+            "grad_energy_ratio": 1.7025239707455146,
+            "grad_correlation": 0.6611165337110879,
+            "lost_detail_rate": 0.2479352048294563,
+            "lost_detail_delta_vs_anchor": 0.04449472372186869
+          },
+          "mid_0.25_1": {
+            "samples": 63494,
+            "luma_rmse": 0.00045630135901643767,
+            "luma_p99": 0.0011389780124159588,
+            "grad_nrmse": 0.09370185084936133,
+            "grad_energy_ratio": 1.004843159604804,
+            "grad_correlation": 0.9956428122269938,
+            "lost_detail_rate": 0.0629217421785996,
+            "lost_detail_delta_vs_anchor": 0.04427944328040726
+          },
+          "highlight_1_4": {
+            "samples": 22158,
+            "luma_rmse": 0.00031811592074371516,
+            "luma_p99": 0.0007838380851270323,
+            "grad_nrmse": 0.050765021430448136,
+            "grad_energy_ratio": 1.001010709661773,
+            "grad_correlation": 0.9987132675794829,
+            "lost_detail_rate": 0.027680302890386924,
+            "lost_detail_delta_vs_anchor": 0.018538184504571058
+          },
+          "extreme_gt4": {
+            "samples": 4139,
+            "luma_rmse": 0.0005238429766901058,
+            "luma_p99": 0.0011910929360776357,
+            "grad_nrmse": 0.21913514111744709,
+            "grad_energy_ratio": 1.0215411590803252,
+            "grad_correlation": 0.9767233125580306,
+            "lost_detail_rate": 0.08585984095427436,
+            "lost_detail_delta_vs_anchor": 0.0625
+          }
+        },
+        "elapsed_sec": 2.0776460409979336
+      },
+      {
+        "label": "base-ycocg10-5-5_gamma075__dark-ycocg10-5-5_gamma075",
+        "base_color": "ycocg",
+        "dark_color": "ycocg",
+        "base_bits": [
+          10,
+          5,
+          5
+        ],
+        "dark_bits": [
+          10,
+          5,
+          5
+        ],
+        "base_transform": "gamma075",
+        "dark_transform": "gamma075",
+        "mask_pixel_rate": 0.6721258163452148,
+        "raw_bytes": 12582912,
+        "estimated_bytes": 580005,
+        "estimated_ratio": 21.69448884061344,
+        "base_payload": {
+          "estimated_bits": 1844936.460322536,
+          "estimated_bytes": 230650,
+          "channels": [
+            {
+              "channel": 0,
+              "bits": 10,
+              "samples": 343801,
+              "estimated_bits": 1179475.3906387582,
+              "bits_per_sample": 3.43069214644157
+            },
+            {
+              "channel": 1,
+              "bits": 5,
+              "samples": 343801,
+              "estimated_bits": 191197.70972576586,
+              "bits_per_sample": 0.5561290098800349
+            },
+            {
+              "channel": 2,
+              "bits": 5,
+              "samples": 343801,
+              "estimated_bits": 474263.359958012,
+              "bits_per_sample": 1.3794705656993784
+            }
+          ]
+        },
+        "dark_payload": {
+          "estimated_bits": 2700872.5038480572,
+          "estimated_bytes": 337642,
+          "channels": [
+            {
+              "channel": 0,
+              "bits": 10,
+              "samples": 704775,
+              "estimated_bits": 1555988.5907159732,
+              "bits_per_sample": 2.2077806260380592
+            },
+            {
+              "channel": 1,
+              "bits": 5,
+              "samples": 704775,
+              "estimated_bits": 561048.3607786326,
+              "bits_per_sample": 0.7960673417454259
+            },
+            {
+              "channel": 2,
+              "bits": 5,
+              "samples": 704775,
+              "estimated_bits": 583835.5523534513,
+              "bits_per_sample": 0.8283999182057412
+            }
+          ]
+        },
+        "mask_payload": {
+          "sample_count": 1048576,
+          "finite_bits": 92514.01689487477,
+          "bits_per_sample": 0.08822824182021596,
+          "payload_bytes": 11569,
+          "model_bytes": 16,
+          "total_bytes": 11585
+        },
+        "gate": {
+          "decision": "reject",
+          "failures": [
+            {
+              "severity": "maybe",
+              "region": "dark_0_0.25",
+              "metric": "lost_detail_rate_delta",
+              "value": 0.04449472372186869,
+              "threshold": 0.04,
+              "detail": "dark detail loss is above the review band"
+            },
+            {
+              "severity": "reject",
+              "region": "dark_0_0.25",
+              "metric": "grad_nrmse",
+              "value": 1.2835319936660907,
+              "threshold": 1.261120815965832,
+              "detail": "dark gradient error is beyond the anchor-relative limit"
+            },
+            {
+              "severity": "maybe",
+              "region": "extreme_gt4",
+              "metric": "lost_detail_rate_delta",
+              "value": 0.0625,
+              "threshold": 0.06,
+              "detail": "extreme_gt4 detail loss needs a quick look"
+            }
+          ]
+        },
+        "key_metrics": {
+          "dark_0_0.25": {
+            "samples": 958785,
+            "luma_rmse": 0.008542568233605831,
+            "luma_p99": 0.025118974841997557,
+            "grad_nrmse": 1.2835319936660907,
+            "grad_energy_ratio": 1.7025239707455146,
+            "grad_correlation": 0.6611165337110879,
+            "lost_detail_rate": 0.2479352048294563,
+            "lost_detail_delta_vs_anchor": 0.04449472372186869
+          },
+          "mid_0.25_1": {
+            "samples": 63494,
+            "luma_rmse": 0.00045630135901643767,
+            "luma_p99": 0.0011389780124159588,
+            "grad_nrmse": 0.09370185084936133,
+            "grad_energy_ratio": 1.004843159604804,
+            "grad_correlation": 0.9956428122269938,
+            "lost_detail_rate": 0.0629217421785996,
+            "lost_detail_delta_vs_anchor": 0.04427944328040726
+          },
+          "highlight_1_4": {
+            "samples": 22158,
+            "luma_rmse": 0.00031811592074371516,
+            "luma_p99": 0.0007838380851270323,
+            "grad_nrmse": 0.050765021430448136,
+            "grad_energy_ratio": 1.001010709661773,
+            "grad_correlation": 0.9987132675794829,
+            "lost_detail_rate": 0.027680302890386924,
+            "lost_detail_delta_vs_anchor": 0.018538184504571058
+          },
+          "extreme_gt4": {
+            "samples": 4139,
+            "luma_rmse": 0.0005238429766901058,
+            "luma_p99": 0.0011910929360776357,
+            "grad_nrmse": 0.21913514111744709,
+            "grad_energy_ratio": 1.0215411590803252,
+            "grad_correlation": 0.9767233125580306,
+            "lost_detail_rate": 0.08585984095427436,
+            "lost_detail_delta_vs_anchor": 0.0625
+          }
+        },
+        "elapsed_sec": 1.7253011249995325
+      },
+      {
+        "label": "base-ycocg10-5-5_gamma075__dark-ycocg10-5-5_gamma075",
+        "base_color": "ycocg",
+        "dark_color": "ycocg",
+        "base_bits": [
+          10,
+          5,
+          5
+        ],
+        "dark_bits": [
+          10,
+          5,
+          5
+        ],
+        "base_transform": "gamma075",
+        "dark_transform": "gamma075",
+        "mask_pixel_rate": 0.6721687316894531,
+        "raw_bytes": 12582912,
+        "estimated_bytes": 580026,
+        "estimated_ratio": 21.693703385710297,
+        "base_payload": {
+          "estimated_bits": 1844744.7647046703,
+          "estimated_bytes": 230626,
+          "channels": [
+            {
+              "channel": 0,
+              "bits": 10,
+              "samples": 343756,
+              "estimated_bits": 1179356.3403765028,
+              "bits_per_sample": 3.430794925402038
+            },
+            {
+              "channel": 1,
+              "bits": 5,
+              "samples": 343756,
+              "estimated_bits": 191170.03677278393,
+              "bits_per_sample": 0.5561213092216105
+            },
+            {
+              "channel": 2,
+              "bits": 5,
+              "samples": 343756,
+              "estimated_bits": 474218.3875553837,
+              "bits_per_sample": 1.3795203212609635
+            }
+          ]
+        },
+        "dark_payload": {
+          "estimated_bits": 2701045.3410199746,
+          "estimated_bytes": 337663,
+          "channels": [
+            {
+              "channel": 0,
+              "bits": 10,
+              "samples": 704820,
+              "estimated_bits": 1556091.9658910413,
+              "bits_per_sample": 2.2077863367824997
+            },
+            {
+              "channel": 1,
+              "bits": 5,
+              "samples": 704820,
+              "estimated_bits": 561076.5689994673,
+              "bits_per_sample": 0.7960565378386926
+            },
+            {
+              "channel": 2,
+              "bits": 5,
+              "samples": 704820,
+              "estimated_bits": 583876.8061294658,
+              "bits_per_sample": 0.8284055590497799
+            }
+          ]
+        },
+        "mask_payload": {
+          "sample_count": 1048576,
+          "finite_bits": 92706.77814985698,
+          "bits_per_sample": 0.08841207327829073,
+          "payload_bytes": 11593,
+          "model_bytes": 16,
+          "total_bytes": 11609
+        },
+        "gate": {
+          "decision": "reject",
+          "failures": [
+            {
+              "severity": "maybe",
+              "region": "dark_0_0.25",
+              "metric": "lost_detail_rate_delta",
+              "value": 0.04449472372186869,
+              "threshold": 0.04,
+              "detail": "dark detail loss is above the review band"
+            },
+            {
+              "severity": "reject",
+              "region": "dark_0_0.25",
+              "metric": "grad_nrmse",
+              "value": 1.2835319936660907,
+              "threshold": 1.261120815965832,
+              "detail": "dark gradient error is beyond the anchor-relative limit"
+            },
+            {
+              "severity": "maybe",
+              "region": "extreme_gt4",
+              "metric": "lost_detail_rate_delta",
+              "value": 0.0625,
+              "threshold": 0.06,
+              "detail": "extreme_gt4 detail loss needs a quick look"
+            }
+          ]
+        },
+        "key_metrics": {
+          "dark_0_0.25": {
+            "samples": 958785,
+            "luma_rmse": 0.008542568233605831,
+            "luma_p99": 0.025118974841997557,
+            "grad_nrmse": 1.2835319936660907,
+            "grad_energy_ratio": 1.7025239707455146,
+            "grad_correlation": 0.6611165337110879,
+            "lost_detail_rate": 0.2479352048294563,
+            "lost_detail_delta_vs_anchor": 0.04449472372186869
+          },
+          "mid_0.25_1": {
+            "samples": 63494,
+            "luma_rmse": 0.00045630135901643767,
+            "luma_p99": 0.0011389780124159588,
+            "grad_nrmse": 0.09370185084936133,
+            "grad_energy_ratio": 1.004843159604804,
+            "grad_correlation": 0.9956428122269938,
+            "lost_detail_rate": 0.0629217421785996,
+            "lost_detail_delta_vs_anchor": 0.04427944328040726
+          },
+          "highlight_1_4": {
+            "samples": 22158,
+            "luma_rmse": 0.00031811592074371516,
+            "luma_p99": 0.0007838380851270323,
+            "grad_nrmse": 0.050765021430448136,
+            "grad_energy_ratio": 1.001010709661773,
+            "grad_correlation": 0.9987132675794829,
+            "lost_detail_rate": 0.027680302890386924,
+            "lost_detail_delta_vs_anchor": 0.018538184504571058
+          },
+          "extreme_gt4": {
+            "samples": 4139,
+            "luma_rmse": 0.0005238429766901058,
+            "luma_p99": 0.0011910929360776357,
+            "grad_nrmse": 0.21913514111744709,
+            "grad_energy_ratio": 1.0215411590803252,
+            "grad_correlation": 0.9767233125580306,
+            "lost_detail_rate": 0.08585984095427436,
+            "lost_detail_delta_vs_anchor": 0.0625
+          }
+        },
+        "elapsed_sec": 1.4928225839976221
+      },
+      {
+        "label": "base-ycocg10-6-6_gamma075__dark-ycocg10-5-5_gamma075",
+        "base_color": "ycocg",
+        "dark_color": "ycocg",
+        "base_bits": [
+          10,
+          6,
+          6
+        ],
+        "dark_bits": [
+          10,
+          5,
+          5
+        ],
+        "base_transform": "gamma075",
+        "dark_transform": "gamma075",
+        "mask_pixel_rate": 0.6687421798706055,
+        "raw_bytes": 12582912,
+        "estimated_bytes": 623400,
+        "estimated_ratio": 20.184331087584216,
+        "base_payload": {
+          "estimated_bits": 2210896.2834619763,
+          "estimated_bytes": 276395,
+          "channels": [
+            {
+              "channel": 0,
+              "bits": 10,
+              "samples": 347349,
+              "estimated_bits": 1188915.7298431797,
+              "bits_per_sample": 3.422827559149961
+            },
+            {
+              "channel": 1,
+              "bits": 6,
+              "samples": 347349,
+              "estimated_bits": 323055.8396693556,
+              "bits_per_sample": 0.9300612342898802
+            },
+            {
+              "channel": 2,
+              "bits": 6,
+              "samples": 347349,
+              "estimated_bits": 698924.713949441,
+              "bits_per_sample": 2.0121684932141477
+            }
+          ]
+        },
+        "dark_payload": {
+          "estimated_bits": 2688158.1890925844,
+          "estimated_bytes": 336052,
+          "channels": [
+            {
+              "channel": 0,
+              "bits": 10,
+              "samples": 701227,
+              "estimated_bits": 1547677.9839425879,
+              "bits_per_sample": 2.2070998178087664
+            },
+            {
+              "channel": 1,
+              "bits": 5,
+              "samples": 701227,
+              "estimated_bits": 560128.9712775645,
+              "bits_per_sample": 0.7987840902839801
+            },
+            {
+              "channel": 2,
+              "bits": 5,
+              "samples": 701227,
+              "estimated_bits": 580351.2338724318,
+              "bits_per_sample": 0.8276224872579518
+            }
+          ]
+        },
+        "mask_payload": {
+          "sample_count": 1048576,
+          "finite_bits": 86435.1133264002,
+          "bits_per_sample": 0.08243094761505146,
+          "payload_bytes": 10809,
+          "model_bytes": 16,
+          "total_bytes": 10825
+        },
+        "gate": {
+          "decision": "reject",
+          "failures": [
+            {
+              "severity": "reject",
+              "region": "dark_0_0.25",
+              "metric": "grad_nrmse",
+              "value": 1.2737761681991129,
+              "threshold": 1.261120815965832,
+              "detail": "dark gradient error is beyond the anchor-relative limit"
+            }
+          ]
+        },
+        "key_metrics": {
+          "dark_0_0.25": {
+            "samples": 958785,
+            "luma_rmse": 0.008485752959497089,
+            "luma_p99": 0.02511593591330797,
+            "grad_nrmse": 1.2737761681991129,
+            "grad_energy_ratio": 1.6933188246270094,
+            "grad_correlation": 0.6628470913203994,
+            "lost_detail_rate": 0.23839879357583307,
+            "lost_detail_delta_vs_anchor": 0.03495831246824546
+          },
+          "mid_0.25_1": {
+            "samples": 63494,
+            "luma_rmse": 0.0003266958032122497,
+            "luma_p99": 0.0007598936365378822,
+            "grad_nrmse": 0.06978944080732238,
+            "grad_energy_ratio": 1.002722082034582,
+            "grad_correlation": 0.9975750228279964,
+            "lost_detail_rate": 0.04213637558655524,
+            "lost_detail_delta_vs_anchor": 0.023494076688362904
+          },
+          "highlight_1_4": {
+            "samples": 22158,
+            "luma_rmse": 0.0002356330578657284,
+            "luma_p99": 0.0005383746171585758,
+            "grad_nrmse": 0.03798803791393747,
+            "grad_energy_ratio": 1.0006241668834714,
+            "grad_correlation": 0.999279099242253,
+            "lost_detail_rate": 0.01874595992243051,
+            "lost_detail_delta_vs_anchor": 0.009603841536614645
+          },
+          "extreme_gt4": {
+            "samples": 4139,
+            "luma_rmse": 0.0002783827877547215,
+            "luma_p99": 0.0006663486184518951,
+            "grad_nrmse": 0.1264783989640916,
+            "grad_energy_ratio": 1.007978976922488,
+            "grad_correlation": 0.9920965011688851,
+            "lost_detail_rate": 0.051814115308151096,
+            "lost_detail_delta_vs_anchor": 0.028454274353876742
+          }
+        },
+        "elapsed_sec": 1.693849333008984
+      },
+      {
+        "label": "base-ycocg10-6-6_gamma075__dark-ycocg10-5-5_gamma075",
+        "base_color": "ycocg",
+        "dark_color": "ycocg",
+        "base_bits": [
+          10,
+          6,
+          6
+        ],
+        "dark_bits": [
+          10,
+          5,
+          5
+        ],
+        "base_transform": "gamma075",
+        "dark_transform": "gamma075",
+        "mask_pixel_rate": 0.6721258163452148,
+        "raw_bytes": 12582912,
+        "estimated_bytes": 623599,
+        "estimated_ratio": 20.177889958130145,
+        "base_payload": {
+          "estimated_bits": 2193688.0872437577,
+          "estimated_bytes": 274244,
+          "channels": [
+            {
+              "channel": 0,
+              "bits": 10,
+              "samples": 343801,
+              "estimated_bits": 1179475.3906387582,
+              "bits_per_sample": 3.43069214644157
+            },
+            {
+              "channel": 1,
+              "bits": 6,
+              "samples": 343801,
+              "estimated_bits": 320853.83151467337,
+              "bits_per_sample": 0.9332545033745492
+            },
+            {
+              "channel": 2,
+              "bits": 6,
+              "samples": 343801,
+              "estimated_bits": 693358.8650903263,
+              "bits_per_sample": 2.0167447595857086
+            }
+          ]
+        },
+        "dark_payload": {
+          "estimated_bits": 2700872.5038480572,
+          "estimated_bytes": 337642,
+          "channels": [
+            {
+              "channel": 0,
+              "bits": 10,
+              "samples": 704775,
+              "estimated_bits": 1555988.5907159732,
+              "bits_per_sample": 2.2077806260380592
+            },
+            {
+              "channel": 1,
+              "bits": 5,
+              "samples": 704775,
+              "estimated_bits": 561048.3607786326,
+              "bits_per_sample": 0.7960673417454259
+            },
+            {
+              "channel": 2,
+              "bits": 5,
+              "samples": 704775,
+              "estimated_bits": 583835.5523534513,
+              "bits_per_sample": 0.8283999182057412
+            }
+          ]
+        },
+        "mask_payload": {
+          "sample_count": 1048576,
+          "finite_bits": 92514.01689487477,
+          "bits_per_sample": 0.08822824182021596,
+          "payload_bytes": 11569,
+          "model_bytes": 16,
+          "total_bytes": 11585
+        },
+        "gate": {
+          "decision": "reject",
+          "failures": [
+            {
+              "severity": "reject",
+              "region": "dark_0_0.25",
+              "metric": "grad_nrmse",
+              "value": 1.2738440481349755,
+              "threshold": 1.261120815965832,
+              "detail": "dark gradient error is beyond the anchor-relative limit"
+            }
+          ]
+        },
+        "key_metrics": {
+          "dark_0_0.25": {
+            "samples": 958785,
+            "luma_rmse": 0.008485932346923181,
+            "luma_p99": 0.02511593591330797,
+            "grad_nrmse": 1.2738440481349755,
+            "grad_energy_ratio": 1.6933776041922743,
+            "grad_correlation": 0.662831800141185,
+            "lost_detail_rate": 0.2382055902596287,
+            "lost_detail_delta_vs_anchor": 0.03476510915204109
+          },
+          "mid_0.25_1": {
+            "samples": 63494,
+            "luma_rmse": 0.0003266958032122497,
+            "luma_p99": 0.0007598936365378822,
+            "grad_nrmse": 0.06978944080732238,
+            "grad_energy_ratio": 1.002722082034582,
+            "grad_correlation": 0.9975750228279964,
+            "lost_detail_rate": 0.04213637558655524,
+            "lost_detail_delta_vs_anchor": 0.023494076688362904
+          },
+          "highlight_1_4": {
+            "samples": 22158,
+            "luma_rmse": 0.0002356330578657284,
+            "luma_p99": 0.0005383746171585758,
+            "grad_nrmse": 0.03798803791393747,
+            "grad_energy_ratio": 1.0006241668834714,
+            "grad_correlation": 0.999279099242253,
+            "lost_detail_rate": 0.01874595992243051,
+            "lost_detail_delta_vs_anchor": 0.009603841536614645
+          },
+          "extreme_gt4": {
+            "samples": 4139,
+            "luma_rmse": 0.0002783827877547215,
+            "luma_p99": 0.0006663486184518951,
+            "grad_nrmse": 0.1264783989640916,
+            "grad_energy_ratio": 1.007978976922488,
+            "grad_correlation": 0.9920965011688851,
+            "lost_detail_rate": 0.051814115308151096,
+            "lost_detail_delta_vs_anchor": 0.028454274353876742
+          }
+        },
+        "elapsed_sec": 1.5994881249789614
+      },
+      {
+        "label": "base-ycocg10-6-6_gamma075__dark-ycocg10-5-5_gamma075",
+        "base_color": "ycocg",
+        "dark_color": "ycocg",
+        "base_bits": [
+          10,
+          6,
+          6
+        ],
+        "dark_bits": [
+          10,
+          5,
+          5
+        ],
+        "base_transform": "gamma075",
+        "dark_transform": "gamma075",
+        "mask_pixel_rate": 0.6721687316894531,
+        "raw_bytes": 12582912,
+        "estimated_bytes": 623613,
+        "estimated_ratio": 20.17743696811965,
+        "base_payload": {
+          "estimated_bits": 2193447.6549218395,
+          "estimated_bytes": 274213,
+          "channels": [
+            {
+              "channel": 0,
+              "bits": 10,
+              "samples": 343756,
+              "estimated_bits": 1179356.3403765028,
+              "bits_per_sample": 3.430794925402038
+            },
+            {
+              "channel": 1,
+              "bits": 6,
+              "samples": 343756,
+              "estimated_bits": 320806.68183054036,
+              "bits_per_sample": 0.9332395124173553
+            },
+            {
+              "channel": 2,
+              "bits": 6,
+              "samples": 343756,
+              "estimated_bits": 693284.6327147965,
+              "bits_per_sample": 2.0167928202410907
+            }
+          ]
+        },
+        "dark_payload": {
+          "estimated_bits": 2701045.3410199746,
+          "estimated_bytes": 337663,
+          "channels": [
+            {
+              "channel": 0,
+              "bits": 10,
+              "samples": 704820,
+              "estimated_bits": 1556091.9658910413,
+              "bits_per_sample": 2.2077863367824997
+            },
+            {
+              "channel": 1,
+              "bits": 5,
+              "samples": 704820,
+              "estimated_bits": 561076.5689994673,
+              "bits_per_sample": 0.7960565378386926
+            },
+            {
+              "channel": 2,
+              "bits": 5,
+              "samples": 704820,
+              "estimated_bits": 583876.8061294658,
+              "bits_per_sample": 0.8284055590497799
+            }
+          ]
+        },
+        "mask_payload": {
+          "sample_count": 1048576,
+          "finite_bits": 92706.77814985698,
+          "bits_per_sample": 0.08841207327829073,
+          "payload_bytes": 11593,
+          "model_bytes": 16,
+          "total_bytes": 11609
+        },
+        "gate": {
+          "decision": "reject",
+          "failures": [
+            {
+              "severity": "reject",
+              "region": "dark_0_0.25",
+              "metric": "grad_nrmse",
+              "value": 1.2738445105071419,
+              "threshold": 1.261120815965832,
+              "detail": "dark gradient error is beyond the anchor-relative limit"
+            }
+          ]
+        },
+        "key_metrics": {
+          "dark_0_0.25": {
+            "samples": 958785,
+            "luma_rmse": 0.008485933181468088,
+            "luma_p99": 0.02511593591330797,
+            "grad_nrmse": 1.2738445105071419,
+            "grad_energy_ratio": 1.6933775399869442,
+            "grad_correlation": 0.66283141324774,
+            "lost_detail_rate": 0.23820506808850384,
+            "lost_detail_delta_vs_anchor": 0.03476458698091622
+          },
+          "mid_0.25_1": {
+            "samples": 63494,
+            "luma_rmse": 0.0003266958032122497,
+            "luma_p99": 0.0007598936365378822,
+            "grad_nrmse": 0.06978944080732238,
+            "grad_energy_ratio": 1.002722082034582,
+            "grad_correlation": 0.9975750228279964,
+            "lost_detail_rate": 0.04213637558655524,
+            "lost_detail_delta_vs_anchor": 0.023494076688362904
+          },
+          "highlight_1_4": {
+            "samples": 22158,
+            "luma_rmse": 0.0002356330578657284,
+            "luma_p99": 0.0005383746171585758,
+            "grad_nrmse": 0.03798803791393747,
+            "grad_energy_ratio": 1.0006241668834714,
+            "grad_correlation": 0.999279099242253,
+            "lost_detail_rate": 0.01874595992243051,
+            "lost_detail_delta_vs_anchor": 0.009603841536614645
+          },
+          "extreme_gt4": {
+            "samples": 4139,
+            "luma_rmse": 0.0002783827877547215,
+            "luma_p99": 0.0006663486184518951,
+            "grad_nrmse": 0.1264783989640916,
+            "grad_energy_ratio": 1.007978976922488,
+            "grad_correlation": 0.9920965011688851,
+            "lost_detail_rate": 0.051814115308151096,
+            "lost_detail_delta_vs_anchor": 0.028454274353876742
+          }
+        },
+        "elapsed_sec": 0.9997422080195975
+      }
+    ]
+  }
+]

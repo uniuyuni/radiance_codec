@@ -1,0 +1,27 @@
+{
+  "image": "sample_DSCF0009.EXR",
+  "shape": [
+    5152,
+    7728,
+    3
+  ],
+  "label": "candidate_signedlog10_dark-smooth0_5_r2_st0_0025",
+  "mask_mode": "dark-smooth",
+  "dark_max": 0.5,
+  "mask_radius": 2,
+  "smooth_threshold": 0.0025,
+  "mask_pixel_rate": 0.22136315833043993,
+  "mask_payload": {
+    "sample_count": 39814656,
+    "finite_bits": 4849020.902818047,
+    "bits_per_sample": 0.1217898480101912,
+    "payload_bytes": 606132,
+    "model_bytes": 16,
+    "total_bytes": 606148
+  },
+  "original_png": "outputs/previews/sample_DSCF0009_crop0_signed-log_bits10_w4_g2.2_decoded.png",
+  "base_decoded_png": "outputs/previews/vst_chroma_nr/sample_DSCF0009_full_vstchroma_gamma075_Y10_CL8_H5_s2_r2_ge0_1_tm2_5_w4_g2.2_decoded.png",
+  "decoded_png": "/Users/uniuyuni/LibraryProjects/radiance_codec/outputs/previews/vst_chroma_dark_protect/sample_DSCF0009_full_candidate_signedlog10_dark-smooth0_5_r2_st0_0025_decoded.png",
+  "mask_png": "/Users/uniuyuni/LibraryProjects/radiance_codec/outputs/previews/vst_chroma_dark_protect/sample_DSCF0009_full_candidate_signedlog10_dark-smooth0_5_r2_st0_0025_mask.png",
+  "note": "Display-space oracle only. This is for mask diagnosis, not a codec size estimate."
+}

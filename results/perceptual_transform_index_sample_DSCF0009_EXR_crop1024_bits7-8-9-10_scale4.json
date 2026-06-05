@@ -1,0 +1,2475 @@
+[
+  {
+    "image": "sample_DSCF0009.EXR",
+    "shape": [
+      1024,
+      1024,
+      3
+    ],
+    "crop_size": 1024,
+    "anchor": "quant:signed-log:10",
+    "rows": [
+      {
+        "label": "gamma075_bits9_scale4",
+        "bits": 9,
+        "transform": "gamma075",
+        "scale": 4.0,
+        "ranges": [
+          {
+            "lo": 0.0,
+            "hi": 3.1422922611236572
+          },
+          {
+            "lo": 0.0,
+            "hi": 2.2709975242614746
+          },
+          {
+            "lo": 0.0,
+            "hi": 1.1167508363723755
+          }
+        ],
+        "raw_bytes": 12582912,
+        "estimated_bytes": 1004529,
+        "estimated_ratio": 12.526180926583503,
+        "payload": {
+          "estimated_bytes": 1004529,
+          "estimated_bps": 2.5543214987818628,
+          "nonzero_rate": 0.5923910140991211
+        },
+        "gate": {
+          "decision": "pass",
+          "failures": []
+        },
+        "key_metrics": {
+          "dark_0_0.25": {
+            "samples": 958785,
+            "luma_rmse": 0.001796526378447223,
+            "luma_p99": 0.004775019103589374,
+            "grad_nrmse": 0.4666677321883015,
+            "grad_energy_ratio": 1.1328956036152946,
+            "grad_correlation": 0.9116787415509056,
+            "lost_detail_rate": 0.220006360044301,
+            "lost_detail_delta_vs_anchor": 0.01656587893671338
+          },
+          "mid_0.25_1": {
+            "samples": 63494,
+            "luma_rmse": 0.0004225156018552287,
+            "luma_p99": 0.0008737841461363027,
+            "grad_nrmse": 0.09081897150902923,
+            "grad_energy_ratio": 1.004158735476592,
+            "grad_correlation": 0.9959016487063237,
+            "lost_detail_rate": 0.059209215987763006,
+            "lost_detail_delta_vs_anchor": 0.04056691708957067
+          },
+          "highlight_1_4": {
+            "samples": 22158,
+            "luma_rmse": 0.0003140954914260306,
+            "luma_p99": 0.00067277569333213,
+            "grad_nrmse": 0.05104988584060259,
+            "grad_energy_ratio": 1.0010477625977685,
+            "grad_correlation": 0.9986988667598053,
+            "lost_detail_rate": 0.028211284513805522,
+            "lost_detail_delta_vs_anchor": 0.01906916612798966
+          },
+          "extreme_gt4": {
+            "samples": 4139,
+            "luma_rmse": 0.00022228793889096456,
+            "luma_p99": 0.00039339593065333743,
+            "grad_nrmse": 0.1023863290575488,
+            "grad_energy_ratio": 1.0056235516724874,
+            "grad_correlation": 0.994803554457786,
+            "lost_detail_rate": 0.042370775347912525,
+            "lost_detail_delta_vs_anchor": 0.01901093439363817
+          }
+        },
+        "elapsed_sec": 1.6865029580076225
+      },
+      {
+        "label": "signed-log_bits10_scale4",
+        "bits": 10,
+        "transform": "signed-log",
+        "scale": 4.0,
+        "ranges": [
+          {
+            "lo": 0.0,
+            "hi": 2.4860751628875732
+          },
+          {
+            "lo": 0.0,
+            "hi": 1.9946075677871704
+          },
+          {
+            "lo": 0.0,
+            "hi": 1.1101105213165283
+          }
+        ],
+        "raw_bytes": 12582912,
+        "estimated_bytes": 1159260,
+        "estimated_ratio": 10.854262201749393,
+        "payload": {
+          "estimated_bytes": 1159260,
+          "estimated_bps": 2.9478236823864195,
+          "nonzero_rate": 0.6388419469197592
+        },
+        "gate": {
+          "decision": "pass",
+          "failures": []
+        },
+        "key_metrics": {
+          "dark_0_0.25": {
+            "samples": 958785,
+            "luma_rmse": 0.002440508683052268,
+            "luma_p99": 0.012134407035838646,
+            "grad_nrmse": 0.6005337218884914,
+            "grad_energy_ratio": 1.2428874033503197,
+            "grad_correlation": 0.8786509302428094,
+            "lost_detail_rate": 0.2034404811075876,
+            "lost_detail_delta_vs_anchor": 0.0
+          },
+          "mid_0.25_1": {
+            "samples": 63494,
+            "luma_rmse": 0.00016851211732992898,
+            "luma_p99": 0.00034599817283240185,
+            "grad_nrmse": 0.03629474428342308,
+            "grad_energy_ratio": 1.000617245729573,
+            "grad_correlation": 0.9993419424480595,
+            "lost_detail_rate": 0.018642298898192335,
+            "lost_detail_delta_vs_anchor": 0.0
+          },
+          "highlight_1_4": {
+            "samples": 22158,
+            "luma_rmse": 0.00014771944685774104,
+            "luma_p99": 0.000301782831648611,
+            "grad_nrmse": 0.02391617715428675,
+            "grad_energy_ratio": 1.0001127037854067,
+            "grad_correlation": 0.9997140468142405,
+            "lost_detail_rate": 0.009142118385815865,
+            "lost_detail_delta_vs_anchor": 0.0
+          },
+          "extreme_gt4": {
+            "samples": 4139,
+            "luma_rmse": 0.0001458487483337973,
+            "luma_p99": 0.0002535383229130538,
+            "grad_nrmse": 0.0671378910458036,
+            "grad_energy_ratio": 1.0017459507579203,
+            "grad_correlation": 0.9977517013836589,
+            "lost_detail_rate": 0.023359840954274354,
+            "lost_detail_delta_vs_anchor": 0.0
+          }
+        },
+        "elapsed_sec": 1.847876166983042
+      },
+      {
+        "label": "gamma075_bits10_scale4",
+        "bits": 10,
+        "transform": "gamma075",
+        "scale": 4.0,
+        "ranges": [
+          {
+            "lo": 0.0,
+            "hi": 3.1422922611236572
+          },
+          {
+            "lo": 0.0,
+            "hi": 2.2709975242614746
+          },
+          {
+            "lo": 0.0,
+            "hi": 1.1167508363723755
+          }
+        ],
+        "raw_bytes": 12582912,
+        "estimated_bytes": 1347599,
+        "estimated_ratio": 9.337282084655747,
+        "payload": {
+          "estimated_bytes": 1347599,
+          "estimated_bps": 3.426795159099731,
+          "nonzero_rate": 0.7493298848470052
+        },
+        "gate": {
+          "decision": "pass",
+          "failures": []
+        },
+        "key_metrics": {
+          "dark_0_0.25": {
+            "samples": 958785,
+            "luma_rmse": 0.0009076349614310232,
+            "luma_p99": 0.002368353163820585,
+            "grad_nrmse": 0.23634604132417197,
+            "grad_energy_ratio": 1.04335356019158,
+            "grad_correlation": 0.9741315302271982,
+            "lost_detail_rate": 0.10481958726549948,
+            "lost_detail_delta_vs_anchor": -0.09862089384208814
+          },
+          "mid_0.25_1": {
+            "samples": 63494,
+            "luma_rmse": 0.00021089400195490753,
+            "luma_p99": 0.0004353751411679374,
+            "grad_nrmse": 0.04550038985382388,
+            "grad_energy_ratio": 1.0009816857126457,
+            "grad_correlation": 0.9989663538306706,
+            "lost_detail_rate": 0.025613243999012117,
+            "lost_detail_delta_vs_anchor": 0.006970945100819782
+          },
+          "highlight_1_4": {
+            "samples": 22158,
+            "luma_rmse": 0.0001575043429824738,
+            "luma_p99": 0.00033538688997118986,
+            "grad_nrmse": 0.025618799306228245,
+            "grad_energy_ratio": 1.0003319115708504,
+            "grad_correlation": 0.9996720025098612,
+            "lost_detail_rate": 0.010065564687413427,
+            "lost_detail_delta_vs_anchor": 0.0009234463015975625
+          },
+          "extreme_gt4": {
+            "samples": 4139,
+            "luma_rmse": 0.00011292059942112608,
+            "luma_p99": 0.00019694351149047938,
+            "grad_nrmse": 0.05180016755260915,
+            "grad_energy_ratio": 1.0011512266376397,
+            "grad_correlation": 0.998660575962777,
+            "lost_detail_rate": 0.01341948310139165,
+            "lost_detail_delta_vs_anchor": -0.009940357852882704
+          }
+        },
+        "elapsed_sec": 2.12150241699419
+      },
+      {
+        "label": "asinh_bits10_scale4",
+        "bits": 10,
+        "transform": "asinh",
+        "scale": 4.0,
+        "ranges": [
+          {
+            "lo": 0.0,
+            "hi": 2.231348752975464
+          },
+          {
+            "lo": 0.0,
+            "hi": 1.8137167692184448
+          },
+          {
+            "lo": 0.0,
+            "hi": 0.9892116189002991
+          }
+        ],
+        "raw_bytes": 12582912,
+        "estimated_bytes": 1070170,
+        "estimated_ratio": 11.757862769466533,
+        "payload": {
+          "estimated_bytes": 1070170,
+          "estimated_bps": 2.721255419574824,
+          "nonzero_rate": 0.5823726654052734
+        },
+        "gate": {
+          "decision": "maybe",
+          "failures": [
+            {
+              "severity": "maybe",
+              "region": "dark_0_0.25",
+              "metric": "lost_detail_rate_delta",
+              "value": 0.053148143603325426,
+              "threshold": 0.04,
+              "detail": "dark detail loss is above the review band"
+            }
+          ]
+        },
+        "key_metrics": {
+          "dark_0_0.25": {
+            "samples": 958785,
+            "luma_rmse": 0.0033287380494672406,
+            "luma_p99": 0.014750201758979255,
+            "grad_nrmse": 0.8017997745077372,
+            "grad_energy_ratio": 1.3787217432414052,
+            "grad_correlation": 0.8188710948945271,
+            "lost_detail_rate": 0.25658862471091304,
+            "lost_detail_delta_vs_anchor": 0.053148143603325426
+          },
+          "mid_0.25_1": {
+            "samples": 63494,
+            "luma_rmse": 0.00017185582450002758,
+            "luma_p99": 0.000360813997455347,
+            "grad_nrmse": 0.03701509098043042,
+            "grad_energy_ratio": 1.000779544651385,
+            "grad_correlation": 0.9993157787458061,
+            "lost_detail_rate": 0.0190884393846448,
+            "lost_detail_delta_vs_anchor": 0.00044614048645246623
+          },
+          "highlight_1_4": {
+            "samples": 22158,
+            "luma_rmse": 0.00014032687815975157,
+            "luma_p99": 0.00028864713976210266,
+            "grad_nrmse": 0.022813611751880212,
+            "grad_energy_ratio": 1.0002733400122543,
+            "grad_correlation": 0.999739878018544,
+            "lost_detail_rate": 0.008149413611598485,
+            "lost_detail_delta_vs_anchor": -0.00099270477421738
+          },
+          "extreme_gt4": {
+            "samples": 4139,
+            "luma_rmse": 0.0001483257393002914,
+            "luma_p99": 0.00025887316582950737,
+            "grad_nrmse": 0.06873594726363795,
+            "grad_energy_ratio": 1.0011821745518716,
+            "grad_correlation": 0.9976411720915465,
+            "lost_detail_rate": 0.0268389662027833,
+            "lost_detail_delta_vs_anchor": 0.0034791252485089456
+          }
+        },
+        "elapsed_sec": 1.542308125004638
+      },
+      {
+        "label": "gamma09_bits10_scale4",
+        "bits": 10,
+        "transform": "gamma09",
+        "scale": 4.0,
+        "ranges": [
+          {
+            "lo": 0.0,
+            "hi": 3.9508984088897705
+          },
+          {
+            "lo": 0.0,
+            "hi": 2.6758389472961426
+          },
+          {
+            "lo": 0.0,
+            "hi": 1.141688346862793
+          }
+        ],
+        "raw_bytes": 12582912,
+        "estimated_bytes": 1080051,
+        "estimated_ratio": 11.650294291658449,
+        "payload": {
+          "estimated_bytes": 1080051,
+          "estimated_bps": 2.7463861124727025,
+          "nonzero_rate": 0.588502566019694
+        },
+        "gate": {
+          "decision": "maybe",
+          "failures": [
+            {
+              "severity": "maybe",
+              "region": "dark_0_0.25",
+              "metric": "lost_detail_rate_delta",
+              "value": 0.04483361278191367,
+              "threshold": 0.04,
+              "detail": "dark detail loss is above the review band"
+            }
+          ]
+        },
+        "key_metrics": {
+          "dark_0_0.25": {
+            "samples": 958785,
+            "luma_rmse": 0.002548889845587952,
+            "luma_p99": 0.011324562636757246,
+            "grad_nrmse": 0.6397278810815661,
+            "grad_energy_ratio": 1.2530403230260005,
+            "grad_correlation": 0.8622461103556822,
+            "lost_detail_rate": 0.24827409388950128,
+            "lost_detail_delta_vs_anchor": 0.04483361278191367
+          },
+          "mid_0.25_1": {
+            "samples": 63494,
+            "luma_rmse": 0.00024116811629616448,
+            "luma_p99": 0.0005114192792538691,
+            "grad_nrmse": 0.05205189480039783,
+            "grad_energy_ratio": 1.0013431262605184,
+            "grad_correlation": 0.9986480180004476,
+            "lost_detail_rate": 0.031134232518861386,
+            "lost_detail_delta_vs_anchor": 0.012491933620669051
+          },
+          "highlight_1_4": {
+            "samples": 22158,
+            "luma_rmse": 0.0001552856533670311,
+            "luma_p99": 0.0003434712793376627,
+            "grad_nrmse": 0.025171462550320933,
+            "grad_energy_ratio": 1.0003799788322083,
+            "grad_correlation": 0.9996833912331248,
+            "lost_detail_rate": 0.010550373995752147,
+            "lost_detail_delta_vs_anchor": 0.0014082556099362827
+          },
+          "extreme_gt4": {
+            "samples": 4139,
+            "luma_rmse": 9.410986869015497e-05,
+            "luma_p99": 0.00016611908773415563,
+            "grad_nrmse": 0.04326087921516667,
+            "grad_energy_ratio": 0.9999035366562746,
+            "grad_correlation": 0.9990641625433434,
+            "lost_detail_rate": 0.007082504970178927,
+            "lost_detail_delta_vs_anchor": -0.016277335984095427
+          }
+        },
+        "elapsed_sec": 1.9981489999918267
+      },
+      {
+        "label": "acescct_bits10_scale4",
+        "bits": 10,
+        "transform": "acescct",
+        "scale": 4.0,
+        "ranges": [
+          {
+            "lo": 0.0,
+            "hi": 0.5663483738899231
+          },
+          {
+            "lo": 0.0,
+            "hi": 0.5306945443153381
+          },
+          {
+            "lo": 0.0,
+            "hi": 0.4527631103992462
+          }
+        ],
+        "raw_bytes": 12582912,
+        "estimated_bytes": 1888434,
+        "estimated_ratio": 6.66314628946524,
+        "payload": {
+          "estimated_bytes": 1888434,
+          "estimated_bps": 4.802209844207944,
+          "nonzero_rate": 0.9141035079956055
+        },
+        "gate": {
+          "decision": "maybe",
+          "failures": [
+            {
+              "severity": "maybe",
+              "region": "extreme_gt4",
+              "metric": "lost_detail_rate_delta",
+              "value": 0.09617296222664015,
+              "threshold": 0.06,
+              "detail": "extreme_gt4 detail loss needs a quick look"
+            }
+          ]
+        },
+        "key_metrics": {
+          "dark_0_0.25": {
+            "samples": 958785,
+            "luma_rmse": 0.0003261762307272731,
+            "luma_p99": 0.0009743460617224921,
+            "grad_nrmse": 0.08393157114241286,
+            "grad_energy_ratio": 0.9954799161010836,
+            "grad_correlation": 0.9964720144714263,
+            "lost_detail_rate": 0.02593101806137704,
+            "lost_detail_delta_vs_anchor": -0.17750946304621057
+          },
+          "mid_0.25_1": {
+            "samples": 63494,
+            "luma_rmse": 0.00022096481115765922,
+            "luma_p99": 0.0004715342305645642,
+            "grad_nrmse": 0.04767033985873806,
+            "grad_energy_ratio": 1.0010379459071852,
+            "grad_correlation": 0.9988654855793291,
+            "lost_detail_rate": 0.027596975804845405,
+            "lost_detail_delta_vs_anchor": 0.00895467690665307
+          },
+          "highlight_1_4": {
+            "samples": 22158,
+            "luma_rmse": 0.0003613119903648396,
+            "luma_p99": 0.0008561658102492975,
+            "grad_nrmse": 0.05865975339840481,
+            "grad_energy_ratio": 1.0018274133574618,
+            "grad_correlation": 0.9982843216389627,
+            "lost_detail_rate": 0.029688798596361622,
+            "lost_detail_delta_vs_anchor": 0.02054668021054576
+          },
+          "extreme_gt4": {
+            "samples": 4139,
+            "luma_rmse": 0.0004871945896852582,
+            "luma_p99": 0.000862121924142316,
+            "grad_nrmse": 0.22332446849640505,
+            "grad_energy_ratio": 1.0246895688363598,
+            "grad_correlation": 0.9759613814182663,
+            "lost_detail_rate": 0.11953280318091451,
+            "lost_detail_delta_vs_anchor": 0.09617296222664015
+          }
+        },
+        "elapsed_sec": 1.6792628339899238
+      },
+      {
+        "label": "gamma09_bits7_scale4",
+        "bits": 7,
+        "transform": "gamma09",
+        "scale": 4.0,
+        "ranges": [
+          {
+            "lo": 0.0,
+            "hi": 3.9508984088897705
+          },
+          {
+            "lo": 0.0,
+            "hi": 2.6758389472961426
+          },
+          {
+            "lo": 0.0,
+            "hi": 1.141688346862793
+          }
+        ],
+        "raw_bytes": 12582912,
+        "estimated_bytes": 369217,
+        "estimated_ratio": 34.079990899660636,
+        "payload": {
+          "estimated_bytes": 369217,
+          "estimated_bps": 0.938639726744509,
+          "nonzero_rate": 0.1769870122273763
+        },
+        "gate": {
+          "decision": "reject",
+          "failures": [
+            {
+              "severity": "reject",
+              "region": "dark_0_0.25",
+              "metric": "lost_detail_rate_delta",
+              "value": 0.46570928331490935,
+              "threshold": 0.1,
+              "detail": "dark gradients lose too much detail versus the anchor"
+            },
+            {
+              "severity": "reject",
+              "region": "dark_0_0.25",
+              "metric": "grad_nrmse",
+              "value": 2.018699883896825,
+              "threshold": 1.261120815965832,
+              "detail": "dark gradient error is beyond the anchor-relative limit"
+            },
+            {
+              "severity": "reject",
+              "region": "mid_0.25_1",
+              "metric": "lost_detail_rate_delta",
+              "value": 0.28491646816070615,
+              "threshold": 0.12,
+              "detail": "mid_0.25_1 loses too much local detail versus the anchor"
+            },
+            {
+              "severity": "reject",
+              "region": "highlight_1_4",
+              "metric": "lost_detail_rate_delta",
+              "value": 0.1350771077661834,
+              "threshold": 0.075,
+              "detail": "highlight_1_4 loses too much local detail versus the anchor"
+            },
+            {
+              "severity": "reject",
+              "region": "extreme_gt4",
+              "metric": "lost_detail_rate_delta",
+              "value": 0.1860089463220676,
+              "threshold": 0.14,
+              "detail": "extreme_gt4 loses too much local detail versus the anchor"
+            },
+            {
+              "severity": "reject",
+              "region": "extreme_gt4",
+              "metric": "grad_energy_ratio",
+              "value": 1.06511455927504,
+              "threshold": 1.06,
+              "detail": "highlight texture energy changed too much"
+            }
+          ]
+        },
+        "key_metrics": {
+          "dark_0_0.25": {
+            "samples": 958785,
+            "luma_rmse": 0.030552607980663338,
+            "luma_p99": 0.04982871280191418,
+            "grad_nrmse": 2.018699883896825,
+            "grad_energy_ratio": 2.1388730395426805,
+            "grad_correlation": 0.35056514115445847,
+            "lost_detail_rate": 0.669149764422497,
+            "lost_detail_delta_vs_anchor": 0.46570928331490935
+          },
+          "mid_0.25_1": {
+            "samples": 63494,
+            "luma_rmse": 0.001947210195218629,
+            "luma_p99": 0.004151398343219583,
+            "grad_nrmse": 0.41219752366998125,
+            "grad_energy_ratio": 1.081176578257112,
+            "grad_correlation": 0.9244724844458787,
+            "lost_detail_rate": 0.3035587670588985,
+            "lost_detail_delta_vs_anchor": 0.28491646816070615
+          },
+          "highlight_1_4": {
+            "samples": 22158,
+            "luma_rmse": 0.001242749524653489,
+            "luma_p99": 0.002773212854974231,
+            "grad_nrmse": 0.2006557836646412,
+            "grad_energy_ratio": 1.019672325005921,
+            "grad_correlation": 0.9804467856148291,
+            "lost_detail_rate": 0.14421922615199925,
+            "lost_detail_delta_vs_anchor": 0.1350771077661834
+          },
+          "extreme_gt4": {
+            "samples": 4139,
+            "luma_rmse": 0.0007599983318486212,
+            "luma_p99": 0.0013398669959159763,
+            "grad_nrmse": 0.3486775031895881,
+            "grad_energy_ratio": 1.06511455927504,
+            "grad_correlation": 0.9449185562345488,
+            "lost_detail_rate": 0.20936878727634195,
+            "lost_detail_delta_vs_anchor": 0.1860089463220676
+          }
+        },
+        "elapsed_sec": 1.7280042500060517
+      },
+      {
+        "label": "asinh_bits7_scale4",
+        "bits": 7,
+        "transform": "asinh",
+        "scale": 4.0,
+        "ranges": [
+          {
+            "lo": 0.0,
+            "hi": 2.231348752975464
+          },
+          {
+            "lo": 0.0,
+            "hi": 1.8137167692184448
+          },
+          {
+            "lo": 0.0,
+            "hi": 0.9892116189002991
+          }
+        ],
+        "raw_bytes": 12582912,
+        "estimated_bytes": 370023,
+        "estimated_ratio": 34.00575639892655,
+        "payload": {
+          "estimated_bytes": 370023,
+          "estimated_bps": 0.9406903324554756,
+          "nonzero_rate": 0.17548020680745444
+        },
+        "gate": {
+          "decision": "reject",
+          "failures": [
+            {
+              "severity": "reject",
+              "region": "dark_0_0.25",
+              "metric": "lost_detail_rate_delta",
+              "value": 0.46691654295562435,
+              "threshold": 0.1,
+              "detail": "dark gradients lose too much detail versus the anchor"
+            },
+            {
+              "severity": "reject",
+              "region": "dark_0_0.25",
+              "metric": "grad_nrmse",
+              "value": 1.7303204239688201,
+              "threshold": 1.261120815965832,
+              "detail": "dark gradient error is beyond the anchor-relative limit"
+            },
+            {
+              "severity": "reject",
+              "region": "mid_0.25_1",
+              "metric": "lost_detail_rate_delta",
+              "value": 0.2028027182702496,
+              "threshold": 0.12,
+              "detail": "mid_0.25_1 loses too much local detail versus the anchor"
+            },
+            {
+              "severity": "reject",
+              "region": "highlight_1_4",
+              "metric": "lost_detail_rate_delta",
+              "value": 0.11633114784375288,
+              "threshold": 0.075,
+              "detail": "highlight_1_4 loses too much local detail versus the anchor"
+            },
+            {
+              "severity": "reject",
+              "region": "extreme_gt4",
+              "metric": "lost_detail_rate_delta",
+              "value": 0.30305666003976145,
+              "threshold": 0.14,
+              "detail": "extreme_gt4 loses too much local detail versus the anchor"
+            },
+            {
+              "severity": "reject",
+              "region": "extreme_gt4",
+              "metric": "grad_energy_ratio",
+              "value": 1.1402863631326199,
+              "threshold": 1.06,
+              "detail": "highlight texture energy changed too much"
+            }
+          ]
+        },
+        "key_metrics": {
+          "dark_0_0.25": {
+            "samples": 958785,
+            "luma_rmse": 0.03098486031225017,
+            "luma_p99": 0.050705010508828814,
+            "grad_nrmse": 1.7303204239688201,
+            "grad_energy_ratio": 1.819852407338124,
+            "grad_correlation": 0.36207716888929925,
+            "lost_detail_rate": 0.670357024063212,
+            "lost_detail_delta_vs_anchor": 0.46691654295562435
+          },
+          "mid_0.25_1": {
+            "samples": 63494,
+            "luma_rmse": 0.001389396227495671,
+            "luma_p99": 0.0028971625170584967,
+            "grad_nrmse": 0.29741184273397403,
+            "grad_energy_ratio": 1.0428881860820642,
+            "grad_correlation": 0.9584737803875204,
+            "lost_detail_rate": 0.22144501716844192,
+            "lost_detail_delta_vs_anchor": 0.2028027182702496
+          },
+          "highlight_1_4": {
+            "samples": 22158,
+            "luma_rmse": 0.001123952217183874,
+            "luma_p99": 0.002330770090654378,
+            "grad_nrmse": 0.18226857822144213,
+            "grad_energy_ratio": 1.0166379316333034,
+            "grad_correlation": 0.9837970762192088,
+            "lost_detail_rate": 0.12547326622956875,
+            "lost_detail_delta_vs_anchor": 0.11633114784375288
+          },
+          "extreme_gt4": {
+            "samples": 4139,
+            "luma_rmse": 0.0011944792925681193,
+            "luma_p99": 0.002081745990327082,
+            "grad_nrmse": 0.5443905982884967,
+            "grad_energy_ratio": 1.1402863631326199,
+            "grad_correlation": 0.8786792209529602,
+            "lost_detail_rate": 0.3264165009940358,
+            "lost_detail_delta_vs_anchor": 0.30305666003976145
+          }
+        },
+        "elapsed_sec": 1.4046559169946704
+      },
+      {
+        "label": "signed-log_bits7_scale4",
+        "bits": 7,
+        "transform": "signed-log",
+        "scale": 4.0,
+        "ranges": [
+          {
+            "lo": 0.0,
+            "hi": 2.4860751628875732
+          },
+          {
+            "lo": 0.0,
+            "hi": 1.9946075677871704
+          },
+          {
+            "lo": 0.0,
+            "hi": 1.1101105213165283
+          }
+        ],
+        "raw_bytes": 12582912,
+        "estimated_bytes": 425407,
+        "estimated_ratio": 29.578525976300345,
+        "payload": {
+          "estimated_bytes": 425407,
+          "estimated_bps": 1.0815391460961457,
+          "nonzero_rate": 0.21570968627929688
+        },
+        "gate": {
+          "decision": "reject",
+          "failures": [
+            {
+              "severity": "reject",
+              "region": "dark_0_0.25",
+              "metric": "lost_detail_rate_delta",
+              "value": 0.3886650225238515,
+              "threshold": 0.1,
+              "detail": "dark gradients lose too much detail versus the anchor"
+            },
+            {
+              "severity": "reject",
+              "region": "dark_0_0.25",
+              "metric": "grad_nrmse",
+              "value": 2.2506220128879013,
+              "threshold": 1.261120815965832,
+              "detail": "dark gradient error is beyond the anchor-relative limit"
+            },
+            {
+              "severity": "reject",
+              "region": "mid_0.25_1",
+              "metric": "lost_detail_rate_delta",
+              "value": 0.19963990089307765,
+              "threshold": 0.12,
+              "detail": "mid_0.25_1 loses too much local detail versus the anchor"
+            },
+            {
+              "severity": "reject",
+              "region": "highlight_1_4",
+              "metric": "lost_detail_rate_delta",
+              "value": 0.12725090036014405,
+              "threshold": 0.075,
+              "detail": "highlight_1_4 loses too much local detail versus the anchor"
+            },
+            {
+              "severity": "reject",
+              "region": "extreme_gt4",
+              "metric": "lost_detail_rate_delta",
+              "value": 0.30268389662027834,
+              "threshold": 0.14,
+              "detail": "extreme_gt4 loses too much local detail versus the anchor"
+            },
+            {
+              "severity": "reject",
+              "region": "extreme_gt4",
+              "metric": "grad_energy_ratio",
+              "value": 1.1283101579223562,
+              "threshold": 1.06,
+              "detail": "highlight texture energy changed too much"
+            }
+          ]
+        },
+        "key_metrics": {
+          "dark_0_0.25": {
+            "samples": 958785,
+            "luma_rmse": 0.027031786743333355,
+            "luma_p99": 0.045474804686048816,
+            "grad_nrmse": 2.2506220128879013,
+            "grad_energy_ratio": 2.455874967070232,
+            "grad_correlation": 0.4002692391404631,
+            "lost_detail_rate": 0.5921055036314391,
+            "lost_detail_delta_vs_anchor": 0.3886650225238515
+          },
+          "mid_0.25_1": {
+            "samples": 63494,
+            "luma_rmse": 0.0013605795877463375,
+            "luma_p99": 0.0028033190673025293,
+            "grad_nrmse": 0.29241196170411066,
+            "grad_energy_ratio": 1.0423095414445065,
+            "grad_correlation": 0.9598417481939272,
+            "lost_detail_rate": 0.21828219979126998,
+            "lost_detail_delta_vs_anchor": 0.19963990089307765
+          },
+          "highlight_1_4": {
+            "samples": 22158,
+            "luma_rmse": 0.0011900872301828665,
+            "luma_p99": 0.0024318577691554333,
+            "grad_nrmse": 0.19289475343691334,
+            "grad_energy_ratio": 1.0193329952378778,
+            "grad_correlation": 0.9819319979973651,
+            "lost_detail_rate": 0.1363930187459599,
+            "lost_detail_delta_vs_anchor": 0.12725090036014405
+          },
+          "extreme_gt4": {
+            "samples": 4139,
+            "luma_rmse": 0.0011716160790015363,
+            "luma_p99": 0.00203055674539164,
+            "grad_nrmse": 0.5317853353450674,
+            "grad_energy_ratio": 1.1283101579223562,
+            "grad_correlation": 0.8819774224347923,
+            "lost_detail_rate": 0.3260437375745527,
+            "lost_detail_delta_vs_anchor": 0.30268389662027834
+          }
+        },
+        "elapsed_sec": 1.6883305000083055
+      },
+      {
+        "label": "gamma075_bits7_scale4",
+        "bits": 7,
+        "transform": "gamma075",
+        "scale": 4.0,
+        "ranges": [
+          {
+            "lo": 0.0,
+            "hi": 3.1422922611236572
+          },
+          {
+            "lo": 0.0,
+            "hi": 2.2709975242614746
+          },
+          {
+            "lo": 0.0,
+            "hi": 1.1167508363723755
+          }
+        ],
+        "raw_bytes": 12582912,
+        "estimated_bytes": 496500,
+        "estimated_ratio": 25.34322658610272,
+        "payload": {
+          "estimated_bytes": 496500,
+          "estimated_bps": 1.262336994100412,
+          "nonzero_rate": 0.2771476109822591
+        },
+        "gate": {
+          "decision": "reject",
+          "failures": [
+            {
+              "severity": "reject",
+              "region": "dark_0_0.25",
+              "metric": "lost_detail_rate_delta",
+              "value": 0.33522498526171995,
+              "threshold": 0.1,
+              "detail": "dark gradients lose too much detail versus the anchor"
+            },
+            {
+              "severity": "reject",
+              "region": "dark_0_0.25",
+              "metric": "grad_nrmse",
+              "value": 2.0479639859981162,
+              "threshold": 1.261120815965832,
+              "detail": "dark gradient error is beyond the anchor-relative limit"
+            },
+            {
+              "severity": "reject",
+              "region": "mid_0.25_1",
+              "metric": "lost_detail_rate_delta",
+              "value": 0.25302539017375575,
+              "threshold": 0.12,
+              "detail": "mid_0.25_1 loses too much local detail versus the anchor"
+            },
+            {
+              "severity": "reject",
+              "region": "highlight_1_4",
+              "metric": "lost_detail_rate_delta",
+              "value": 0.13895558223289317,
+              "threshold": 0.075,
+              "detail": "highlight_1_4 loses too much local detail versus the anchor"
+            },
+            {
+              "severity": "reject",
+              "region": "extreme_gt4",
+              "metric": "lost_detail_rate_delta",
+              "value": 0.22577037773359843,
+              "threshold": 0.14,
+              "detail": "extreme_gt4 loses too much local detail versus the anchor"
+            },
+            {
+              "severity": "reject",
+              "region": "extreme_gt4",
+              "metric": "grad_energy_ratio",
+              "value": 1.08336749669057,
+              "threshold": 1.06,
+              "detail": "highlight texture energy changed too much"
+            }
+          ]
+        },
+        "key_metrics": {
+          "dark_0_0.25": {
+            "samples": 958785,
+            "luma_rmse": 0.009825792621097122,
+            "luma_p99": 0.027486283717441586,
+            "grad_nrmse": 2.0479639859981162,
+            "grad_energy_ratio": 2.4573346023580345,
+            "grad_correlation": 0.578744314525061,
+            "lost_detail_rate": 0.5386654663693076,
+            "lost_detail_delta_vs_anchor": 0.33522498526171995
+          },
+          "mid_0.25_1": {
+            "samples": 63494,
+            "luma_rmse": 0.0016951994436677567,
+            "luma_p99": 0.0035236798271148662,
+            "grad_nrmse": 0.36206628969172666,
+            "grad_energy_ratio": 1.0628697459684695,
+            "grad_correlation": 0.9401905108056557,
+            "lost_detail_rate": 0.2716676890719481,
+            "lost_detail_delta_vs_anchor": 0.25302539017375575
+          },
+          "highlight_1_4": {
+            "samples": 22158,
+            "luma_rmse": 0.0012606305282248094,
+            "luma_p99": 0.0026904417749122815,
+            "grad_nrmse": 0.20344072743020317,
+            "grad_energy_ratio": 1.0205814970707066,
+            "grad_correlation": 0.9799307886370487,
+            "lost_detail_rate": 0.14809770061870903,
+            "lost_detail_delta_vs_anchor": 0.13895558223289317
+          },
+          "extreme_gt4": {
+            "samples": 4139,
+            "luma_rmse": 0.0008954596471875619,
+            "luma_p99": 0.0015769885947111214,
+            "grad_nrmse": 0.40825676633351804,
+            "grad_energy_ratio": 1.08336749669057,
+            "grad_correlation": 0.9262838103226441,
+            "lost_detail_rate": 0.24913021868787277,
+            "lost_detail_delta_vs_anchor": 0.22577037773359843
+          }
+        },
+        "elapsed_sec": 1.9205522499978542
+      },
+      {
+        "label": "asinh_bits8_scale4",
+        "bits": 8,
+        "transform": "asinh",
+        "scale": 4.0,
+        "ranges": [
+          {
+            "lo": 0.0,
+            "hi": 2.231348752975464
+          },
+          {
+            "lo": 0.0,
+            "hi": 1.8137167692184448
+          },
+          {
+            "lo": 0.0,
+            "hi": 0.9892116189002991
+          }
+        ],
+        "raw_bytes": 12582912,
+        "estimated_bytes": 566307,
+        "estimated_ratio": 22.21924150681521,
+        "payload": {
+          "estimated_bytes": 566307,
+          "estimated_bps": 1.4398653272909965,
+          "nonzero_rate": 0.2987817128499349
+        },
+        "gate": {
+          "decision": "reject",
+          "failures": [
+            {
+              "severity": "reject",
+              "region": "dark_0_0.25",
+              "metric": "lost_detail_rate_delta",
+              "value": 0.29027701700345837,
+              "threshold": 0.1,
+              "detail": "dark gradients lose too much detail versus the anchor"
+            },
+            {
+              "severity": "reject",
+              "region": "dark_0_0.25",
+              "metric": "grad_nrmse",
+              "value": 2.373108668794179,
+              "threshold": 1.261120815965832,
+              "detail": "dark gradient error is beyond the anchor-relative limit"
+            },
+            {
+              "severity": "maybe",
+              "region": "mid_0.25_1",
+              "metric": "lost_detail_rate_delta",
+              "value": 0.08228105257287624,
+              "threshold": 0.06,
+              "detail": "mid_0.25_1 detail loss needs a quick look"
+            },
+            {
+              "severity": "maybe",
+              "region": "highlight_1_4",
+              "metric": "lost_detail_rate_delta",
+              "value": 0.04390987164096408,
+              "threshold": 0.035,
+              "detail": "highlight_1_4 detail loss needs a quick look"
+            },
+            {
+              "severity": "maybe",
+              "region": "extreme_gt4",
+              "metric": "lost_detail_rate_delta",
+              "value": 0.132331013916501,
+              "threshold": 0.06,
+              "detail": "extreme_gt4 detail loss needs a quick look"
+            }
+          ]
+        },
+        "key_metrics": {
+          "dark_0_0.25": {
+            "samples": 958785,
+            "luma_rmse": 0.019137520347768448,
+            "luma_p99": 0.037480102033781604,
+            "grad_nrmse": 2.373108668794179,
+            "grad_energy_ratio": 2.7155909541441745,
+            "grad_correlation": 0.5050078459235376,
+            "lost_detail_rate": 0.493717498111046,
+            "lost_detail_delta_vs_anchor": 0.29027701700345837
+          },
+          "mid_0.25_1": {
+            "samples": 63494,
+            "luma_rmse": 0.0006900939687291875,
+            "luma_p99": 0.0014468049786981955,
+            "grad_nrmse": 0.148736917007067,
+            "grad_energy_ratio": 1.0108664382192905,
+            "grad_correlation": 0.9891159750837332,
+            "lost_detail_rate": 0.10092335147106858,
+            "lost_detail_delta_vs_anchor": 0.08228105257287624
+          },
+          "highlight_1_4": {
+            "samples": 22158,
+            "luma_rmse": 0.000560343018226583,
+            "luma_p99": 0.0011544052052515996,
+            "grad_nrmse": 0.09100964733558561,
+            "grad_energy_ratio": 1.0041038229615518,
+            "grad_correlation": 0.995883934332175,
+            "lost_detail_rate": 0.05305199002677994,
+            "lost_detail_delta_vs_anchor": 0.04390987164096408
+          },
+          "extreme_gt4": {
+            "samples": 4139,
+            "luma_rmse": 0.0005915950680132285,
+            "luma_p99": 0.0010367615358031366,
+            "grad_nrmse": 0.2727270253775492,
+            "grad_energy_ratio": 1.0368517166623947,
+            "grad_correlation": 0.9647866805943199,
+            "lost_detail_rate": 0.15569085487077536,
+            "lost_detail_delta_vs_anchor": 0.132331013916501
+          }
+        },
+        "elapsed_sec": 1.5993636670173146
+      },
+      {
+        "label": "gamma09_bits8_scale4",
+        "bits": 8,
+        "transform": "gamma09",
+        "scale": 4.0,
+        "ranges": [
+          {
+            "lo": 0.0,
+            "hi": 3.9508984088897705
+          },
+          {
+            "lo": 0.0,
+            "hi": 2.6758389472961426
+          },
+          {
+            "lo": 0.0,
+            "hi": 1.141688346862793
+          }
+        ],
+        "raw_bytes": 12582912,
+        "estimated_bytes": 568177,
+        "estimated_ratio": 22.146112919037552,
+        "payload": {
+          "estimated_bytes": 568177,
+          "estimated_bps": 1.4446209541403725,
+          "nonzero_rate": 0.3061707814534505
+        },
+        "gate": {
+          "decision": "reject",
+          "failures": [
+            {
+              "severity": "reject",
+              "region": "dark_0_0.25",
+              "metric": "lost_detail_rate_delta",
+              "value": 0.30772066560108946,
+              "threshold": 0.1,
+              "detail": "dark gradients lose too much detail versus the anchor"
+            },
+            {
+              "severity": "reject",
+              "region": "dark_0_0.25",
+              "metric": "grad_nrmse",
+              "value": 2.456121381692782,
+              "threshold": 1.261120815965832,
+              "detail": "dark gradient error is beyond the anchor-relative limit"
+            },
+            {
+              "severity": "reject",
+              "region": "mid_0.25_1",
+              "metric": "lost_detail_rate_delta",
+              "value": 0.1306793285585679,
+              "threshold": 0.12,
+              "detail": "mid_0.25_1 loses too much local detail versus the anchor"
+            },
+            {
+              "severity": "maybe",
+              "region": "highlight_1_4",
+              "metric": "lost_detail_rate_delta",
+              "value": 0.05469110721211561,
+              "threshold": 0.035,
+              "detail": "highlight_1_4 detail loss needs a quick look"
+            },
+            {
+              "severity": "maybe",
+              "region": "extreme_gt4",
+              "metric": "lost_detail_rate_delta",
+              "value": 0.06436381709741551,
+              "threshold": 0.06,
+              "detail": "extreme_gt4 detail loss needs a quick look"
+            }
+          ]
+        },
+        "key_metrics": {
+          "dark_0_0.25": {
+            "samples": 958785,
+            "luma_rmse": 0.016788692078742264,
+            "luma_p99": 0.035248421326935495,
+            "grad_nrmse": 2.456121381692782,
+            "grad_energy_ratio": 2.8330074741777946,
+            "grad_correlation": 0.5283076614557015,
+            "lost_detail_rate": 0.5111611467086771,
+            "lost_detail_delta_vs_anchor": 0.30772066560108946
+          },
+          "mid_0.25_1": {
+            "samples": 63494,
+            "luma_rmse": 0.0009642871817722207,
+            "luma_p99": 0.0020673466211138646,
+            "grad_nrmse": 0.2073535149279454,
+            "grad_energy_ratio": 1.020726236073372,
+            "grad_correlation": 0.9791492068162414,
+            "lost_detail_rate": 0.14932162745676023,
+            "lost_detail_delta_vs_anchor": 0.1306793285585679
+          },
+          "highlight_1_4": {
+            "samples": 22158,
+            "luma_rmse": 0.0006193899836625273,
+            "luma_p99": 0.0013759761818692565,
+            "grad_nrmse": 0.10011313652023143,
+            "grad_energy_ratio": 1.0045215181176501,
+            "grad_correlation": 0.9950214127833853,
+            "lost_detail_rate": 0.06383322559793148,
+            "lost_detail_delta_vs_anchor": 0.05469110721211561
+          },
+          "extreme_gt4": {
+            "samples": 4139,
+            "luma_rmse": 0.0003784949412011925,
+            "luma_p99": 0.0006698020415731397,
+            "grad_nrmse": 0.17336747811375958,
+            "grad_energy_ratio": 1.015651743113879,
+            "grad_correlation": 0.9853240514737739,
+            "lost_detail_rate": 0.08772365805168986,
+            "lost_detail_delta_vs_anchor": 0.06436381709741551
+          }
+        },
+        "elapsed_sec": 1.8057240830094088
+      },
+      {
+        "label": "signed-log_bits8_scale4",
+        "bits": 8,
+        "transform": "signed-log",
+        "scale": 4.0,
+        "ranges": [
+          {
+            "lo": 0.0,
+            "hi": 2.4860751628875732
+          },
+          {
+            "lo": 0.0,
+            "hi": 1.9946075677871704
+          },
+          {
+            "lo": 0.0,
+            "hi": 1.1101105213165283
+          }
+        ],
+        "raw_bytes": 12582912,
+        "estimated_bytes": 614494,
+        "estimated_ratio": 20.476867145977014,
+        "payload": {
+          "estimated_bytes": 614494,
+          "estimated_bps": 1.5624119032971615,
+          "nonzero_rate": 0.3359527587890625
+        },
+        "gate": {
+          "decision": "reject",
+          "failures": [
+            {
+              "severity": "reject",
+              "region": "dark_0_0.25",
+              "metric": "lost_detail_rate_delta",
+              "value": 0.25004634268733283,
+              "threshold": 0.1,
+              "detail": "dark gradients lose too much detail versus the anchor"
+            },
+            {
+              "severity": "reject",
+              "region": "dark_0_0.25",
+              "metric": "grad_nrmse",
+              "value": 2.2595781961079404,
+              "threshold": 1.261120815965832,
+              "detail": "dark gradient error is beyond the anchor-relative limit"
+            },
+            {
+              "severity": "maybe",
+              "region": "mid_0.25_1",
+              "metric": "lost_detail_rate_delta",
+              "value": 0.08165964260960318,
+              "threshold": 0.06,
+              "detail": "mid_0.25_1 detail loss needs a quick look"
+            },
+            {
+              "severity": "maybe",
+              "region": "highlight_1_4",
+              "metric": "lost_detail_rate_delta",
+              "value": 0.045941453504478716,
+              "threshold": 0.035,
+              "detail": "highlight_1_4 detail loss needs a quick look"
+            },
+            {
+              "severity": "maybe",
+              "region": "extreme_gt4",
+              "metric": "lost_detail_rate_delta",
+              "value": 0.12077534791252487,
+              "threshold": 0.06,
+              "detail": "extreme_gt4 detail loss needs a quick look"
+            }
+          ]
+        },
+        "key_metrics": {
+          "dark_0_0.25": {
+            "samples": 958785,
+            "luma_rmse": 0.014323473460622394,
+            "luma_p99": 0.032876827255976175,
+            "grad_nrmse": 2.2595781961079404,
+            "grad_energy_ratio": 2.6560458966873703,
+            "grad_correlation": 0.5551271129503565,
+            "lost_detail_rate": 0.45348682379492045,
+            "lost_detail_delta_vs_anchor": 0.25004634268733283
+          },
+          "mid_0.25_1": {
+            "samples": 63494,
+            "luma_rmse": 0.0006818186692844308,
+            "luma_p99": 0.0013903674411610343,
+            "grad_nrmse": 0.1473083822592712,
+            "grad_energy_ratio": 1.0112864503512062,
+            "grad_correlation": 0.9893341913585306,
+            "lost_detail_rate": 0.1003019415077955,
+            "lost_detail_delta_vs_anchor": 0.08165964260960318
+          },
+          "highlight_1_4": {
+            "samples": 22158,
+            "luma_rmse": 0.0005895679633613281,
+            "luma_p99": 0.0012033423868801308,
+            "grad_nrmse": 0.09565361904190003,
+            "grad_energy_ratio": 1.004985548528773,
+            "grad_correlation": 0.995460253555368,
+            "lost_detail_rate": 0.05508357189029458,
+            "lost_detail_delta_vs_anchor": 0.045941453504478716
+          },
+          "extreme_gt4": {
+            "samples": 4139,
+            "luma_rmse": 0.0005821318052077595,
+            "luma_p99": 0.001015943975555009,
+            "grad_nrmse": 0.26667284933621305,
+            "grad_energy_ratio": 1.0374263024185937,
+            "grad_correlation": 0.9664006588719412,
+            "lost_detail_rate": 0.1441351888667992,
+            "lost_detail_delta_vs_anchor": 0.12077534791252487
+          }
+        },
+        "elapsed_sec": 1.729437500005588
+      },
+      {
+        "label": "gamma075_bits8_scale4",
+        "bits": 8,
+        "transform": "gamma075",
+        "scale": 4.0,
+        "ranges": [
+          {
+            "lo": 0.0,
+            "hi": 3.1422922611236572
+          },
+          {
+            "lo": 0.0,
+            "hi": 2.2709975242614746
+          },
+          {
+            "lo": 0.0,
+            "hi": 1.1167508363723755
+          }
+        ],
+        "raw_bytes": 12582912,
+        "estimated_bytes": 714263,
+        "estimated_ratio": 17.616637009056888,
+        "payload": {
+          "estimated_bytes": 714263,
+          "estimated_bps": 1.8161376101866835,
+          "nonzero_rate": 0.41908709208170575
+        },
+        "gate": {
+          "decision": "reject",
+          "failures": [
+            {
+              "severity": "reject",
+              "region": "dark_0_0.25",
+              "metric": "lost_detail_rate_delta",
+              "value": 0.20202383084579711,
+              "threshold": 0.1,
+              "detail": "dark gradients lose too much detail versus the anchor"
+            },
+            {
+              "severity": "maybe",
+              "region": "dark_0_0.25",
+              "metric": "grad_nrmse",
+              "value": 0.9188414630187559,
+              "threshold": 0.8707738967383125,
+              "detail": "dark gradient error is close to the danger zone"
+            },
+            {
+              "severity": "maybe",
+              "region": "mid_0.25_1",
+              "metric": "lost_detail_rate_delta",
+              "value": 0.10857944089036894,
+              "threshold": 0.06,
+              "detail": "mid_0.25_1 detail loss needs a quick look"
+            },
+            {
+              "severity": "maybe",
+              "region": "highlight_1_4",
+              "metric": "lost_detail_rate_delta",
+              "value": 0.05256718071844122,
+              "threshold": 0.035,
+              "detail": "highlight_1_4 detail loss needs a quick look"
+            },
+            {
+              "severity": "maybe",
+              "region": "extreme_gt4",
+              "metric": "lost_detail_rate_delta",
+              "value": 0.08921471172962225,
+              "threshold": 0.06,
+              "detail": "extreme_gt4 detail loss needs a quick look"
+            }
+          ]
+        },
+        "key_metrics": {
+          "dark_0_0.25": {
+            "samples": 958785,
+            "luma_rmse": 0.0037195543291662267,
+            "luma_p99": 0.012874668025201498,
+            "grad_nrmse": 0.9188414630187559,
+            "grad_energy_ratio": 1.4031290713111002,
+            "grad_correlation": 0.7570584916363907,
+            "lost_detail_rate": 0.4054643119533847,
+            "lost_detail_delta_vs_anchor": 0.20202383084579711
+          },
+          "mid_0.25_1": {
+            "samples": 63494,
+            "luma_rmse": 0.0008432667908237008,
+            "luma_p99": 0.001742741019498053,
+            "grad_nrmse": 0.18191830716104396,
+            "grad_energy_ratio": 1.015997401861692,
+            "grad_correlation": 0.9838393515801108,
+            "lost_detail_rate": 0.12722173978856127,
+            "lost_detail_delta_vs_anchor": 0.10857944089036894
+          },
+          "highlight_1_4": {
+            "samples": 22158,
+            "luma_rmse": 0.0006262172768726649,
+            "luma_p99": 0.0013466049364995144,
+            "grad_nrmse": 0.10148915596981668,
+            "grad_energy_ratio": 1.00495074087965,
+            "grad_correlation": 0.9948875409877235,
+            "lost_detail_rate": 0.061709299104257084,
+            "lost_detail_delta_vs_anchor": 0.05256718071844122
+          },
+          "extreme_gt4": {
+            "samples": 4139,
+            "luma_rmse": 0.00044539205257313434,
+            "luma_p99": 0.0007887631387189285,
+            "grad_nrmse": 0.20568259004239703,
+            "grad_energy_ratio": 1.01716859966809,
+            "grad_correlation": 0.9793492607588881,
+            "lost_detail_rate": 0.11257455268389661,
+            "lost_detail_delta_vs_anchor": 0.08921471172962225
+          }
+        },
+        "elapsed_sec": 2.0169559579808265
+      },
+      {
+        "label": "gamma09_bits9_scale4",
+        "bits": 9,
+        "transform": "gamma09",
+        "scale": 4.0,
+        "ranges": [
+          {
+            "lo": 0.0,
+            "hi": 3.9508984088897705
+          },
+          {
+            "lo": 0.0,
+            "hi": 2.6758389472961426
+          },
+          {
+            "lo": 0.0,
+            "hi": 1.141688346862793
+          }
+        ],
+        "raw_bytes": 12582912,
+        "estimated_bytes": 783933,
+        "estimated_ratio": 16.051004358790866,
+        "payload": {
+          "estimated_bytes": 783933,
+          "estimated_bps": 1.9933167805514977,
+          "nonzero_rate": 0.4265613555908203
+        },
+        "gate": {
+          "decision": "reject",
+          "failures": [
+            {
+              "severity": "reject",
+              "region": "dark_0_0.25",
+              "metric": "lost_detail_rate_delta",
+              "value": 0.21091118339119858,
+              "threshold": 0.1,
+              "detail": "dark gradients lose too much detail versus the anchor"
+            },
+            {
+              "severity": "reject",
+              "region": "dark_0_0.25",
+              "metric": "grad_nrmse",
+              "value": 1.3711978609400952,
+              "threshold": 1.261120815965832,
+              "detail": "dark gradient error is beyond the anchor-relative limit"
+            }
+          ]
+        },
+        "key_metrics": {
+          "dark_0_0.25": {
+            "samples": 958785,
+            "luma_rmse": 0.006028597303796832,
+            "luma_p99": 0.0205630950769272,
+            "grad_nrmse": 1.3711978609400952,
+            "grad_energy_ratio": 1.8346180492808748,
+            "grad_correlation": 0.6774270573307561,
+            "lost_detail_rate": 0.4143516644987862,
+            "lost_detail_delta_vs_anchor": 0.21091118339119858
+          },
+          "mid_0.25_1": {
+            "samples": 63494,
+            "luma_rmse": 0.00048407415314649405,
+            "luma_p99": 0.0010271296740301129,
+            "grad_nrmse": 0.10428473112836828,
+            "grad_energy_ratio": 1.0058390186143857,
+            "grad_correlation": 0.9946108617743467,
+            "lost_detail_rate": 0.06724771153830833,
+            "lost_detail_delta_vs_anchor": 0.048605412640115996
+          },
+          "highlight_1_4": {
+            "samples": 22158,
+            "luma_rmse": 0.00031116510666876873,
+            "luma_p99": 0.0006997130857012263,
+            "grad_nrmse": 0.05059790207346668,
+            "grad_energy_ratio": 1.0011479171224988,
+            "grad_correlation": 0.9987220519881465,
+            "lost_detail_rate": 0.026687598116169546,
+            "lost_detail_delta_vs_anchor": 0.017545479730353683
+          },
+          "extreme_gt4": {
+            "samples": 4139,
+            "luma_rmse": 0.00018930984055834054,
+            "luma_p99": 0.00033615388669759654,
+            "grad_nrmse": 0.08649256339847397,
+            "grad_energy_ratio": 1.0040647180904567,
+            "grad_correlation": 0.9962828882164687,
+            "lost_detail_rate": 0.03541252485089463,
+            "lost_detail_delta_vs_anchor": 0.01205268389662028
+          }
+        },
+        "elapsed_sec": 1.90339229098754
+      },
+      {
+        "label": "asinh_bits9_scale4",
+        "bits": 9,
+        "transform": "asinh",
+        "scale": 4.0,
+        "ranges": [
+          {
+            "lo": 0.0,
+            "hi": 2.231348752975464
+          },
+          {
+            "lo": 0.0,
+            "hi": 1.8137167692184448
+          },
+          {
+            "lo": 0.0,
+            "hi": 0.9892116189002991
+          }
+        ],
+        "raw_bytes": 12582912,
+        "estimated_bytes": 784480,
+        "estimated_ratio": 16.039812359779727,
+        "payload": {
+          "estimated_bytes": 784480,
+          "estimated_bps": 1.9947091689694312,
+          "nonzero_rate": 0.42561976114908856
+        },
+        "gate": {
+          "decision": "reject",
+          "failures": [
+            {
+              "severity": "reject",
+              "region": "dark_0_0.25",
+              "metric": "lost_detail_rate_delta",
+              "value": 0.1830721520395221,
+              "threshold": 0.1,
+              "detail": "dark gradients lose too much detail versus the anchor"
+            },
+            {
+              "severity": "reject",
+              "region": "dark_0_0.25",
+              "metric": "grad_nrmse",
+              "value": 1.6832885024548312,
+              "threshold": 1.261120815965832,
+              "detail": "dark gradient error is beyond the anchor-relative limit"
+            }
+          ]
+        },
+        "key_metrics": {
+          "dark_0_0.25": {
+            "samples": 958785,
+            "luma_rmse": 0.008198756770292791,
+            "luma_p99": 0.024771222147382508,
+            "grad_nrmse": 1.6832885024548312,
+            "grad_energy_ratio": 2.1391350815556853,
+            "grad_correlation": 0.6410157867756492,
+            "lost_detail_rate": 0.3865126331471097,
+            "lost_detail_delta_vs_anchor": 0.1830721520395221
+          },
+          "mid_0.25_1": {
+            "samples": 63494,
+            "luma_rmse": 0.0003448762789717853,
+            "luma_p99": 0.0007227163463979158,
+            "grad_nrmse": 0.07434706726323169,
+            "grad_energy_ratio": 1.002701405082403,
+            "grad_correlation": 0.9972473416346861,
+            "lost_detail_rate": 0.04788043434963074,
+            "lost_detail_delta_vs_anchor": 0.029238135451438406
+          },
+          "highlight_1_4": {
+            "samples": 22158,
+            "luma_rmse": 0.00028183397718374613,
+            "luma_p99": 0.0005802689466429806,
+            "grad_nrmse": 0.04556646866776932,
+            "grad_energy_ratio": 1.0009230643313831,
+            "grad_correlation": 0.9989632314944819,
+            "lost_detail_rate": 0.02417120694431619,
+            "lost_detail_delta_vs_anchor": 0.015029088558500324
+          },
+          "extreme_gt4": {
+            "samples": 4139,
+            "luma_rmse": 0.0002947231618078754,
+            "luma_p99": 0.0005151903579003059,
+            "grad_nrmse": 0.1353540108875586,
+            "grad_energy_ratio": 1.00906658355667,
+            "grad_correlation": 0.9909626849094172,
+            "lost_detail_rate": 0.06423956262425447,
+            "lost_detail_delta_vs_anchor": 0.040879721669980114
+          }
+        },
+        "elapsed_sec": 1.701981791993603
+      },
+      {
+        "label": "acescct_bits7_scale4",
+        "bits": 7,
+        "transform": "acescct",
+        "scale": 4.0,
+        "ranges": [
+          {
+            "lo": 0.0,
+            "hi": 0.5663483738899231
+          },
+          {
+            "lo": 0.0,
+            "hi": 0.5306945443153381
+          },
+          {
+            "lo": 0.0,
+            "hi": 0.4527631103992462
+          }
+        ],
+        "raw_bytes": 12582912,
+        "estimated_bytes": 806182,
+        "estimated_ratio": 15.60802895624065,
+        "payload": {
+          "estimated_bytes": 806182,
+          "estimated_bps": 2.0499008009206525,
+          "nonzero_rate": 0.5244770050048828
+        },
+        "gate": {
+          "decision": "reject",
+          "failures": [
+            {
+              "severity": "maybe",
+              "region": "dark_0_0.25",
+              "metric": "lost_detail_rate_delta",
+              "value": 0.04597716754539363,
+              "threshold": 0.04,
+              "detail": "dark detail loss is above the review band"
+            },
+            {
+              "severity": "reject",
+              "region": "mid_0.25_1",
+              "metric": "lost_detail_rate_delta",
+              "value": 0.2653500211120051,
+              "threshold": 0.12,
+              "detail": "mid_0.25_1 loses too much local detail versus the anchor"
+            },
+            {
+              "severity": "reject",
+              "region": "highlight_1_4",
+              "metric": "lost_detail_rate_delta",
+              "value": 0.3248453227444824,
+              "threshold": 0.075,
+              "detail": "highlight_1_4 loses too much local detail versus the anchor"
+            },
+            {
+              "severity": "reject",
+              "region": "extreme_gt4",
+              "metric": "lost_detail_rate_delta",
+              "value": 0.5429920477137177,
+              "threshold": 0.14,
+              "detail": "extreme_gt4 loses too much local detail versus the anchor"
+            },
+            {
+              "severity": "reject",
+              "region": "highlight_1_4",
+              "metric": "grad_energy_ratio",
+              "value": 1.1046532999073597,
+              "threshold": 1.06,
+              "detail": "highlight texture energy changed too much"
+            },
+            {
+              "severity": "reject",
+              "region": "extreme_gt4",
+              "metric": "grad_energy_ratio",
+              "value": 1.798674309384304,
+              "threshold": 1.06,
+              "detail": "highlight texture energy changed too much"
+            }
+          ]
+        },
+        "key_metrics": {
+          "dark_0_0.25": {
+            "samples": 958785,
+            "luma_rmse": 0.0020943076637122402,
+            "luma_p99": 0.005834306958848668,
+            "grad_nrmse": 0.5413129532276081,
+            "grad_energy_ratio": 1.1189327402683678,
+            "grad_correlation": 0.8753836103869096,
+            "lost_detail_rate": 0.24941764865298124,
+            "lost_detail_delta_vs_anchor": 0.04597716754539363
+          },
+          "mid_0.25_1": {
+            "samples": 63494,
+            "luma_rmse": 0.001779339798405743,
+            "luma_p99": 0.003821846878216161,
+            "grad_nrmse": 0.3799492356192386,
+            "grad_energy_ratio": 1.06997091546867,
+            "grad_correlation": 0.934827437540659,
+            "lost_detail_rate": 0.2839923200101975,
+            "lost_detail_delta_vs_anchor": 0.2653500211120051
+          },
+          "highlight_1_4": {
+            "samples": 22158,
+            "luma_rmse": 0.0029277409561866705,
+            "luma_p99": 0.006852965649099942,
+            "grad_nrmse": 0.4740776902419331,
+            "grad_energy_ratio": 1.1046532999073597,
+            "grad_correlation": 0.9032287581897614,
+            "lost_detail_rate": 0.33398744113029827,
+            "lost_detail_delta_vs_anchor": 0.3248453227444824
+          },
+          "extreme_gt4": {
+            "samples": 4139,
+            "luma_rmse": 0.003974463863119025,
+            "luma_p99": 0.0070164555707382835,
+            "grad_nrmse": 1.4784635468541103,
+            "grad_energy_ratio": 1.798674309384304,
+            "grad_correlation": 0.569690355049375,
+            "lost_detail_rate": 0.566351888667992,
+            "lost_detail_delta_vs_anchor": 0.5429920477137177
+          }
+        },
+        "elapsed_sec": 2.108819624991156
+      },
+      {
+        "label": "signed-log_bits9_scale4",
+        "bits": 9,
+        "transform": "signed-log",
+        "scale": 4.0,
+        "ranges": [
+          {
+            "lo": 0.0,
+            "hi": 2.4860751628875732
+          },
+          {
+            "lo": 0.0,
+            "hi": 1.9946075677871704
+          },
+          {
+            "lo": 0.0,
+            "hi": 1.1101105213165283
+          }
+        ],
+        "raw_bytes": 12582912,
+        "estimated_bytes": 851528,
+        "estimated_ratio": 14.77686229930196,
+        "payload": {
+          "estimated_bytes": 851528,
+          "estimated_bps": 2.1652205418835635,
+          "nonzero_rate": 0.4743509292602539
+        },
+        "gate": {
+          "decision": "reject",
+          "failures": [
+            {
+              "severity": "reject",
+              "region": "dark_0_0.25",
+              "metric": "lost_detail_rate_delta",
+              "value": 0.14298298609823817,
+              "threshold": 0.1,
+              "detail": "dark gradients lose too much detail versus the anchor"
+            },
+            {
+              "severity": "reject",
+              "region": "dark_0_0.25",
+              "metric": "grad_nrmse",
+              "value": 1.2735525574131779,
+              "threshold": 1.261120815965832,
+              "detail": "dark gradient error is beyond the anchor-relative limit"
+            }
+          ]
+        },
+        "key_metrics": {
+          "dark_0_0.25": {
+            "samples": 958785,
+            "luma_rmse": 0.0056778198836309685,
+            "luma_p99": 0.019533145334809536,
+            "grad_nrmse": 1.2735525574131779,
+            "grad_energy_ratio": 1.7625092736756176,
+            "grad_correlation": 0.7048197874492913,
+            "lost_detail_rate": 0.3464234672058258,
+            "lost_detail_delta_vs_anchor": 0.14298298609823817
+          },
+          "mid_0.25_1": {
+            "samples": 63494,
+            "luma_rmse": 0.00033975667009823236,
+            "luma_p99": 0.0006948725515647341,
+            "grad_nrmse": 0.07316199321164699,
+            "grad_energy_ratio": 1.0027130786296503,
+            "grad_correlation": 0.9973345732847347,
+            "lost_detail_rate": 0.04654997968467428,
+            "lost_detail_delta_vs_anchor": 0.027907680786481946
+          },
+          "highlight_1_4": {
+            "samples": 22158,
+            "luma_rmse": 0.0002938572133589904,
+            "luma_p99": 0.0005995499064433895,
+            "grad_nrmse": 0.04737837969756235,
+            "grad_energy_ratio": 1.001204756759515,
+            "grad_correlation": 0.9988797199530008,
+            "lost_detail_rate": 0.02479453319789454,
+            "lost_detail_delta_vs_anchor": 0.01565241481207868
+          },
+          "extreme_gt4": {
+            "samples": 4139,
+            "luma_rmse": 0.0002919874531660774,
+            "luma_p99": 0.0005091098842479668,
+            "grad_nrmse": 0.13350201360000058,
+            "grad_energy_ratio": 1.009215973884362,
+            "grad_correlation": 0.9912120626706162,
+            "lost_detail_rate": 0.06001491053677933,
+            "lost_detail_delta_vs_anchor": 0.03665506958250497
+          }
+        },
+        "elapsed_sec": 1.6705576659878716
+      },
+      {
+        "label": "acescct_bits8_scale4",
+        "bits": 8,
+        "transform": "acescct",
+        "scale": 4.0,
+        "ranges": [
+          {
+            "lo": 0.0,
+            "hi": 0.5663483738899231
+          },
+          {
+            "lo": 0.0,
+            "hi": 0.5306945443153381
+          },
+          {
+            "lo": 0.0,
+            "hi": 0.4527631103992462
+          }
+        ],
+        "raw_bytes": 12582912,
+        "estimated_bytes": 1131786,
+        "estimated_ratio": 11.117748408267994,
+        "payload": {
+          "estimated_bytes": 1131786,
+          "estimated_bps": 2.8779534598781,
+          "nonzero_rate": 0.7032079696655273
+        },
+        "gate": {
+          "decision": "reject",
+          "failures": [
+            {
+              "severity": "maybe",
+              "region": "mid_0.25_1",
+              "metric": "lost_detail_rate_delta",
+              "value": 0.11707204372176769,
+              "threshold": 0.06,
+              "detail": "mid_0.25_1 detail loss needs a quick look"
+            },
+            {
+              "severity": "reject",
+              "region": "highlight_1_4",
+              "metric": "lost_detail_rate_delta",
+              "value": 0.15460799704497186,
+              "threshold": 0.075,
+              "detail": "highlight_1_4 loses too much local detail versus the anchor"
+            },
+            {
+              "severity": "reject",
+              "region": "extreme_gt4",
+              "metric": "lost_detail_rate_delta",
+              "value": 0.43178429423459247,
+              "threshold": 0.14,
+              "detail": "extreme_gt4 loses too much local detail versus the anchor"
+            },
+            {
+              "severity": "reject",
+              "region": "extreme_gt4",
+              "metric": "grad_energy_ratio",
+              "value": 1.3358015689287346,
+              "threshold": 1.06,
+              "detail": "highlight texture energy changed too much"
+            }
+          ]
+        },
+        "key_metrics": {
+          "dark_0_0.25": {
+            "samples": 958785,
+            "luma_rmse": 0.0013294466007832207,
+            "luma_p99": 0.0051310213894818334,
+            "grad_nrmse": 0.33599514119346385,
+            "grad_energy_ratio": 1.0948860353754297,
+            "grad_correlation": 0.9525569913946682,
+            "lost_detail_rate": 0.12130087447998283,
+            "lost_detail_delta_vs_anchor": -0.08213960662760478
+          },
+          "mid_0.25_1": {
+            "samples": 63494,
+            "luma_rmse": 0.0008844234420160754,
+            "luma_p99": 0.001886400748662394,
+            "grad_nrmse": 0.19070254166312045,
+            "grad_energy_ratio": 1.0176156172774007,
+            "grad_correlation": 0.9822835121569872,
+            "lost_detail_rate": 0.13571434261996002,
+            "lost_detail_delta_vs_anchor": 0.11707204372176769
+          },
+          "highlight_1_4": {
+            "samples": 22158,
+            "luma_rmse": 0.0014512899175410283,
+            "luma_p99": 0.0034223430564824255,
+            "grad_nrmse": 0.23595353435100194,
+            "grad_energy_ratio": 1.0270383283585565,
+            "grad_correlation": 0.9732517289495342,
+            "lost_detail_rate": 0.1637501154307877,
+            "lost_detail_delta_vs_anchor": 0.15460799704497186
+          },
+          "extreme_gt4": {
+            "samples": 4139,
+            "luma_rmse": 0.0019741090617533086,
+            "luma_p99": 0.003473281861779975,
+            "grad_nrmse": 0.8662871889314402,
+            "grad_energy_ratio": 1.3358015689287346,
+            "grad_correlation": 0.7613078114127599,
+            "lost_detail_rate": 0.4551441351888668,
+            "lost_detail_delta_vs_anchor": 0.43178429423459247
+          }
+        },
+        "elapsed_sec": 1.7134844590036664
+      },
+      {
+        "label": "pq_bits7_scale4",
+        "bits": 7,
+        "transform": "pq",
+        "scale": 4.0,
+        "ranges": [
+          {
+            "lo": 0.0,
+            "hi": 1.014643907546997
+          },
+          {
+            "lo": 0.0,
+            "hi": 0.9691962003707886
+          },
+          {
+            "lo": 0.0,
+            "hi": 0.8676831722259521
+          }
+        ],
+        "raw_bytes": 12582912,
+        "estimated_bytes": 1413489,
+        "estimated_ratio": 8.902023291302585,
+        "payload": {
+          "estimated_bytes": 1413489,
+          "estimated_bps": 3.5943607241184763,
+          "nonzero_rate": 0.7531696955362955
+        },
+        "gate": {
+          "decision": "reject",
+          "failures": [
+            {
+              "severity": "reject",
+              "region": "mid_0.25_1",
+              "metric": "lost_detail_rate_delta",
+              "value": 0.3501565475099784,
+              "threshold": 0.12,
+              "detail": "mid_0.25_1 loses too much local detail versus the anchor"
+            },
+            {
+              "severity": "reject",
+              "region": "highlight_1_4",
+              "metric": "lost_detail_rate_delta",
+              "value": 0.41707452211653895,
+              "threshold": 0.075,
+              "detail": "highlight_1_4 loses too much local detail versus the anchor"
+            },
+            {
+              "severity": "reject",
+              "region": "extreme_gt4",
+              "metric": "lost_detail_rate_delta",
+              "value": 0.5951789264413518,
+              "threshold": 0.14,
+              "detail": "extreme_gt4 loses too much local detail versus the anchor"
+            },
+            {
+              "severity": "reject",
+              "region": "highlight_1_4",
+              "metric": "grad_energy_ratio",
+              "value": 1.1878502691202195,
+              "threshold": 1.06,
+              "detail": "highlight texture energy changed too much"
+            },
+            {
+              "severity": "reject",
+              "region": "extreme_gt4",
+              "metric": "grad_energy_ratio",
+              "value": 2.088519175487142,
+              "threshold": 1.06,
+              "detail": "highlight texture energy changed too much"
+            }
+          ]
+        },
+        "key_metrics": {
+          "dark_0_0.25": {
+            "samples": 958785,
+            "luma_rmse": 0.00059880339115633,
+            "luma_p99": 0.0019871110574633936,
+            "grad_nrmse": 0.15716856363562037,
+            "grad_energy_ratio": 1.0122305949451078,
+            "grad_correlation": 0.987872145899767,
+            "lost_detail_rate": 0.07786668031273873,
+            "lost_detail_delta_vs_anchor": -0.12557380079484887
+          },
+          "mid_0.25_1": {
+            "samples": 63494,
+            "luma_rmse": 0.002453829764868697,
+            "luma_p99": 0.005250842430393112,
+            "grad_nrmse": 0.5098046288027033,
+            "grad_energy_ratio": 1.1217366884439086,
+            "grad_correlation": 0.8907582587071512,
+            "lost_detail_rate": 0.36879884640817073,
+            "lost_detail_delta_vs_anchor": 0.3501565475099784
+          },
+          "highlight_1_4": {
+            "samples": 22158,
+            "luma_rmse": 0.004054250590682448,
+            "luma_p99": 0.009624094036316654,
+            "grad_nrmse": 0.6456980277281411,
+            "grad_energy_ratio": 1.1878502691202195,
+            "grad_correlation": 0.8393576070466641,
+            "lost_detail_rate": 0.4262166405023548,
+            "lost_detail_delta_vs_anchor": 0.41707452211653895
+          },
+          "extreme_gt4": {
+            "samples": 4139,
+            "luma_rmse": 0.005740472278454464,
+            "luma_p99": 0.010103476242756823,
+            "grad_nrmse": 1.8551543007735558,
+            "grad_energy_ratio": 2.088519175487142,
+            "grad_correlation": 0.459731203150424,
+            "lost_detail_rate": 0.6185387673956262,
+            "lost_detail_delta_vs_anchor": 0.5951789264413518
+          }
+        },
+        "elapsed_sec": 1.936245083983522
+      },
+      {
+        "label": "acescct_bits9_scale4",
+        "bits": 9,
+        "transform": "acescct",
+        "scale": 4.0,
+        "ranges": [
+          {
+            "lo": 0.0,
+            "hi": 0.5663483738899231
+          },
+          {
+            "lo": 0.0,
+            "hi": 0.5306945443153381
+          },
+          {
+            "lo": 0.0,
+            "hi": 0.4527631103992462
+          }
+        ],
+        "raw_bytes": 12582912,
+        "estimated_bytes": 1501464,
+        "estimated_ratio": 8.38042870158725,
+        "payload": {
+          "estimated_bytes": 1501464,
+          "estimated_bps": 3.8180938330200234,
+          "nonzero_rate": 0.8357194264729818
+        },
+        "gate": {
+          "decision": "reject",
+          "failures": [
+            {
+              "severity": "maybe",
+              "region": "highlight_1_4",
+              "metric": "lost_detail_rate_delta",
+              "value": 0.05820020315818635,
+              "threshold": 0.035,
+              "detail": "highlight_1_4 detail loss needs a quick look"
+            },
+            {
+              "severity": "reject",
+              "region": "extreme_gt4",
+              "metric": "lost_detail_rate_delta",
+              "value": 0.25124254473161034,
+              "threshold": 0.14,
+              "detail": "extreme_gt4 loses too much local detail versus the anchor"
+            },
+            {
+              "severity": "reject",
+              "region": "extreme_gt4",
+              "metric": "grad_energy_ratio",
+              "value": 1.0925215208697683,
+              "threshold": 1.06,
+              "detail": "highlight texture energy changed too much"
+            }
+          ]
+        },
+        "key_metrics": {
+          "dark_0_0.25": {
+            "samples": 958785,
+            "luma_rmse": 0.0006299581816610193,
+            "luma_p99": 0.002037589006793371,
+            "grad_nrmse": 0.16236867089291546,
+            "grad_energy_ratio": 1.0272023169453857,
+            "grad_correlation": 0.9875274720385501,
+            "lost_detail_rate": 0.05809571501153215,
+            "lost_detail_delta_vs_anchor": -0.14534476609605546
+          },
+          "mid_0.25_1": {
+            "samples": 63494,
+            "luma_rmse": 0.0004425847972030048,
+            "luma_p99": 0.0009425993399410248,
+            "grad_nrmse": 0.09539325836469832,
+            "grad_energy_ratio": 1.0037656483002753,
+            "grad_correlation": 0.9954741957698504,
+            "lost_detail_rate": 0.06198962723368998,
+            "lost_detail_delta_vs_anchor": 0.04334732833549765
+          },
+          "highlight_1_4": {
+            "samples": 22158,
+            "luma_rmse": 0.0007277415736964092,
+            "luma_p99": 0.0017210070523879665,
+            "grad_nrmse": 0.11787658796742256,
+            "grad_energy_ratio": 1.0067686473758293,
+            "grad_correlation": 0.9931220169402171,
+            "lost_detail_rate": 0.06734232154400221,
+            "lost_detail_delta_vs_anchor": 0.05820020315818635
+          },
+          "extreme_gt4": {
+            "samples": 4139,
+            "luma_rmse": 0.000991551040973714,
+            "luma_p99": 0.001728237071746288,
+            "grad_nrmse": 0.4527024730795932,
+            "grad_energy_ratio": 1.0925215208697683,
+            "grad_correlation": 0.9101256618029889,
+            "lost_detail_rate": 0.2746023856858847,
+            "lost_detail_delta_vs_anchor": 0.25124254473161034
+          }
+        },
+        "elapsed_sec": 1.812838667014148
+      },
+      {
+        "label": "pq_bits8_scale4",
+        "bits": 8,
+        "transform": "pq",
+        "scale": 4.0,
+        "ranges": [
+          {
+            "lo": 0.0,
+            "hi": 1.014643907546997
+          },
+          {
+            "lo": 0.0,
+            "hi": 0.9691962003707886
+          },
+          {
+            "lo": 0.0,
+            "hi": 0.8676831722259521
+          }
+        ],
+        "raw_bytes": 12582912,
+        "estimated_bytes": 1793238,
+        "estimated_ratio": 7.0168666958875505,
+        "payload": {
+          "estimated_bytes": 1793238,
+          "estimated_bps": 4.560113588163158,
+          "nonzero_rate": 0.8553749720255533
+        },
+        "gate": {
+          "decision": "reject",
+          "failures": [
+            {
+              "severity": "reject",
+              "region": "mid_0.25_1",
+              "metric": "lost_detail_rate_delta",
+              "value": 0.17597852152229507,
+              "threshold": 0.12,
+              "detail": "mid_0.25_1 loses too much local detail versus the anchor"
+            },
+            {
+              "severity": "reject",
+              "region": "highlight_1_4",
+              "metric": "lost_detail_rate_delta",
+              "value": 0.22719087635054022,
+              "threshold": 0.075,
+              "detail": "highlight_1_4 loses too much local detail versus the anchor"
+            },
+            {
+              "severity": "reject",
+              "region": "extreme_gt4",
+              "metric": "lost_detail_rate_delta",
+              "value": 0.4903081510934394,
+              "threshold": 0.14,
+              "detail": "extreme_gt4 loses too much local detail versus the anchor"
+            },
+            {
+              "severity": "reject",
+              "region": "extreme_gt4",
+              "metric": "grad_energy_ratio",
+              "value": 1.5474213027013852,
+              "threshold": 1.06,
+              "detail": "highlight texture energy changed too much"
+            }
+          ]
+        },
+        "key_metrics": {
+          "dark_0_0.25": {
+            "samples": 958785,
+            "luma_rmse": 0.0002983416758633809,
+            "luma_p99": 0.0009865638756385848,
+            "grad_nrmse": 0.07843186971333545,
+            "grad_energy_ratio": 1.003132800523423,
+            "grad_correlation": 0.9969387185104477,
+            "lost_detail_rate": 0.03465545321581698,
+            "lost_detail_delta_vs_anchor": -0.16878502789177063
+          },
+          "mid_0.25_1": {
+            "samples": 63494,
+            "luma_rmse": 0.0012209848187743888,
+            "luma_p99": 0.002608050620901287,
+            "grad_nrmse": 0.26281188271109684,
+            "grad_energy_ratio": 1.0336106895850776,
+            "grad_correlation": 0.967134430823737,
+            "lost_detail_rate": 0.1946208204204874,
+            "lost_detail_delta_vs_anchor": 0.17597852152229507
+          },
+          "highlight_1_4": {
+            "samples": 22158,
+            "luma_rmse": 0.002016002313624388,
+            "luma_p99": 0.004697048598081423,
+            "grad_nrmse": 0.3275899658191437,
+            "grad_energy_ratio": 1.0517837550154667,
+            "grad_correlation": 0.9502589634404713,
+            "lost_detail_rate": 0.23633299473635608,
+            "lost_detail_delta_vs_anchor": 0.22719087635054022
+          },
+          "extreme_gt4": {
+            "samples": 4139,
+            "luma_rmse": 0.002803672786260452,
+            "luma_p99": 0.004980258256668455,
+            "grad_nrmse": 1.1542184913896323,
+            "grad_energy_ratio": 1.5474213027013852,
+            "grad_correlation": 0.6663642146415074,
+            "lost_detail_rate": 0.5136679920477137,
+            "lost_detail_delta_vs_anchor": 0.4903081510934394
+          }
+        },
+        "elapsed_sec": 2.1742448330041952
+      },
+      {
+        "label": "pq_bits9_scale4",
+        "bits": 9,
+        "transform": "pq",
+        "scale": 4.0,
+        "ranges": [
+          {
+            "lo": 0.0,
+            "hi": 1.014643907546997
+          },
+          {
+            "lo": 0.0,
+            "hi": 0.9691962003707886
+          },
+          {
+            "lo": 0.0,
+            "hi": 0.8676831722259521
+          }
+        ],
+        "raw_bytes": 12582912,
+        "estimated_bytes": 2182297,
+        "estimated_ratio": 5.765902624619839,
+        "payload": {
+          "estimated_bytes": 2182297,
+          "estimated_bps": 5.549541483171211,
+          "nonzero_rate": 0.920228640238444
+        },
+        "gate": {
+          "decision": "reject",
+          "failures": [
+            {
+              "severity": "maybe",
+              "region": "mid_0.25_1",
+              "metric": "lost_detail_rate_delta",
+              "value": 0.06918364257773599,
+              "threshold": 0.06,
+              "detail": "mid_0.25_1 detail loss needs a quick look"
+            },
+            {
+              "severity": "reject",
+              "region": "highlight_1_4",
+              "metric": "lost_detail_rate_delta",
+              "value": 0.09550743374272785,
+              "threshold": 0.075,
+              "detail": "highlight_1_4 loses too much local detail versus the anchor"
+            },
+            {
+              "severity": "reject",
+              "region": "extreme_gt4",
+              "metric": "lost_detail_rate_delta",
+              "value": 0.34107852882703776,
+              "threshold": 0.14,
+              "detail": "extreme_gt4 loses too much local detail versus the anchor"
+            },
+            {
+              "severity": "reject",
+              "region": "extreme_gt4",
+              "metric": "grad_energy_ratio",
+              "value": 1.190059223033746,
+              "threshold": 1.06,
+              "detail": "highlight texture energy changed too much"
+            }
+          ]
+        },
+        "key_metrics": {
+          "dark_0_0.25": {
+            "samples": 958785,
+            "luma_rmse": 0.0001487160659179654,
+            "luma_p99": 0.0004928658711976788,
+            "grad_nrmse": 0.039109226349459444,
+            "grad_energy_ratio": 1.0007374266976723,
+            "grad_correlation": 0.9992360694490241,
+            "lost_detail_rate": 0.012644373788889347,
+            "lost_detail_delta_vs_anchor": -0.19079610731869825
+          },
+          "mid_0.25_1": {
+            "samples": 63494,
+            "luma_rmse": 0.0006107004862820324,
+            "luma_p99": 0.0012986572608705838,
+            "grad_nrmse": 0.1316011023294849,
+            "grad_energy_ratio": 1.0080775975018905,
+            "grad_correlation": 0.9914423241843242,
+            "lost_detail_rate": 0.08782594147592833,
+            "lost_detail_delta_vs_anchor": 0.06918364257773599
+          },
+          "highlight_1_4": {
+            "samples": 22158,
+            "luma_rmse": 0.0010085483379126657,
+            "luma_p99": 0.0023811066878340376,
+            "grad_nrmse": 0.16435205042035225,
+            "grad_energy_ratio": 1.013117223604905,
+            "grad_correlation": 0.9867539834991793,
+            "lost_detail_rate": 0.10464955212854372,
+            "lost_detail_delta_vs_anchor": 0.09550743374272785
+          },
+          "extreme_gt4": {
+            "samples": 4139,
+            "luma_rmse": 0.0014109919538437998,
+            "luma_p99": 0.002449436543258927,
+            "grad_nrmse": 0.6447960241403,
+            "grad_energy_ratio": 1.190059223033746,
+            "grad_correlation": 0.840495583270572,
+            "lost_detail_rate": 0.3644383697813121,
+            "lost_detail_delta_vs_anchor": 0.34107852882703776
+          }
+        },
+        "elapsed_sec": 2.2453993750095833
+      },
+      {
+        "label": "pq_bits10_scale4",
+        "bits": 10,
+        "transform": "pq",
+        "scale": 4.0,
+        "ranges": [
+          {
+            "lo": 0.0,
+            "hi": 1.014643907546997
+          },
+          {
+            "lo": 0.0,
+            "hi": 0.9691962003707886
+          },
+          {
+            "lo": 0.0,
+            "hi": 0.8676831722259521
+          }
+        ],
+        "raw_bytes": 12582912,
+        "estimated_bytes": 2574457,
+        "estimated_ratio": 4.887598433378378,
+        "payload": {
+          "estimated_bytes": 2574457,
+          "estimated_bps": 6.546855386745366,
+          "nonzero_rate": 0.9579086303710938
+        },
+        "gate": {
+          "decision": "reject",
+          "failures": [
+            {
+              "severity": "reject",
+              "region": "extreme_gt4",
+              "metric": "lost_detail_rate_delta",
+              "value": 0.17010437375745527,
+              "threshold": 0.14,
+              "detail": "extreme_gt4 loses too much local detail versus the anchor"
+            }
+          ]
+        },
+        "key_metrics": {
+          "dark_0_0.25": {
+            "samples": 958785,
+            "luma_rmse": 7.439348192875575e-05,
+            "luma_p99": 0.0002459360575080028,
+            "grad_nrmse": 0.019561861920858677,
+            "grad_energy_ratio": 1.0001973746580155,
+            "grad_correlation": 0.9998087240105055,
+            "lost_detail_rate": 0.003077154438898407,
+            "lost_detail_delta_vs_anchor": -0.2003633266686892
+          },
+          "mid_0.25_1": {
+            "samples": 63494,
+            "luma_rmse": 0.0003031890802364168,
+            "luma_p99": 0.0006458221310145873,
+            "grad_nrmse": 0.06545445297490185,
+            "grad_energy_ratio": 1.001980218183058,
+            "grad_correlation": 0.9978640475767314,
+            "lost_detail_rate": 0.04058285067837254,
+            "lost_detail_delta_vs_anchor": 0.021940551780180208
+          },
+          "highlight_1_4": {
+            "samples": 22158,
+            "luma_rmse": 0.000503981358643642,
+            "luma_p99": 0.001194885460011285,
+            "grad_nrmse": 0.08200494171002357,
+            "grad_energy_ratio": 1.003612696694428,
+            "grad_correlation": 0.9966562006889887,
+            "lost_detail_rate": 0.0439791301135839,
+            "lost_detail_delta_vs_anchor": 0.034837011727768034
+          },
+          "extreme_gt4": {
+            "samples": 4139,
+            "luma_rmse": 0.0006924342501727774,
+            "luma_p99": 0.0012304608726904486,
+            "grad_nrmse": 0.31857243874476915,
+            "grad_energy_ratio": 1.0489062473786481,
+            "grad_correlation": 0.9527619470554287,
+            "lost_detail_rate": 0.19346421471172962,
+            "lost_detail_delta_vs_anchor": 0.17010437375745527
+          }
+        },
+        "elapsed_sec": 2.0673736250028014
+      }
+    ]
+  }
+]

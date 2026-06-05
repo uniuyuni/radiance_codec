@@ -1,0 +1,190 @@
+{
+  "label": "display_diff_guard_thresholds_Y7",
+  "shape": [
+    5152,
+    7728,
+    3
+  ],
+  "base_png": "outputs/previews/vst_chroma_dark_protect/sample_DSCF0009_full_candidate_Y7_slog10_dark-smooth0_5_r2_st0_0025_decoded.png",
+  "safe_png": "outputs/previews/sample_DSCF0009_crop0_signed-log_bits10_w4_g2.2_decoded.png",
+  "focus_x": 2361,
+  "focus_y": 3811,
+  "rows": [
+    {
+      "luma_threshold": 0.0065,
+      "dilate_radius": 0,
+      "mask_rate": 0.1839072777622391,
+      "mask_bytes": 2921696,
+      "focus": {
+        "inside_image": true,
+        "hit": true,
+        "luma_diff": 0.007408468757152661,
+        "max_rgb_diff": 0.010986495765621426,
+        "r8_mask_rate": 0.17647058823529413,
+        "r16_mask_rate": 0.14967860422405876,
+        "r32_mask_rate": 0.1450887573964497,
+        "r64_mask_rate": 0.12895859623820685
+      }
+    },
+    {
+      "luma_threshold": 0.007,
+      "dilate_radius": 0,
+      "mask_rate": 0.1540940351211373,
+      "mask_bytes": 2636103,
+      "focus": {
+        "inside_image": true,
+        "hit": true,
+        "luma_diff": 0.007408468757152661,
+        "max_rgb_diff": 0.010986495765621426,
+        "r8_mask_rate": 0.16262975778546712,
+        "r16_mask_rate": 0.13314967860422405,
+        "r32_mask_rate": 0.12733727810650888,
+        "r64_mask_rate": 0.10600324499729584
+      }
+    },
+    {
+      "luma_threshold": 0.0075,
+      "dilate_radius": 0,
+      "mask_rate": 0.1276633659725705,
+      "mask_bytes": 2344628,
+      "focus": {
+        "inside_image": true,
+        "hit": false,
+        "luma_diff": 0.007408468757152661,
+        "max_rgb_diff": 0.010986495765621426,
+        "r8_mask_rate": 0.14878892733564014,
+        "r16_mask_rate": 0.1184573002754821,
+        "r32_mask_rate": 0.11242603550295859,
+        "r64_mask_rate": 0.0863529835947359
+      }
+    },
+    {
+      "luma_threshold": 0.008,
+      "dilate_radius": 0,
+      "mask_rate": 0.10507575401379833,
+      "mask_bytes": 2062414,
+      "focus": {
+        "inside_image": true,
+        "hit": false,
+        "luma_diff": 0.007408468757152661,
+        "max_rgb_diff": 0.010986495765621426,
+        "r8_mask_rate": 0.13494809688581316,
+        "r16_mask_rate": 0.10651974288337925,
+        "r32_mask_rate": 0.10059171597633136,
+        "r64_mask_rate": 0.07132984796586743
+      }
+    },
+    {
+      "luma_threshold": 0.0085,
+      "dilate_radius": 0,
+      "mask_rate": 0.0859476972499775,
+      "mask_bytes": 1795708,
+      "focus": {
+        "inside_image": true,
+        "hit": false,
+        "luma_diff": 0.007408468757152661,
+        "max_rgb_diff": 0.010986495765621426,
+        "r8_mask_rate": 0.1245674740484429,
+        "r16_mask_rate": 0.09366391184573003,
+        "r32_mask_rate": 0.08710059171597632,
+        "r64_mask_rate": 0.060152635057989304
+      }
+    },
+    {
+      "luma_threshold": 0.009,
+      "dilate_radius": 0,
+      "mask_rate": 0.06978083648393195,
+      "mask_bytes": 1549995,
+      "focus": {
+        "inside_image": true,
+        "hit": false,
+        "luma_diff": 0.007408468757152661,
+        "max_rgb_diff": 0.010986495765621426,
+        "r8_mask_rate": 0.11418685121107267,
+        "r16_mask_rate": 0.0844811753902663,
+        "r32_mask_rate": 0.07763313609467455,
+        "r64_mask_rate": 0.05053782825551349
+      }
+    },
+    {
+      "luma_threshold": 0.01,
+      "dilate_radius": 0,
+      "mask_rate": 0.04560918471831076,
+      "mask_bytes": 1136915,
+      "focus": {
+        "inside_image": true,
+        "hit": false,
+        "luma_diff": 0.007408468757152661,
+        "max_rgb_diff": 0.010986495765621426,
+        "r8_mask_rate": 0.07612456747404844,
+        "r16_mask_rate": 0.06152433425160698,
+        "r32_mask_rate": 0.06106508875739645,
+        "r64_mask_rate": 0.03689682110450093
+      }
+    },
+    {
+      "luma_threshold": 0.011,
+      "dilate_radius": 0,
+      "mask_rate": 0.02943549229710788,
+      "mask_bytes": 817664,
+      "focus": {
+        "inside_image": true,
+        "hit": false,
+        "luma_diff": 0.007408468757152661,
+        "max_rgb_diff": 0.010986495765621426,
+        "r8_mask_rate": 0.05536332179930796,
+        "r16_mask_rate": 0.046831955922865015,
+        "r32_mask_rate": 0.04970414201183432,
+        "r64_mask_rate": 0.028904512949942913
+      }
+    },
+    {
+      "luma_threshold": 0.012,
+      "dilate_radius": 0,
+      "mask_rate": 0.019436184504520143,
+      "mask_bytes": 591550,
+      "focus": {
+        "inside_image": true,
+        "hit": false,
+        "luma_diff": 0.007408468757152661,
+        "max_rgb_diff": 0.010986495765621426,
+        "r8_mask_rate": 0.04152249134948097,
+        "r16_mask_rate": 0.03764921946740129,
+        "r32_mask_rate": 0.03905325443786982,
+        "r64_mask_rate": 0.022955351240911002
+      }
+    },
+    {
+      "luma_threshold": 0.014,
+      "dilate_radius": 0,
+      "mask_rate": 0.008770011726335146,
+      "mask_bytes": 310158,
+      "focus": {
+        "inside_image": true,
+        "hit": false,
+        "luma_diff": 0.007408468757152661,
+        "max_rgb_diff": 0.010986495765621426,
+        "r8_mask_rate": 0.02768166089965398,
+        "r16_mask_rate": 0.018365472910927456,
+        "r32_mask_rate": 0.019408284023668638,
+        "r64_mask_rate": 0.013160266810888768
+      }
+    },
+    {
+      "luma_threshold": 0.016,
+      "dilate_radius": 0,
+      "mask_rate": 0.004086660952188058,
+      "mask_bytes": 163014,
+      "focus": {
+        "inside_image": true,
+        "hit": false,
+        "luma_diff": 0.007408468757152661,
+        "max_rgb_diff": 0.010986495765621426,
+        "r8_mask_rate": 0.020761245674740483,
+        "r16_mask_rate": 0.012855831037649219,
+        "r32_mask_rate": 0.01301775147928994,
+        "r64_mask_rate": 0.00847304849468181
+      }
+    }
+  ]
+}

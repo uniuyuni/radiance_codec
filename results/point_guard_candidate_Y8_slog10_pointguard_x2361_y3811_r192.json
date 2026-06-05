@@ -1,0 +1,28 @@
+{
+  "label": "candidate_Y8_slog10_pointguard_x2361_y3811_r192",
+  "shape": [
+    5152,
+    7728,
+    3
+  ],
+  "x": 2361,
+  "y": 3811,
+  "radius": 192,
+  "mask_pixel_rate": 0.0029079995065133804,
+  "mask_payload": {
+    "sample_count": 39814656,
+    "finite_bits": 7470.0120415978045,
+    "bits_per_sample": 0.00018761965547555665,
+    "payload_bytes": 938,
+    "model_bytes": 16,
+    "total_bytes": 954
+  },
+  "base_png": "/Users/uniuyuni/LibraryProjects/radiance_codec/outputs/previews/vst_chroma_dark_protect/candidate_Y8_slog10_st0025.png",
+  "safe_png": "/Users/uniuyuni/LibraryProjects/radiance_codec/outputs/previews/sample_DSCF0009_crop0_signed-log_bits10_w4_g2.2_decoded.png",
+  "decoded_png": "/Users/uniuyuni/LibraryProjects/radiance_codec/outputs/previews/vst_chroma_dark_protect/candidate_Y8_slog10_pointguard_x2361_y3811_r192.png",
+  "mask_png": "/Users/uniuyuni/LibraryProjects/radiance_codec/outputs/previews/vst_chroma_dark_protect/candidate_Y8_slog10_pointguard_x2361_y3811_r192_mask.png",
+  "crop_png": "/Users/uniuyuni/LibraryProjects/radiance_codec/outputs/previews/vst_chroma_dark_protect/candidate_Y8_slog10_pointguard_x2361_y3811_r192_crop.png",
+  "safe_crop_png": "/Users/uniuyuni/LibraryProjects/radiance_codec/outputs/previews/vst_chroma_dark_protect/candidate_Y8_slog10_pointguard_x2361_y3811_r192_safe_crop.png",
+  "base_crop_png": "/Users/uniuyuni/LibraryProjects/radiance_codec/outputs/previews/vst_chroma_dark_protect/candidate_Y8_slog10_pointguard_x2361_y3811_r192_base_crop.png",
+  "note": "Manual diagnostic guard around a user-provided point; not a final bitstream route."
+}

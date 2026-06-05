@@ -1,0 +1,143 @@
+{
+  "image": "sample_hilberts-mill-conference-room_2K.exr",
+  "shape": [
+    1024,
+    2048,
+    4
+  ],
+  "raw_bytes": 33554432,
+  "mask_mode": "dark-smooth",
+  "dark_max": 0.5,
+  "mask_radius": 2,
+  "smooth_threshold": 0.0025,
+  "additional_mask": null,
+  "signedlog_predictor": "avg",
+  "mask_pixel_rate": 0.054635047912597656,
+  "low_nonmask_pixel_rate": 0.9245967864990234,
+  "estimated_bytes": 375263,
+  "estimated_ratio": 89.41577506975108,
+  "payload": {
+    "vst_y_nonmask": {
+      "predictor": "med",
+      "estimated_bits": 1007170.6991298336,
+      "estimated_bytes": 125929,
+      "channels": [
+        {
+          "channel": 0,
+          "bits": 8,
+          "predictor": "med",
+          "samples": 1982574,
+          "estimated_bits": 1007170.6991298336,
+          "bits_per_sample": 0.508011655115942
+        }
+      ]
+    },
+    "vst_chroma_low_nonmask": {
+      "predictor": "med",
+      "estimated_bits": 336266.877546608,
+      "estimated_bytes": 42066,
+      "channels": [
+        {
+          "channel": 0,
+          "bits": 8,
+          "predictor": "med",
+          "samples": 484755,
+          "estimated_bits": 165773.7492341305,
+          "bits_per_sample": 0.3419742947140937
+        },
+        {
+          "channel": 1,
+          "bits": 8,
+          "predictor": "med",
+          "samples": 484755,
+          "estimated_bits": 170493.12831247752,
+          "bits_per_sample": 0.35170989120788343
+        }
+      ]
+    },
+    "vst_chroma_high_nonmask": {
+      "estimated_bits": 336700.819237932,
+      "estimated_bytes": 42088,
+      "ranges": [
+        {
+          "lo": -7.312859058380127,
+          "hi": 4.353405952453613
+        },
+        {
+          "lo": -1.8048781156539917,
+          "hi": 1.4228588342666626
+        }
+      ],
+      "channels": [
+        {
+          "channel": 0,
+          "bits": 5,
+          "samples": 410609,
+          "estimated_bits": 188284.6463935807,
+          "bits_per_sample": 0.45854973075013145
+        },
+        {
+          "channel": 1,
+          "bits": 5,
+          "samples": 410609,
+          "estimated_bits": 148416.1728443513,
+          "bits_per_sample": 0.3614537743798877
+        }
+      ]
+    },
+    "vst_chroma_high_nonmask_mask": {
+      "sample_count": 2097152,
+      "finite_bits": 874861.4869081592,
+      "bits_per_sample": 0.4171664652386471,
+      "payload_bytes": 109362,
+      "model_bytes": 16,
+      "total_bytes": 109378
+    },
+    "vst_chroma_high_thresholds": [
+      0.011656013800296931,
+      0.0033487403762410394
+    ],
+    "vst_chroma_high_nonmask_pixel_rate": 0.19579362869262695,
+    "signedlog10_mask": {
+      "predictor": "avg",
+      "estimated_bits": 292105.96132857446,
+      "estimated_bytes": 36546,
+      "channels": [
+        {
+          "channel": 0,
+          "bits": 10,
+          "predictor": "avg",
+          "samples": 114578,
+          "estimated_bits": 109843.59884594198,
+          "bits_per_sample": 0.9586796666545233
+        },
+        {
+          "channel": 1,
+          "bits": 10,
+          "predictor": "avg",
+          "samples": 114578,
+          "estimated_bits": 93803.3150890128,
+          "bits_per_sample": 0.8186852195797867
+        },
+        {
+          "channel": 2,
+          "bits": 10,
+          "predictor": "avg",
+          "samples": 114578,
+          "estimated_bits": 88459.04739361966,
+          "bits_per_sample": 0.772042166852447
+        }
+      ]
+    },
+    "mask": {
+      "sample_count": 2097152,
+      "finite_bits": 149789.8229025307,
+      "bits_per_sample": 0.0714253534805921,
+      "payload_bytes": 18728,
+      "model_bytes": 16,
+      "total_bytes": 18744
+    },
+    "metadata_bytes": 512
+  },
+  "note": "Sizing probe for VST nonmask + signed-log masked route. Includes VST Y/low/high for nonmask and signed-log indices for mask. This is an entropy probe, not a final bitstream byte count."
+}

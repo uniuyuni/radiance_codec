@@ -1,0 +1,120 @@
+{
+  "image": "sample_DSCF0009.EXR",
+  "shape": [
+    5152,
+    7728,
+    3
+  ],
+  "label": "vstchroma_gamma075_Y10_CL8_H7_s2_r2_ge0.1_tm1",
+  "raw_bytes": 477775872,
+  "estimated_bytes": 32441648,
+  "estimated_ratio": 14.727238024406159,
+  "payload": {
+    "vst_mode": "gamma075",
+    "vst_a": 1.0,
+    "vst_b": 0.01,
+    "vst_eps": 0.0001,
+    "y_bits": 10,
+    "chroma_low_bits": 8,
+    "high_bits": 7,
+    "low_scale": 2,
+    "guide_radius": 2,
+    "guide_eps": 0.1,
+    "threshold_mult": 1.0,
+    "high_thresholds": [
+      0.010800726932846009,
+      0.007016097715683281
+    ],
+    "high_pixel_rate": 0.5151942792121574,
+    "estimated_bytes": 32441648,
+    "payload": {
+      "y": {
+        "estimated_bits": 136636500.95312208,
+        "estimated_bytes": 17079563,
+        "channels": [
+          {
+            "channel": 0,
+            "bits": 10,
+            "samples": 39814656,
+            "estimated_bits": 136636500.95312208,
+            "bits_per_sample": 3.431814178003248
+          }
+        ]
+      },
+      "y_range": {
+        "lo": 0.0,
+        "hi": 3.0896854400634766
+      },
+      "chroma_low": {
+        "estimated_bits": 23322470.789308332,
+        "estimated_bytes": 2915309,
+        "channels": [
+          {
+            "channel": 0,
+            "bits": 8,
+            "samples": 9953664,
+            "estimated_bits": 10514609.563329853,
+            "bits_per_sample": 1.0563556860398193
+          },
+          {
+            "channel": 1,
+            "bits": 8,
+            "samples": 9953664,
+            "estimated_bits": 12807861.225978477,
+            "bits_per_sample": 1.2867483999840137
+          }
+        ]
+      },
+      "chroma_low_ranges": [
+        {
+          "lo": -2.1936395168304443,
+          "hi": 2.367490768432617
+        },
+        {
+          "lo": -1.0532695055007935,
+          "hi": 0.6122519969940186
+        }
+      ],
+      "high": {
+        "estimated_bytes": 8560456,
+        "channels": [
+          {
+            "channel": 0,
+            "bits": 7,
+            "samples": 20512283,
+            "estimated_bits": 35769671.119598106,
+            "bits_per_sample": 1.7438171616293567
+          },
+          {
+            "channel": 1,
+            "bits": 7,
+            "samples": 20512283,
+            "estimated_bits": 32713971.977317665,
+            "bits_per_sample": 1.594847924890548
+          }
+        ],
+        "ranges": [
+          {
+            "lo": -1.5591623783111572,
+            "hi": 1.6101197004318237
+          },
+          {
+            "lo": -1.1361010074615479,
+            "hi": 0.7718284130096436
+          }
+        ],
+        "mask_payload": {
+          "sample_count": 39814656,
+          "finite_bits": 31088350.94683883,
+          "bits_per_sample": 0.7808268127907179,
+          "payload_bytes": 3886048,
+          "model_bytes": 16,
+          "total_bytes": 3886064
+        }
+      },
+      "metadata_bytes": 256
+    }
+  },
+  "original_png": "outputs/previews/vst_chroma_dark_protect/sample_DSCF0009_full_original_w4_g2.2.png",
+  "decoded_png": "outputs/previews/vst_chroma_dark_protect/sample_DSCF0009_full_vstchroma_gamma075_Y10_CL8_H7_s2_r2_ge0_1_tm1_w4_g2.2_decoded.png"
+}

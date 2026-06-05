@@ -3,6 +3,479 @@
 この文書は、Codex / アプリを閉じて再開したあとに、現在地へ素早く戻るためのメモです。
 既存ドキュメントを全部読み返す前に、まずここを読めば「何が実装済みで、何が詰まりどころで、次に何を見るべきか」が分かるようにしてあります。
 
+## 2026-06-04 現在の追加メモ
+
+- 中間検証を止めないための代理審査員を追加した。
+  - script: `scripts/audit_visual_gate.py`
+  - dark smooth gradient と highlight texture/detail を、display-space metrics で判定する。
+  - 判定は `PASS` / `MAYBE` / `REJECT`。`MAYBE` は人間の少数目視へ回す。
+  - 既知NGの `signed-log bits8` / `power0.8 bits8 signed-log-mean` は `REJECT`。
+  - 既知OK寄りの `signed-log bits8 + dark10 max0.08 banding mask` は `MAYBE`。
+  - 保存結果: `results/visual_gate_sample_DSCF0009pEXR_crop1024_anchorquant_signed-log_10_w4_g2.2.json`
+- float32 native prefix を再監査した。
+  - script: `scripts/probe_float_native_prefix.py`
+  - 符号・指数・仮数prefixを残し、低mantissa tailを捨てる near-lossless ルート。
+  - crop768 / 3サンプルでは、画質的には keep7/8 あたりから通るが、prefix payload の
+    best entropy が重く、推定比率は `sample_DSCF0009` keep8 で `3.55x` 程度。
+  - 明るい `sample_bright_park` でも keep6 が `7.54x` 程度で、20-25MB本命には遠い。
+  - 結論: exact bit split はもちろん、near-lossless native prefix も単独では本命にしにくい。
+    ただし画質判定の参照実験として残す。
+  - 保存結果: `results/float_native_prefix_sample_star_EXR_crop768_keep6-7-8-9-10-11-12_center.json`
+- 次の主戦場は、既存の transform/index route のまま
+  - 暗部だけの厳格救済をもっと安くする
+  - global/local/tile selector を代理審査員で自動スクリーニングする
+  - 25MBを切れない場合は、暗部階調だけを別モデル化して少数目視で確認する
+  方向が現実的。
+- Lightroom / Camera Raw風の古典NR調査を追加。
+  - doc: `docs/LIGHTROOM_NR_RESEARCH_JA.md`
+  - 現行AI Denoiseではなく、公開特許/手動NRから
+    `flat noise space -> YCoCg/YCC -> chroma強めNR -> luma慎重NR`
+    の軽量codec向け構造を抽出した。
+  - 実装probeはAdobe特許そのものではなく、一般的なVST + YCoCg chroma-only分離として
+    `scripts/probe_vst_chroma_nr.py` を追加。
+  - DSCF crop512:
+    - 高品質control `vstchroma_gamma075_Y9_CL8_H8_s1_r2_ge0.1_tm0` は
+      `PASS/PASS`, 推定 `423,994 bytes`, `7.42x`, high保持率 `100%`。
+    - 攻め候補 `vstchroma_gamma075_Y10_CL8_H8_s2_r2_ge0.1_tm1` は
+      `PASS/REJECT`, 推定 `265,216 bytes`, `11.86x`, high保持率 `50.98%`。
+    - ユーザー目視:
+      - 高品質controlはオリジナルとの差が分からない。
+      - 11.86x候補は少し平滑化していると分かる程度。
+    - 追加探索:
+      - `vstchroma_gamma075_Y10_CL8_H6_s2_r2_ge0.1_tm2` が
+        推定 `156,420 bytes`, `20.11x`, high保持率 `14.64%`。
+      - 確認用PNGは比較疲れを避けるため2枚:
+        `Y10_CL8_H7_tm2` (`19.27x`) と `Y10_CL8_H6_tm1.75` (`18.86x`)。
+      - ユーザー目視では、この2枚も「オリジナルから少し平滑化しただけ」で差がほぼ分からない。
+    - crop1024:
+      - `Y10_CL8_H6_tm2`: 推定 `618,656 bytes`, `20.34x`, high保持率 `16.83%`。
+      - `Y10_CL8_H5_tm2.5`: 推定 `547,142 bytes`, `23.00x`, high保持率 `10.45%`。
+      - PNG:
+        `outputs/previews/vst_chroma_nr/sample_DSCF0009_crop1024_vstchroma_gamma075_Y10_CL8_H6_s2_r2_ge0_1_tm2_w4_g2.2_decoded.png`
+      - PNG:
+        `outputs/previews/vst_chroma_nr/sample_DSCF0009_crop1024_vstchroma_gamma075_Y10_CL8_H5_s2_r2_ge0_1_tm2_5_w4_g2.2_decoded.png`
+      - ユーザー目視:
+        - 2枚とも良い感じ。
+        - ただしオリジナルとは違うため、方向性が少し変わってきた。
+        - これは忠実near-losslessではなく、Lightroom風に少し平滑化する
+          `visually-denoised profile` として分けて扱う。
+    - 判断: VST-chroma分離は、暗部/色差圧縮の有力な枝へ少し昇格。
+      次はfaithful profileとdenoised profileを混ぜず、VST-chromaはdenoised branchとして
+      fullで黄色化・中間調・ハイライトを確認する。
+    - 10MB目標メモ:
+      - `sample_DSCF0009.EXR` rawは `477,775,872 bytes`。
+      - 10,000,000 bytesには約 `47.78x` が必要。
+      - crop1024換算では約 `263KB` が目標。
+      - VST-chroma crop1024 `23x` 候補は `547KB` で、まだ約2倍重い。
+      - 内訳ではY payloadだけで `364KB` あり、chromaだけ削っても10MBには届かない。
+      - 素朴なY8化では `48.60x` まで出るが、dark detail delta `39.82%` で破綻。
+      - `scripts/probe_vst_denoised_profile.py` でY low/high分離も試したが、
+        現在の軽いguided luma分離はhighlight detailを `24-29%` 失いすぎる。
+      - 結論: 20MB級はVST-chromaで有望。10MB級にはYのedge/detail保持モデルが別途必要。
+    - full 20MB級テスト:
+      - 候補: `vstchroma_gamma075_Y10_CL8_H5_s2_r2_ge0.1_tm2.5`
+      - estimated `23,285,958 bytes`, `20.52x`
+      - high chroma保持率 `15.88%`
+      - proxy `REJECT/REJECT`
+      - dark detail delta `11.90%`, lift dark detail delta `13.04%`,
+        highlight detail delta `5.24%`
+      - PNG:
+        `outputs/previews/vst_chroma_nr/sample_DSCF0009_full_vstchroma_gamma075_Y10_CL8_H5_s2_r2_ge0_1_tm2_5_w4_g2.2_decoded.png`
+      - 判断: 強い黄色化は見えにくいが、denoised profileとして目視判断が必要。
+      - ユーザー目視:
+        - 暗部グラデーションがマダラ。最初ブロックノイズ化に見えた。
+        - これはNG。
+        - 一方で明部は区別がつかず、detail消失も見えない。
+      - 対応:
+        - `scripts/export_vst_chroma_dark_protect_preview.py` を追加。
+        - base `Y10_CL8_H5_tm2.5` のまま、dark-smooth領域だけsafe `Y10_CL8_H6_tm1.75`
+          に差し替えるvisual routing preview。
+        - full mask率 `16.61%`。
+        - base estimate `23,285,958 bytes` (`20.52x`), safe全体 estimate
+          `25,945,773 bytes` (`18.41x`)。
+        - PNG:
+          `outputs/previews/vst_chroma_dark_protect/sample_DSCF0009_full_vstchroma_darkprotect_gamma075_Y10_CL8_baseH5_tm2_5_safeH6_tm1_75_dark-smooth0_25_w4_g2.2_decoded.png`
+        - 注意: これはまだ正確なrouted bitstream sizeではなく、decoded画像のmask合成preview。
+          次はdark-smooth領域だけsafe high residualを持つpayload見積もりが必要。
+- 追加探索:
+  - `scripts/probe_dark_router_visual_search.py`
+    - dark refinement router候補に、推定payloadと代理審査員判定を同時に付ける。
+    - `sample_DSCF0009` crop1024:
+      - `gamma075 bits8 + dark10 std0.25` が最小MAYBEで約 `13.7x`。
+      - full換算では約 `35MB` で、25MBには届かない。
+      - 25MB近辺の候補はmaskが小さすぎ、暗部lost deltaが約 `16-20%` でREJECT。
+      - `bits7` base は暗部/明部とも破綻し、サイズも大きく伸びないので低優先。
+  - `scripts/probe_lowres_dark_correction.py`
+    - per-pixel dark refinementの代わりに、signed-log低解像度補正mapで暗部階調を救う仮説。
+    - crop512では block64/32/16 はほぼ効かず、block4まで上げても暗部lost deltaは約 `16%` 残る。
+    - 結論: 暗部破綻は低周波biasではなく、量子化bin内の局所階調喪失が主。安い低解像度補正では救いにくい。
+  - `channel-power` 候補を `scripts/audit_visual_gate.py` に追加。
+    - 既存のRMSE/gradientでは `channel gamma bits8` が25x級でPASSするが、
+      代理審査員では暗部lost delta `22-27%` でREJECT。
+    - 代理審査員を入れた価値が大きい。従来指標だけだと危険候補を通す。
+- 2026-06-04 追加: luma優先の非対称YCoCgを検証。
+  - `scripts/probe_asymmetric_color_index.py` を追加。
+  - これは過去の `ycocg bitsN` 一律量子化とは別。Yを厚く、Co/Cgを薄くする。
+  - `sample_DSCF0009` crop1024:
+    - `ycocg Y=10, Co/Cg=6, gamma075/gamma075/gamma075`
+      - 代理審査員 `PASS`
+      - 推定 `626,070 bytes`, `20.10x`
+      - full raw換算で約 `23.8MB`
+    - `Y=10, Co/Cg=5, gamma075/signed-log` は `27.68x` だが `MAYBE`。
+  - crop768 / 3サンプル横断:
+    - `sample_DSCF0009`: `Y10 C6 gamma075` が `PASS`, `19.38x`。
+    - `sample_bright_park`: `PASS` だが `7.52x` 程度でサイズ面は弱い。
+    - `sample_middle_flower`: `C6` はREJECT、`C7` はMAYBEで `7.5x` 程度。
+  - 判断:
+    - 万能routeではないが、DSCF本番サンプルには今までで一番25MB圏内に近い。
+    - 次はこの候補のPNG previewと、実bitstream化に必要なper-channel bits/transform対応のpayload設計。
+    - Co/Cgをさらに落とす場合は、色差の代理審査指標も追加するべき。
+- 2026-06-04 追加: perceptual transform 単体を再確認。
+  - `scripts/probe_perceptual_transform_index.py` を追加。
+  - 比較対象: `signed-log`, `gamma075`, `gamma09`, `asinh`, PQ風, ACEScct風。
+  - `sample_DSCF0009` crop1024 / scale4:
+    - `gamma075 bits9`: `PASS`, `12.53x`。
+    - `signed-log bits10`: `PASS`, `10.85x`。
+    - `asinh bits10`, `gamma09 bits10`: `MAYBE`。
+    - PQは暗部には強いが、payloadが非常に重く、highlight/extreme detailでREJECT。
+    - ACEScctはscale依存で、scale1/16/64を試しても `PASS` なし。
+  - 判断:
+    - 「リニア空間を捨てる」方向は既に正しいが、PQ/ACEScct単体は今回のindex payloadと相性が悪い。
+    - 現状の勝ち筋は単体PQではなく、`gamma075` 系をYCoCg非対称量子化へ入れる方向。
+- 2026-06-04 追加: 暗部中心の適応YCoCg routerを検証。
+  - `scripts/probe_adaptive_ycocg_router.py` を追加。
+  - `scripts/export_adaptive_ycocg_preview_png.py` を追加。
+    - 探索済み候補から、通常表示 `white=4.0, gamma=2.2` のPNG previewを出す。
+    - +3 stops表示はユーザー側で増幅して確認するため、こちらでは基本出力しない。
+  - 方針:
+    - base route と dark route を別々に量子化し、暗部/暗部平滑maskだけdark routeで置換。
+    - maskは `dark`, `dark-smooth`, `dark-or-smooth`。
+    - `dark-smooth` は暗部かつ局所log-luma分散が低い領域を丁寧に扱う実装済みmask。
+    - `dark chroma bits=0` は暗部グレースケール化probe。
+  - `sample_DSCF0009` crop1024:
+    - `dark` mask:
+      - `base Y10 C6 + dark Y10 C6`: `PASS`, `21.07x`。
+      - `base Y10 C6 + dark Y10 C0`: `MAYBE`, `30.05x`。
+    - `dark-smooth` mask / threshold `0.002`:
+      - `base Y10 C6 + dark Y10 C6`: `PASS`, `20.70x`。
+      - `base Y10 C6 + dark Y10 C0`: `MAYBE`, `26.19x`。
+  - crop768 / 3サンプル:
+    - `sample_DSCF0009`: `dark-smooth Y10C6/Y10C6` が `PASS`, `20.38x`。
+      `dark-smooth Y10C6/Y10C0` は `MAYBE`, `26.80x`。
+    - `sample_bright_park`: dark mask 0%, `PASS` だが `7.52x`。
+    - `sample_middle_flower`: dark mask 0%, base Y10C6がREJECTで `8.87x`。
+  - 判断:
+    - DSCFのような暗い本番写真には、暗部適応YCoCgはかなり有望。
+    - `dark chroma=0` は25MB未満を狙えるがMAYBE止まり。少数previewで目視価値あり。
+    - 汎用routeにするには、非暗部/明るい画像用の別selectorが必要。
+  - preview:
+    - output dir: `outputs/previews/adaptive_ycocg_router/`
+    - コマンド:
+      `pixi run python scripts/export_adaptive_ycocg_preview_png.py --glob sample_DSCF0009.EXR --crop-size 1024 --mask-mode dark-smooth --dark-max 0.05 --smooth-threshold 0.002 --base-y-bits 10 --base-chroma-bits 6 --dark-y-bits 10 --dark-chroma-bits 6,0 --white 4.0 --gamma 2.2 --limit 1`
+    - `base Y10 C6 + dark Y10 C6`: `PASS`, 推定 `608,436 bytes`, `20.68x`, mask `67.21%`。
+    - `base Y10 C6 + dark Y10 C0`: `MAYBE`, 推定 `480,488 bytes`, `26.19x`, mask `67.21%`。
+    - ユーザー目視:
+      - `Y10 C6` はほぼ見分けにくいが、+3段相当に持ち上げると暗部に隠れた微細な
+        グラデーションが少し失われる。
+      - `Y10 C0` は黒寄りのノイズ除去風に見えるが、黒/非黒の境界に違和感が出る。
+      - その後 `Y9 C6`, `Y10 C6`, `Y11 C6` を比較したところ、ユーザー目視では
+        Y bit差はほぼ分からない。オリジナルからの少しの色味/明るさ変化はあるが、
+        Y9-Y11間の差ではない。
+    - 原因メモ:
+      - `Y10 C6` はbase/darkが同じ量子化なので、mask境界は主因ではない。
+      - Y9-Y11が目視で変わらないため、Y bit数よりもYCoCg/gamma075変換後のchroma量子化、
+        またはRGB復元後の負値clipが主因の可能性が高い。
+      - 実測ではオリジナルはRGB負値がほぼ無いが、YCoCg復元後は暗部でRGBの一部が
+        負になり、表示時に黒へclipされるピクセルが数%出る。
+      - 通常表示 `white=4.0` の代理審査では見逃しやすい。+3段相当の暗部評価は
+        `white=0.5` 近辺で別に見る必要がある。
+      - 切り分け候補として `Y11 C6` previewを追加。`PASS`, 推定 `728,443 bytes`,
+        `17.27x`, 暗部lost delta `-4.78%`。
+      - ただしユーザー目視では `Y11 C6` は `Y10 C6` と変わらない。Y11は本命ではなく
+        切り分け済み候補。
+  - 2026-06-04 追加: YCoCg recon table / nonnegative projection probe。
+    - `scripts/probe_ycocg_recon_table.py` を追加。
+    - 目的:
+      - index payloadを変えず、bin中心ではなくbin平均/transform平均で復元する。
+      - RGB復元後に負値が出るピクセルだけ、Yを保ったままCo/Cgを縮めて非負RGBへ投影する。
+    - 結果:
+      - bin平均やRGB affineは、Y9/Y10の目視課題を大きくは改善しなさそう。
+      - `center+gamut-project` は追加payloadなしで黒clip由来の違和感に効く可能性があるが、
+        代理審査上は小改善に留まる。
+      - chroma bitを動かすと反応が大きい:
+        - `Y9 C6`: 推定 `523,147 bytes`, `24.05x`, crop raw換算では20MB級候補。
+        - `Y9 C7`: 推定 `673,939 bytes`, `18.67x`, 色味/暗部指標は戻るが25MB級寄り。
+        - `Y9 C8`: `PASS`, `14.83x`, 画質寄りだがサイズは重い。
+        - `Y8 C7`: 推定 `597,416 bytes`, `21.06x`。サイズは良いが、代理審査では
+          暗部detailが大きく悪化して `REJECT`。ユーザー目視確認用PNGを追加。
+      - ユーザー目視:
+        - `Y8 C7` は厳しい。
+        - `Y9 C6` はごく僅かに黒浮きが見える。
+        - `Y9 C7` は100%表示で僅かに差が分かる程度で、現時点の画質基準候補。
+    - preview:
+      - `outputs/previews/ycocg_recon_table/sample_DSCF0009_crop1024_ycocg_Y9C6_gamma075_centerplusgamut-project_w4_g2.2_decoded.png`
+      - `outputs/previews/ycocg_recon_table/sample_DSCF0009_crop1024_ycocg_Y9C7_gamma075_center_w4_g2.2_decoded.png`
+      - `outputs/previews/ycocg_recon_table/sample_DSCF0009_crop1024_ycocg_Y8C7_gamma075_center_w4_g2.2_decoded.png`
+    - 判断:
+      - 画質基準は `Y9 C7`。
+      - 20MBを狙う場合の攻め候補は `Y9 C6`、または下記のC6/C7 router。
+      - 代理審査員はY bit差を過剰に重く見ているため、ユーザー目視に合わせて
+        chroma/hue/bias/負値clip系の指標を足す必要がある。
+  - 2026-06-04 追加: Y9 C6/C7 chroma router probe。
+    - `scripts/probe_ycocg_chroma_router.py` を追加。
+    - 目的:
+      - Yは9bit固定。
+      - Chromaは基本C6、必要な領域だけC7にして、`Y9 C7` の画質へ近づけつつ20MB級を狙う。
+    - `sample_DSCF0009` crop1024:
+      - `dark-smooth0.05`: `MAYBE/REJECT`, 推定 `613,235 bytes`, `20.52x`,
+        C7 mask `67.21%`。
+      - 全面 `Y9 C7` の `18.67x` より軽く、全面 `Y9 C6` の `24.05x` より画質寄り。
+      - ユーザー目視:
+        - `Y9 C6-7 dark-smooth0.05` は良い。
+        - 100%表示でも差はノイズ分布くらいしか見分けがつかない。
+        - crop1024では現時点の20MB級有力候補。
+    - `sample_DSCF0009` full:
+      - `dark-smooth0.05`: `REJECT/REJECT`, 推定 `21,541,872 bytes`, `22.18x`,
+        C7 mask `16.55%`。
+      - crop1024は暗部偏重だったため、fullではmask率が大きく変わる。
+      - ユーザー目視:
+        - crop版と同じ場所を見ても、full版は黄色味がかって見える。
+      - 原因:
+        - 現在のprobeは画像全体のmin/maxから量子化rangeを作る。
+        - crop1024では局所range、fullでは窓/ハイライト/強い色差を含むglobal rangeになる。
+        - 実測:
+          - `Co` gamma075 step: crop `0.04537`, full `0.09858`。
+          - `Cg` gamma075 step: crop `0.01335`, full `0.05991`。
+        - fullではchroma bin幅が大きくなり、同じ暗部でも色味がズレる。
+        - したがってcrop結果は「局所rangeなら良い」という上限評価であり、
+          full global rangeのまま本命化してはいけない。
+      - full preview:
+        `outputs/previews/ycocg_chroma_router/sample_DSCF0009_full_Y9_C6-7_dark-smooth0_05_w4_g2.2_decoded.png`
+      - 判断:
+        - 25MB未満には入るが、20MB目標には少し上。
+        - 中間調とハイライトdetailはfull目視で確認してから決める。
+        - 「本命確定」ではなく、full候補として評価中。
+        - 次に必要なのは tile-local range / range class / tile selector の検証。
+  - 2026-06-04 追加: tile-local YCoCg range probe。
+    - `scripts/probe_ycocg_tile_range.py` を追加。
+    - 背景:
+      - full global rangeではchroma bin幅が広がり、cropで良かった場所も黄色味が出る。
+      - tile-local rangeならcrop同等の局所rangeを使えるはず、という仮説。
+    - `sample_DSCF0009` crop1024 / `Y9 C7`:
+      - tile1024: `18.67x`。これは従来のcrop globalと同じ。
+      - tile512: `9.52x`。
+      - tile256: `6.73x`。
+      - tile128: `6.03x`。
+      - tile64: `5.56x`。
+    - 判断:
+      - 品質は戻るが、単純tile-local rangeはサイズが重すぎる。
+      - range metadataそのものは小さい。問題はtileごとにindex値の意味が変わり、
+        MED residual entropyが激増すること。
+      - このままfull PNGを作っても本命にはなりにくい。
+    - 次の有望方向:
+      - 完全tile-local rangeではなく、少数のglobal range classを共有する。
+      - chromaだけrange class化し、Yはglobal/large tileを維持する。
+      - tile-local rangeのindexを、tile内正規化indexとして別predictor/contextで符号化する。
+      - 大型tileまたは画像分割selectorで、窓/ハイライトなどrangeを広げる領域だけ分ける。
+  - 2026-06-04 追加: clipped global YCoCg range + sparse escape probe。
+    - `scripts/probe_ycocg_clipped_range.py` を追加。
+    - 背景:
+      - tile-local rangeは品質が戻るがindex entropyが重すぎる。
+      - full global rangeの黄色味は、少数のchroma外れ値がCo/Cg rangeを広げることが原因。
+      - ならばglobal indexの意味を維持しつつ、percentile rangeから漏れた少数だけescapeする。
+    - full `sample_DSCF0009` / `Y9 C7`:
+      - `0.1-99.9%`: 推定 `33,268,634 bytes`, `14.36x`, escape `0.133%`。
+      - `0.25-99.75%`: 推定 `35,916,934 bytes`, `13.30x`, escape `0.333%`。
+      - C7は品質側だがサイズは重い。
+    - full `sample_DSCF0009` / `Y9 C6`:
+      - `0.1-99.9%`: 推定 `27,248,194 bytes`, `17.53x`, escape `0.133%`。
+        steps: `Y 0.006052`, `Co 0.05588`, `Cg 0.01666`。
+      - `0.25-99.75%`: 推定 `29,404,622 bytes`, `16.25x`, escape `0.333%`。
+      - `0.5-99.5%`: 推定 `31,540,501 bytes`, `15.15x`, escape `0.667%`。
+    - preview:
+      - `outputs/previews/ycocg_clipped_range/sample_DSCF0009_full_ycocg_clip0_1-99_9_Y9C6_gamma075_restore-plane_w4_g2.2_decoded.png`
+    - 判断:
+      - 黄色味を戻す方向としては有望。
+      - ただし現状のescape見積もり込みでは27MB級で、20MB目標にはまだ重い。
+      - escape value coding / mask coding / clipped-index codingを詰める余地はある。
+      - 「YCoCgで稼ぎ、bits10/escapeで外れ値だけ逃がす」方針は残す。
+  - 2026-06-04 追加: full Y9C7 preview確認。
+    - `outputs/previews/ycocg_recon_table/sample_DSCF0009_full_ycocg_Y9C7_gamma075_center_w4_g2.2_decoded.png`
+    - 推定 `24,818,427 bytes`, `19.25x`。
+    - 目視/所感:
+      - `Y9 C7` fullでもまだ黄色味寄りに見える。
+      - `Y9 C6` のbit不足だけが原因ではない。
+      - full global chroma range / YCoCg復元方式そのものが、明部・中間調の色を動かしている可能性が高い。
+    - 次:
+      - ピクセル単位chroma indexを詰めるより、低解像度chromaを守り、高周波chromaを削る方式を試す。
+      - Yはフル解像度、Co/Cgは2x2/4x4 lowpass + 必要箇所だけ残差。
+  - 2026-06-04 追加: log signal/noise resynthesis probe。
+    - `scripts/probe_log_signal_noise_resynth.py` を追加。
+    - 神メモの「Log空間でsignal/noise分離し、noiseはsigma map + seedで再生成」を検証。
+    - 実装:
+      - RGBを `log2(rgb + eps)` へ変換。
+      - box lowpassでsignal、差分をnoiseに分離。
+      - signalをtransform-index風に量子化。
+      - blockごとのnoise sigma mapとseedだけ保存する見積もり。
+      - decode時にGaussian noiseを再生成。
+      - 追加で、log-luma local stdに応じてedge/textureを元logへ混ぜ戻すadaptive版も試した。
+    - `sample_DSCF0009` crop512:
+      - 強めlowpass `b8/r4/p2/block64/noise1`: 推定 `23.03x`。
+        dark detailは戻るが highlight detail loss が約 `11.6%` で `REJECT`。
+      - signal保護のためradiusを小さくすると、比率は `6-9x` まで低下。
+      - adaptive texture mixも highlight lossは十分戻らず、比率 `6-8x` 台へ落ちる。
+    - 判断:
+      - 「noiseを捨ててsigma+seedで戻す」は暗部には効く。
+      - しかし単純box lowpassではsignal detailが死ぬ。
+      - edge/textureを守るとsignal entropyが戻り、圧縮率が死ぬ。
+      - このままでは本命ではない。
+      - 続けるならbox/単純adaptiveではなく、edge-preserving denoise
+        (bilateral/guided/NLM/ML denoise) が必要。
+  - 2026-06-04 追加: log Haar wavelet noise resynthesis probe。
+    - `scripts/probe_log_wavelet_noise_resynth.py` を追加。
+    - 神メモの「空間blurではなくwaveletで周波数分離」を検証。
+    - 実装:
+      - `log2(rgb + eps)` をHaar waveletへ変換。
+      - 最終LLだけ量子化してsignalとして保存。
+      - high-frequency subbandはblock sigma + seedでGaussian再生成。
+      - 強い高周波係数だけescapeとして保持する `keep_sigma` も試した。
+    - `sample_DSCF0009` crop512:
+      - `level3/b8/block32/noise1/keep0`: 推定 `340.63x`。
+        ただしハイライトdetail loss 約 `19%`、見た目もブロック状に破綻。
+      - `level3/b8/block32/noise1/keep2`: 推定 `29.37x`。
+        エッジは少し戻るが、まだハイライトdetail loss 約 `15%`、ノイズ/色粒状感が強い。
+      - `keep1`: detailはさらに戻るが `9.25x` まで落ちる。
+    - preview:
+      - `outputs/previews/log_wavelet_noise/sample_DSCF0009_crop512_loghaar_l3_b8_blk32_ns1_keep0_eps0_0001_w4_g2.2_decoded.png`
+      - `outputs/previews/log_wavelet_noise/sample_DSCF0009_crop512_loghaar_l3_b8_blk32_ns1_keep2_eps0_0001_w4_g2.2_decoded.png`
+    - 判断:
+      - 48x超の圧縮率ポテンシャルはある。
+      - しかしHaar + Gaussian high-band resynthesisだけでは画質が足りない。
+      - 高周波にはノイズだけでなく重要なエッジ/detailが多く含まれる。
+      - 次に進めるなら、high-bandを「edge/detail係数」と「noise係数」に分けるより賢いモデルが必要。
+      - 候補: oriented wavelet/curvelet風の方向性保持、Laplacian pyramid + edge mask、
+        ノイズを輝度だけに寄せる、またはML denoise/latentへ移行。
+    - crop768 / 3サンプル横断:
+      - `sample_DSCF0009`: `dark-smooth0.05` が `PASS/REJECT`, `19.09x`。
+        +3段相当の代理審査はまだ厳しめだが、ユーザー目視では良好。
+      - `sample_bright_park`: maskほぼ0%, `PASS/PASS`, `8.15x`。
+        明るい画像では暗部routerの効果が出ず、別route/selectorが必要。
+      - `sample_middle_flower`: `dark0.25` が `MAYBE/MAYBE`, `9.30x`。
+        こちらも20MB級routeではない。
+    - preview:
+      - `outputs/previews/ycocg_chroma_router/sample_DSCF0009_crop1024_Y9_C6-7_dark-smooth0_05_w4_g2.2_decoded.png`
+    - 判断:
+      - `Y9 C7` が許容画質の基準。
+      - `Y9 C6-7 dark-smooth0.05` はDSCF系暗部多め画像の有力候補。
+        ただしfull画像で中間調/ハイライトを確認してから確定する。
+      - bright/flower系は8-9x台で、別routeまたはimage/tile selectorが必要。
+    - PNG:
+      - `sample_DSCF0009_crop1024_original_w4_g2.2.png`
+      - `sample_DSCF0009_crop1024_adaptive-ycocg_baseY10C6_darkY10C6_dark-smooth_dark0.05_smooth0.002_w4_g2.2_decoded.png`
+      - `sample_DSCF0009_crop1024_adaptive-ycocg_baseY10C6_darkY10C0_dark-smooth_dark0.05_smooth0.002_w4_g2.2_decoded.png`
+      - `sample_DSCF0009_crop1024_adaptive-ycocg_baseY11C6_darkY11C6_dark-smooth_dark0.05_smooth0.002_w4_g2.2_decoded.png`
+  - 知覚特性として検証待ちに残すもの:
+    - 暗部色差の極限削減:
+      `dark chroma=0` がMAYBE止まりなので、通常表示previewをユーザー側で増幅して
+      色相ずれと暗部階調を確認する。
+    - blue-noise / ordered dither:
+      `dark chroma=0` のMAYBE候補を視覚的に救えるかだけ検証する。
+      候補数は増やしすぎない。
+
+## 暗部 guided filter + 共分散ノイズ component probe
+
+2026-06-04 追加。BM3D は重く、今回の暗部問題へ期待通り効くか不確実なので、
+まず軽量な guided filter だけを小さく検証した。スクリプトは
+`scripts/probe_dark_guided_covariance.py`。
+
+- 目的:
+  - 本体codec routeではなく、暗部救済部品として見る。
+  - dark mask内だけを、log RGB guided-filter signal + quantized signal +
+    block-wise 3x3 covariance synthetic noise で置換する。
+  - dark mask外は元画像のまま残し、ハイライト/中間調の別問題を混ぜない。
+- DSCF crop512 / `dark_max=0.25`:
+  - `radius=4` 系は component 約 `527-540KB` と軽いが、
+    dark detail delta が約 `-6%` から `-17%`。
+  - 暗部階調・微細構造が消えやすく、そのまま採用不可。
+- DSCF crop512 / `dark_max=0.05`:
+  - crop自体が暗いため dark mask はまだ約 `92.66%`。
+  - 良かった候補:
+    - `darkguided_b8_r2_ge0.1_blk32_ns0.7_eps0.0001`
+      - component `530,018 bytes`
+      - payload breakdown: signal index `527,607 bytes`, covariance `2,187 bytes`,
+        mask `96 bytes`
+      - dark detail delta `-0.42%`
+      - lift dark detail delta `-0.66%`
+    - `darkguided_b9_r2_ge0.1_blk32_ns0.7_eps0.0001`
+      - component `621,206 bytes`
+      - payload breakdown: signal index `618,795 bytes`, covariance `2,187 bytes`,
+        mask `96 bytes`
+      - dark detail delta `-0.41%`
+      - lift dark detail delta `-0.65%`
+  - b8/b9/b10の差は、この部品単体の代理指標ではほぼ出なかった。
+- PNG:
+  - `outputs/previews/dark_guided_covariance/sample_DSCF0009_crop512_original_w4_g2.2.png`
+  - `outputs/previews/dark_guided_covariance/sample_DSCF0009_crop512_darkguided_b8_r2_ge0_1_blk32_ns0_7_eps0_0001_w4_g2.2_decoded.png`
+  - `outputs/previews/dark_guided_covariance/sample_DSCF0009_crop512_darkguided_b9_r2_ge0_1_blk32_ns0_7_eps0_0001_w4_g2.2_decoded.png`
+- 判断:
+  - BM3D本線化はしない。
+  - 拾うなら `radius=2`, `guide_eps=0.1`, `noise_scale=0.5-0.7`,
+    `block=32` 近辺の軽量部品だけ。
+  - これは「暗部を全部統計置換して20MBを作る」routeではなく、
+    既存の bits8/9/YCoCg routeで階調が破綻する暗部だけを救う候補。
+  - 共分散ノイズmap自体は非常に安い。サイズを支配しているのはsignal indexなので、
+    圧縮率突破には「どこだけsignalを別保存するか」のmask設計が必要。
+  - 次はこの部品を単体で深掘りするより、dark maskをもっと限定し、
+    YCoCg/既存bits routerの危険領域にだけオプション適用できるかを見る。
+
+## 後で検証するNeural Latent Compressionメモ
+
+2026-06-04 に追加された助言メモ。これは現行のtransform-index / YCoCg路線とは別の
+次フェーズAIエンコーダー候補として扱う。現段階では本体codecへ混ぜない。
+
+### 仮説
+
+- ピクセル値列そのものではなく、画像をニューラルモデルのlatent spaceへ埋め込む。
+- VQ-VAE / VQGAN / diffusion autoencoder 系で、40MP HDR画像を低解像度latent mapと
+  codebook indexへ変換する。
+- HDRではRGBを直接8bit LDR風に扱わず、log luminance / exposure-normalized luminance /
+  chroma residual のように分離してlatent化する。
+- decodeにはGPU推論が必要でも、本番環境がクラウド/高性能端末なら許容できる可能性がある。
+
+### このプロジェクトでの検証条件
+
+- 目標はnear-losslessではなく、別枠の「machine-not-obviously-different」画質。
+- まずは既存codecを置き換えず、比較対象としてlatent side experimentにする。
+- 必須評価:
+  - 通常表示PNG
+  - +3 stops表示PNG
+  - 暗部階調
+  - ハイライトdetail
+  - 色相ずれ
+  - 代理審査員metrics
+  - 推論時間 / VRAM / モデルサイズ
+- サイズ計算では、画像ごとのpayloadだけでなく、モデル重みを共有辞書として扱うか、
+  ファイル単体に含めるかを分ける。
+
+### 最小実験案
+
+1. `sample_DSCF0009` crop512/1024だけで、PyTorchの小型VQ-VAEを過学習気味に訓練する。
+   - 入力: `logY + Co + Cg` または `YCoCg gamma075`。
+   - latent: 16x/32x downsample, codebook 256/512/1024。
+   - 目的: 圧縮方式としての可能性ではなく、「latent表現が暗部階調とハイライトdetailを保てるか」を見る。
+2. 学習データを3サンプルへ広げてheld-out cropを評価する。
+   - 過学習だけで勝っていないか確認する。
+3. 代理審査員が通るなら、payload試算を行う。
+   - codebook indices entropy
+   - side metadata
+   - shared model weight除外時/込み時のサイズ
+
+### 注意
+
+- 現在の20-25MB突破本命は、まだ `adaptive YCoCg`。
+- neural latentは100x級の夢はあるが、画質保証と実装規模が別物。
+- AIエンコーダーへ進むタイミングは、現行YCoCg routeでpreview確認と実bitstream設計を一区切りした後。
+
 ## 最初に読む順番
 
 1. `README_JA.md`
@@ -863,6 +1336,471 @@ bits10向け探索:
     - highlight luma RMSE `2.597e-4`, highlight grad NRMSE `1.028e-2`
 - 判断: 既存の HDR log RMSE / p99 / gradient だけでは暗部階調や局所的な
   ハイライトdetail lossを拾い切れない。以後は表示空間・領域別指標を必須にする。
+
+## 2026-06-04 VST-chroma denoised profile
+
+- `scripts/probe_vst_chroma_nr.py` を追加。
+  - VST `gamma075` -> YCoCg
+  - Yは温存
+  - Co/Cg lowはguided filter + downsample
+  - Co/Cg highはsoft threshold後にsparse escape
+- full候補 `vstchroma_gamma075_Y10_CL8_H5_s2_r2_ge0.1_tm2.5`:
+  - raw `477,775,872 bytes`
+  - estimated `23,285,958 bytes`, `20.52x`
+  - high chroma保持率 `15.88%`
+  - proxyはREJECTだが、ユーザー目視では明部detailはかなり良い。
+  - 問題: 暗部グラデーションがまだら/ブロック状に見える。
+- `scripts/export_vst_chroma_dark_protect_preview.py` を追加。
+  - 攻めbaseを残し、暗部smoothだけsafe/originalへ差し替えるvisual routing probe。
+  - `safe-source=original` はoracle診断専用で、codecサイズ見積もりではない。
+- `dark-smooth0.25, smooth_threshold=0.002`:
+  - full mask `16.61%`
+  - safe候補差し替えでもユーザー目視ではほぼ変化なし。
+- `dark-smooth0.5, smooth_threshold=0.002`:
+  - full maskは同じく `16.61%`。smooth判定が狭すぎる。
+- `dark0.5`:
+  - full mask `91.56%`。診断としては有用だが本実装には広すぎる。
+- `scripts/export_mask_oracle_preview_png.py` を追加。
+  - 既存のfull original/decoded PNGを使い、maskだけ変えたdisplay-space oracleを高速生成する。
+  - `dark-smooth0.5` のmask率:
+    - `st0.002`: `16.61%`
+    - `st0.003`: `27.88%`
+    - `st0.004`: `39.80%`
+    - `st0.005`: `50.06%`
+    - `st0.01`: `69.33%`
+  - 次の目視候補は `st0.004` 1枚。これでまだらが消えるなら、
+    shadow-smooth領域だけ安全なY/chroma経路へ逃がす方針に進む。
+  - PNG:
+    `outputs/previews/vst_chroma_dark_protect/sample_DSCF0009_full_display_oracle_baseH5_original_dark-smooth0_5_r2_st0_004_decoded.png`
+  - mask PNG:
+    `outputs/previews/vst_chroma_dark_protect/sample_DSCF0009_full_display_oracle_baseH5_original_dark-smooth0_5_r2_st0_004_mask.png`
+- ユーザー目視: `st0.004` oracleでまだらは消えた。
+  - つまり主問題はbase全体ではなく、shadow-smooth領域のrouting漏れ。
+- 実safe候補も生成:
+  - base: `Y10 CL8 H5 tm2.5`
+  - safe: `Y10 CL8 H6 tm1.75`
+  - mask: `dark-smooth0.5 r2 st0.004`
+  - mask rate: `39.80%`
+  - base full estimate: `23,285,958 bytes`, `20.52x`
+  - safe full estimate: `25,945,773 bytes`, `18.41x`
+  - PNG:
+    `outputs/previews/vst_chroma_dark_protect/sample_DSCF0009_full_vstchroma_darkprotect_gamma075_Y10_CL8_baseH5_tm2_5_safeH6_tm1_75_dark-smooth0_5_r2_st0_004_w4_g2.2_decoded.png`
+  - lift PNG:
+    `outputs/previews/vst_chroma_dark_protect/sample_DSCF0009_full_vstchroma_darkprotect_gamma075_Y10_CL8_baseH5_tm2_5_safeH6_tm1_75_dark-smooth0_5_r2_st0_004_w0.5_g2.2_decoded.png`
+  - 次はこの実safe版を目視し、OKなら共通Y/low + region別chroma-highだけを
+    保存する正確なrouted payload見積もりへ進む。
+  - ユーザー目視: `safeH6_st004` はまだらが直っていない。safe側が弱すぎる。
+- 次の実safe候補:
+  - `safeH7 tm1.0` full単体を生成。
+    - full estimate: `32,441,648 bytes`, `14.73x`
+    - common payload内訳:
+      - Y: `17,079,563 bytes`
+      - chroma low: `2,915,309 bytes`
+      - high payload: `8,560,456 bytes`
+      - high mask: `3,886,064 bytes`
+  - base H5の内訳:
+      - Y: `17,079,563 bytes`
+      - chroma low: `2,915,309 bytes`
+      - high payload: `1,516,358 bytes`
+      - high mask: `1,774,472 bytes`
+  - `st0.004` でbase H5 + safe H7をdisplay-space合成した候補:
+    `outputs/previews/vst_chroma_dark_protect/candidate_safeH7_st004.png`
+  - mask:
+    `outputs/previews/vst_chroma_dark_protect/candidate_safeH7_st004_mask.png`
+  - 目視が通ったら、共通Y/lowを1回だけ持ち、非maskはH5 high、
+    mask内だけH7 highにする正確なrouted payload estimatorを作る。
+  - ユーザー目視: `safeH7_st004` もまだら。chroma highを強めても直らない。
+    VST routeの共通Y/low側が主犯の疑い。
+- 次の切り分け候補:
+  - mask内だけ既存のfaithful `signed-log bits10` decodedへ差し替え。
+  - full signed-log bits10単独は `49,382,153 bytes`, `9.68x`。
+  - PNG:
+    `outputs/previews/vst_chroma_dark_protect/candidate_signedlog10_st004.png`
+  - mask:
+    `outputs/previews/vst_chroma_dark_protect/candidate_signedlog10_st004_mask.png`
+  - これで消えるなら、shadow-smooth領域はVST-chromaではなく
+    faithful/signed-log系の局所escapeへ逃がす必要がある。
+  - これでも残るなら、表示合成またはmask境界の問題を疑う。
+  - ユーザー目視: `candidate_signedlog10_st004.png` はOK。まだら消失。
+  - 専用見積もり `scripts/estimate_vst_signedlog_route.py` を追加。
+    - VST nonmask Y/low/high + signed-log10 mask の選択領域entropyを測る。
+    - `dark-smooth0.5 r2 st0.004`, mask `39.80%`:
+      - estimated `32,304,535 bytes`, `14.79x`
+      - VST Y nonmask `11,899,075 bytes`
+      - VST chroma low nonmask `1,993,358 bytes`
+      - VST chroma high nonmask `1,497,594 + 1,693,109 bytes`
+      - signed-log10 mask `14,295,624 bytes`
+      - mask `925,263 bytes`
+  - 判断: 品質OK routeは20MBから約12MB超過。
+    20MBへ戻すには、signed-log10 escapeの対象maskを `39.80%` から大きく縮める必要がある。
+    次は `st0.003` / `st0.0025` / gradient-risk などで、まだらが消える最小maskを探す。
+- decoder-side dither検証開始:
+  - `scripts/export_masked_signedlog_decode_dither_preview.py` を追加。
+  - 保存するindexは `signed-log9` のまま、decode時にsigned-log bin内へ
+    deterministic jitterを入れる。dither自体は追加ビットなし。
+  - `candidate_slog9_dither_st004.png` を生成。
+    - mask: `dark-smooth0.5 r2 st0.004`, `39.80%`
+    - bits: `signed-log9`
+    - dither amplitude: `0.5` step
+  - PNG:
+    `outputs/previews/vst_chroma_dark_protect/candidate_slog9_dither_st004.png`
+  - mask:
+    `outputs/previews/vst_chroma_dark_protect/candidate_slog9_dither_st004_mask.png`
+  - `scripts/estimate_vst_signedlog_route.py --signedlog-bits 9`:
+    - estimated `27,920,735 bytes`, `17.11x`
+    - signed-log9 mask `9,911,824 bytes`
+    - bits10 OK route `32,304,535 bytes` から約 `4.38MB` 減。
+  - ユーザー目視: まだらは消えたが、黒浮きが分散されて不自然。
+  - 判断: decode-side ditherは画質優先では不採用。まだらを粒状化する効果はあるが、
+    暗部平均/質感を壊す。
+- ditherを捨て、signed-log10 escapeのmask縮小へ戻る:
+  - mask率:
+    - `st0.0025`: `22.14%`
+    - `st0.003`: `27.88%`
+    - `st0.0035`: `33.87%`
+    - `st0.004`: `39.80%`
+  - `candidate_signedlog10_st003.png` を生成。
+    - mask `27.88%`
+    - mask bytes `751,783`
+  - PNG:
+    `outputs/previews/vst_chroma_dark_protect/candidate_signedlog10_st003.png`
+  - mask:
+    `outputs/previews/vst_chroma_dark_protect/candidate_signedlog10_st003_mask.png`
+  - ユーザー目視: 黒浮きはあるが許容範囲。`st0.003` を新しい実用ラインにする。
+  - `scripts/estimate_vst_signedlog_route.py --signedlog-bits 10 --smooth-threshold 0.003`:
+    - estimated `28,798,615 bytes`, `16.59x`
+    - signed-log10 mask `8,908,985 bytes`
+    - mask `751,783 bytes`
+    - `st0.004` の `32,304,535 bytes` から約 `3.50MB` 減。
+  - 追加の限界確認として `candidate_signedlog10_st0025.png` を生成。
+    - mask `22.14%`
+    - mask bytes `606,148`
+  - PNG:
+    `outputs/previews/vst_chroma_dark_protect/candidate_signedlog10_st0025.png`
+  - mask:
+    `outputs/previews/vst_chroma_dark_protect/candidate_signedlog10_st0025_mask.png`
+  - 次の判断:
+    - `st0.0025` も許容ならサイズ見積もりへ進む。
+    - NGなら、`st0.003` を品質/サイズの現実ラインとして固定し、
+      20MBへはsmooth thresholdではなく `gradient-risk` / local low-frequency error maskで攻める。
+  - ユーザー目視: `st0.0025` もOKの予感。
+  - `scripts/estimate_vst_signedlog_route.py --signedlog-bits 10 --smooth-threshold 0.0025`:
+    - mask `22.14%`
+    - estimated `27,256,787 bytes`, `17.53x`
+    - VST Y nonmask `14,361,930 bytes`
+    - VST chroma low nonmask `2,437,042 bytes`
+    - VST chroma high nonmask `1,513,475 + 1,761,051 bytes`
+    - signed-log10 mask `6,576,629 bytes`
+    - mask `606,148 bytes`
+  - `st0.003` から約 `1.54MB` 減、`st0.004` から約 `5.05MB` 減。
+  - 判断: 画質が正式OKなら `st0.0025` が現時点の最良ライン。
+    ただし20MBにはまだ約7.3MB足りないため、次はsmooth thresholdをさらに下げるより、
+    signed-log escape以外のpayload、特にVST Y/lowの削減か、より賢いrisk maskが必要。
+- signed-log10 mask専用context probe:
+  - `scripts/probe_masked_signedlog_context.py` を追加。
+  - 対象: `st0.0025` mask内signed-log10 residual。
+  - contexts: `order0`, `channel`, `phase2_channel`, `xtrans6_channel`,
+    `maskwn_channel`, `phase2_maskwn_channel`, `xtrans6_maskwn_channel`。
+  - 結果:
+    - `order0` direct ideal `6,618,580 bytes`
+    - `channel` direct ideal `6,576,597 bytes`
+    - `maskwn_channel` direct ideal `6,529,923 bytes`
+    - `phase2_maskwn_channel` direct ideal `6,529,862 bytes`
+    - `xtrans6_maskwn_channel` direct ideal `6,529,308 bytes`
+  - bestでも削減は約 `47KB` 程度。model込みだと `maskwn_channel` が
+    `6,532,691 bytes` で現実的best。
+  - 判断: signed-log10 escapeは範囲/対象maskを変えない限りほぼ縮まない。
+    20MB到達にはVST Y/low側かrisk mask精度を攻める。
+- VST nonmask Yを `10 -> 9` に落とす検証:
+  - `scripts/estimate_vst_signedlog_route.py` の出力名に `Y/CL` を入れるよう修正。
+  - `Y9 CL8 + signed-log10 st0.0025`:
+    - estimated `23,761,113 bytes`, `20.11x`
+    - VST Y nonmask `10,866,256 bytes`
+    - VST chroma low nonmask `2,437,042 bytes`
+    - VST chroma high nonmask `1,513,475 + 1,761,051 bytes`
+    - signed-log10 mask `6,576,629 bytes`
+    - mask `606,148 bytes`
+  - Y10版 `27,256,787 bytes` から約 `4.50MB` 減。
+  - Y9 VST base単体:
+    - `18,975,157 bytes`, `25.18x`
+  - preview:
+    `outputs/previews/vst_chroma_dark_protect/candidate_Y9_slog10_st0025.png`
+  - mask:
+    `outputs/previews/vst_chroma_dark_protect/candidate_Y9_slog10_st0025_mask.png`
+  - 判断: 20MB目標に最も近い本命候補。次はユーザー目視で暗部/中間調/ハイライトを確認。
+  - ユーザー目視: `candidate_Y9_slog10_st0025.png` は違いがないように見える。
+    画質OKとして次へ進む。
+- VST nonmask Yをさらに `9 -> 8` に落とす検証:
+  - `Y8 CL8 + signed-log10 st0.0025`:
+    - estimated `20,812,528 bytes`, `22.96x`
+    - VST Y nonmask `7,917,671 bytes`
+    - VST chroma low nonmask `2,437,042 bytes`
+    - VST chroma high nonmask `1,513,475 + 1,761,051 bytes`
+    - signed-log10 mask `6,576,629 bytes`
+    - mask `606,148 bytes`
+  - Y9版 `23,761,113 bytes` から約 `2.95MB` 減。
+  - Y8 VST base単体:
+    - `15,387,258 bytes`, `31.05x`
+  - preview:
+    `outputs/previews/vst_chroma_dark_protect/candidate_Y8_slog10_st0025.png`
+  - mask:
+    `outputs/previews/vst_chroma_dark_protect/candidate_Y8_slog10_st0025_mask.png`
+  - 判断: 20MB目標目前。次はユーザー目視で暗部/中間調/ハイライトを確認。
+- エッジ付近の違和感:
+  - ユーザー目視: `Y8` でも見分けはつかないが、エッジ付近に違和感のある乱れを発見。
+    同じ違和感は `Y9` にもあったため、Y8化ではなくVST base共通のedge処理が原因。
+  - `scripts/export_edge_guard_preview.py` を追加。
+    - 既存candidate上に、edge maskだけfaithful `signed-log10` previewを重ねる診断。
+  - `edge_quantile=0.98`, `dilate_radius=1`:
+    - edge mask `4.63%`
+    - extra edge mask `4.63%`
+    - mask bytes `170,737`
+  - preview:
+    `outputs/previews/vst_chroma_dark_protect/candidate_Y8_slog10_st0025_edge98.png`
+  - mask:
+    `outputs/previews/vst_chroma_dark_protect/candidate_Y8_slog10_st0025_edge98_mask.png`
+  - 次は目視確認。OKならedge追加分のsigned-log10 entropyを測り、
+    `20.81MB + edge guard` の現実サイズを出す。
+  - ユーザー目視: `edge98` では直っていない。問題はハイライトとシャドウの境目の
+    ごく薄い乱れ。細いedge線だけでは届かない。
+  - edge mask面積メモ:
+    - `q0.98 d1`: extra `4.63%`
+    - `q0.975 d3`: extra `9.69%`
+    - `q0.97 d3`: extra `11.01%`
+    - `q0.95 d3`: extra `15.91%`
+  - 境界帯を太めに救う候補を生成:
+    `outputs/previews/vst_chroma_dark_protect/candidate_Y8_slog10_st0025_edge975d3.png`
+  - mask:
+    `outputs/previews/vst_chroma_dark_protect/candidate_Y8_slog10_st0025_edge975d3_mask.png`
+  - `edge_quantile=0.975`, `dilate_radius=3`
+    - extra edge `9.69%`
+    - mask bytes `129,967`
+  - これでNGなら、単純luma edgeではなく、VST baseとsigned-log10 previewの
+    差分が境界付近で大きい領域を直接mask化する。
+- ユーザー指定座標:
+  - 問題箇所中心: `(x=2361, y=3811)`。
+  - 既存mask確認:
+    - `candidate_Y8_slog10_st0025_mask`: 中心は外。周辺33x33は `35.54%` 入っている。
+    - `edge98`: 中心/周辺とも外。
+    - `edge975d3`: 中心/周辺とも外。
+  - `scripts/export_point_guard_preview.py` を追加。
+    - 指定点周辺だけ手動でsigned-log10へ逃がす診断。
+  - 半径 `192px` のpoint guard:
+    - mask `0.29%`
+    - mask bytes `954`
+  - full preview:
+    `outputs/previews/vst_chroma_dark_protect/candidate_Y8_pointguard_2361_3811.png`
+  - crop:
+    `outputs/previews/vst_chroma_dark_protect/candidate_Y8_pointguard_2361_3811_crop.png`
+  - base crop:
+    `outputs/previews/vst_chroma_dark_protect/candidate_Y8_pointguard_2361_3811_base_crop.png`
+  - safe crop:
+    `outputs/previews/vst_chroma_dark_protect/candidate_Y8_pointguard_2361_3811_safe_crop.png`
+  - これで直るなら、manual pointではなく `VST base vs signed-log10` の
+    表示差分/局所差分から自動risk maskを作る。
+  - ユーザー目視: base crop以外は大丈夫。つまりこの座標の違和感は
+    VST base側が原因で、signed-log10へ逃がせば解決する。
+- 表示差分guard:
+  - `scripts/export_display_diff_guard_preview.py` を追加。
+    - `candidate_Y8_slog10_st0025.png` と faithful `signed-log10 bits10`
+      previewを同じ表示空間で比較し、差が大きい画素だけsigned-log10へ逃がす。
+    - これは最終bitstreamではなく、encoder側で計算可能なperceptual/oracle risk
+      maskを探す診断。
+  - `L threshold=0.007`, `dilate=2`:
+    - raw mask `2.73%`
+    - guard mask `31.59%`
+    - 指定点はhitするが、表示差が点在するため膨張で広がりすぎ。容量的に重い。
+  - 本命候補 `L threshold=0.007`, `dilate=0`:
+    - guard mask `2.73%`
+    - mask bytes `823,305`
+    - 指定点 `(2361,3811)` はhit。
+    - 周辺mask rate:
+      - r8 `10.38%`
+      - r16 `8.08%`
+      - r32 `6.13%`
+      - r64 `3.94%`
+    - preview:
+      `outputs/previews/vst_chroma_dark_protect/candidate_Y8_slog10_diffguard_L0_007_R0_d0.png`
+    - crop:
+      `outputs/previews/vst_chroma_dark_protect/candidate_Y8_slog10_diffguard_L0_007_R0_d0_crop_x2361_y3811.png`
+    - mask:
+      `outputs/previews/vst_chroma_dark_protect/candidate_Y8_slog10_diffguard_L0_007_R0_d0_mask.png`
+    - short links:
+      - `outputs/previews/vst_chroma_dark_protect/candidate_Y8_diffguard.png`
+      - `outputs/previews/vst_chroma_dark_protect/candidate_Y8_diffguard_crop_2361_3811.png`
+      - `outputs/previews/vst_chroma_dark_protect/candidate_Y8_diffguard_mask.png`
+  - `scripts/estimate_vst_signedlog_route.py` に `--additional-mask-png` を追加。
+    - `Y8 CL8 + dark-smooth st0.0025 + display-diff guard`:
+      - combined mask `24.86%`
+      - estimated `22,837,963 bytes`
+      - ratio `20.92x`
+      - VST Y nonmask `7,621,597 bytes`
+      - chroma low `2,138,819 bytes`
+      - chroma high `1,445,738 + 1,701,367 bytes`
+      - signed-log10 mask `8,611,660 bytes`
+      - route mask `1,318,270 bytes`
+    - 20MBは超えるが25MB未満で、今回の境界違和感を救う現実候補。
+  - 次:
+    - ユーザーが `candidate_Y8_slog10_diffguard_L0_007_R0_d0.png` を目視。
+    - OKなら、diff thresholdをもう少し上げて追加maskを削れるか探索。
+    - NGなら、点在maskのままではなく、局所diff/低周波diff/薄い境界帯のmask化へ進む。
+- display-diff guardの削減:
+  - ユーザー目視: base以外全部OK。manual point / safe / display-diff guardの方向は成立。
+  - background heavy task終了後、閾値スイープを追加:
+    `scripts/probe_display_diff_guard_thresholds.py`
+  - Y8 candidate上のdisplay-diff mask:
+    - `L=0.0070`: mask `2.73%`, estimated `22,837,963 bytes`
+    - `L=0.0085`: mask `1.29%`, estimated `21,572,453 bytes`
+    - `L=0.0100`: mask `0.66%`, estimated `21,095,592 bytes`
+  - Y8の高品質寄り最新候補:
+    - full:
+      `outputs/previews/vst_chroma_dark_protect/candidate_Y8_diffguard_L001.png`
+    - crop:
+      `outputs/previews/vst_chroma_dark_protect/candidate_Y8_diffguard_L001_crop_2361_3811.png`
+    - estimated `21,095,592 bytes`, ratio `22.65x`
+  - 20MB切りにはY8だけではまだ足りない。次の大レバーとしてY7を試す。
+- Y7 nonmask test:
+  - Y7 VST base単体:
+    - estimated `12,535,693 bytes`, ratio `38.11x`
+    - preview:
+      `outputs/previews/vst_chroma_dark_protect/sample_DSCF0009_full_vstchroma_gamma075_Y7_CL8_H5_s2_r2_ge0_1_tm2_5_w4_g2.2_decoded.png`
+  - `Y7 + dark-smooth signed-log10 st0.0025` を作成:
+    - `outputs/previews/vst_chroma_dark_protect/sample_DSCF0009_full_candidate_Y7_slog10_dark-smooth0_5_r2_st0_0025_decoded.png`
+  - Y7版display-diff threshold sweep:
+    - `L=0.012`: additional mask `1.94%`, estimated `19,564,894 bytes`, ratio `24.42x`
+    - `L=0.014`: additional mask `0.88%`, estimated `18,912,990 bytes`, ratio `25.26x`
+  - Y7の品質寄り20MB切り候補:
+    - full:
+      `outputs/previews/vst_chroma_dark_protect/candidate_Y7_diffguard_L0012.png`
+    - crop:
+      `outputs/previews/vst_chroma_dark_protect/candidate_Y7_diffguard_L0012_crop_2361_3811.png`
+    - estimated `19,564,894 bytes`, ratio `24.42x`
+  - 注意:
+    - Y7 cropは、木目/滑らかな面に量子化っぽい粗さが出ている可能性あり。
+    - 20MB切りの候補としては強いが、品質優先ならY8 `L=0.010` を基準にすべき。
+    - 次はユーザー目視で `Y8 L=0.010` と `Y7 L=0.012` の2枚だけ比較。
+  - ユーザー目視:
+    - `Y7` は一目でNG。容量は良いが画質劣化が明確なので破棄。
+    - 現時点の本命は `Y8 L=0.010`、推定 `21,095,592 bytes`。
+    - これ以上の単純なY bit削りやchroma bit削りは品質犠牲になりやすい。
+      20MB切りを狙う場合も、画質固定のまま別方向で考える。
+  - 今後の方向:
+    - 21MB候補を品質基準として固定。
+    - 単純なビット削りではなく、payload表現/符号化/局所routeの改善で差分を詰める。
+- 画質不変の符号化改善/route mask圧縮:
+  - 方針:
+    - 現行本命 `Y8 L=0.010` のdecoded品質を固定。
+    - 以後の改善は、index/residual/maskの表現だけを変える。
+    - これはnear-lossless本命だけでなく、将来のexact / full-lossless側にも効く可能性あり。
+  - `scripts/probe_mask_codecs.py` を追加。
+    - 対象: `candidate_Y8_slog10_st0025_mask` OR
+      `candidate_Y8_slog10_diffguard_L0_01_R0_d0_mask`
+    - combined mask `22.80%`
+    - 現行:
+      - order0 `3,854,662 bytes`
+      - west/north `811,283 bytes`
+    - alternative:
+      - west/north/northwest context `804,671 bytes`
+      - packed zlib best `1,151,616 bytes`
+      - tile split best `2,164,585 bytes`
+    - 判断:
+      - route maskはかなり詰まっている。
+      - northwest追加で約 `6.6KB` しか削れない。
+      - zlib/tile/RLE系は現行west-north entropyより悪い。
+  - `scripts/probe_route_coding_contexts.py` を追加。
+    - 同じ量子化index/route maskのまま、predictor/contextだけ比較するprobe。
+    - full全stream全contextは重すぎたため停止。
+    - crop1024で `vst_y_nonmask` と `signedlog10_mask` を先行確認:
+      - `vst_y_nonmask`: `med/order0` がbest、改善なし。
+      - `signedlog10_mask`: `med/order0` `594,087 bytes` ->
+        `avg/order0` `579,367 bytes`、gain `14,720 bytes`。
+    - 推定:
+      - signed-log escapeはAVG predictorが少し有望。
+      - crop比率のままならフルで数百KB級の可能性はあるが、未確認。
+    - 注意:
+      - 裏で学習プロセスが走っているとfull probeが長時間化する。
+      - 次はstream/predictorをさらに絞り、signed-logの `med vs avg` だけを
+        軽く測れる専用probeに分離する。
+  - `scripts/probe_signedlog_predictors.py` を追加。
+    - signed-log escape streamだけを対象にした軽量full probe。
+    - 本命 `Y8 L=0.010` route mask:
+      - `med`: `7,125,806 bytes`
+      - `avg`: `7,096,125 bytes`
+      - gain `29,681 bytes`
+      - `west`: `7,900,492 bytes`
+      - `north`: `8,026,476 bytes`
+    - 判断:
+      - signed-log escapeは `avg` predictorへ変更する価値はあるが、効果は小さい。
+      - crop1024では大きく見えたが、fullでは約30KB。
+  - `scripts/estimate_vst_signedlog_route.py` に `--signedlog-predictor` を追加。
+    - `--signedlog-predictor avg` で現行本命を再見積もり:
+      - estimated `21,065,911 bytes`
+      - ratio `22.68x`
+      - VST Y `7,841,793`
+      - chroma low `2,348,322`
+      - chroma high `1,229,644 + 1,738,232`
+      - signed-log mask `7,096,125`
+      - route mask `811,283`
+    - MED版 `21,095,592 bytes` から `29,681 bytes` 減。
+  - まとめ:
+    - 2/3はnear-losslessにもexact系にも効くが、今回の本命routeでは小幅。
+    - mask codec改善 `~6.6KB` + signed-log AVG `~29.7KB` で、合計しても約36KB級。
+    - 20MB切りには、画質を守る別の大きな構造改善が必要。
+- `sample_*` full estimate sweep:
+  - 条件:
+    - full resolution
+    - `Y8 CL8 signed-log10`
+    - `signedlog-predictor avg`
+    - `dark-smooth st0.0025`
+    - sample-specific diffguardは `DSCF0009` の既存本命だけ別枠。
+  - 結果:
+    - `sample_1920×1280.exr`
+      - shape `1280x1920x3`
+      - EXR `14,766,393 bytes`
+      - raw `29,491,200 bytes`
+      - estimated `2,836,123 bytes`
+      - raw ratio `10.40x`, EXR ratio `5.21x`
+      - mask `0.00%`
+    - `sample_hilberts-mill-conference-room_2K.exr`
+      - shape `1024x2048x4`
+      - ch3/alpha is constant `1.0`
+      - EXR `22,279,390 bytes`
+      - raw `33,554,432 bytes`
+      - estimated `375,263 bytes`
+      - raw ratio `89.42x`, EXR ratio `59.37x`
+      - mask `5.46%`
+      - 注意: 現行routeはRGB向け。4ch目は定数なのでheader flag相当で保存可能。
+    - `sample_middle_flower.EXR`
+      - shape `7728x5152x3`
+      - EXR `376,698,267 bytes`
+      - raw `477,775,872 bytes`
+      - estimated `19,363,179 bytes`
+      - raw ratio `24.67x`, EXR ratio `19.45x`
+      - mask `0.00%`
+    - `sample_bright_park.EXR`
+      - shape `5152x7728x3`
+      - EXR `383,186,761 bytes`
+      - raw `477,775,872 bytes`
+      - estimated `22,770,606 bytes`
+      - raw ratio `20.98x`, EXR ratio `16.83x`
+      - mask `5.77%`
+    - `sample_DSCF0009.EXR` basic route:
+      - shape `5152x7728x3`
+      - EXR `390,425,393 bytes`
+      - raw `477,775,872 bytes`
+      - estimated `20,672,111 bytes`
+      - raw ratio `23.11x`, EXR ratio `18.89x`
+      - mask `22.14%`
+    - `sample_DSCF0009.EXR` current visual-guard route:
+      - adds `candidate_Y8_slog10_diffguard_L0_01_R0_d0_mask`
+      - estimated `21,065,911 bytes`
+      - raw ratio `22.68x`, EXR ratio `18.53x`
+      - mask `22.80%`
+  - 判断:
+    - 本番系3枚はすべて20MB級から22.8MB級に収まる。
+    - `middle_flower` は暗部escapeなしで `19.36MB` と非常に良い。
+    - `bright_park` は `22.77MB`、DSCF visual-guardは `21.07MB`。
+    - ただしこれは現行研究routeのentropy estimateであり、最終bitstream実装サイズではない。
 
 ## 注意点
 

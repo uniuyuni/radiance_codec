@@ -1,0 +1,29 @@
+{
+  "image": "sample_DSCF0009.EXR",
+  "shape": [
+    5152,
+    7728,
+    3
+  ],
+  "label": "vstchroma_darkprotect_gamma075_Y10_CL8_baseH5_tm2.5_safeoriginal_dark0.5",
+  "raw_bytes": 477775872,
+  "base_estimated_bytes": 23285958,
+  "base_estimated_ratio": 20.517767488887507,
+  "safe_source": "original",
+  "safe_estimated_bytes": 0,
+  "safe_estimated_ratio": null,
+  "mask_pixel_rate": 0.9156176308543266,
+  "mask_payload": {
+    "sample_count": 39814656,
+    "finite_bits": 829859.7166113893,
+    "bits_per_sample": 0.02084307137078842,
+    "payload_bytes": 103737,
+    "model_bytes": 16,
+    "total_bytes": 103753
+  },
+  "note": "Routed byte size is not final. This preview replaces dark smooth pixels with the safer decoded candidate for visual inspection.",
+  "original_png": "/Users/uniuyuni/LibraryProjects/radiance_codec/outputs/previews/vst_chroma_dark_protect/sample_DSCF0009_full_original_w4_g2.2.png",
+  "decoded_png": "/Users/uniuyuni/LibraryProjects/radiance_codec/outputs/previews/vst_chroma_dark_protect/sample_DSCF0009_full_vstchroma_darkprotect_gamma075_Y10_CL8_baseH5_tm2_5_safeoriginal_dark0_5_w4_g2.2_decoded.png",
+  "lift_original_png": "/Users/uniuyuni/LibraryProjects/radiance_codec/outputs/previews/vst_chroma_dark_protect/sample_DSCF0009_full_original_w0.5_g2.2.png",
+  "lift_decoded_png": "/Users/uniuyuni/LibraryProjects/radiance_codec/outputs/previews/vst_chroma_dark_protect/sample_DSCF0009_full_vstchroma_darkprotect_gamma075_Y10_CL8_baseH5_tm2_5_safeoriginal_dark0_5_w0.5_g2.2_decoded.png"
+}

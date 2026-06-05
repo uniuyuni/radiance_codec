@@ -1,0 +1,27 @@
+{
+  "image": "sample_DSCF0009.EXR",
+  "shape": [
+    5152,
+    7728,
+    3
+  ],
+  "label": "display_oracle_baseH5_original_dark-smooth0_5_r2_st0_01",
+  "mask_mode": "dark-smooth",
+  "dark_max": 0.5,
+  "mask_radius": 2,
+  "smooth_threshold": 0.01,
+  "mask_pixel_rate": 0.6933416679526253,
+  "mask_payload": {
+    "sample_count": 39814656,
+    "finite_bits": 3919982.8941092617,
+    "bits_per_sample": 0.09845577704122978,
+    "payload_bytes": 490002,
+    "model_bytes": 16,
+    "total_bytes": 490018
+  },
+  "original_png": "/Users/uniuyuni/LibraryProjects/radiance_codec/outputs/previews/vst_chroma_dark_protect/sample_DSCF0009_full_original_w4_g2.2.png",
+  "base_decoded_png": "/Users/uniuyuni/LibraryProjects/radiance_codec/outputs/previews/vst_chroma_nr/sample_DSCF0009_full_vstchroma_gamma075_Y10_CL8_H5_s2_r2_ge0_1_tm2_5_w4_g2.2_decoded.png",
+  "decoded_png": "/Users/uniuyuni/LibraryProjects/radiance_codec/outputs/previews/vst_chroma_dark_protect/sample_DSCF0009_full_display_oracle_baseH5_original_dark-smooth0_5_r2_st0_01_decoded.png",
+  "mask_png": "/Users/uniuyuni/LibraryProjects/radiance_codec/outputs/previews/vst_chroma_dark_protect/sample_DSCF0009_full_display_oracle_baseH5_original_dark-smooth0_5_r2_st0_01_mask.png",
+  "note": "Display-space oracle only. This is for mask diagnosis, not a codec size estimate."
+}

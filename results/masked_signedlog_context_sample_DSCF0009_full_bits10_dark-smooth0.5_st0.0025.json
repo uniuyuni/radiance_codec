@@ -1,0 +1,494 @@
+{
+  "image": "sample_DSCF0009.EXR",
+  "shape": [
+    5152,
+    7728,
+    3
+  ],
+  "bits": 10,
+  "small": 7,
+  "mask_mode": "dark-smooth",
+  "dark_max": 0.5,
+  "mask_radius": 2,
+  "smooth_threshold": 0.0025,
+  "mask_pixel_rate": 0.22136315833043993,
+  "mask_samples": 8813498,
+  "rows": [
+    {
+      "context": "xtrans6_maskwn_channel",
+      "direct_residual": {
+        "label": "residual:xtrans6_maskwn_channel",
+        "sample_count": 26440494,
+        "ideal_bits": 52234461.67394792,
+        "finite_bits": 52238078.64781733,
+        "ideal_bytes": 6529308,
+        "payload_bytes": 6529764,
+        "model_sparse_pairs_bytes": 26008,
+        "total_sparse_pairs_bytes": 6555772,
+        "bits_per_sample": 1.9756846694247592,
+        "context_count_possible": 432,
+        "context_count_seen": 432,
+        "symbol_pairs_seen": 6070
+      },
+      "small_escape": {
+        "small": 7,
+        "streams": [
+          {
+            "label": "category:xtrans6_maskwn_channel",
+            "sample_count": 26440494,
+            "ideal_bits": 52234122.553992115,
+            "finite_bits": 52236868.33185715,
+            "ideal_bytes": 6529266,
+            "payload_bytes": 6529613,
+            "model_sparse_pairs_bytes": 19578,
+            "total_sparse_pairs_bytes": 6549191,
+            "bits_per_sample": 1.9756388943359815,
+            "context_count_possible": 432,
+            "context_count_seen": 432,
+            "symbol_pairs_seen": 5950
+          },
+          {
+            "label": "pos_escape:xtrans6_maskwn_channel",
+            "sample_count": 313,
+            "ideal_bits": 171.74844088268082,
+            "finite_bits": 171.7484411559595,
+            "ideal_bytes": 22,
+            "payload_bytes": 26,
+            "model_sparse_pairs_bytes": 1452,
+            "total_sparse_pairs_bytes": 1478,
+            "bits_per_sample": 0.5487170643960367,
+            "context_count_possible": 432,
+            "context_count_seen": 152,
+            "symbol_pairs_seen": 211
+          },
+          {
+            "label": "neg_escape:xtrans6_maskwn_channel",
+            "sample_count": 330,
+            "ideal_bits": 167.3715149046361,
+            "finite_bits": 167.3715151140113,
+            "ideal_bytes": 21,
+            "payload_bytes": 25,
+            "model_sparse_pairs_bytes": 1596,
+            "total_sparse_pairs_bytes": 1621,
+            "bits_per_sample": 0.5071864094363978,
+            "context_count_possible": 432,
+            "context_count_seen": 169,
+            "symbol_pairs_seen": 230
+          }
+        ],
+        "ideal_bytes": 6529308,
+        "payload_bytes": 6529664,
+        "model_sparse_pairs_bytes": 22626,
+        "total_sparse_pairs_bytes": 6552290
+      }
+    },
+    {
+      "context": "phase2_maskwn_channel",
+      "direct_residual": {
+        "label": "residual:phase2_maskwn_channel",
+        "sample_count": 26440494,
+        "ideal_bits": 52238889.371728934,
+        "finite_bits": 52248091.544755444,
+        "ideal_bytes": 6529862,
+        "payload_bytes": 6531016,
+        "model_sparse_pairs_bytes": 3476,
+        "total_sparse_pairs_bytes": 6534492,
+        "bits_per_sample": 1.9760633649566246,
+        "context_count_possible": 48,
+        "context_count_seen": 48,
+        "symbol_pairs_seen": 821
+      },
+      "small_escape": {
+        "small": 7,
+        "streams": [
+          {
+            "label": "category:phase2_maskwn_channel",
+            "sample_count": 26440494,
+            "ideal_bits": 52238152.60753102,
+            "finite_bits": 52242826.8121495,
+            "ideal_bytes": 6529770,
+            "payload_bytes": 6530358,
+            "model_sparse_pairs_bytes": 2364,
+            "total_sparse_pairs_bytes": 6532722,
+            "bits_per_sample": 1.9758642486842153,
+            "context_count_possible": 48,
+            "context_count_seen": 48,
+            "symbol_pairs_seen": 724
+          },
+          {
+            "label": "pos_escape:phase2_maskwn_channel",
+            "sample_count": 313,
+            "ideal_bits": 372.12764274065205,
+            "finite_bits": 372.12764540181666,
+            "ideal_bytes": 47,
+            "payload_bytes": 51,
+            "model_sparse_pairs_bytes": 408,
+            "total_sparse_pairs_bytes": 459,
+            "bits_per_sample": 1.1889062153412673,
+            "context_count_possible": 48,
+            "context_count_seen": 28,
+            "symbol_pairs_seen": 74
+          },
+          {
+            "label": "neg_escape:phase2_maskwn_channel",
+            "sample_count": 330,
+            "ideal_bits": 364.63655514516864,
+            "finite_bits": 364.63655716426416,
+            "ideal_bytes": 46,
+            "payload_bytes": 50,
+            "model_sparse_pairs_bytes": 452,
+            "total_sparse_pairs_bytes": 502,
+            "bits_per_sample": 1.104959264134134,
+            "context_count_possible": 48,
+            "context_count_seen": 31,
+            "symbol_pairs_seen": 82
+          }
+        ],
+        "ideal_bytes": 6529862,
+        "payload_bytes": 6530459,
+        "model_sparse_pairs_bytes": 3224,
+        "total_sparse_pairs_bytes": 6533683
+      }
+    },
+    {
+      "context": "maskwn_channel",
+      "direct_residual": {
+        "label": "residual:maskwn_channel",
+        "sample_count": 26440494,
+        "ideal_bits": 52239382.769416586,
+        "finite_bits": 52253745.120097905,
+        "ideal_bytes": 6529923,
+        "payload_bytes": 6531723,
+        "model_sparse_pairs_bytes": 968,
+        "total_sparse_pairs_bytes": 6532691,
+        "bits_per_sample": 1.9762771875630578,
+        "context_count_possible": 12,
+        "context_count_seen": 12,
+        "symbol_pairs_seen": 230
+      },
+      "small_escape": {
+        "small": 7,
+        "streams": [
+          {
+            "label": "category:maskwn_channel",
+            "sample_count": 26440494,
+            "ideal_bits": 52238537.83951001,
+            "finite_bits": 52243773.384588934,
+            "ideal_bytes": 6529818,
+            "payload_bytes": 6530476,
+            "model_sparse_pairs_bytes": 606,
+            "total_sparse_pairs_bytes": 6531082,
+            "bits_per_sample": 1.9759000487883824,
+            "context_count_possible": 12,
+            "context_count_seen": 12,
+            "symbol_pairs_seen": 186
+          },
+          {
+            "label": "pos_escape:maskwn_channel",
+            "sample_count": 313,
+            "ideal_bits": 427.95196568420937,
+            "finite_bits": 427.9519750184636,
+            "ideal_bytes": 54,
+            "payload_bytes": 58,
+            "model_sparse_pairs_bytes": 148,
+            "total_sparse_pairs_bytes": 206,
+            "bits_per_sample": 1.3672587061292767,
+            "context_count_possible": 12,
+            "context_count_seen": 8,
+            "symbol_pairs_seen": 29
+          },
+          {
+            "label": "neg_escape:maskwn_channel",
+            "sample_count": 330,
+            "ideal_bits": 416.9779408816791,
+            "finite_bits": 416.97795335751454,
+            "ideal_bytes": 53,
+            "payload_bytes": 57,
+            "model_sparse_pairs_bytes": 156,
+            "total_sparse_pairs_bytes": 213,
+            "bits_per_sample": 1.263569555628832,
+            "context_count_possible": 12,
+            "context_count_seen": 8,
+            "symbol_pairs_seen": 31
+          }
+        ],
+        "ideal_bytes": 6529923,
+        "payload_bytes": 6530591,
+        "model_sparse_pairs_bytes": 910,
+        "total_sparse_pairs_bytes": 6531501
+      }
+    },
+    {
+      "context": "xtrans6_channel",
+      "direct_residual": {
+        "label": "residual:xtrans6_channel",
+        "sample_count": 26440494,
+        "ideal_bits": 52611350.44494741,
+        "finite_bits": 52616177.58378164,
+        "ideal_bytes": 6576419,
+        "payload_bytes": 6577027,
+        "model_sparse_pairs_bytes": 7356,
+        "total_sparse_pairs_bytes": 6584383,
+        "bits_per_sample": 1.9899846645747858,
+        "context_count_possible": 108,
+        "context_count_seen": 108,
+        "symbol_pairs_seen": 1731
+      },
+      "small_escape": {
+        "small": 7,
+        "streams": [
+          {
+            "label": "category:xtrans6_channel",
+            "sample_count": 26440494,
+            "ideal_bits": 52610745.12322273,
+            "finite_bits": 52613460.16185687,
+            "ideal_bytes": 6576344,
+            "payload_bytes": 6576687,
+            "model_sparse_pairs_bytes": 5247,
+            "total_sparse_pairs_bytes": 6581934,
+            "bits_per_sample": 1.9898818895689645,
+            "context_count_possible": 108,
+            "context_count_seen": 108,
+            "symbol_pairs_seen": 1605
+          },
+          {
+            "label": "pos_escape:xtrans6_channel",
+            "sample_count": 313,
+            "ideal_bits": 305.56614782497485,
+            "finite_bits": 305.5661488644083,
+            "ideal_bytes": 39,
+            "payload_bytes": 43,
+            "model_sparse_pairs_bytes": 724,
+            "total_sparse_pairs_bytes": 767,
+            "bits_per_sample": 0.9762496768830937,
+            "context_count_possible": 108,
+            "context_count_seen": 59,
+            "symbol_pairs_seen": 122
+          },
+          {
+            "label": "neg_escape:xtrans6_channel",
+            "sample_count": 330,
+            "ideal_bits": 299.7555768461908,
+            "finite_bits": 299.75557792624704,
+            "ideal_bytes": 38,
+            "payload_bytes": 42,
+            "model_sparse_pairs_bytes": 780,
+            "total_sparse_pairs_bytes": 822,
+            "bits_per_sample": 0.9083502361401425,
+            "context_count_possible": 108,
+            "context_count_seen": 66,
+            "symbol_pairs_seen": 129
+          }
+        ],
+        "ideal_bytes": 6576419,
+        "payload_bytes": 6576772,
+        "model_sparse_pairs_bytes": 6751,
+        "total_sparse_pairs_bytes": 6583523
+      }
+    },
+    {
+      "context": "phase2_channel",
+      "direct_residual": {
+        "label": "residual:phase2_channel",
+        "sample_count": 26440494,
+        "ideal_bits": 52612642.45162991,
+        "finite_bits": 52624246.16588047,
+        "ideal_bytes": 6576581,
+        "payload_bytes": 6578035,
+        "model_sparse_pairs_bytes": 968,
+        "total_sparse_pairs_bytes": 6579003,
+        "bits_per_sample": 1.9902898246107077,
+        "context_count_possible": 12,
+        "context_count_seen": 12,
+        "symbol_pairs_seen": 230
+      },
+      "small_escape": {
+        "small": 7,
+        "streams": [
+          {
+            "label": "category:phase2_channel",
+            "sample_count": 26440494,
+            "ideal_bits": 52611803.61967579,
+            "finite_bits": 52615704.00621178,
+            "ideal_bytes": 6576476,
+            "payload_bytes": 6576968,
+            "model_sparse_pairs_bytes": 606,
+            "total_sparse_pairs_bytes": 6577574,
+            "bits_per_sample": 1.9899667535036138,
+            "context_count_possible": 12,
+            "context_count_seen": 12,
+            "symbol_pairs_seen": 186
+          },
+          {
+            "label": "pos_escape:phase2_channel",
+            "sample_count": 313,
+            "ideal_bits": 419.35331694260947,
+            "finite_bits": 419.3533199316999,
+            "ideal_bytes": 53,
+            "payload_bytes": 57,
+            "model_sparse_pairs_bytes": 148,
+            "total_sparse_pairs_bytes": 205,
+            "bits_per_sample": 1.339786964638019,
+            "context_count_possible": 12,
+            "context_count_seen": 8,
+            "symbol_pairs_seen": 29
+          },
+          {
+            "label": "neg_escape:phase2_channel",
+            "sample_count": 330,
+            "ideal_bits": 419.4786371739698,
+            "finite_bits": 419.47864480478546,
+            "ideal_bytes": 53,
+            "payload_bytes": 57,
+            "model_sparse_pairs_bytes": 156,
+            "total_sparse_pairs_bytes": 213,
+            "bits_per_sample": 1.27114740849935,
+            "context_count_possible": 12,
+            "context_count_seen": 8,
+            "symbol_pairs_seen": 31
+          }
+        ],
+        "ideal_bytes": 6576581,
+        "payload_bytes": 6577082,
+        "model_sparse_pairs_bytes": 910,
+        "total_sparse_pairs_bytes": 6577992
+      }
+    },
+    {
+      "context": "channel",
+      "direct_residual": {
+        "label": "residual:channel",
+        "sample_count": 26440494,
+        "ideal_bits": 52612774.26964566,
+        "finite_bits": 52627032.35051232,
+        "ideal_bytes": 6576597,
+        "payload_bytes": 6578384,
+        "model_sparse_pairs_bytes": 256,
+        "total_sparse_pairs_bytes": 6578640,
+        "bits_per_sample": 1.9903952002754683,
+        "context_count_possible": 3,
+        "context_count_seen": 3,
+        "symbol_pairs_seen": 61
+      },
+      "small_escape": {
+        "small": 7,
+        "streams": [
+          {
+            "label": "category:channel",
+            "sample_count": 26440494,
+            "ideal_bits": 52611896.130011976,
+            "finite_bits": 52616156.87784909,
+            "ideal_bytes": 6576488,
+            "payload_bytes": 6577024,
+            "model_sparse_pairs_bytes": 153,
+            "total_sparse_pairs_bytes": 6577177,
+            "bits_per_sample": 1.9899838814603497,
+            "context_count_possible": 3,
+            "context_count_seen": 3,
+            "symbol_pairs_seen": 47
+          },
+          {
+            "label": "pos_escape:channel",
+            "sample_count": 313,
+            "ideal_bits": 441.0211848361911,
+            "finite_bits": 441.02118708871814,
+            "ideal_bytes": 56,
+            "payload_bytes": 60,
+            "model_sparse_pairs_bytes": 40,
+            "total_sparse_pairs_bytes": 100,
+            "bits_per_sample": 1.4090133772802496,
+            "context_count_possible": 3,
+            "context_count_seen": 2,
+            "symbol_pairs_seen": 8
+          },
+          {
+            "label": "neg_escape:channel",
+            "sample_count": 330,
+            "ideal_bits": 437.1184488472269,
+            "finite_bits": 437.118458595706,
+            "ideal_bytes": 55,
+            "payload_bytes": 59,
+            "model_sparse_pairs_bytes": 48,
+            "total_sparse_pairs_bytes": 107,
+            "bits_per_sample": 1.3246013896839575,
+            "context_count_possible": 3,
+            "context_count_seen": 2,
+            "symbol_pairs_seen": 10
+          }
+        ],
+        "ideal_bytes": 6576597,
+        "payload_bytes": 6577143,
+        "model_sparse_pairs_bytes": 241,
+        "total_sparse_pairs_bytes": 6577384
+      }
+    },
+    {
+      "context": "order0",
+      "direct_residual": {
+        "label": "residual:order0",
+        "sample_count": 26440494,
+        "ideal_bits": 52948639.9461182,
+        "finite_bits": 52972422.888149664,
+        "ideal_bytes": 6618580,
+        "payload_bytes": 6621557,
+        "model_sparse_pairs_bytes": 108,
+        "total_sparse_pairs_bytes": 6621665,
+        "bits_per_sample": 2.0034581384201697,
+        "context_count_possible": 1,
+        "context_count_seen": 1,
+        "symbol_pairs_seen": 26
+      },
+      "small_escape": {
+        "small": 7,
+        "streams": [
+          {
+            "label": "category:order0",
+            "sample_count": 26440494,
+            "ideal_bits": 52947752.32997505,
+            "finite_bits": 52951449.57226464,
+            "ideal_bytes": 6618470,
+            "payload_bytes": 6618936,
+            "model_sparse_pairs_bytes": 55,
+            "total_sparse_pairs_bytes": 6618991,
+            "bits_per_sample": 2.0026649113388215,
+            "context_count_possible": 1,
+            "context_count_seen": 1,
+            "symbol_pairs_seen": 17
+          },
+          {
+            "label": "pos_escape:order0",
+            "sample_count": 313,
+            "ideal_bits": 444.59374508296355,
+            "finite_bits": 444.59375726476367,
+            "ideal_bytes": 56,
+            "payload_bytes": 60,
+            "model_sparse_pairs_bytes": 24,
+            "total_sparse_pairs_bytes": 84,
+            "bits_per_sample": 1.4204273395040372,
+            "context_count_possible": 1,
+            "context_count_seen": 1,
+            "symbol_pairs_seen": 5
+          },
+          {
+            "label": "neg_escape:order0",
+            "sample_count": 330,
+            "ideal_bits": 443.02239806418856,
+            "finite_bits": 443.02242866801595,
+            "ideal_bytes": 56,
+            "payload_bytes": 60,
+            "model_sparse_pairs_bytes": 28,
+            "total_sparse_pairs_bytes": 88,
+            "bits_per_sample": 1.3424922080848969,
+            "context_count_possible": 1,
+            "context_count_seen": 1,
+            "symbol_pairs_seen": 6
+          }
+        ],
+        "ideal_bytes": 6618580,
+        "payload_bytes": 6619056,
+        "model_sparse_pairs_bytes": 107,
+        "total_sparse_pairs_bytes": 6619163
+      }
+    }
+  ]
+}

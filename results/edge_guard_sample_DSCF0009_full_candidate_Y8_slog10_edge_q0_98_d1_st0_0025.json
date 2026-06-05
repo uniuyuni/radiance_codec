@@ -1,0 +1,25 @@
+{
+  "image": "sample_DSCF0009.EXR",
+  "shape": [
+    5152,
+    7728,
+    3
+  ],
+  "label": "candidate_Y8_slog10_edge_q0_98_d1_st0_0025",
+  "dark_mask_rate": 0.22136315833043993,
+  "edge_mask_rate": 0.04634288438910536,
+  "extra_edge_rate": 0.04634288438910536,
+  "mask_payload": {
+    "sample_count": 39814656,
+    "finite_bits": 1365729.5689787604,
+    "bits_per_sample": 0.03430218181412293,
+    "payload_bytes": 170721,
+    "model_bytes": 16,
+    "total_bytes": 170737
+  },
+  "decoded_png": "/Users/uniuyuni/LibraryProjects/radiance_codec/outputs/previews/vst_chroma_dark_protect/sample_DSCF0009_full_candidate_Y8_slog10_edge_q0_98_d1_st0_0025.png",
+  "mask_png": "/Users/uniuyuni/LibraryProjects/radiance_codec/outputs/previews/vst_chroma_dark_protect/sample_DSCF0009_full_candidate_Y8_slog10_edge_q0_98_d1_st0_0025_mask.png",
+  "base_candidate_png": "outputs/previews/vst_chroma_dark_protect/candidate_Y8_slog10_st0025.png",
+  "safe_png": "/Users/uniuyuni/LibraryProjects/radiance_codec/outputs/previews/sample_DSCF0009_crop0_signed-log_bits10_w4_g2.2_decoded.png",
+  "note": "Display-space edge guard diagnostic; not a final bitstream estimate."
+}

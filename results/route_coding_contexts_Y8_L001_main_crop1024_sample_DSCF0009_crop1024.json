@@ -1,0 +1,509 @@
+{
+  "image": "sample_DSCF0009.EXR",
+  "shape": [
+    1024,
+    1024,
+    3
+  ],
+  "raw_bytes": 12582912,
+  "route_mask_rate": 0.7167720794677734,
+  "additional_mask": null,
+  "requested_streams": [
+    "signedlog10_mask",
+    "vst_y_nonmask"
+  ],
+  "requested_contexts": [
+    "mask_wn",
+    "order0",
+    "phase2",
+    "xtrans6"
+  ],
+  "high_thresholds": null,
+  "high_ranges": null,
+  "streams": [
+    {
+      "stream": "vst_y_nonmask",
+      "baseline": {
+        "predictor": "med",
+        "context": "order0",
+        "estimated_bytes_with_model": 70849
+      },
+      "best": {
+        "predictor": "med",
+        "context": "order0",
+        "estimated_bytes_with_model": 70849
+      },
+      "gain_bytes": 0,
+      "top_rows": [
+        {
+          "stream": "vst_y_nonmask",
+          "predictor": "med",
+          "context": "order0",
+          "estimated_bits": 562434.0492259968,
+          "estimated_bytes_with_model": 70849,
+          "model_bytes": 512,
+          "channels": [
+            {
+              "channel": 0,
+              "bits": 8,
+              "samples": 296986,
+              "estimated_bits": 562434.0492259968,
+              "bits_per_sample": 1.893806607806418,
+              "context_count": 1,
+              "model_bytes": 512
+            }
+          ]
+        },
+        {
+          "stream": "vst_y_nonmask",
+          "predictor": "med",
+          "context": "mask_wn",
+          "estimated_bits": 559948.3536676166,
+          "estimated_bytes_with_model": 72074,
+          "model_bytes": 2048,
+          "channels": [
+            {
+              "channel": 0,
+              "bits": 8,
+              "samples": 296986,
+              "estimated_bits": 559948.3536676166,
+              "bits_per_sample": 1.885436867958815,
+              "context_count": 4,
+              "model_bytes": 2048
+            }
+          ]
+        },
+        {
+          "stream": "vst_y_nonmask",
+          "predictor": "med",
+          "context": "phase2",
+          "estimated_bits": 562374.0376299759,
+          "estimated_bytes_with_model": 72377,
+          "model_bytes": 2048,
+          "channels": [
+            {
+              "channel": 0,
+              "bits": 8,
+              "samples": 296986,
+              "estimated_bits": 562374.0376299759,
+              "bits_per_sample": 1.893604539035429,
+              "context_count": 4,
+              "model_bytes": 2048
+            }
+          ]
+        },
+        {
+          "stream": "vst_y_nonmask",
+          "predictor": "avg",
+          "context": "order0",
+          "estimated_bits": 578442.8315403387,
+          "estimated_bytes_with_model": 72850,
+          "model_bytes": 512,
+          "channels": [
+            {
+              "channel": 0,
+              "bits": 8,
+              "samples": 296986,
+              "estimated_bits": 578442.8315403387,
+              "bits_per_sample": 1.9477107726974965,
+              "context_count": 1,
+              "model_bytes": 512
+            }
+          ]
+        },
+        {
+          "stream": "vst_y_nonmask",
+          "predictor": "avg",
+          "context": "mask_wn",
+          "estimated_bits": 571034.1305015298,
+          "estimated_bytes_with_model": 73460,
+          "model_bytes": 2048,
+          "channels": [
+            {
+              "channel": 0,
+              "bits": 8,
+              "samples": 296986,
+              "estimated_bits": 571034.1305015298,
+              "bits_per_sample": 1.9227644754349693,
+              "context_count": 4,
+              "model_bytes": 2048
+            }
+          ]
+        },
+        {
+          "stream": "vst_y_nonmask",
+          "predictor": "avg",
+          "context": "phase2",
+          "estimated_bits": 577614.8858559534,
+          "estimated_bytes_with_model": 74282,
+          "model_bytes": 2048,
+          "channels": [
+            {
+              "channel": 0,
+              "bits": 8,
+              "samples": 296986,
+              "estimated_bits": 577614.8858559534,
+              "bits_per_sample": 1.94492294537774,
+              "context_count": 4,
+              "model_bytes": 2048
+            }
+          ]
+        },
+        {
+          "stream": "vst_y_nonmask",
+          "predictor": "west",
+          "context": "order0",
+          "estimated_bits": 660351.8383624891,
+          "estimated_bytes_with_model": 83088,
+          "model_bytes": 512,
+          "channels": [
+            {
+              "channel": 0,
+              "bits": 8,
+              "samples": 296986,
+              "estimated_bits": 660351.8383624891,
+              "bits_per_sample": 2.2235116751715203,
+              "context_count": 1,
+              "model_bytes": 512
+            }
+          ]
+        },
+        {
+          "stream": "vst_y_nonmask",
+          "predictor": "west",
+          "context": "mask_wn",
+          "estimated_bits": 654197.8858694865,
+          "estimated_bytes_with_model": 83855,
+          "model_bytes": 2048,
+          "channels": [
+            {
+              "channel": 0,
+              "bits": 8,
+              "samples": 296986,
+              "estimated_bits": 654197.8858694865,
+              "bits_per_sample": 2.202790319642968,
+              "context_count": 4,
+              "model_bytes": 2048
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "stream": "signedlog10_mask",
+      "baseline": {
+        "predictor": "med",
+        "context": "order0",
+        "estimated_bytes_with_model": 594087
+      },
+      "best": {
+        "predictor": "avg",
+        "context": "order0",
+        "estimated_bytes_with_model": 579367
+      },
+      "gain_bytes": 14720,
+      "top_rows": [
+        {
+          "stream": "signedlog10_mask",
+          "predictor": "avg",
+          "context": "order0",
+          "estimated_bits": 4585525.484375564,
+          "estimated_bytes_with_model": 579367,
+          "model_bytes": 6144,
+          "channels": [
+            {
+              "channel": 0,
+              "bits": 10,
+              "samples": 751590,
+              "estimated_bits": 1346433.5154884267,
+              "bits_per_sample": 1.7914468200593763,
+              "context_count": 1,
+              "model_bytes": 2048
+            },
+            {
+              "channel": 1,
+              "bits": 10,
+              "samples": 751590,
+              "estimated_bits": 1180248.6569128186,
+              "bits_per_sample": 1.5703357640639426,
+              "context_count": 1,
+              "model_bytes": 2048
+            },
+            {
+              "channel": 2,
+              "bits": 10,
+              "samples": 751590,
+              "estimated_bits": 2058843.3119743196,
+              "bits_per_sample": 2.7393170637905238,
+              "context_count": 1,
+              "model_bytes": 2048
+            }
+          ]
+        },
+        {
+          "stream": "signedlog10_mask",
+          "predictor": "med",
+          "context": "order0",
+          "estimated_bits": 4703280.5843405565,
+          "estimated_bytes_with_model": 594087,
+          "model_bytes": 6144,
+          "channels": [
+            {
+              "channel": 0,
+              "bits": 10,
+              "samples": 751590,
+              "estimated_bits": 1375665.9073053955,
+              "bits_per_sample": 1.8303408870599602,
+              "context_count": 1,
+              "model_bytes": 2048
+            },
+            {
+              "channel": 1,
+              "bits": 10,
+              "samples": 751590,
+              "estimated_bits": 1235261.8197381753,
+              "bits_per_sample": 1.6435314729282924,
+              "context_count": 1,
+              "model_bytes": 2048
+            },
+            {
+              "channel": 2,
+              "bits": 10,
+              "samples": 751590,
+              "estimated_bits": 2092352.8572969856,
+              "bits_per_sample": 2.7839019376215566,
+              "context_count": 1,
+              "model_bytes": 2048
+            }
+          ]
+        },
+        {
+          "stream": "signedlog10_mask",
+          "predictor": "avg",
+          "context": "mask_wn",
+          "estimated_bits": 4556994.37021236,
+          "estimated_bytes_with_model": 594233,
+          "model_bytes": 24576,
+          "channels": [
+            {
+              "channel": 0,
+              "bits": 10,
+              "samples": 751590,
+              "estimated_bits": 1337257.475678954,
+              "bits_per_sample": 1.7792379830478773,
+              "context_count": 4,
+              "model_bytes": 8192
+            },
+            {
+              "channel": 1,
+              "bits": 10,
+              "samples": 751590,
+              "estimated_bits": 1172074.563753496,
+              "bits_per_sample": 1.559460029741609,
+              "context_count": 4,
+              "model_bytes": 8192
+            },
+            {
+              "channel": 2,
+              "bits": 10,
+              "samples": 751590,
+              "estimated_bits": 2047662.3307799103,
+              "bits_per_sample": 2.7244406269108294,
+              "context_count": 4,
+              "model_bytes": 8192
+            }
+          ]
+        },
+        {
+          "stream": "signedlog10_mask",
+          "predictor": "avg",
+          "context": "phase2",
+          "estimated_bits": 4585127.005782381,
+          "estimated_bytes_with_model": 597749,
+          "model_bytes": 24576,
+          "channels": [
+            {
+              "channel": 0,
+              "bits": 10,
+              "samples": 751590,
+              "estimated_bits": 1346301.121746213,
+              "bits_per_sample": 1.7912706685110404,
+              "context_count": 4,
+              "model_bytes": 8192
+            },
+            {
+              "channel": 1,
+              "bits": 10,
+              "samples": 751590,
+              "estimated_bits": 1180106.4733280335,
+              "bits_per_sample": 1.570146587006258,
+              "context_count": 4,
+              "model_bytes": 8192
+            },
+            {
+              "channel": 2,
+              "bits": 10,
+              "samples": 751590,
+              "estimated_bits": 2058719.4107081336,
+              "bits_per_sample": 2.739152211588943,
+              "context_count": 4,
+              "model_bytes": 8192
+            }
+          ]
+        },
+        {
+          "stream": "signedlog10_mask",
+          "predictor": "med",
+          "context": "mask_wn",
+          "estimated_bits": 4680764.097395194,
+          "estimated_bytes_with_model": 609704,
+          "model_bytes": 24576,
+          "channels": [
+            {
+              "channel": 0,
+              "bits": 10,
+              "samples": 751590,
+              "estimated_bits": 1369020.9741869315,
+              "bits_per_sample": 1.8214997195105462,
+              "context_count": 4,
+              "model_bytes": 8192
+            },
+            {
+              "channel": 1,
+              "bits": 10,
+              "samples": 751590,
+              "estimated_bits": 1229226.1771305704,
+              "bits_per_sample": 1.6355009741089828,
+              "context_count": 4,
+              "model_bytes": 8192
+            },
+            {
+              "channel": 2,
+              "bits": 10,
+              "samples": 751590,
+              "estimated_bits": 2082516.9460776919,
+              "bits_per_sample": 2.7708151333542115,
+              "context_count": 4,
+              "model_bytes": 8192
+            }
+          ]
+        },
+        {
+          "stream": "signedlog10_mask",
+          "predictor": "med",
+          "context": "phase2",
+          "estimated_bits": 4703147.260295395,
+          "estimated_bytes_with_model": 612502,
+          "model_bytes": 24576,
+          "channels": [
+            {
+              "channel": 0,
+              "bits": 10,
+              "samples": 751590,
+              "estimated_bits": 1375625.8697214636,
+              "bits_per_sample": 1.8302876165482027,
+              "context_count": 4,
+              "model_bytes": 8192
+            },
+            {
+              "channel": 1,
+              "bits": 10,
+              "samples": 751590,
+              "estimated_bits": 1235236.9204531459,
+              "bits_per_sample": 1.6434983441146713,
+              "context_count": 4,
+              "model_bytes": 8192
+            },
+            {
+              "channel": 2,
+              "bits": 10,
+              "samples": 751590,
+              "estimated_bits": 2092284.4701207855,
+              "bits_per_sample": 2.7838109476187625,
+              "context_count": 4,
+              "model_bytes": 8192
+            }
+          ]
+        },
+        {
+          "stream": "signedlog10_mask",
+          "predictor": "med-prev-avg",
+          "context": "order0",
+          "estimated_bits": 5125339.070000736,
+          "estimated_bytes_with_model": 646844,
+          "model_bytes": 6144,
+          "channels": [
+            {
+              "channel": 0,
+              "bits": 10,
+              "samples": 751590,
+              "estimated_bits": 1375665.9073053955,
+              "bits_per_sample": 1.8303408870599602,
+              "context_count": 1,
+              "model_bytes": 2048
+            },
+            {
+              "channel": 1,
+              "bits": 10,
+              "samples": 751590,
+              "estimated_bits": 1541836.41020274,
+              "bits_per_sample": 2.051432842643915,
+              "context_count": 1,
+              "model_bytes": 2048
+            },
+            {
+              "channel": 2,
+              "bits": 10,
+              "samples": 751590,
+              "estimated_bits": 2207836.752492601,
+              "bits_per_sample": 2.9375547206490253,
+              "context_count": 1,
+              "model_bytes": 2048
+            }
+          ]
+        },
+        {
+          "stream": "signedlog10_mask",
+          "predictor": "west",
+          "context": "order0",
+          "estimated_bits": 5132473.728120656,
+          "estimated_bytes_with_model": 647736,
+          "model_bytes": 6144,
+          "channels": [
+            {
+              "channel": 0,
+              "bits": 10,
+              "samples": 751590,
+              "estimated_bits": 1529126.1551777455,
+              "bits_per_sample": 2.034521687592631,
+              "context_count": 1,
+              "model_bytes": 2048
+            },
+            {
+              "channel": 1,
+              "bits": 10,
+              "samples": 751590,
+              "estimated_bits": 1321796.0892147906,
+              "bits_per_sample": 1.7586664128245328,
+              "context_count": 1,
+              "model_bytes": 2048
+            },
+            {
+              "channel": 2,
+              "bits": 10,
+              "samples": 751590,
+              "estimated_bits": 2281551.4837281196,
+              "bits_per_sample": 3.035633102792905,
+              "context_count": 1,
+              "model_bytes": 2048
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "baseline_value_bytes_with_models": 664936,
+  "best_value_bytes_with_models": 650216,
+  "best_gain_bytes": 14720,
+  "note": "Coding-only probe. Reconstructed pixels and route masks are fixed. Model byte estimates are approximate and penalize large context tables."
+}

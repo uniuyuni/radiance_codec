@@ -1,0 +1,194 @@
+{
+  "image_shape": [
+    5152,
+    7728
+  ],
+  "mask_pixel_rate": 0.22800623971233105,
+  "input_masks": [
+    "outputs/previews/vst_chroma_dark_protect/candidate_Y8_slog10_st0025_mask.png",
+    "outputs/previews/vst_chroma_dark_protect/candidate_Y8_slog10_diffguard_L0_01_R0_d0_mask.png"
+  ],
+  "existing_summary": {
+    "dark_pixel_rate": 0.22800623971233105,
+    "order0": {
+      "sample_count": 39814656,
+      "ideal_bits": 30837227.7641284,
+      "finite_bits": 30837227.836795755,
+      "bits_per_sample": 0.774519509519202,
+      "payload_bytes": 3854658,
+      "model_bytes": 4,
+      "total_bytes": 3854662
+    },
+    "west_north": {
+      "sample_count": 39814656,
+      "finite_bits": 6490100.240124287,
+      "bits_per_sample": 0.16300781903338024,
+      "payload_bytes": 811267,
+      "model_bytes": 16,
+      "total_bytes": 811283
+    }
+  },
+  "context_entropy": [
+    {
+      "name": "west_north_nw",
+      "context_count": 8,
+      "estimated_bits": 6436976.248008696,
+      "estimated_bytes_plus_model": 804671,
+      "bits_per_sample": 0.16167353669986992
+    },
+    {
+      "name": "west_north",
+      "context_count": 4,
+      "estimated_bits": 6490099.495317625,
+      "estimated_bytes_plus_model": 811295,
+      "bits_per_sample": 0.16300780032653364
+    },
+    {
+      "name": "phase2_west_north",
+      "context_count": 16,
+      "estimated_bits": 6490057.978876778,
+      "estimated_bytes_plus_model": 811338,
+      "bits_per_sample": 0.16300675758386002
+    },
+    {
+      "name": "xtrans6_west_north",
+      "context_count": 144,
+      "estimated_bits": 6489858.079856186,
+      "estimated_bytes_plus_model": 811825,
+      "bits_per_sample": 0.16300173684424615
+    },
+    {
+      "name": "west",
+      "context_count": 2,
+      "estimated_bits": 9618808.195648408,
+      "estimated_bytes_plus_model": 1202376,
+      "bits_per_sample": 0.2415896346221956
+    },
+    {
+      "name": "north",
+      "context_count": 2,
+      "estimated_bits": 9748785.161410794,
+      "estimated_bytes_plus_model": 1218623,
+      "bits_per_sample": 0.24485418538868686
+    },
+    {
+      "name": "order0",
+      "context_count": 1,
+      "estimated_bits": 30837227.7641284,
+      "estimated_bytes_plus_model": 3854674,
+      "bits_per_sample": 0.7745195076940612
+    }
+  ],
+  "packed_zlib": [
+    {
+      "order": "row",
+      "zlib_level": 1,
+      "raw_packed_bytes": 4976832,
+      "compressed_bytes": 1393024
+    },
+    {
+      "order": "row",
+      "zlib_level": 6,
+      "raw_packed_bytes": 4976832,
+      "compressed_bytes": 1222828
+    },
+    {
+      "order": "row",
+      "zlib_level": 9,
+      "raw_packed_bytes": 4976832,
+      "compressed_bytes": 1153188
+    },
+    {
+      "order": "column",
+      "zlib_level": 1,
+      "raw_packed_bytes": 4976832,
+      "compressed_bytes": 1385678
+    },
+    {
+      "order": "column",
+      "zlib_level": 6,
+      "raw_packed_bytes": 4976832,
+      "compressed_bytes": 1218918
+    },
+    {
+      "order": "column",
+      "zlib_level": 9,
+      "raw_packed_bytes": 4976832,
+      "compressed_bytes": 1151616
+    }
+  ],
+  "rle": [
+    {
+      "axis": "row",
+      "estimated_bytes_varint": 1754155,
+      "run_count": 1686917,
+      "unique_lengths": 1917,
+      "length_entropy_bytes_plus_model": 1008963
+    },
+    {
+      "axis": "column",
+      "estimated_bytes_varint": 1792734,
+      "run_count": 1720060,
+      "unique_lengths": 2243,
+      "length_entropy_bytes_plus_model": 1019325
+    }
+  ],
+  "tile_split": [
+    {
+      "tile": 8,
+      "mode_counts": {
+        "zero": 287556,
+        "one": 77752,
+        "mixed": 256796
+      },
+      "mode_bits": 881220.2377440077,
+      "raw_mixed_bits": 16434944,
+      "estimated_bytes": 2164585
+    },
+    {
+      "tile": 16,
+      "mode_counts": {
+        "zero": 41773,
+        "one": 14352,
+        "mixed": 99401
+      },
+      "mode_bits": 192758.31150767833,
+      "raw_mixed_bits": 25446656,
+      "estimated_bytes": 3204991
+    },
+    {
+      "tile": 32,
+      "mode_counts": {
+        "zero": 5339,
+        "one": 2326,
+        "mixed": 31297
+      },
+      "mode_bits": 34658.25069442303,
+      "raw_mixed_bits": 31989760,
+      "estimated_bytes": 4003117
+    },
+    {
+      "tile": 64,
+      "mode_counts": {
+        "zero": 734,
+        "one": 281,
+        "mixed": 8786
+      },
+      "mode_bits": 5570.156632192506,
+      "raw_mixed_bits": 35704320,
+      "estimated_bytes": 4463801
+    },
+    {
+      "tile": 128,
+      "mode_counts": {
+        "zero": 90,
+        "one": 17,
+        "mixed": 2394
+      },
+      "mode_bits": 705.1113937809356,
+      "raw_mixed_bits": 38147584,
+      "estimated_bytes": 4768601
+    }
+  ],
+  "note": "Mask-only coding probe. All rows are lossless for the mask; zlib numbers are actual compressed sizes for packed bit streams."
+}

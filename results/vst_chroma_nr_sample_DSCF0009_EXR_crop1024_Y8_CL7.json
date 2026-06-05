@@ -1,0 +1,397 @@
+[
+  {
+    "image": "sample_DSCF0009.EXR",
+    "shape": [
+      1024,
+      1024,
+      3
+    ],
+    "crop_size": 1024,
+    "white": 4.0,
+    "lift_white": 0.5,
+    "gamma": 2.2,
+    "anchor": "quant:signed-log:10",
+    "rows": [
+      {
+        "label": "vstchroma_gamma075_Y8_CL7_H4_s4_r2_ge0.1_tm3",
+        "raw_bytes": 12582912,
+        "estimated_bytes": 258895,
+        "estimated_ratio": 48.60237548040711,
+        "payload": {
+          "vst_mode": "gamma075",
+          "vst_a": 1.0,
+          "vst_b": 0.01,
+          "vst_eps": 0.0001,
+          "y_bits": 8,
+          "chroma_low_bits": 7,
+          "high_bits": 4,
+          "low_scale": 4,
+          "guide_radius": 2,
+          "guide_eps": 0.1,
+          "threshold_mult": 3.0,
+          "high_thresholds": [
+            0.01875229541491717,
+            0.012665205385023727
+          ],
+          "high_pixel_rate": 0.0704498291015625,
+          "estimated_bytes": 258895,
+          "payload": {
+            "y": {
+              "estimated_bits": 1454724.9297463917,
+              "estimated_bytes": 181841,
+              "channels": [
+                {
+                  "channel": 0,
+                  "bits": 8,
+                  "samples": 1048576,
+                  "estimated_bits": 1454724.9297463917,
+                  "bits_per_sample": 1.3873338029350202
+                }
+              ]
+            },
+            "y_range": {
+              "lo": 0.0,
+              "hi": 2.152287244796753
+            },
+            "chroma_low": {
+              "estimated_bits": 189790.48792860948,
+              "estimated_bytes": 23724,
+              "channels": [
+                {
+                  "channel": 0,
+                  "bits": 7,
+                  "samples": 65536,
+                  "estimated_bits": 62604.85037745506,
+                  "bits_per_sample": 0.9552742061989603
+                },
+                {
+                  "channel": 1,
+                  "bits": 7,
+                  "samples": 65536,
+                  "estimated_bits": 127185.6375511544,
+                  "bits_per_sample": 1.940698815172644
+                }
+              ]
+            },
+            "chroma_low_ranges": [
+              {
+                "lo": -0.04489992931485176,
+                "hi": 2.360471487045288
+              },
+              {
+                "lo": -0.07646284252405167,
+                "hi": 0.2826930284500122
+              }
+            ],
+            "high": {
+              "estimated_bytes": 23439,
+              "channels": [
+                {
+                  "channel": 0,
+                  "bits": 4,
+                  "samples": 73872,
+                  "estimated_bits": 104430.78652390858,
+                  "bits_per_sample": 1.4136721156041339
+                },
+                {
+                  "channel": 1,
+                  "bits": 4,
+                  "samples": 73872,
+                  "estimated_bits": 83074.30324406811,
+                  "bits_per_sample": 1.1245709232736099
+                }
+              ],
+              "ranges": [
+                {
+                  "lo": -0.17531423270702362,
+                  "hi": 0.22778953611850739
+                },
+                {
+                  "lo": -0.11934290081262589,
+                  "hi": 0.11532808095216751
+                }
+              ],
+              "mask_payload": {
+                "sample_count": 1048576,
+                "finite_bits": 236913.47520054784,
+                "bits_per_sample": 0.22593829650931152,
+                "payload_bytes": 29619,
+                "model_bytes": 16,
+                "total_bytes": 29635
+              }
+            },
+            "metadata_bytes": 256
+          }
+        },
+        "gate": {
+          "decision": "reject",
+          "failures": [
+            {
+              "severity": "reject",
+              "region": "dark_0_0.25",
+              "metric": "lost_detail_rate_delta",
+              "value": 0.3982270201625937,
+              "threshold": 0.1,
+              "detail": "dark gradients lose too much detail versus the anchor"
+            },
+            {
+              "severity": "maybe",
+              "region": "dark_0_0.25",
+              "metric": "grad_nrmse",
+              "value": 1.0606883626709465,
+              "threshold": 0.8707738967383125,
+              "detail": "dark gradient error is close to the danger zone"
+            },
+            {
+              "severity": "reject",
+              "region": "mid_0.25_1",
+              "metric": "lost_detail_rate_delta",
+              "value": 0.1949394921965249,
+              "threshold": 0.12,
+              "detail": "mid_0.25_1 loses too much local detail versus the anchor"
+            },
+            {
+              "severity": "reject",
+              "region": "highlight_1_4",
+              "metric": "lost_detail_rate_delta",
+              "value": 0.1029873487856681,
+              "threshold": 0.075,
+              "detail": "highlight_1_4 loses too much local detail versus the anchor"
+            },
+            {
+              "severity": "reject",
+              "region": "extreme_gt4",
+              "metric": "lost_detail_rate_delta",
+              "value": 0.16587972166998013,
+              "threshold": 0.14,
+              "detail": "extreme_gt4 loses too much local detail versus the anchor"
+            }
+          ]
+        },
+        "gate_lift": {
+          "decision": "reject",
+          "failures": [
+            {
+              "severity": "reject",
+              "region": "dark_0_0.25",
+              "metric": "lost_detail_rate_delta",
+              "value": 0.41592548826916453,
+              "threshold": 0.1,
+              "detail": "dark gradients lose too much detail versus the anchor"
+            },
+            {
+              "severity": "maybe",
+              "region": "dark_0_0.25",
+              "metric": "grad_nrmse",
+              "value": 1.0606883626709462,
+              "threshold": 0.8707738967383122,
+              "detail": "dark gradient error is close to the danger zone"
+            },
+            {
+              "severity": "reject",
+              "region": "mid_0.25_1",
+              "metric": "lost_detail_rate_delta",
+              "value": 0.2102516710351256,
+              "threshold": 0.12,
+              "detail": "mid_0.25_1 loses too much local detail versus the anchor"
+            },
+            {
+              "severity": "reject",
+              "region": "highlight_1_4",
+              "metric": "lost_detail_rate_delta",
+              "value": 0.18074152738018284,
+              "threshold": 0.075,
+              "detail": "highlight_1_4 loses too much local detail versus the anchor"
+            },
+            {
+              "severity": "reject",
+              "region": "highlight_1_4",
+              "metric": "grad_energy_ratio",
+              "value": 1.1868490546887327,
+              "threshold": 1.06,
+              "detail": "highlight texture energy changed too much"
+            },
+            {
+              "severity": "reject",
+              "region": "extreme_gt4",
+              "metric": "grad_energy_ratio",
+              "value": 0.928952195042777,
+              "threshold": 0.94,
+              "detail": "highlight texture energy changed too much"
+            }
+          ]
+        },
+        "key_metrics": {
+          "dark_0_0.25": {
+            "samples": 958785,
+            "luma_rmse": 0.00457509837697498,
+            "luma_p99": 0.011282776708743534,
+            "grad_nrmse": 1.0606883626709465,
+            "grad_energy_ratio": 1.3840429319661145,
+            "grad_correlation": 0.6468423028887744,
+            "lost_detail_rate": 0.6016675012701813,
+            "lost_detail_delta_vs_anchor": 0.3982270201625937
+          },
+          "mid_0.25_1": {
+            "samples": 63494,
+            "luma_rmse": 0.0015541982070806492,
+            "luma_p99": 0.00391418908401222,
+            "grad_nrmse": 0.2782485586518665,
+            "grad_energy_ratio": 1.0285638704050573,
+            "grad_correlation": 0.9627605208079321,
+            "lost_detail_rate": 0.21358179109471723,
+            "lost_detail_delta_vs_anchor": 0.1949394921965249
+          },
+          "highlight_1_4": {
+            "samples": 22158,
+            "luma_rmse": 0.001407215295679835,
+            "luma_p99": 0.003599858950047116,
+            "grad_nrmse": 0.17870621872824707,
+            "grad_energy_ratio": 1.0028360574747208,
+            "grad_correlation": 0.9840812119028972,
+            "lost_detail_rate": 0.11212946717148398,
+            "lost_detail_delta_vs_anchor": 0.1029873487856681
+          },
+          "extreme_gt4": {
+            "samples": 4139,
+            "luma_rmse": 0.001091841657831342,
+            "luma_p99": 0.0027293010558223987,
+            "grad_nrmse": 0.3789294392127135,
+            "grad_energy_ratio": 0.9580569317707588,
+            "grad_correlation": 0.9259812782381106,
+            "lost_detail_rate": 0.18923956262425448,
+            "lost_detail_delta_vs_anchor": 0.16587972166998013
+          }
+        },
+        "key_metrics_lift": {
+          "dark_0_0.25": {
+            "samples": 958785,
+            "luma_rmse": 0.01177323697318726,
+            "luma_p99": 0.029034305486437366,
+            "grad_nrmse": 1.0606883626709462,
+            "grad_energy_ratio": 1.3840429319661145,
+            "grad_correlation": 0.6468423028887745,
+            "lost_detail_rate": 0.623555348311638,
+            "lost_detail_delta_vs_anchor": 0.41592548826916453
+          },
+          "mid_0.25_1": {
+            "samples": 63494,
+            "luma_rmse": 0.003953833264353953,
+            "luma_p99": 0.010195799041891456,
+            "grad_nrmse": 0.30628624935413384,
+            "grad_energy_ratio": 1.0280448510304971,
+            "grad_correlation": 0.954756471577649,
+            "lost_detail_rate": 0.2352992726316712,
+            "lost_detail_delta_vs_anchor": 0.2102516710351256
+          },
+          "highlight_1_4": {
+            "samples": 22158,
+            "luma_rmse": 0.0019350903667805387,
+            "luma_p99": 0.00674479201234559,
+            "grad_nrmse": 0.9376608195505088,
+            "grad_energy_ratio": 1.1868490546887327,
+            "grad_correlation": 0.6443122906208629,
+            "lost_detail_rate": 0.18074152738018284,
+            "lost_detail_delta_vs_anchor": 0.18074152738018284
+          },
+          "extreme_gt4": {
+            "samples": 4139,
+            "luma_rmse": 0.00021947490191254003,
+            "luma_p99": 0.001189767067803317,
+            "grad_nrmse": 0.4946150710078996,
+            "grad_energy_ratio": 0.928952195042777,
+            "grad_correlation": 0.8710395006559638,
+            "lost_detail_rate": 0.00720675944333996,
+            "lost_detail_delta_vs_anchor": 0.00720675944333996
+          }
+        },
+        "bias": {
+          "dark_0_0.25": {
+            "samples": 958785,
+            "mean_luma_delta": -3.318661752232006e-05,
+            "mean_rgb_delta": [
+              0.0012215854144637724,
+              -0.00020665778010995158,
+              -0.0020096126357712443
+            ],
+            "abs_mean_rgb_delta": 0.0011459519434483228
+          },
+          "mid_0.25_1": {
+            "samples": 63494,
+            "mean_luma_delta": 0.00013120126333962073,
+            "mean_rgb_delta": [
+              -8.999831814815726e-05,
+              0.0002693493323387358,
+              -0.0005859243311737621
+            ],
+            "abs_mean_rgb_delta": 0.0003150906605535517
+          },
+          "highlight_1_4": {
+            "samples": 22158,
+            "mean_luma_delta": 0.00011181780127798399,
+            "mean_rgb_delta": [
+              -1.2087846890659612e-05,
+              0.00022135122048548824,
+              -0.000608347858231063
+            ],
+            "abs_mean_rgb_delta": 0.0002805956418690703
+          },
+          "all": {
+            "samples": 1048576,
+            "mean_luma_delta": -1.971360833251875e-05,
+            "mean_rgb_delta": [
+              0.0011109297798374065,
+              -0.00016741083561864004,
+              -0.0018859425192728628
+            ],
+            "abs_mean_rgb_delta": 0.0010547610449096365
+          }
+        },
+        "bias_lift": {
+          "dark_0_0.25": {
+            "samples": 958785,
+            "mean_luma_delta": -8.540011169926688e-05,
+            "mean_rgb_delta": [
+              0.0031435421454217563,
+              -0.0005317986231360775,
+              -0.00517139607408591
+            ],
+            "abs_mean_rgb_delta": 0.002948912280881248
+          },
+          "mid_0.25_1": {
+            "samples": 63494,
+            "mean_luma_delta": 0.00030499378850818863,
+            "mean_rgb_delta": [
+              -0.0002701671564513194,
+              0.0006589664319497288,
+              -0.0015077765396218762
+            ],
+            "abs_mean_rgb_delta": 0.0008123033760076415
+          },
+          "highlight_1_4": {
+            "samples": 22158,
+            "mean_luma_delta": -0.00013551212117442047,
+            "mean_rgb_delta": [
+              0.0,
+              0.0,
+              -0.0018768991852412616
+            ],
+            "abs_mean_rgb_delta": 0.0006256330617470872
+          },
+          "all": {
+            "samples": 1048576,
+            "mean_luma_delta": -6.242525424747744e-05,
+            "mean_rgb_delta": [
+              0.0028579970001854755,
+              -0.0004463578493626597,
+              -0.004858729676215014
+            ],
+            "abs_mean_rgb_delta": 0.002721028175254383
+          }
+        },
+        "original_png": "/Users/uniuyuni/LibraryProjects/radiance_codec/outputs/previews/vst_chroma_nr/sample_DSCF0009_crop1024_original_w4_g2.2.png",
+        "decoded_png": "/Users/uniuyuni/LibraryProjects/radiance_codec/outputs/previews/vst_chroma_nr/sample_DSCF0009_crop1024_vstchroma_gamma075_Y8_CL7_H4_s4_r2_ge0_1_tm3_w4_g2.2_decoded.png"
+      }
+    ]
+  }
+]

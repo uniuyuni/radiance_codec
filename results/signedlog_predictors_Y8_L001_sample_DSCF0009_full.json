@@ -1,0 +1,1044 @@
+{
+  "image": "sample_DSCF0009.EXR",
+  "shape": [
+    5152,
+    7728,
+    3
+  ],
+  "raw_bytes": 477775872,
+  "signedlog_bits": 10,
+  "mask_mode": "dark-smooth",
+  "dark_max": 0.5,
+  "mask_radius": 2,
+  "smooth_threshold": 0.0025,
+  "additional_mask": {
+    "path": "outputs/previews/vst_chroma_dark_protect/candidate_Y8_slog10_diffguard_L0_01_R0_d0_mask.png",
+    "pixel_rate": 0.006643081381891131,
+    "new_pixel_rate": 0.006643081381891131
+  },
+  "mask_pixel_rate": 0.22800623971233105,
+  "baseline_predictor": "med",
+  "baseline_estimated_bytes": 7125806,
+  "best_predictor": "avg",
+  "best_estimated_bytes": 7096125,
+  "gain_bytes": 29681,
+  "rows": [
+    {
+      "predictor": "avg",
+      "estimated_bits": 56768743.860042036,
+      "estimated_bytes": 7096125,
+      "channels": [
+        {
+          "channel": 0,
+          "samples": 9077990,
+          "estimated_bits": 20524779.303993683,
+          "bits_per_sample": 2.2609387434876753,
+          "top_symbols": [
+            {
+              "symbol": 0,
+              "count": 3667601
+            },
+            {
+              "symbol": 1,
+              "count": 2578280
+            },
+            {
+              "symbol": 1023,
+              "count": 1431802
+            },
+            {
+              "symbol": 2,
+              "count": 678555
+            },
+            {
+              "symbol": 1022,
+              "count": 316521
+            },
+            {
+              "symbol": 3,
+              "count": 156459
+            },
+            {
+              "symbol": 1021,
+              "count": 77656
+            },
+            {
+              "symbol": 4,
+              "count": 46111
+            }
+          ]
+        },
+        {
+          "channel": 1,
+          "samples": 9077990,
+          "estimated_bits": 16616733.581842043,
+          "bits_per_sample": 1.830441935036505,
+          "top_symbols": [
+            {
+              "symbol": 0,
+              "count": 4572618
+            },
+            {
+              "symbol": 1,
+              "count": 2705040
+            },
+            {
+              "symbol": 1023,
+              "count": 1171979
+            },
+            {
+              "symbol": 2,
+              "count": 375919
+            },
+            {
+              "symbol": 1022,
+              "count": 116631
+            },
+            {
+              "symbol": 3,
+              "count": 40474
+            },
+            {
+              "symbol": 1021,
+              "count": 17253
+            },
+            {
+              "symbol": 4,
+              "count": 10226
+            }
+          ]
+        },
+        {
+          "channel": 2,
+          "samples": 9077990,
+          "estimated_bits": 19627230.974206313,
+          "bits_per_sample": 2.1620679218864876,
+          "top_symbols": [
+            {
+              "symbol": 0,
+              "count": 3851293
+            },
+            {
+              "symbol": 1,
+              "count": 2616998
+            },
+            {
+              "symbol": 1023,
+              "count": 1420499
+            },
+            {
+              "symbol": 2,
+              "count": 611618
+            },
+            {
+              "symbol": 1022,
+              "count": 271192
+            },
+            {
+              "symbol": 3,
+              "count": 113019
+            },
+            {
+              "symbol": 1021,
+              "count": 61443
+            },
+            {
+              "symbol": 4,
+              "count": 24520
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "predictor": "med",
+      "estimated_bits": 57006186.72459491,
+      "estimated_bytes": 7125806,
+      "channels": [
+        {
+          "channel": 0,
+          "samples": 9077990,
+          "estimated_bits": 20254098.196789045,
+          "bits_per_sample": 2.2311214483370265,
+          "top_symbols": [
+            {
+              "symbol": 0,
+              "count": 3754171
+            },
+            {
+              "symbol": 1023,
+              "count": 2016473
+            },
+            {
+              "symbol": 1,
+              "count": 2002647
+            },
+            {
+              "symbol": 1022,
+              "count": 483970
+            },
+            {
+              "symbol": 2,
+              "count": 480067
+            },
+            {
+              "symbol": 1021,
+              "count": 108577
+            },
+            {
+              "symbol": 3,
+              "count": 107829
+            },
+            {
+              "symbol": 1020,
+              "count": 30222
+            }
+          ]
+        },
+        {
+          "channel": 1,
+          "samples": 9077990,
+          "estimated_bits": 16940411.96498096,
+          "bits_per_sample": 1.8660972269170775,
+          "top_symbols": [
+            {
+              "symbol": 0,
+              "count": 4620331
+            },
+            {
+              "symbol": 1023,
+              "count": 1928322
+            },
+            {
+              "symbol": 1,
+              "count": 1910655
+            },
+            {
+              "symbol": 1022,
+              "count": 251611
+            },
+            {
+              "symbol": 2,
+              "count": 246192
+            },
+            {
+              "symbol": 1021,
+              "count": 32123
+            },
+            {
+              "symbol": 3,
+              "count": 30953
+            },
+            {
+              "symbol": 1020,
+              "count": 8389
+            }
+          ]
+        },
+        {
+          "channel": 2,
+          "samples": 9077990,
+          "estimated_bits": 19811676.562824912,
+          "bits_per_sample": 2.1823858103858798,
+          "top_symbols": [
+            {
+              "symbol": 0,
+              "count": 3848505
+            },
+            {
+              "symbol": 1023,
+              "count": 2039139
+            },
+            {
+              "symbol": 1,
+              "count": 1996272
+            },
+            {
+              "symbol": 1022,
+              "count": 460750
+            },
+            {
+              "symbol": 2,
+              "count": 443088
+            },
+            {
+              "symbol": 1021,
+              "count": 96876
+            },
+            {
+              "symbol": 3,
+              "count": 85273
+            },
+            {
+              "symbol": 1020,
+              "count": 27262
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "predictor": "west",
+      "estimated_bits": 63203672.980893545,
+      "estimated_bytes": 7900492,
+      "channels": [
+        {
+          "channel": 0,
+          "samples": 9077990,
+          "estimated_bits": 22985317.41466889,
+          "bits_per_sample": 2.5319831168208924,
+          "top_symbols": [
+            {
+              "symbol": 0,
+              "count": 3280319
+            },
+            {
+              "symbol": 1023,
+              "count": 1943902
+            },
+            {
+              "symbol": 1,
+              "count": 1941011
+            },
+            {
+              "symbol": 1022,
+              "count": 624653
+            },
+            {
+              "symbol": 2,
+              "count": 624135
+            },
+            {
+              "symbol": 1021,
+              "count": 190416
+            },
+            {
+              "symbol": 3,
+              "count": 189806
+            },
+            {
+              "symbol": 4,
+              "count": 64881
+            }
+          ]
+        },
+        {
+          "channel": 1,
+          "samples": 9077990,
+          "estimated_bits": 18443631.334652837,
+          "bits_per_sample": 2.031686676748139,
+          "top_symbols": [
+            {
+              "symbol": 0,
+              "count": 4316382
+            },
+            {
+              "symbol": 1023,
+              "count": 1944014
+            },
+            {
+              "symbol": 1,
+              "count": 1941489
+            },
+            {
+              "symbol": 1022,
+              "count": 338286
+            },
+            {
+              "symbol": 2,
+              "count": 334725
+            },
+            {
+              "symbol": 1021,
+              "count": 53226
+            },
+            {
+              "symbol": 3,
+              "count": 52789
+            },
+            {
+              "symbol": 4,
+              "count": 12499
+            }
+          ]
+        },
+        {
+          "channel": 2,
+          "samples": 9077990,
+          "estimated_bits": 21774724.231571816,
+          "bits_per_sample": 2.398628356229938,
+          "top_symbols": [
+            {
+              "symbol": 0,
+              "count": 3491364
+            },
+            {
+              "symbol": 1023,
+              "count": 1993335
+            },
+            {
+              "symbol": 1,
+              "count": 1974380
+            },
+            {
+              "symbol": 1022,
+              "count": 571272
+            },
+            {
+              "symbol": 2,
+              "count": 556158
+            },
+            {
+              "symbol": 1021,
+              "count": 150882
+            },
+            {
+              "symbol": 3,
+              "count": 141001
+            },
+            {
+              "symbol": 1020,
+              "count": 47432
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "predictor": "north",
+      "estimated_bits": 64211548.98047785,
+      "estimated_bytes": 8026476,
+      "channels": [
+        {
+          "channel": 0,
+          "samples": 9077990,
+          "estimated_bits": 23305604.08521586,
+          "bits_per_sample": 2.5672647893659124,
+          "top_symbols": [
+            {
+              "symbol": 0,
+              "count": 3172434
+            },
+            {
+              "symbol": 1,
+              "count": 1945863
+            },
+            {
+              "symbol": 1023,
+              "count": 1935492
+            },
+            {
+              "symbol": 2,
+              "count": 656934
+            },
+            {
+              "symbol": 1022,
+              "count": 654137
+            },
+            {
+              "symbol": 3,
+              "count": 207590
+            },
+            {
+              "symbol": 1021,
+              "count": 205113
+            },
+            {
+              "symbol": 4,
+              "count": 73336
+            }
+          ]
+        },
+        {
+          "channel": 1,
+          "samples": 9077990,
+          "estimated_bits": 18765598.4621239,
+          "bits_per_sample": 2.0671534626193573,
+          "top_symbols": [
+            {
+              "symbol": 0,
+              "count": 4191985
+            },
+            {
+              "symbol": 1023,
+              "count": 1968206
+            },
+            {
+              "symbol": 1,
+              "count": 1966661
+            },
+            {
+              "symbol": 1022,
+              "count": 367390
+            },
+            {
+              "symbol": 2,
+              "count": 367264
+            },
+            {
+              "symbol": 3,
+              "count": 61707
+            },
+            {
+              "symbol": 1021,
+              "count": 60462
+            },
+            {
+              "symbol": 4,
+              "count": 14250
+            }
+          ]
+        },
+        {
+          "channel": 2,
+          "samples": 9077990,
+          "estimated_bits": 22140346.433138087,
+          "bits_per_sample": 2.438904034168146,
+          "top_symbols": [
+            {
+              "symbol": 0,
+              "count": 3390267
+            },
+            {
+              "symbol": 1023,
+              "count": 1990182
+            },
+            {
+              "symbol": 1,
+              "count": 1976827
+            },
+            {
+              "symbol": 1022,
+              "count": 596742
+            },
+            {
+              "symbol": 2,
+              "count": 588589
+            },
+            {
+              "symbol": 1021,
+              "count": 164236
+            },
+            {
+              "symbol": 3,
+              "count": 156777
+            },
+            {
+              "symbol": 1020,
+              "count": 52342
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "predictor": "med-prev-avg",
+      "estimated_bits": 75120395.82164547,
+      "estimated_bytes": 9390082,
+      "channels": [
+        {
+          "channel": 0,
+          "samples": 9077990,
+          "estimated_bits": 20254098.196789045,
+          "bits_per_sample": 2.2311214483370265,
+          "top_symbols": [
+            {
+              "symbol": 0,
+              "count": 3754171
+            },
+            {
+              "symbol": 1023,
+              "count": 2016473
+            },
+            {
+              "symbol": 1,
+              "count": 2002647
+            },
+            {
+              "symbol": 1022,
+              "count": 483970
+            },
+            {
+              "symbol": 2,
+              "count": 480067
+            },
+            {
+              "symbol": 1021,
+              "count": 108577
+            },
+            {
+              "symbol": 3,
+              "count": 107829
+            },
+            {
+              "symbol": 1020,
+              "count": 30222
+            }
+          ]
+        },
+        {
+          "channel": 1,
+          "samples": 9077990,
+          "estimated_bits": 29213558.2907345,
+          "bits_per_sample": 3.2180646035889553,
+          "top_symbols": [
+            {
+              "symbol": 1023,
+              "count": 2384571
+            },
+            {
+              "symbol": 0,
+              "count": 1902228
+            },
+            {
+              "symbol": 1022,
+              "count": 1459145
+            },
+            {
+              "symbol": 1021,
+              "count": 846752
+            },
+            {
+              "symbol": 1020,
+              "count": 568086
+            },
+            {
+              "symbol": 1,
+              "count": 412127
+            },
+            {
+              "symbol": 1019,
+              "count": 401398
+            },
+            {
+              "symbol": 1018,
+              "count": 280040
+            }
+          ]
+        },
+        {
+          "channel": 2,
+          "samples": 9077990,
+          "estimated_bits": 25652739.33412193,
+          "bits_per_sample": 2.8258170954277246,
+          "top_symbols": [
+            {
+              "symbol": 0,
+              "count": 3009056
+            },
+            {
+              "symbol": 1023,
+              "count": 1998364
+            },
+            {
+              "symbol": 1,
+              "count": 1556945
+            },
+            {
+              "symbol": 1022,
+              "count": 847397
+            },
+            {
+              "symbol": 1021,
+              "count": 424533
+            },
+            {
+              "symbol": 2,
+              "count": 384375
+            },
+            {
+              "symbol": 1020,
+              "count": 254023
+            },
+            {
+              "symbol": 1019,
+              "count": 153356
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "predictor": "prev-channel-med0",
+      "estimated_bits": 90151931.14492781,
+      "estimated_bytes": 11269024,
+      "channels": [
+        {
+          "channel": 0,
+          "samples": 9077990,
+          "estimated_bits": 20254098.196789045,
+          "bits_per_sample": 2.2311214483370265,
+          "top_symbols": [
+            {
+              "symbol": 0,
+              "count": 3754171
+            },
+            {
+              "symbol": 1023,
+              "count": 2016473
+            },
+            {
+              "symbol": 1,
+              "count": 2002647
+            },
+            {
+              "symbol": 1022,
+              "count": 483970
+            },
+            {
+              "symbol": 2,
+              "count": 480067
+            },
+            {
+              "symbol": 1021,
+              "count": 108577
+            },
+            {
+              "symbol": 3,
+              "count": 107829
+            },
+            {
+              "symbol": 1020,
+              "count": 30222
+            }
+          ]
+        },
+        {
+          "channel": 1,
+          "samples": 9077990,
+          "estimated_bits": 37211186.741544716,
+          "bits_per_sample": 4.099055709638886,
+          "top_symbols": [
+            {
+              "symbol": 1022,
+              "count": 1433759
+            },
+            {
+              "symbol": 1023,
+              "count": 1305704
+            },
+            {
+              "symbol": 1021,
+              "count": 1149285
+            },
+            {
+              "symbol": 1020,
+              "count": 817454
+            },
+            {
+              "symbol": 0,
+              "count": 695886
+            },
+            {
+              "symbol": 1019,
+              "count": 589788
+            },
+            {
+              "symbol": 1018,
+              "count": 453248
+            },
+            {
+              "symbol": 1017,
+              "count": 365195
+            }
+          ]
+        },
+        {
+          "channel": 2,
+          "samples": 9077990,
+          "estimated_bits": 32686646.206594054,
+          "bits_per_sample": 3.6006479635463418,
+          "top_symbols": [
+            {
+              "symbol": 1023,
+              "count": 1827033
+            },
+            {
+              "symbol": 0,
+              "count": 1770182
+            },
+            {
+              "symbol": 1022,
+              "count": 1242482
+            },
+            {
+              "symbol": 1,
+              "count": 985308
+            },
+            {
+              "symbol": 1021,
+              "count": 726522
+            },
+            {
+              "symbol": 1020,
+              "count": 433267
+            },
+            {
+              "symbol": 2,
+              "count": 419675
+            },
+            {
+              "symbol": 1019,
+              "count": 288616
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "predictor": "prev-channel-avg0",
+      "estimated_bits": 90422612.25213245,
+      "estimated_bytes": 11302859,
+      "channels": [
+        {
+          "channel": 0,
+          "samples": 9077990,
+          "estimated_bits": 20524779.303993683,
+          "bits_per_sample": 2.2609387434876753,
+          "top_symbols": [
+            {
+              "symbol": 0,
+              "count": 3667601
+            },
+            {
+              "symbol": 1,
+              "count": 2578280
+            },
+            {
+              "symbol": 1023,
+              "count": 1431802
+            },
+            {
+              "symbol": 2,
+              "count": 678555
+            },
+            {
+              "symbol": 1022,
+              "count": 316521
+            },
+            {
+              "symbol": 3,
+              "count": 156459
+            },
+            {
+              "symbol": 1021,
+              "count": 77656
+            },
+            {
+              "symbol": 4,
+              "count": 46111
+            }
+          ]
+        },
+        {
+          "channel": 1,
+          "samples": 9077990,
+          "estimated_bits": 37211186.741544716,
+          "bits_per_sample": 4.099055709638886,
+          "top_symbols": [
+            {
+              "symbol": 1022,
+              "count": 1433759
+            },
+            {
+              "symbol": 1023,
+              "count": 1305704
+            },
+            {
+              "symbol": 1021,
+              "count": 1149285
+            },
+            {
+              "symbol": 1020,
+              "count": 817454
+            },
+            {
+              "symbol": 0,
+              "count": 695886
+            },
+            {
+              "symbol": 1019,
+              "count": 589788
+            },
+            {
+              "symbol": 1018,
+              "count": 453248
+            },
+            {
+              "symbol": 1017,
+              "count": 365195
+            }
+          ]
+        },
+        {
+          "channel": 2,
+          "samples": 9077990,
+          "estimated_bits": 32686646.206594054,
+          "bits_per_sample": 3.6006479635463418,
+          "top_symbols": [
+            {
+              "symbol": 1023,
+              "count": 1827033
+            },
+            {
+              "symbol": 0,
+              "count": 1770182
+            },
+            {
+              "symbol": 1022,
+              "count": 1242482
+            },
+            {
+              "symbol": 1,
+              "count": 985308
+            },
+            {
+              "symbol": 1021,
+              "count": 726522
+            },
+            {
+              "symbol": 1020,
+              "count": 433267
+            },
+            {
+              "symbol": 2,
+              "count": 419675
+            },
+            {
+              "symbol": 1019,
+              "count": 288616
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "predictor": "zero",
+      "estimated_bits": 114780972.86767255,
+      "estimated_bytes": 14347654,
+      "channels": [
+        {
+          "channel": 0,
+          "samples": 9077990,
+          "estimated_bits": 44186291.96511064,
+          "bits_per_sample": 4.867409191364017,
+          "top_symbols": [
+            {
+              "symbol": 4,
+              "count": 885284
+            },
+            {
+              "symbol": 5,
+              "count": 865058
+            },
+            {
+              "symbol": 3,
+              "count": 796779
+            },
+            {
+              "symbol": 6,
+              "count": 730003
+            },
+            {
+              "symbol": 7,
+              "count": 567946
+            },
+            {
+              "symbol": 2,
+              "count": 567334
+            },
+            {
+              "symbol": 8,
+              "count": 457875
+            },
+            {
+              "symbol": 9,
+              "count": 384707
+            }
+          ]
+        },
+        {
+          "channel": 1,
+          "samples": 9077990,
+          "estimated_bits": 36963276.91842713,
+          "bits_per_sample": 4.071746820433503,
+          "top_symbols": [
+            {
+              "symbol": 2,
+              "count": 1468345
+            },
+            {
+              "symbol": 3,
+              "count": 1409980
+            },
+            {
+              "symbol": 4,
+              "count": 1029590
+            },
+            {
+              "symbol": 1,
+              "count": 883095
+            },
+            {
+              "symbol": 5,
+              "count": 757880
+            },
+            {
+              "symbol": 6,
+              "count": 584191
+            },
+            {
+              "symbol": 7,
+              "count": 463057
+            },
+            {
+              "symbol": 8,
+              "count": 375806
+            }
+          ]
+        },
+        {
+          "channel": 2,
+          "samples": 9077990,
+          "estimated_bits": 33631403.98413478,
+          "bits_per_sample": 3.7047192147308796,
+          "top_symbols": [
+            {
+              "symbol": 2,
+              "count": 1837355
+            },
+            {
+              "symbol": 3,
+              "count": 1538955
+            },
+            {
+              "symbol": 1,
+              "count": 1306327
+            },
+            {
+              "symbol": 4,
+              "count": 1010435
+            },
+            {
+              "symbol": 5,
+              "count": 630871
+            },
+            {
+              "symbol": 6,
+              "count": 413038
+            },
+            {
+              "symbol": 0,
+              "count": 400788
+            },
+            {
+              "symbol": 7,
+              "count": 308374
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "note": "Coding-only predictor probe for masked signed-log indices."
+}
