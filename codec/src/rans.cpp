@@ -234,19 +234,20 @@ Status encode_order1(std::span<const uint8_t> in,
     }
     encode_flush(state, write_ptr);
 
-    std::vector<uint8_t> payload(write_ptr, end);
+    const auto payload_size = static_cast<std::size_t>(end - write_ptr);
 
     // Write header + freq tables + payload
     out.clear();
+    out.reserve(1 + 4 + 4 + 256 * 256 * 2 + payload_size);
     out.push_back(static_cast<uint8_t>(RansMode::Order1));
-    put_le<uint32_t>(out, static_cast<uint32_t>(payload.size()));
+    put_le<uint32_t>(out, static_cast<uint32_t>(payload_size));
     put_le<uint32_t>(out, static_cast<uint32_t>(in.size()));
     for (uint32_t c = 0; c < 256; ++c) {
         for (uint32_t s = 0; s < 256; ++s) {
             put_le<uint16_t>(out, static_cast<uint16_t>(models[c].freq[s]));
         }
     }
-    out.insert(out.end(), payload.begin(), payload.end());
+    out.insert(out.end(), write_ptr, end);
     return Status::Ok;
 }
 

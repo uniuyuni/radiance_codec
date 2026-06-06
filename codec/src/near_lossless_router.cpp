@@ -1324,33 +1324,50 @@ std::vector<std::uint8_t> encode_index_stream(
     std::uint8_t bits) {
     const auto bytes = static_cast<std::uint8_t>((bits + 7) / 8);
     const auto mask = (1u << bits) - 1u;
-    std::vector<std::uint16_t> decoded(indices.size(), 0);
     std::vector<std::uint8_t> out;
     out.reserve(indices.size() * bytes);
     for (std::uint32_t y = 0; y < height; ++y) {
         for (std::uint32_t x = 0; x < width; ++x) {
             const auto i = idx2(width, y, x);
             if (!selected[i]) continue;
-            const auto pred = predict_index(decoded, selected, width, y, x);
+            const auto pred = predict_index(indices, selected, width, y, x);
             const auto residual = (indices[i] + mask + 1u - pred) & mask;
             append_symbol(out, residual, bytes);
-            decoded[i] = indices[i];
         }
     }
     return out;
 }
 
-std::vector<std::uint8_t> encode_value_stream(
+std::vector<std::uint8_t> encode_index_stream_from_positions(
     const std::vector<std::uint16_t>& indices,
     const std::vector<std::uint8_t>& selected,
+    const std::vector<std::uint32_t>& positions,
+    std::uint32_t width,
+    std::uint8_t bits) {
+    const auto bytes = static_cast<std::uint8_t>((bits + 7) / 8);
+    const auto mask = (1u << bits) - 1u;
+    std::vector<std::uint8_t> out;
+    out.reserve(positions.size() * bytes);
+    for (const auto pos : positions) {
+        const auto y = pos / width;
+        const auto x = pos - y * width;
+        const auto pred = predict_index(indices, selected, width, y, x);
+        const auto residual = (indices[pos] + mask + 1u - pred) & mask;
+        append_symbol(out, residual, bytes);
+    }
+    return out;
+}
+
+std::vector<std::uint8_t> encode_value_stream_from_positions(
+    const std::vector<std::uint16_t>& indices,
+    const std::vector<std::uint32_t>& positions,
     std::uint8_t bits) {
     const auto bytes = static_cast<std::uint8_t>((bits + 7) / 8);
     std::vector<std::uint8_t> out;
-    out.reserve(indices.size() * bytes);
+    out.reserve(positions.size() * bytes);
     const auto mask = (1u << bits) - 1u;
-    for (std::size_t i = 0; i < indices.size(); ++i) {
-        if (!selected[i]) continue;
-        append_symbol(out, indices[i] & mask, bytes);
+    for (const auto pos : positions) {
+        append_symbol(out, indices[pos] & mask, bytes);
     }
     return out;
 }
@@ -1362,31 +1379,48 @@ std::vector<std::uint16_t> index_symbols_from_indices(
     std::uint32_t height,
     std::uint8_t bits) {
     const auto mask = (1u << bits) - 1u;
-    std::vector<std::uint16_t> decoded(indices.size(), 0);
     std::vector<std::uint16_t> symbols;
     symbols.reserve(indices.size());
     for (std::uint32_t y = 0; y < height; ++y) {
         for (std::uint32_t x = 0; x < width; ++x) {
             const auto i = idx2(width, y, x);
             if (!selected[i]) continue;
-            const auto pred = predict_index(decoded, selected, width, y, x);
+            const auto pred = predict_index(indices, selected, width, y, x);
             symbols.push_back(static_cast<std::uint16_t>(
                 (indices[i] + mask + 1u - pred) & mask));
-            decoded[i] = indices[i];
         }
     }
     return symbols;
 }
 
-std::vector<std::uint16_t> value_symbols_from_indices(
+std::vector<std::uint16_t> index_symbols_from_positions(
     const std::vector<std::uint16_t>& indices,
     const std::vector<std::uint8_t>& selected,
+    const std::vector<std::uint32_t>& positions,
+    std::uint32_t width,
     std::uint8_t bits) {
     const auto mask = (1u << bits) - 1u;
     std::vector<std::uint16_t> symbols;
-    symbols.reserve(indices.size());
-    for (std::size_t i = 0; i < indices.size(); ++i) {
-        if (selected[i]) symbols.push_back(static_cast<std::uint16_t>(indices[i] & mask));
+    symbols.reserve(positions.size());
+    for (const auto pos : positions) {
+        const auto y = pos / width;
+        const auto x = pos - y * width;
+        const auto pred = predict_index(indices, selected, width, y, x);
+        symbols.push_back(static_cast<std::uint16_t>(
+            (indices[pos] + mask + 1u - pred) & mask));
+    }
+    return symbols;
+}
+
+std::vector<std::uint16_t> value_symbols_from_positions(
+    const std::vector<std::uint16_t>& indices,
+    const std::vector<std::uint32_t>& positions,
+    std::uint8_t bits) {
+    const auto mask = (1u << bits) - 1u;
+    std::vector<std::uint16_t> symbols;
+    symbols.reserve(positions.size());
+    for (const auto pos : positions) {
+        symbols.push_back(static_cast<std::uint16_t>(indices[pos] & mask));
     }
     return symbols;
 }
@@ -3016,22 +3050,30 @@ Status NearLosslessRouterStage::encode(
         dark_refine_range.lo = 0.0f;
         dark_refine_range.hi = 0.0f;
     }
+    std::vector<std::uint32_t> route_positions;
+    std::vector<std::uint32_t> high_positions;
+    std::vector<std::uint32_t> dark_refine_positions;
+    route_positions.reserve(pixels / 8);
+    high_positions.reserve(pixels / 8);
+    dark_refine_positions.reserve(pixels / 128);
+    for (std::uint32_t i = 0; i < pixels; ++i) {
+        if (route_mask[i]) route_positions.push_back(i);
+        if (high_mask[i]) high_positions.push_back(i);
+        if (dark_refine_mask[i]) dark_refine_positions.push_back(i);
+    }
     std::vector<std::uint16_t> dark_refine_idx(pixels, 0);
 #ifdef RADIANCE_CODEC_HAS_OPENMP
-#pragma omp parallel for schedule(static) if(pixels > (8u << 20))
+#pragma omp parallel for schedule(static) if(dark_refine_positions.size() > (1u << 18))
 #endif
-    for (std::uint32_t y = 0; y < meta.height; ++y) {
-        for (std::uint32_t x = 0; x < meta.width; ++x) {
-            const auto i2 = idx2(meta.width, y, x);
-            if (!dark_refine_mask[i2]) continue;
-            const auto base = idx3(meta, y, x, 1) * 4;
-            const float v = read_f32(in.data() + base);
-            dark_refine_idx[i2] = static_cast<std::uint16_t>(signed_log_index(
-                v,
-                kDarkRefineBits,
-                dark_refine_range.lo,
-                dark_refine_range.hi));
-        }
+    for (std::int64_t si = 0; si < static_cast<std::int64_t>(dark_refine_positions.size()); ++si) {
+        const auto i2 = dark_refine_positions[static_cast<std::size_t>(si)];
+        const auto base = (std::size_t(i2) * meta.channels + 1) * 4;
+        const float v = read_f32(in.data() + base);
+        dark_refine_idx[i2] = static_cast<std::uint16_t>(signed_log_index(
+            v,
+            kDarkRefineBits,
+            dark_refine_range.lo,
+            dark_refine_range.hi));
     }
     trace.lap("dark-refine");
 
@@ -3099,104 +3141,129 @@ Status NearLosslessRouterStage::encode(
         }
         return payload;
     };
-    auto symbol_value_payload = [&](
+    auto symbol_payload_positions = [&](
         const std::vector<std::uint16_t>& indices,
         const std::vector<std::uint8_t>& selected,
+        const std::vector<std::uint32_t>& positions,
+        std::uint32_t width,
         std::uint8_t bits) {
         std::vector<std::uint8_t> payload;
-        const auto symbols = value_symbols_from_indices(indices, selected, bits);
+        const auto symbols = index_symbols_from_positions(indices, selected, positions, width, bits);
         if (!append_symbol_stream(payload, symbols, bits)) {
-            const auto stream = encode_value_stream(indices, selected, bits);
+            const auto stream = encode_index_stream_from_positions(
+                indices, selected, positions, width, bits);
+            if (!append_symbol_index_stream(payload, stream, bits)) payload.clear();
+        }
+        return payload;
+    };
+    auto symbol_value_payload_positions = [&](
+        const std::vector<std::uint16_t>& indices,
+        const std::vector<std::uint32_t>& positions,
+        std::uint8_t bits) {
+        std::vector<std::uint8_t> payload;
+        const auto symbols = value_symbols_from_positions(indices, positions, bits);
+        if (!append_symbol_stream(payload, symbols, bits)) {
+            const auto stream = encode_value_stream_from_positions(indices, positions, bits);
             if (!append_symbol_index_stream(payload, stream, bits)) payload.clear();
         }
         return payload;
     };
 
-    auto route_mask_future =
-        std::async(
-            std::launch::async,
-            mask_payload,
-            std::cref(route_mask),
-            router_packed_route_mask_enabled());
-    auto high_mask_future = std::async(
-        std::launch::async,
-        mask_payload,
-        std::cref(high_mask),
-        router_packed_high_mask_enabled());
-    auto y_future = std::async(
-        std::launch::async,
-        byte_index_payload,
-        std::cref(y_idx),
-        std::cref(nonroute_mask),
-        meta.width,
-        meta.height,
-        params_.y_bits);
-    auto co_low_future = std::async(
-        std::launch::async,
-        symbol_payload,
-        std::cref(co_low_idx),
-        std::cref(low_all),
-        low_w,
-        low_h,
-        params_.chroma_low_bits);
-    auto cg_low_future = std::async(
-        std::launch::async,
-        symbol_payload,
-        std::cref(cg_low_idx),
-        std::cref(low_all),
-        low_w,
-        low_h,
-        params_.chroma_low_bits);
-    auto co_high_future = std::async(
-        std::launch::async,
-        symbol_value_payload,
-        std::cref(co_high_idx),
-        std::cref(high_mask),
-        params_.high_bits);
-    auto cg_high_future = std::async(
-        std::launch::async,
-        symbol_value_payload,
-        std::cref(cg_high_idx),
-        std::cref(high_mask),
-        params_.high_bits);
-    auto sr_future = std::async(
-        std::launch::async,
-        symbol_payload,
-        std::cref(signed_idx[0]),
-        std::cref(route_mask),
-        meta.width,
-        meta.height,
-        params_.anchor_bits);
-    auto sg_future = std::async(
-        std::launch::async,
-        symbol_payload,
-        std::cref(signed_idx[1]),
-        std::cref(route_mask),
-        meta.width,
-        meta.height,
-        params_.anchor_bits);
-    auto sb_future = std::async(
-        std::launch::async,
-        symbol_payload,
-        std::cref(signed_idx[2]),
-        std::cref(route_mask),
-        meta.width,
-        meta.height,
-        params_.anchor_bits);
-    auto dark_refine_mask_future =
-        std::async(std::launch::async, mask_payload, std::cref(dark_refine_mask), false);
-    auto dark_refine_g_future = std::async(
-        std::launch::async,
-        symbol_payload,
-        std::cref(dark_refine_idx),
-        std::cref(dark_refine_mask),
-        meta.width,
-        meta.height,
-        kDarkRefineBits);
+    struct PayloadResult {
+        const char* label = "";
+        std::vector<std::uint8_t> payload;
+        double elapsed_ms = 0.0;
+    };
+    auto timed_payload = [&](const char* label, auto&& fn) {
+        using Clock = std::chrono::steady_clock;
+        const auto start = Clock::now();
+        PayloadResult result;
+        result.label = label;
+        result.payload = fn();
+        result.elapsed_ms =
+            std::chrono::duration<double, std::milli>(Clock::now() - start).count();
+        return result;
+    };
 
-    auto append_payload = [&](std::vector<std::uint8_t>&& payload) {
-        if (payload.empty()) return false;
-        out.insert(out.end(), payload.begin(), payload.end());
+    auto route_mask_future = std::async(std::launch::async, [&]() {
+        return timed_payload("route_mask", [&]() {
+            return mask_payload(route_mask, router_packed_route_mask_enabled());
+        });
+    });
+    auto high_mask_future = std::async(std::launch::async, [&]() {
+        return timed_payload("high_mask", [&]() {
+            return mask_payload(high_mask, router_packed_high_mask_enabled());
+        });
+    });
+    auto y_future = std::async(std::launch::async, [&]() {
+        return timed_payload("y", [&]() {
+            return byte_index_payload(
+                y_idx, nonroute_mask, meta.width, meta.height, params_.y_bits);
+        });
+    });
+    auto co_low_future = std::async(std::launch::async, [&]() {
+        return timed_payload("co_low", [&]() {
+            return symbol_payload(
+                co_low_idx, low_all, low_w, low_h, params_.chroma_low_bits);
+        });
+    });
+    auto cg_low_future = std::async(std::launch::async, [&]() {
+        return timed_payload("cg_low", [&]() {
+            return symbol_payload(
+                cg_low_idx, low_all, low_w, low_h, params_.chroma_low_bits);
+        });
+    });
+    auto co_high_future = std::async(std::launch::async, [&]() {
+        return timed_payload("co_high", [&]() {
+            return symbol_value_payload_positions(co_high_idx, high_positions, params_.high_bits);
+        });
+    });
+    auto cg_high_future = std::async(std::launch::async, [&]() {
+        return timed_payload("cg_high", [&]() {
+            return symbol_value_payload_positions(cg_high_idx, high_positions, params_.high_bits);
+        });
+    });
+    auto sr_future = std::async(std::launch::async, [&]() {
+        return timed_payload("signed_r", [&]() {
+            return symbol_payload_positions(
+                signed_idx[0], route_mask, route_positions, meta.width, params_.anchor_bits);
+        });
+    });
+    auto sg_future = std::async(std::launch::async, [&]() {
+        return timed_payload("signed_g", [&]() {
+            return symbol_payload_positions(
+                signed_idx[1], route_mask, route_positions, meta.width, params_.anchor_bits);
+        });
+    });
+    auto sb_future = std::async(std::launch::async, [&]() {
+        return timed_payload("signed_b", [&]() {
+            return symbol_payload_positions(
+                signed_idx[2], route_mask, route_positions, meta.width, params_.anchor_bits);
+        });
+    });
+    auto dark_refine_mask_future = std::async(std::launch::async, [&]() {
+        return timed_payload("dark_refine_mask", [&]() {
+            return mask_payload(dark_refine_mask, true);
+        });
+    });
+    auto dark_refine_g_future = std::async(std::launch::async, [&]() {
+        return timed_payload("dark_refine_g", [&]() {
+            return symbol_payload_positions(
+                dark_refine_idx, dark_refine_mask, dark_refine_positions, meta.width, kDarkRefineBits);
+        });
+    });
+
+    auto append_payload = [&](PayloadResult&& result) {
+        if (router_trace_enabled()) {
+            std::fprintf(
+                stderr,
+                "[router] encode payload %-11s %.3f ms bytes=%zu\n",
+                result.label,
+                result.elapsed_ms,
+                result.payload.size());
+        }
+        if (result.payload.empty()) return false;
+        out.insert(out.end(), result.payload.begin(), result.payload.end());
         return true;
     };
     if (!append_payload(route_mask_future.get())
