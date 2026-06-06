@@ -626,35 +626,6 @@ std::vector<std::uint8_t> dilate_mask_square(
     return out;
 }
 
-std::array<Range, 3> full_signed_log_ranges(
-    std::span<const std::uint8_t> raw,
-    const ImageMeta& meta) {
-    std::array<Range, 3> ranges;
-    for (auto& r : ranges) {
-        r.lo = std::numeric_limits<float>::infinity();
-        r.hi = -std::numeric_limits<float>::infinity();
-    }
-    for (std::uint32_t y = 0; y < meta.height; ++y) {
-        for (std::uint32_t x = 0; x < meta.width; ++x) {
-            const auto base = idx3(meta, y, x, 0) * 4;
-            for (std::uint8_t c = 0; c < 3; ++c) {
-                const float v = read_f32(raw.data() + base + 4 * c);
-                const float sign = std::signbit(v) ? -1.0f : 1.0f;
-                const float tv = sign * std::log2(1.0f + std::fabs(v));
-                ranges[c].lo = std::min(ranges[c].lo, tv);
-                ranges[c].hi = std::max(ranges[c].hi, tv);
-            }
-        }
-    }
-    for (auto& r : ranges) {
-        if (!std::isfinite(r.lo) || !std::isfinite(r.hi)) {
-            r.lo = 0.0f;
-            r.hi = 0.0f;
-        }
-    }
-    return ranges;
-}
-
 std::array<Range, 3> masked_signed_log_ranges(
     std::span<const std::uint8_t> raw,
     const ImageMeta& meta,
@@ -2568,7 +2539,6 @@ Status NearLosslessRouterStage::encode(
         };
 #ifdef RADIANCE_CODEC_HAS_METAL
         if (metal_visual_guard_enabled()) {
-            const auto safe_log_ranges = full_signed_log_ranges(in, meta);
             MetalVisualGuardConfig config;
             config.width = meta.width;
             config.height = meta.height;
@@ -2599,8 +2569,6 @@ Status NearLosslessRouterStage::encode(
             for (std::uint8_t c = 0; c < 3; ++c) {
                 config.base_log_lo[c] = base_log_ranges[c].lo;
                 config.base_log_hi[c] = base_log_ranges[c].hi;
-                config.safe_log_lo[c] = safe_log_ranges[c].lo;
-                config.safe_log_hi[c] = safe_log_ranges[c].hi;
             }
             used_metal_visual_guard = metal_visual_guard(
                 in.data(),

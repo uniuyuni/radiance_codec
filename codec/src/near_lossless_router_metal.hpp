@@ -35,8 +35,6 @@ struct MetalVisualGuardConfig {
     float base_cg_high_hi = 0.0f;
     float base_log_lo[3] = {};
     float base_log_hi[3] = {};
-    float safe_log_lo[3] = {};
-    float safe_log_hi[3] = {};
 };
 
 bool metal_guided_low_pair(

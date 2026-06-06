@@ -77,12 +77,6 @@ struct MetalVisualGuardParams {
     float base_log_hi0 = 0.0f;
     float base_log_hi1 = 0.0f;
     float base_log_hi2 = 0.0f;
-    float safe_log_lo0 = 0.0f;
-    float safe_log_lo1 = 0.0f;
-    float safe_log_lo2 = 0.0f;
-    float safe_log_hi0 = 0.0f;
-    float safe_log_hi1 = 0.0f;
-    float safe_log_hi2 = 0.0f;
 };
 
 NSString* guided_source() {
@@ -430,12 +424,6 @@ struct VisualGuardParams {
     float base_log_hi0;
     float base_log_hi1;
     float base_log_hi2;
-    float safe_log_lo0;
-    float safe_log_lo1;
-    float safe_log_lo2;
-    float safe_log_hi0;
-    float safe_log_hi1;
-    float safe_log_hi2;
 };
 
 float dequantize_index_metal(uint q, uint bits, float lo, float hi) {
@@ -507,13 +495,7 @@ kernel void visual_guard_kernel(
     const uint y = gid / params.width;
     const uint sample = gid * params.channels;
     const float3 original = float3(raw[sample + 0], raw[sample + 1], raw[sample + 2]);
-    float3 safe;
-    safe.x = signed_log_quantize_metal(
-        original.x, params.anchor_bits, params.safe_log_lo0, params.safe_log_hi0);
-    safe.y = signed_log_quantize_metal(
-        original.y, params.anchor_bits, params.safe_log_lo1, params.safe_log_hi1);
-    safe.z = signed_log_quantize_metal(
-        original.z, params.anchor_bits, params.safe_log_lo2, params.safe_log_hi2);
+    const float3 safe = original;
 
     float3 cand;
     if (base_route_mask[gid]) {
@@ -1195,13 +1177,6 @@ bool metal_visual_guard(
         params.base_log_hi0 = config.base_log_hi[0];
         params.base_log_hi1 = config.base_log_hi[1];
         params.base_log_hi2 = config.base_log_hi[2];
-        params.safe_log_lo0 = config.safe_log_lo[0];
-        params.safe_log_lo1 = config.safe_log_lo[1];
-        params.safe_log_lo2 = config.safe_log_lo[2];
-        params.safe_log_hi0 = config.safe_log_hi[0];
-        params.safe_log_hi1 = config.safe_log_hi[1];
-        params.safe_log_hi2 = config.safe_log_hi[2];
-
         const std::size_t full_float_bytes = std::size_t(count) * sizeof(float);
         const std::size_t low_float_bytes = low_count * sizeof(float);
         id<MTLBuffer> raw_buffer = make_buffer_with_bytes(ctx->device, raw, raw_size);
