@@ -738,6 +738,26 @@ bool unpack_mask(
     return true;
 }
 
+std::vector<std::uint8_t> pack_2bit_values(const std::vector<std::uint8_t>& values) {
+    std::vector<std::uint8_t> packed((values.size() + 3) / 4, 0);
+    for (std::size_t i = 0; i < values.size(); ++i) {
+        packed[i / 4] |= static_cast<std::uint8_t>((values[i] & 0x3u) << ((i % 4) * 2));
+    }
+    return packed;
+}
+
+bool unpack_2bit_values(
+    const std::vector<std::uint8_t>& packed,
+    std::size_t count,
+    std::vector<std::uint8_t>& values) {
+    if (packed.size() != (count + 3) / 4) return false;
+    values.assign(count, 0);
+    for (std::size_t i = 0; i < count; ++i) {
+        values[i] = static_cast<std::uint8_t>((packed[i / 4] >> ((i % 4) * 2)) & 0x3u);
+    }
+    return true;
+}
+
 bool compress_stream(
     std::span<const std::uint8_t> plain,
     std::vector<std::uint8_t>& payload);
@@ -928,13 +948,15 @@ bool append_tiled_mask_stream(
     append_u8(payload, tile);
     append_u32(payload, tiles_x);
     append_u32(payload, tiles_y);
-    std::vector<std::uint16_t> mode_symbols;
-    mode_symbols.reserve(modes.size());
-    for (const auto mode : modes) mode_symbols.push_back(mode);
-    if (!append_symbol_stream(payload, mode_symbols, 2)
-        || !append_stream(payload, mixed_bits)) {
+    std::vector<std::uint8_t> mode_packed_payload;
+    auto packed_modes = pack_2bit_values(modes);
+    if (!append_stream(mode_packed_payload, packed_modes)) {
         return false;
     }
+    append_u8(payload, 0xffu);
+    append_u8(payload, 1);
+    payload.insert(payload.end(), mode_packed_payload.begin(), mode_packed_payload.end());
+    if (!append_stream(payload, mixed_bits)) return false;
     append_u8(out, kStreamMaskTiled);
     append_u32(out, static_cast<std::uint32_t>(payload.size()));
     out.insert(out.end(), payload.begin(), payload.end());
@@ -959,21 +981,56 @@ bool decode_tiled_mask_stream(
         || tiles_y != (height + tile - 1) / tile) {
         return false;
     }
-    StreamSlice mode_slice, mixed_slice;
-    if (!read_stream_slice(p, end, mode_slice) || !read_stream_slice(p, end, mixed_slice) || p != end) {
-        return false;
-    }
     std::vector<std::uint8_t> modes, mixed_bits;
-    if (mode_slice.method == kStreamIndexSymbolRans) {
-        std::vector<std::uint16_t> mode_symbols;
-        if (!decode_symbol_rans_symbols(mode_slice.payload, 2, mode_symbols)) return false;
-        modes.assign(mode_symbols.size(), 0);
-        for (std::size_t i = 0; i < mode_symbols.size(); ++i) {
-            if (mode_symbols[i] > 2) return false;
-            modes[i] = static_cast<std::uint8_t>(mode_symbols[i]);
+    StreamSlice mixed_slice;
+    if (p < end && *p == 0xffu) {
+        ++p;
+        std::uint8_t mode_coding = 0;
+        StreamSlice mode_slice;
+        if (!read_u8(p, end, mode_coding)
+            || !read_stream_slice(p, end, mode_slice)
+            || !read_stream_slice(p, end, mixed_slice)
+            || p != end) {
+            return false;
         }
-    } else if (!decode_stream_slice(mode_slice, modes)) {
-        return false;
+        if (mode_coding == 0) {
+            std::vector<std::uint16_t> mode_symbols;
+            if (mode_slice.method != kStreamIndexSymbolRans
+                || !decode_symbol_rans_symbols(mode_slice.payload, 2, mode_symbols)) {
+                return false;
+            }
+            modes.assign(mode_symbols.size(), 0);
+            for (std::size_t i = 0; i < mode_symbols.size(); ++i) {
+                if (mode_symbols[i] > 2) return false;
+                modes[i] = static_cast<std::uint8_t>(mode_symbols[i]);
+            }
+        } else if (mode_coding == 1) {
+            std::vector<std::uint8_t> packed_modes;
+            if (!decode_stream_slice(mode_slice, packed_modes)
+                || !unpack_2bit_values(packed_modes, std::size_t(tiles_x) * tiles_y, modes)) {
+                return false;
+            }
+        } else {
+            return false;
+        }
+    } else {
+        StreamSlice mode_slice;
+        if (!read_stream_slice(p, end, mode_slice)
+            || !read_stream_slice(p, end, mixed_slice)
+            || p != end) {
+            return false;
+        }
+        if (mode_slice.method == kStreamIndexSymbolRans) {
+            std::vector<std::uint16_t> mode_symbols;
+            if (!decode_symbol_rans_symbols(mode_slice.payload, 2, mode_symbols)) return false;
+            modes.assign(mode_symbols.size(), 0);
+            for (std::size_t i = 0; i < mode_symbols.size(); ++i) {
+                if (mode_symbols[i] > 2) return false;
+                modes[i] = static_cast<std::uint8_t>(mode_symbols[i]);
+            }
+        } else if (!decode_stream_slice(mode_slice, modes)) {
+            return false;
+        }
     }
     if (!decode_stream_slice(mixed_slice, mixed_bits)) return false;
     if (modes.size() != std::size_t(tiles_x) * tiles_y) return false;
