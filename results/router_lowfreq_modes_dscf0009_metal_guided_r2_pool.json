@@ -1,0 +1,120 @@
+{
+  "image": "sample_DSCF0009.EXR",
+  "rows": [
+    {
+      "outer_header_bytes": 24,
+      "version": 2,
+      "channels": 3,
+      "shape": [
+        5152,
+        7728,
+        3
+      ],
+      "params": {
+        "y_bits": 8,
+        "chroma_low_bits": 8,
+        "high_bits": 5,
+        "anchor_bits": 10,
+        "low_scale": 2,
+        "low_w": 3864,
+        "low_h": 2576,
+        "dark_refine_bits": 9
+      },
+      "header_bytes": 116,
+      "streams": [
+        {
+          "label": "route_mask",
+          "method": "mask_tiled",
+          "payload_bytes": 929827,
+          "framed_bytes": 929832,
+          "delta_vs_cpu_scale2_bytes": 0
+        },
+        {
+          "label": "high_mask",
+          "method": "mask_tiled",
+          "payload_bytes": 1756672,
+          "framed_bytes": 1756677,
+          "delta_vs_cpu_scale2_bytes": 0
+        },
+        {
+          "label": "y",
+          "method": "rans1",
+          "payload_bytes": 7649276,
+          "framed_bytes": 7649281,
+          "delta_vs_cpu_scale2_bytes": 0
+        },
+        {
+          "label": "co_low",
+          "method": "index_symbol_rans",
+          "payload_bytes": 1321836,
+          "framed_bytes": 1321841,
+          "delta_vs_cpu_scale2_bytes": 0
+        },
+        {
+          "label": "cg_low",
+          "method": "index_symbol_rans",
+          "payload_bytes": 1621921,
+          "framed_bytes": 1621926,
+          "delta_vs_cpu_scale2_bytes": 0
+        },
+        {
+          "label": "co_high",
+          "method": "index_symbol_rans",
+          "payload_bytes": 563667,
+          "framed_bytes": 563672,
+          "delta_vs_cpu_scale2_bytes": 0
+        },
+        {
+          "label": "cg_high",
+          "method": "index_symbol_rans",
+          "payload_bytes": 667427,
+          "framed_bytes": 667432,
+          "delta_vs_cpu_scale2_bytes": 0
+        },
+        {
+          "label": "signed_r",
+          "method": "index_symbol_rans",
+          "payload_bytes": 3252027,
+          "framed_bytes": 3252032,
+          "delta_vs_cpu_scale2_bytes": 0
+        },
+        {
+          "label": "signed_g",
+          "method": "index_symbol_rans",
+          "payload_bytes": 2611251,
+          "framed_bytes": 2611256,
+          "delta_vs_cpu_scale2_bytes": 0
+        },
+        {
+          "label": "signed_b",
+          "method": "index_symbol_rans",
+          "payload_bytes": 2924135,
+          "framed_bytes": 2924140,
+          "delta_vs_cpu_scale2_bytes": 0
+        },
+        {
+          "label": "dark_refine_mask",
+          "method": "mask_binary",
+          "payload_bytes": 193901,
+          "framed_bytes": 193906,
+          "delta_vs_cpu_scale2_bytes": 0
+        },
+        {
+          "label": "dark_refine_g",
+          "method": "index_symbol_rans",
+          "payload_bytes": 239353,
+          "framed_bytes": 239358,
+          "delta_vs_cpu_scale2_bytes": 0
+        }
+      ],
+      "extras": [],
+      "image": "sample_DSCF0009.EXR",
+      "mode": "metal_all",
+      "encoded_bytes": 23731469,
+      "encoded_mib": 22.632092475891113,
+      "ratio": 20.132587325293684,
+      "encode_s": 3.3123957909992896,
+      "delta_vs_cpu_scale2_bytes": 0
+    }
+  ]
+}

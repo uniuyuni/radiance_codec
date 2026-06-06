@@ -213,6 +213,84 @@ kernel void box_h_quad(
     out3[gid] = sum3 * scale;
 }
 
+kernel void box_h_pair_r2(
+    device const float* in0 [[buffer(0)]],
+    device const float* in1 [[buffer(1)]],
+    device float* out0 [[buffer(2)]],
+    device float* out1 [[buffer(3)]],
+    constant Params& params [[buffer(4)]],
+    uint gid [[thread_position_in_grid]]) {
+    if (gid >= params.count) return;
+    const uint x = gid % params.width;
+    const uint y = gid / params.width;
+    const uint base = y * params.width;
+    const uint x0 = reflect_index_metal(int(x) - 2, params.width);
+    const uint x1 = reflect_index_metal(int(x) - 1, params.width);
+    const uint x2 = x;
+    const uint x3 = reflect_index_metal(int(x) + 1, params.width);
+    const uint x4 = reflect_index_metal(int(x) + 2, params.width);
+    float sum0 = in0[base + x0];
+    sum0 += in0[base + x1];
+    sum0 += in0[base + x2];
+    sum0 += in0[base + x3];
+    sum0 += in0[base + x4];
+    float sum1 = in1[base + x0];
+    sum1 += in1[base + x1];
+    sum1 += in1[base + x2];
+    sum1 += in1[base + x3];
+    sum1 += in1[base + x4];
+    constexpr float scale = 1.0f / 5.0f;
+    out0[gid] = sum0 * scale;
+    out1[gid] = sum1 * scale;
+}
+
+kernel void box_h_quad_r2(
+    device const float* in0 [[buffer(0)]],
+    device const float* in1 [[buffer(1)]],
+    device const float* in2 [[buffer(2)]],
+    device const float* in3 [[buffer(3)]],
+    device float* out0 [[buffer(4)]],
+    device float* out1 [[buffer(5)]],
+    device float* out2 [[buffer(6)]],
+    device float* out3 [[buffer(7)]],
+    constant Params& params [[buffer(8)]],
+    uint gid [[thread_position_in_grid]]) {
+    if (gid >= params.count) return;
+    const uint x = gid % params.width;
+    const uint y = gid / params.width;
+    const uint base = y * params.width;
+    const uint x0 = reflect_index_metal(int(x) - 2, params.width);
+    const uint x1 = reflect_index_metal(int(x) - 1, params.width);
+    const uint x2 = x;
+    const uint x3 = reflect_index_metal(int(x) + 1, params.width);
+    const uint x4 = reflect_index_metal(int(x) + 2, params.width);
+    float sum0 = in0[base + x0];
+    sum0 += in0[base + x1];
+    sum0 += in0[base + x2];
+    sum0 += in0[base + x3];
+    sum0 += in0[base + x4];
+    float sum1 = in1[base + x0];
+    sum1 += in1[base + x1];
+    sum1 += in1[base + x2];
+    sum1 += in1[base + x3];
+    sum1 += in1[base + x4];
+    float sum2 = in2[base + x0];
+    sum2 += in2[base + x1];
+    sum2 += in2[base + x2];
+    sum2 += in2[base + x3];
+    sum2 += in2[base + x4];
+    float sum3 = in3[base + x0];
+    sum3 += in3[base + x1];
+    sum3 += in3[base + x2];
+    sum3 += in3[base + x3];
+    sum3 += in3[base + x4];
+    constexpr float scale = 1.0f / 5.0f;
+    out0[gid] = sum0 * scale;
+    out1[gid] = sum1 * scale;
+    out2[gid] = sum2 * scale;
+    out3[gid] = sum3 * scale;
+}
+
 kernel void box_v_pair(
     device const float* in0 [[buffer(0)]],
     device const float* in1 [[buffer(1)]],
@@ -233,6 +311,41 @@ kernel void box_v_pair(
         sum1 += in1[i];
     }
     const float scale = 1.0f / float(2 * r + 1);
+    out0[gid] = sum0 * scale;
+    out1[gid] = sum1 * scale;
+}
+
+kernel void box_v_pair_r2(
+    device const float* in0 [[buffer(0)]],
+    device const float* in1 [[buffer(1)]],
+    device float* out0 [[buffer(2)]],
+    device float* out1 [[buffer(3)]],
+    constant Params& params [[buffer(4)]],
+    uint gid [[thread_position_in_grid]]) {
+    if (gid >= params.count) return;
+    const uint x = gid % params.width;
+    const uint y = gid / params.width;
+    const uint y0 = reflect_index_metal(int(y) - 2, params.height);
+    const uint y1 = reflect_index_metal(int(y) - 1, params.height);
+    const uint y2 = y;
+    const uint y3 = reflect_index_metal(int(y) + 1, params.height);
+    const uint y4 = reflect_index_metal(int(y) + 2, params.height);
+    const uint i0 = y0 * params.width + x;
+    const uint i1 = y1 * params.width + x;
+    const uint i2 = y2 * params.width + x;
+    const uint i3 = y3 * params.width + x;
+    const uint i4 = y4 * params.width + x;
+    float sum0 = in0[i0];
+    sum0 += in0[i1];
+    sum0 += in0[i2];
+    sum0 += in0[i3];
+    sum0 += in0[i4];
+    float sum1 = in1[i0];
+    sum1 += in1[i1];
+    sum1 += in1[i2];
+    sum1 += in1[i3];
+    sum1 += in1[i4];
+    constexpr float scale = 1.0f / 5.0f;
     out0[gid] = sum0 * scale;
     out1[gid] = sum1 * scale;
 }
@@ -265,6 +378,57 @@ kernel void box_v_quad(
         sum3 += in3[i];
     }
     const float scale = 1.0f / float(2 * r + 1);
+    out0[gid] = sum0 * scale;
+    out1[gid] = sum1 * scale;
+    out2[gid] = sum2 * scale;
+    out3[gid] = sum3 * scale;
+}
+
+kernel void box_v_quad_r2(
+    device const float* in0 [[buffer(0)]],
+    device const float* in1 [[buffer(1)]],
+    device const float* in2 [[buffer(2)]],
+    device const float* in3 [[buffer(3)]],
+    device float* out0 [[buffer(4)]],
+    device float* out1 [[buffer(5)]],
+    device float* out2 [[buffer(6)]],
+    device float* out3 [[buffer(7)]],
+    constant Params& params [[buffer(8)]],
+    uint gid [[thread_position_in_grid]]) {
+    if (gid >= params.count) return;
+    const uint x = gid % params.width;
+    const uint y = gid / params.width;
+    const uint y0 = reflect_index_metal(int(y) - 2, params.height);
+    const uint y1 = reflect_index_metal(int(y) - 1, params.height);
+    const uint y2 = y;
+    const uint y3 = reflect_index_metal(int(y) + 1, params.height);
+    const uint y4 = reflect_index_metal(int(y) + 2, params.height);
+    const uint i0 = y0 * params.width + x;
+    const uint i1 = y1 * params.width + x;
+    const uint i2 = y2 * params.width + x;
+    const uint i3 = y3 * params.width + x;
+    const uint i4 = y4 * params.width + x;
+    float sum0 = in0[i0];
+    sum0 += in0[i1];
+    sum0 += in0[i2];
+    sum0 += in0[i3];
+    sum0 += in0[i4];
+    float sum1 = in1[i0];
+    sum1 += in1[i1];
+    sum1 += in1[i2];
+    sum1 += in1[i3];
+    sum1 += in1[i4];
+    float sum2 = in2[i0];
+    sum2 += in2[i1];
+    sum2 += in2[i2];
+    sum2 += in2[i3];
+    sum2 += in2[i4];
+    float sum3 = in3[i0];
+    sum3 += in3[i1];
+    sum3 += in3[i2];
+    sum3 += in3[i3];
+    sum3 += in3[i4];
+    constexpr float scale = 1.0f / 5.0f;
     out0[gid] = sum0 * scale;
     out1[gid] = sum1 * scale;
     out2[gid] = sum2 * scale;
@@ -567,6 +731,10 @@ struct MetalGuidedContext {
     __strong id<MTLComputePipelineState> box_v_pair = nil;
     __strong id<MTLComputePipelineState> box_h_quad = nil;
     __strong id<MTLComputePipelineState> box_v_quad = nil;
+    __strong id<MTLComputePipelineState> box_h_pair_r2 = nil;
+    __strong id<MTLComputePipelineState> box_v_pair_r2 = nil;
+    __strong id<MTLComputePipelineState> box_h_quad_r2 = nil;
+    __strong id<MTLComputePipelineState> box_v_quad_r2 = nil;
     __strong id<MTLComputePipelineState> compute_ab = nil;
     __strong id<MTLComputePipelineState> compute_ab_pair = nil;
     __strong id<MTLComputePipelineState> reconstruct_low = nil;
@@ -587,6 +755,20 @@ struct MetalGuidedContext {
     __strong id<MTLBuffer> cached_first_high = nil;
     __strong id<MTLBuffer> cached_second_high = nil;
     std::uint32_t cached_high_count = 0;
+    __strong id<MTLBuffer> guided_params_buffer = nil;
+    __strong id<MTLBuffer> guided_guide_sq = nil;
+    __strong id<MTLBuffer> guided_guide_mean = nil;
+    __strong id<MTLBuffer> guided_guide_sq_mean = nil;
+    __strong id<MTLBuffer> guided_tmp0 = nil;
+    __strong id<MTLBuffer> guided_tmp1 = nil;
+    __strong id<MTLBuffer> guided_tmp2 = nil;
+    __strong id<MTLBuffer> guided_tmp3 = nil;
+    __strong id<MTLBuffer> guided_plane0_mean = nil;
+    __strong id<MTLBuffer> guided_plane1_mean = nil;
+    __strong id<MTLBuffer> guided_guide_plane0 = nil;
+    __strong id<MTLBuffer> guided_guide_plane1 = nil;
+    __strong id<MTLBuffer> guided_guide_plane0_mean = nil;
+    __strong id<MTLBuffer> guided_guide_plane1_mean = nil;
     bool ok = false;
 
     MetalGuidedContext() {
@@ -624,6 +806,10 @@ struct MetalGuidedContext {
             box_v_pair = make_pipeline(@"box_v_pair");
             box_h_quad = make_pipeline(@"box_h_quad");
             box_v_quad = make_pipeline(@"box_v_quad");
+            box_h_pair_r2 = make_pipeline(@"box_h_pair_r2");
+            box_v_pair_r2 = make_pipeline(@"box_v_pair_r2");
+            box_h_quad_r2 = make_pipeline(@"box_h_quad_r2");
+            box_v_quad_r2 = make_pipeline(@"box_v_quad_r2");
             compute_ab = make_pipeline(@"compute_ab");
             compute_ab_pair = make_pipeline(@"compute_ab_pair");
             reconstruct_low = make_pipeline(@"reconstruct_low");
@@ -633,6 +819,7 @@ struct MetalGuidedContext {
             visual_guard = make_pipeline(@"visual_guard_kernel");
             ok = prepare_guide && prepare_plane && prepare_planes_pair
                 && box_h_pair && box_v_pair && box_h_quad && box_v_quad
+                && box_h_pair_r2 && box_v_pair_r2 && box_h_quad_r2 && box_v_quad_r2
                 && compute_ab && compute_ab_pair
                 && reconstruct_low && reconstruct_low_pair
                 && high_pass_shrink_pair && block_mean_downsample_pair && visual_guard;
@@ -674,6 +861,28 @@ id<MTLBuffer> make_buffer(
                                options:MTLResourceStorageModeShared];
 }
 
+id<MTLBuffer> reusable_buffer(
+    id<MTLDevice> device,
+    __strong id<MTLBuffer>& slot,
+    std::size_t bytes) {
+    if (!slot || [slot length] < bytes) {
+        slot = make_buffer(device, bytes);
+    }
+    return slot;
+}
+
+id<MTLBuffer> reusable_buffer_with_bytes(
+    id<MTLDevice> device,
+    __strong id<MTLBuffer>& slot,
+    const void* data,
+    std::size_t bytes) {
+    id<MTLBuffer> buffer = reusable_buffer(device, slot, bytes);
+    if (buffer && data) {
+        std::memcpy([buffer contents], data, bytes);
+    }
+    return buffer;
+}
+
 float percentile_local(std::vector<float> values, double p) {
     if (values.empty()) return 0.0f;
     const double pos = (p / 100.0) * double(values.size() - 1);
@@ -698,20 +907,22 @@ void encode_box_pair(
     id<MTLBuffer> out0,
     id<MTLBuffer> out1,
     id<MTLBuffer> params,
-    std::uint32_t count) {
+    std::uint32_t count,
+    std::uint8_t radius) {
+    const bool use_r2 = radius == 2;
     [encoder setBuffer:in0 offset:0 atIndex:0];
     [encoder setBuffer:in1 offset:0 atIndex:1];
     [encoder setBuffer:tmp0 offset:0 atIndex:2];
     [encoder setBuffer:tmp1 offset:0 atIndex:3];
     [encoder setBuffer:params offset:0 atIndex:4];
-    dispatch(encoder, ctx.box_h_pair, count);
+    dispatch(encoder, use_r2 ? ctx.box_h_pair_r2 : ctx.box_h_pair, count);
 
     [encoder setBuffer:tmp0 offset:0 atIndex:0];
     [encoder setBuffer:tmp1 offset:0 atIndex:1];
     [encoder setBuffer:out0 offset:0 atIndex:2];
     [encoder setBuffer:out1 offset:0 atIndex:3];
     [encoder setBuffer:params offset:0 atIndex:4];
-    dispatch(encoder, ctx.box_v_pair, count);
+    dispatch(encoder, use_r2 ? ctx.box_v_pair_r2 : ctx.box_v_pair, count);
 }
 
 void encode_box_quad(
@@ -730,7 +941,9 @@ void encode_box_quad(
     id<MTLBuffer> out2,
     id<MTLBuffer> out3,
     id<MTLBuffer> params,
-    std::uint32_t count) {
+    std::uint32_t count,
+    std::uint8_t radius) {
+    const bool use_r2 = radius == 2;
     [encoder setBuffer:in0 offset:0 atIndex:0];
     [encoder setBuffer:in1 offset:0 atIndex:1];
     [encoder setBuffer:in2 offset:0 atIndex:2];
@@ -740,7 +953,7 @@ void encode_box_quad(
     [encoder setBuffer:tmp2 offset:0 atIndex:6];
     [encoder setBuffer:tmp3 offset:0 atIndex:7];
     [encoder setBuffer:params offset:0 atIndex:8];
-    dispatch(encoder, ctx.box_h_quad, count);
+    dispatch(encoder, use_r2 ? ctx.box_h_quad_r2 : ctx.box_h_quad, count);
 
     [encoder setBuffer:tmp0 offset:0 atIndex:0];
     [encoder setBuffer:tmp1 offset:0 atIndex:1];
@@ -751,7 +964,7 @@ void encode_box_quad(
     [encoder setBuffer:out2 offset:0 atIndex:6];
     [encoder setBuffer:out3 offset:0 atIndex:7];
     [encoder setBuffer:params offset:0 atIndex:8];
-    dispatch(encoder, ctx.box_v_quad, count);
+    dispatch(encoder, use_r2 ? ctx.box_v_quad_r2 : ctx.box_v_quad, count);
 }
 
 } // namespace
@@ -789,25 +1002,40 @@ bool metal_guided_low_pair(
         params.radius = radius;
         params.eps = eps;
 
-        id<MTLBuffer> params_buffer = make_buffer_with_bytes(ctx->device, &params, sizeof(params));
-        id<MTLBuffer> guide_buffer = make_buffer_with_bytes(ctx->device, guide.data(), bytes);
-        id<MTLBuffer> guide_sq_buffer = make_buffer(ctx->device, bytes);
-        id<MTLBuffer> guide_mean = make_buffer(ctx->device, bytes);
-        id<MTLBuffer> guide_sq_mean = make_buffer(ctx->device, bytes);
-        id<MTLBuffer> tmp0 = make_buffer(ctx->device, bytes);
-        id<MTLBuffer> tmp1 = make_buffer(ctx->device, bytes);
-        id<MTLBuffer> tmp2 = make_buffer(ctx->device, bytes);
-        id<MTLBuffer> tmp3 = make_buffer(ctx->device, bytes);
-        id<MTLBuffer> plane0_mean = make_buffer(ctx->device, bytes);
-        id<MTLBuffer> plane1_mean = make_buffer(ctx->device, bytes);
-        id<MTLBuffer> guide_plane0 = make_buffer(ctx->device, bytes);
-        id<MTLBuffer> guide_plane1 = make_buffer(ctx->device, bytes);
-        id<MTLBuffer> guide_plane0_mean = make_buffer(ctx->device, bytes);
-        id<MTLBuffer> guide_plane1_mean = make_buffer(ctx->device, bytes);
-        id<MTLBuffer> first_buffer = make_buffer_with_bytes(ctx->device, first_plane.data(), bytes);
-        id<MTLBuffer> second_buffer = make_buffer_with_bytes(ctx->device, second_plane.data(), bytes);
-        id<MTLBuffer> first_work_buffer = make_buffer(ctx->device, bytes);
-        id<MTLBuffer> second_work_buffer = make_buffer(ctx->device, bytes);
+        id<MTLBuffer> params_buffer = reusable_buffer_with_bytes(
+            ctx->device, ctx->guided_params_buffer, &params, sizeof(params));
+        id<MTLBuffer> guide_buffer = reusable_buffer_with_bytes(
+            ctx->device, ctx->cached_guide_plane, guide.data(), bytes);
+        id<MTLBuffer> guide_sq_buffer =
+            reusable_buffer(ctx->device, ctx->guided_guide_sq, bytes);
+        id<MTLBuffer> guide_mean =
+            reusable_buffer(ctx->device, ctx->guided_guide_mean, bytes);
+        id<MTLBuffer> guide_sq_mean =
+            reusable_buffer(ctx->device, ctx->guided_guide_sq_mean, bytes);
+        id<MTLBuffer> tmp0 = reusable_buffer(ctx->device, ctx->guided_tmp0, bytes);
+        id<MTLBuffer> tmp1 = reusable_buffer(ctx->device, ctx->guided_tmp1, bytes);
+        id<MTLBuffer> tmp2 = reusable_buffer(ctx->device, ctx->guided_tmp2, bytes);
+        id<MTLBuffer> tmp3 = reusable_buffer(ctx->device, ctx->guided_tmp3, bytes);
+        id<MTLBuffer> plane0_mean =
+            reusable_buffer(ctx->device, ctx->guided_plane0_mean, bytes);
+        id<MTLBuffer> plane1_mean =
+            reusable_buffer(ctx->device, ctx->guided_plane1_mean, bytes);
+        id<MTLBuffer> guide_plane0 =
+            reusable_buffer(ctx->device, ctx->guided_guide_plane0, bytes);
+        id<MTLBuffer> guide_plane1 =
+            reusable_buffer(ctx->device, ctx->guided_guide_plane1, bytes);
+        id<MTLBuffer> guide_plane0_mean =
+            reusable_buffer(ctx->device, ctx->guided_guide_plane0_mean, bytes);
+        id<MTLBuffer> guide_plane1_mean =
+            reusable_buffer(ctx->device, ctx->guided_guide_plane1_mean, bytes);
+        id<MTLBuffer> first_buffer = reusable_buffer_with_bytes(
+            ctx->device, ctx->cached_first_plane, first_plane.data(), bytes);
+        id<MTLBuffer> second_buffer = reusable_buffer_with_bytes(
+            ctx->device, ctx->cached_second_plane, second_plane.data(), bytes);
+        id<MTLBuffer> first_work_buffer =
+            reusable_buffer(ctx->device, ctx->cached_first_low, bytes);
+        id<MTLBuffer> second_work_buffer =
+            reusable_buffer(ctx->device, ctx->cached_second_low, bytes);
         if (!params_buffer || !guide_buffer || !guide_sq_buffer || !guide_mean || !guide_sq_mean
             || !tmp0 || !tmp1 || !tmp2 || !tmp3
             || !plane0_mean || !plane1_mean || !guide_plane0 || !guide_plane1
@@ -843,7 +1071,8 @@ bool metal_guided_low_pair(
             guide_mean,
             guide_sq_mean,
             params_buffer,
-            count);
+            count,
+            radius);
 
         [encoder setBuffer:guide_buffer offset:0 atIndex:0];
         [encoder setBuffer:first_buffer offset:0 atIndex:1];
@@ -869,7 +1098,8 @@ bool metal_guided_low_pair(
             guide_plane0_mean,
             guide_plane1_mean,
             params_buffer,
-            count);
+            count,
+            radius);
 
         [encoder setBuffer:guide_mean offset:0 atIndex:0];
         [encoder setBuffer:guide_sq_mean offset:0 atIndex:1];
@@ -900,7 +1130,8 @@ bool metal_guided_low_pair(
             plane1_mean,
             guide_plane1_mean,
             params_buffer,
-            count);
+            count,
+            radius);
 
         [encoder setBuffer:guide_buffer offset:0 atIndex:0];
         [encoder setBuffer:plane0_mean offset:0 atIndex:1];
