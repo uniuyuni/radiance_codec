@@ -58,6 +58,7 @@ struct MetalVisualGuardParams {
     std::uint32_t high_bits = 5;
     std::uint32_t anchor_bits = 10;
     std::uint32_t visual_guard_dilate_radius = 0;
+    std::uint32_t use_source_luma = 0;
     float visual_guard_luma_threshold = 0.0f;
     float visual_guard_rgb_threshold = 0.0f;
     float visual_guard_white = 1.0f;
@@ -153,6 +154,122 @@ kernel void prepare_planes_pair(
     const float g = guide[gid];
     guide_plane0[gid] = g * plane0[gid];
     guide_plane1[gid] = g * plane1[gid];
+}
+
+kernel void guided_stats_h_pair_r2(
+    device const float* guide [[buffer(0)]],
+    device const float* plane0 [[buffer(1)]],
+    device const float* plane1 [[buffer(2)]],
+    device float* guide_h [[buffer(3)]],
+    device float* guide_sq_h [[buffer(4)]],
+    device float* plane0_h [[buffer(5)]],
+    device float* guide_plane0_h [[buffer(6)]],
+    device float* plane1_h [[buffer(7)]],
+    device float* guide_plane1_h [[buffer(8)]],
+    constant Params& params [[buffer(9)]],
+    uint gid [[thread_position_in_grid]]) {
+    if (gid >= params.count) return;
+    const uint x = gid % params.width;
+    const uint y = gid / params.width;
+    const uint base = y * params.width;
+    const uint x0 = reflect_index_metal(int(x) - 2, params.width);
+    const uint x1 = reflect_index_metal(int(x) - 1, params.width);
+    const uint x2 = x;
+    const uint x3 = reflect_index_metal(int(x) + 1, params.width);
+    const uint x4 = reflect_index_metal(int(x) + 2, params.width);
+    const uint i0 = base + x0;
+    const uint i1 = base + x1;
+    const uint i2 = base + x2;
+    const uint i3 = base + x3;
+    const uint i4 = base + x4;
+    const float g0 = guide[i0];
+    const float g1 = guide[i1];
+    const float g2 = guide[i2];
+    const float g3 = guide[i3];
+    const float g4 = guide[i4];
+    const float p00 = plane0[i0];
+    const float p01 = plane0[i1];
+    const float p02 = plane0[i2];
+    const float p03 = plane0[i3];
+    const float p04 = plane0[i4];
+    const float p10 = plane1[i0];
+    const float p11 = plane1[i1];
+    const float p12 = plane1[i2];
+    const float p13 = plane1[i3];
+    const float p14 = plane1[i4];
+    float sg = 0.0f;
+    float sg2 = 0.0f;
+    float sp0 = 0.0f;
+    float sgp0 = 0.0f;
+    float sp1 = 0.0f;
+    float sgp1 = 0.0f;
+    sg += g0; sg += g1; sg += g2; sg += g3; sg += g4;
+    sg2 += g0 * g0; sg2 += g1 * g1; sg2 += g2 * g2; sg2 += g3 * g3; sg2 += g4 * g4;
+    sp0 += p00; sp0 += p01; sp0 += p02; sp0 += p03; sp0 += p04;
+    sgp0 += g0 * p00; sgp0 += g1 * p01; sgp0 += g2 * p02; sgp0 += g3 * p03; sgp0 += g4 * p04;
+    sp1 += p10; sp1 += p11; sp1 += p12; sp1 += p13; sp1 += p14;
+    sgp1 += g0 * p10; sgp1 += g1 * p11; sgp1 += g2 * p12; sgp1 += g3 * p13; sgp1 += g4 * p14;
+    constexpr float scale = 1.0f / 5.0f;
+    guide_h[gid] = sg * scale;
+    guide_sq_h[gid] = sg2 * scale;
+    plane0_h[gid] = sp0 * scale;
+    guide_plane0_h[gid] = sgp0 * scale;
+    plane1_h[gid] = sp1 * scale;
+    guide_plane1_h[gid] = sgp1 * scale;
+}
+
+kernel void guided_stats_v_ab_pair_r2(
+    device const float* guide_h [[buffer(0)]],
+    device const float* guide_sq_h [[buffer(1)]],
+    device const float* plane0_h [[buffer(2)]],
+    device const float* guide_plane0_h [[buffer(3)]],
+    device const float* plane1_h [[buffer(4)]],
+    device const float* guide_plane1_h [[buffer(5)]],
+    device float* a0_out [[buffer(6)]],
+    device float* b0_out [[buffer(7)]],
+    device float* a1_out [[buffer(8)]],
+    device float* b1_out [[buffer(9)]],
+    constant Params& params [[buffer(10)]],
+    uint gid [[thread_position_in_grid]]) {
+    if (gid >= params.count) return;
+    const uint x = gid % params.width;
+    const uint y = gid / params.width;
+    const uint y0 = reflect_index_metal(int(y) - 2, params.height);
+    const uint y1 = reflect_index_metal(int(y) - 1, params.height);
+    const uint y2 = y;
+    const uint y3 = reflect_index_metal(int(y) + 1, params.height);
+    const uint y4 = reflect_index_metal(int(y) + 2, params.height);
+    const uint i0 = y0 * params.width + x;
+    const uint i1 = y1 * params.width + x;
+    const uint i2 = y2 * params.width + x;
+    const uint i3 = y3 * params.width + x;
+    const uint i4 = y4 * params.width + x;
+    float sg = 0.0f;
+    float sg2 = 0.0f;
+    float sp0 = 0.0f;
+    float sgp0 = 0.0f;
+    float sp1 = 0.0f;
+    float sgp1 = 0.0f;
+    sg += guide_h[i0]; sg += guide_h[i1]; sg += guide_h[i2]; sg += guide_h[i3]; sg += guide_h[i4];
+    sg2 += guide_sq_h[i0]; sg2 += guide_sq_h[i1]; sg2 += guide_sq_h[i2]; sg2 += guide_sq_h[i3]; sg2 += guide_sq_h[i4];
+    sp0 += plane0_h[i0]; sp0 += plane0_h[i1]; sp0 += plane0_h[i2]; sp0 += plane0_h[i3]; sp0 += plane0_h[i4];
+    sgp0 += guide_plane0_h[i0]; sgp0 += guide_plane0_h[i1]; sgp0 += guide_plane0_h[i2]; sgp0 += guide_plane0_h[i3]; sgp0 += guide_plane0_h[i4];
+    sp1 += plane1_h[i0]; sp1 += plane1_h[i1]; sp1 += plane1_h[i2]; sp1 += plane1_h[i3]; sp1 += plane1_h[i4];
+    sgp1 += guide_plane1_h[i0]; sgp1 += guide_plane1_h[i1]; sgp1 += guide_plane1_h[i2]; sgp1 += guide_plane1_h[i3]; sgp1 += guide_plane1_h[i4];
+    constexpr float scale = 1.0f / 5.0f;
+    const float gm = sg * scale;
+    const float guide_sq_mean = sg2 * scale;
+    const float p0_mean = sp0 * scale;
+    const float gp0_mean = sgp0 * scale;
+    const float p1_mean = sp1 * scale;
+    const float gp1_mean = sgp1 * scale;
+    const float denom = (guide_sq_mean - gm * gm) + params.eps;
+    const float a0 = (gp0_mean - gm * p0_mean) / denom;
+    const float a1 = (gp1_mean - gm * p1_mean) / denom;
+    a0_out[gid] = a0;
+    b0_out[gid] = p0_mean - a0 * gm;
+    a1_out[gid] = a1;
+    b1_out[gid] = p1_mean - a1 * gm;
 }
 
 kernel void box_h_pair(
@@ -507,6 +624,43 @@ kernel void reconstruct_low_pair(
     low1[gid] = a1_mean[gid] * g + b1_mean[gid];
 }
 
+kernel void box_v_reconstruct_low_pair_r2(
+    device const float* guide [[buffer(0)]],
+    device const float* a0_h [[buffer(1)]],
+    device const float* b0_h [[buffer(2)]],
+    device const float* a1_h [[buffer(3)]],
+    device const float* b1_h [[buffer(4)]],
+    device float* low0 [[buffer(5)]],
+    device float* low1 [[buffer(6)]],
+    constant Params& params [[buffer(7)]],
+    uint gid [[thread_position_in_grid]]) {
+    if (gid >= params.count) return;
+    const uint x = gid % params.width;
+    const uint y = gid / params.width;
+    const uint y0 = reflect_index_metal(int(y) - 2, params.height);
+    const uint y1 = reflect_index_metal(int(y) - 1, params.height);
+    const uint y2 = y;
+    const uint y3 = reflect_index_metal(int(y) + 1, params.height);
+    const uint y4 = reflect_index_metal(int(y) + 2, params.height);
+    const uint i0 = y0 * params.width + x;
+    const uint i1 = y1 * params.width + x;
+    const uint i2 = y2 * params.width + x;
+    const uint i3 = y3 * params.width + x;
+    const uint i4 = y4 * params.width + x;
+    float sa0 = 0.0f;
+    float sb0 = 0.0f;
+    float sa1 = 0.0f;
+    float sb1 = 0.0f;
+    sa0 += a0_h[i0]; sa0 += a0_h[i1]; sa0 += a0_h[i2]; sa0 += a0_h[i3]; sa0 += a0_h[i4];
+    sb0 += b0_h[i0]; sb0 += b0_h[i1]; sb0 += b0_h[i2]; sb0 += b0_h[i3]; sb0 += b0_h[i4];
+    sa1 += a1_h[i0]; sa1 += a1_h[i1]; sa1 += a1_h[i2]; sa1 += a1_h[i3]; sa1 += a1_h[i4];
+    sb1 += b1_h[i0]; sb1 += b1_h[i1]; sb1 += b1_h[i2]; sb1 += b1_h[i3]; sb1 += b1_h[i4];
+    constexpr float scale = 1.0f / 5.0f;
+    const float g = guide[gid];
+    low0[gid] = (sa0 * scale) * g + (sb0 * scale);
+    low1[gid] = (sa1 * scale) * g + (sb1 * scale);
+}
+
 float shrink_metal(float v, float threshold) {
     const float mag = max(fabs(v) - threshold, 0.0f);
     return signbit(v) ? -mag : mag;
@@ -569,6 +723,7 @@ struct VisualGuardParams {
     uint high_bits;
     uint anchor_bits;
     uint visual_guard_dilate_radius;
+    uint use_source_luma;
     float visual_guard_luma_threshold;
     float visual_guard_rgb_threshold;
     float visual_guard_white;
@@ -641,7 +796,7 @@ float display_luma_metal(float3 rgb, float white, float gamma) {
 }
 
 kernel void visual_guard_kernel(
-    device const float* raw [[buffer(0)]],
+    device const float* raw_or_source_luma [[buffer(0)]],
     device const uchar* base_route_mask [[buffer(1)]],
     device const uchar* base_high_mask [[buffer(2)]],
     device const float* y_plane [[buffer(3)]],
@@ -659,7 +814,12 @@ kernel void visual_guard_kernel(
     const uint x = gid % params.width;
     const uint y = gid / params.width;
     const uint sample = gid * params.channels;
-    const float3 original = float3(raw[sample + 0], raw[sample + 1], raw[sample + 2]);
+    const float3 original = params.use_source_luma
+        ? float3(0.0f, 0.0f, 0.0f)
+        : float3(
+            raw_or_source_luma[sample + 0],
+            raw_or_source_luma[sample + 1],
+            raw_or_source_luma[sample + 2]);
     const float3 safe = original;
 
     float3 cand;
@@ -696,9 +856,12 @@ kernel void visual_guard_kernel(
         cand = float3(vst_inverse_metal(tr), vst_inverse_metal(tg), vst_inverse_metal(tb));
     }
 
+    const float safe_luma = params.use_source_luma
+        ? raw_or_source_luma[gid]
+        : display_luma_metal(safe, params.visual_guard_white, params.visual_guard_gamma);
     const float luma_diff = fabs(
         display_luma_metal(cand, params.visual_guard_white, params.visual_guard_gamma)
-        - display_luma_metal(safe, params.visual_guard_white, params.visual_guard_gamma));
+        - safe_luma);
     bool hit = luma_diff >= params.visual_guard_luma_threshold;
     if (!hit && params.visual_guard_rgb_threshold > 0.0f) {
         const float dc0 = display_component_metal(
@@ -727,6 +890,8 @@ struct MetalGuidedContext {
     __strong id<MTLComputePipelineState> prepare_guide = nil;
     __strong id<MTLComputePipelineState> prepare_plane = nil;
     __strong id<MTLComputePipelineState> prepare_planes_pair = nil;
+    __strong id<MTLComputePipelineState> guided_stats_h_pair_r2 = nil;
+    __strong id<MTLComputePipelineState> guided_stats_v_ab_pair_r2 = nil;
     __strong id<MTLComputePipelineState> box_h_pair = nil;
     __strong id<MTLComputePipelineState> box_v_pair = nil;
     __strong id<MTLComputePipelineState> box_h_quad = nil;
@@ -739,6 +904,7 @@ struct MetalGuidedContext {
     __strong id<MTLComputePipelineState> compute_ab_pair = nil;
     __strong id<MTLComputePipelineState> reconstruct_low = nil;
     __strong id<MTLComputePipelineState> reconstruct_low_pair = nil;
+    __strong id<MTLComputePipelineState> box_v_reconstruct_low_pair_r2 = nil;
     __strong id<MTLComputePipelineState> high_pass_shrink_pair = nil;
     __strong id<MTLComputePipelineState> block_mean_downsample_pair = nil;
     __strong id<MTLComputePipelineState> visual_guard = nil;
@@ -802,6 +968,8 @@ struct MetalGuidedContext {
             prepare_guide = make_pipeline(@"prepare_guide");
             prepare_plane = make_pipeline(@"prepare_plane");
             prepare_planes_pair = make_pipeline(@"prepare_planes_pair");
+            guided_stats_h_pair_r2 = make_pipeline(@"guided_stats_h_pair_r2");
+            guided_stats_v_ab_pair_r2 = make_pipeline(@"guided_stats_v_ab_pair_r2");
             box_h_pair = make_pipeline(@"box_h_pair");
             box_v_pair = make_pipeline(@"box_v_pair");
             box_h_quad = make_pipeline(@"box_h_quad");
@@ -814,14 +982,16 @@ struct MetalGuidedContext {
             compute_ab_pair = make_pipeline(@"compute_ab_pair");
             reconstruct_low = make_pipeline(@"reconstruct_low");
             reconstruct_low_pair = make_pipeline(@"reconstruct_low_pair");
+            box_v_reconstruct_low_pair_r2 = make_pipeline(@"box_v_reconstruct_low_pair_r2");
             high_pass_shrink_pair = make_pipeline(@"high_pass_shrink_pair");
             block_mean_downsample_pair = make_pipeline(@"block_mean_downsample_pair");
             visual_guard = make_pipeline(@"visual_guard_kernel");
             ok = prepare_guide && prepare_plane && prepare_planes_pair
+                && guided_stats_h_pair_r2 && guided_stats_v_ab_pair_r2
                 && box_h_pair && box_v_pair && box_h_quad && box_v_quad
                 && box_h_pair_r2 && box_v_pair_r2 && box_h_quad_r2 && box_v_quad_r2
                 && compute_ab && compute_ab_pair
-                && reconstruct_low && reconstruct_low_pair
+                && reconstruct_low && reconstruct_low_pair && box_v_reconstruct_low_pair_r2
                 && high_pass_shrink_pair && block_mean_downsample_pair && visual_guard;
             if (!ok) metal_trace("pipeline creation failed");
         }
@@ -1178,6 +1348,303 @@ bool metal_guided_low_pair(
     }
 }
 
+bool metal_guided_low_downsample_pair(
+    const std::vector<float>& first_plane,
+    const std::vector<float>& second_plane,
+    const std::vector<float>& guide,
+    std::uint32_t width,
+    std::uint32_t height,
+    std::uint8_t radius,
+    float eps,
+    std::uint8_t scale,
+    bool copy_low_outputs,
+    std::vector<float>& first_low,
+    std::vector<float>& second_low,
+    std::uint32_t& out_w,
+    std::uint32_t& out_h,
+    std::vector<float>& first_coarse,
+    std::vector<float>& second_coarse) noexcept {
+    if (radius == 0 || scale <= 1) return false;
+    const auto count64 = std::uint64_t(width) * height;
+    if (count64 == 0 || count64 > 0xffffffffull) return false;
+    const auto count = static_cast<std::uint32_t>(count64);
+    if (first_plane.size() != count || second_plane.size() != count || guide.size() != count) {
+        return false;
+    }
+    const std::uint32_t ow = (width + scale - 1) / scale;
+    const std::uint32_t oh = (height + scale - 1) / scale;
+    const auto out_count64 = std::uint64_t(ow) * oh;
+    if (out_count64 == 0 || out_count64 > 0xffffffffull) return false;
+    const auto out_count = static_cast<std::uint32_t>(out_count64);
+
+    MetalGuidedContext* ctx = context();
+    if (!ctx) {
+        metal_trace("context unavailable");
+        return false;
+    }
+
+    @autoreleasepool {
+        const std::size_t bytes = std::size_t(count) * sizeof(float);
+        const std::size_t out_bytes = std::size_t(out_count) * sizeof(float);
+        MetalGuidedParams params;
+        params.width = width;
+        params.height = height;
+        params.count = count;
+        params.radius = radius;
+        params.eps = eps;
+        const bool use_structured_r2 = radius == 2;
+        MetalDownsampleParams down_params;
+        down_params.width = width;
+        down_params.height = height;
+        down_params.out_w = ow;
+        down_params.out_h = oh;
+        down_params.count = out_count;
+        down_params.scale = scale;
+
+        id<MTLBuffer> params_buffer = reusable_buffer_with_bytes(
+            ctx->device, ctx->guided_params_buffer, &params, sizeof(params));
+        id<MTLBuffer> down_params_buffer =
+            make_buffer_with_bytes(ctx->device, &down_params, sizeof(down_params));
+        id<MTLBuffer> guide_buffer = reusable_buffer_with_bytes(
+            ctx->device, ctx->cached_guide_plane, guide.data(), bytes);
+        id<MTLBuffer> guide_sq_buffer = use_structured_r2
+            ? nil
+            : reusable_buffer(ctx->device, ctx->guided_guide_sq, bytes);
+        id<MTLBuffer> guide_mean =
+            reusable_buffer(ctx->device, ctx->guided_guide_mean, bytes);
+        id<MTLBuffer> guide_sq_mean =
+            reusable_buffer(ctx->device, ctx->guided_guide_sq_mean, bytes);
+        id<MTLBuffer> tmp0 = reusable_buffer(ctx->device, ctx->guided_tmp0, bytes);
+        id<MTLBuffer> tmp1 = reusable_buffer(ctx->device, ctx->guided_tmp1, bytes);
+        id<MTLBuffer> tmp2 = reusable_buffer(ctx->device, ctx->guided_tmp2, bytes);
+        id<MTLBuffer> tmp3 = reusable_buffer(ctx->device, ctx->guided_tmp3, bytes);
+        id<MTLBuffer> plane0_mean =
+            reusable_buffer(ctx->device, ctx->guided_plane0_mean, bytes);
+        id<MTLBuffer> plane1_mean =
+            reusable_buffer(ctx->device, ctx->guided_plane1_mean, bytes);
+        id<MTLBuffer> guide_plane0 =
+            reusable_buffer(ctx->device, ctx->guided_guide_plane0, bytes);
+        id<MTLBuffer> guide_plane1 =
+            reusable_buffer(ctx->device, ctx->guided_guide_plane1, bytes);
+        id<MTLBuffer> guide_plane0_mean =
+            reusable_buffer(ctx->device, ctx->guided_guide_plane0_mean, bytes);
+        id<MTLBuffer> guide_plane1_mean =
+            reusable_buffer(ctx->device, ctx->guided_guide_plane1_mean, bytes);
+        id<MTLBuffer> first_buffer = reusable_buffer_with_bytes(
+            ctx->device, ctx->cached_first_plane, first_plane.data(), bytes);
+        id<MTLBuffer> second_buffer = reusable_buffer_with_bytes(
+            ctx->device, ctx->cached_second_plane, second_plane.data(), bytes);
+        id<MTLBuffer> first_work_buffer =
+            reusable_buffer(ctx->device, ctx->cached_first_low, bytes);
+        id<MTLBuffer> second_work_buffer =
+            reusable_buffer(ctx->device, ctx->cached_second_low, bytes);
+        id<MTLBuffer> first_coarse_buffer = make_buffer(ctx->device, out_bytes);
+        id<MTLBuffer> second_coarse_buffer = make_buffer(ctx->device, out_bytes);
+        if (!params_buffer || !down_params_buffer || !guide_buffer
+            || (!use_structured_r2 && !guide_sq_buffer)
+            || !guide_mean || !guide_sq_mean || !tmp0 || !tmp1 || !tmp2 || !tmp3
+            || !plane0_mean || !plane1_mean || !guide_plane0 || !guide_plane1
+            || !guide_plane0_mean || !guide_plane1_mean
+            || !first_buffer || !second_buffer || !first_work_buffer || !second_work_buffer
+            || !first_coarse_buffer || !second_coarse_buffer) {
+            metal_trace("guided-downsample buffer allocation failed");
+            return false;
+        }
+
+        id<MTLCommandBuffer> command = [ctx->queue commandBuffer];
+        if (!command) {
+            metal_trace("guided-downsample command buffer failed");
+            return false;
+        }
+        id<MTLComputeCommandEncoder> encoder = [command computeCommandEncoder];
+        if (!encoder) {
+            metal_trace("guided-downsample encoder failed");
+            return false;
+        }
+
+        if (use_structured_r2) {
+            [encoder setBuffer:guide_buffer offset:0 atIndex:0];
+            [encoder setBuffer:first_buffer offset:0 atIndex:1];
+            [encoder setBuffer:second_buffer offset:0 atIndex:2];
+            [encoder setBuffer:guide_mean offset:0 atIndex:3];
+            [encoder setBuffer:guide_sq_mean offset:0 atIndex:4];
+            [encoder setBuffer:plane0_mean offset:0 atIndex:5];
+            [encoder setBuffer:guide_plane0_mean offset:0 atIndex:6];
+            [encoder setBuffer:plane1_mean offset:0 atIndex:7];
+            [encoder setBuffer:guide_plane1_mean offset:0 atIndex:8];
+            [encoder setBuffer:params_buffer offset:0 atIndex:9];
+            dispatch(encoder, ctx->guided_stats_h_pair_r2, count);
+
+            [encoder setBuffer:guide_mean offset:0 atIndex:0];
+            [encoder setBuffer:guide_sq_mean offset:0 atIndex:1];
+            [encoder setBuffer:plane0_mean offset:0 atIndex:2];
+            [encoder setBuffer:guide_plane0_mean offset:0 atIndex:3];
+            [encoder setBuffer:plane1_mean offset:0 atIndex:4];
+            [encoder setBuffer:guide_plane1_mean offset:0 atIndex:5];
+            [encoder setBuffer:first_work_buffer offset:0 atIndex:6];
+            [encoder setBuffer:guide_plane0 offset:0 atIndex:7];
+            [encoder setBuffer:second_work_buffer offset:0 atIndex:8];
+            [encoder setBuffer:guide_plane1 offset:0 atIndex:9];
+            [encoder setBuffer:params_buffer offset:0 atIndex:10];
+            dispatch(encoder, ctx->guided_stats_v_ab_pair_r2, count);
+
+            [encoder setBuffer:first_work_buffer offset:0 atIndex:0];
+            [encoder setBuffer:guide_plane0 offset:0 atIndex:1];
+            [encoder setBuffer:second_work_buffer offset:0 atIndex:2];
+            [encoder setBuffer:guide_plane1 offset:0 atIndex:3];
+            [encoder setBuffer:tmp0 offset:0 atIndex:4];
+            [encoder setBuffer:tmp1 offset:0 atIndex:5];
+            [encoder setBuffer:tmp2 offset:0 atIndex:6];
+            [encoder setBuffer:tmp3 offset:0 atIndex:7];
+            [encoder setBuffer:params_buffer offset:0 atIndex:8];
+            dispatch(encoder, ctx->box_h_quad_r2, count);
+
+            [encoder setBuffer:guide_buffer offset:0 atIndex:0];
+            [encoder setBuffer:tmp0 offset:0 atIndex:1];
+            [encoder setBuffer:tmp1 offset:0 atIndex:2];
+            [encoder setBuffer:tmp2 offset:0 atIndex:3];
+            [encoder setBuffer:tmp3 offset:0 atIndex:4];
+            [encoder setBuffer:first_work_buffer offset:0 atIndex:5];
+            [encoder setBuffer:second_work_buffer offset:0 atIndex:6];
+            [encoder setBuffer:params_buffer offset:0 atIndex:7];
+            dispatch(encoder, ctx->box_v_reconstruct_low_pair_r2, count);
+        } else {
+            [encoder setBuffer:guide_buffer offset:0 atIndex:0];
+            [encoder setBuffer:guide_sq_buffer offset:0 atIndex:1];
+            [encoder setBuffer:params_buffer offset:0 atIndex:2];
+            dispatch(encoder, ctx->prepare_guide, count);
+
+            encode_box_pair(
+                encoder,
+                *ctx,
+                guide_buffer,
+                guide_sq_buffer,
+                tmp0,
+                tmp1,
+                guide_mean,
+                guide_sq_mean,
+                params_buffer,
+                count,
+                radius);
+
+            [encoder setBuffer:guide_buffer offset:0 atIndex:0];
+            [encoder setBuffer:first_buffer offset:0 atIndex:1];
+            [encoder setBuffer:second_buffer offset:0 atIndex:2];
+            [encoder setBuffer:guide_plane0 offset:0 atIndex:3];
+            [encoder setBuffer:guide_plane1 offset:0 atIndex:4];
+            [encoder setBuffer:params_buffer offset:0 atIndex:5];
+            dispatch(encoder, ctx->prepare_planes_pair, count);
+
+            encode_box_quad(
+                encoder,
+                *ctx,
+                first_buffer,
+                second_buffer,
+                guide_plane0,
+                guide_plane1,
+                tmp0,
+                tmp1,
+                tmp2,
+                tmp3,
+                plane0_mean,
+                plane1_mean,
+                guide_plane0_mean,
+                guide_plane1_mean,
+                params_buffer,
+                count,
+                radius);
+
+            [encoder setBuffer:guide_mean offset:0 atIndex:0];
+            [encoder setBuffer:guide_sq_mean offset:0 atIndex:1];
+            [encoder setBuffer:plane0_mean offset:0 atIndex:2];
+            [encoder setBuffer:guide_plane0_mean offset:0 atIndex:3];
+            [encoder setBuffer:plane1_mean offset:0 atIndex:4];
+            [encoder setBuffer:guide_plane1_mean offset:0 atIndex:5];
+            [encoder setBuffer:first_work_buffer offset:0 atIndex:6];
+            [encoder setBuffer:guide_plane0 offset:0 atIndex:7];
+            [encoder setBuffer:second_work_buffer offset:0 atIndex:8];
+            [encoder setBuffer:guide_plane1 offset:0 atIndex:9];
+            [encoder setBuffer:params_buffer offset:0 atIndex:10];
+            dispatch(encoder, ctx->compute_ab_pair, count);
+
+            encode_box_quad(
+                encoder,
+                *ctx,
+                first_work_buffer,
+                guide_plane0,
+                second_work_buffer,
+                guide_plane1,
+                tmp0,
+                tmp1,
+                tmp2,
+                tmp3,
+                plane0_mean,
+                guide_plane0_mean,
+                plane1_mean,
+                guide_plane1_mean,
+                params_buffer,
+                count,
+                radius);
+
+            [encoder setBuffer:guide_buffer offset:0 atIndex:0];
+            [encoder setBuffer:plane0_mean offset:0 atIndex:1];
+            [encoder setBuffer:guide_plane0_mean offset:0 atIndex:2];
+            [encoder setBuffer:plane1_mean offset:0 atIndex:3];
+            [encoder setBuffer:guide_plane1_mean offset:0 atIndex:4];
+            [encoder setBuffer:first_work_buffer offset:0 atIndex:5];
+            [encoder setBuffer:second_work_buffer offset:0 atIndex:6];
+            [encoder setBuffer:params_buffer offset:0 atIndex:7];
+            dispatch(encoder, ctx->reconstruct_low_pair, count);
+        }
+
+        [encoder setBuffer:first_work_buffer offset:0 atIndex:0];
+        [encoder setBuffer:second_work_buffer offset:0 atIndex:1];
+        [encoder setBuffer:first_coarse_buffer offset:0 atIndex:2];
+        [encoder setBuffer:second_coarse_buffer offset:0 atIndex:3];
+        [encoder setBuffer:down_params_buffer offset:0 atIndex:4];
+        dispatch(encoder, ctx->block_mean_downsample_pair, out_count);
+
+        [encoder endEncoding];
+        [command commit];
+        [command waitUntilCompleted];
+        if (command.status != MTLCommandBufferStatusCompleted) {
+            metal_trace("guided-downsample command failed");
+            return false;
+        }
+
+        out_w = ow;
+        out_h = oh;
+        first_coarse.assign(out_count, 0.0f);
+        second_coarse.assign(out_count, 0.0f);
+        std::memcpy(first_coarse.data(), [first_coarse_buffer contents], out_bytes);
+        std::memcpy(second_coarse.data(), [second_coarse_buffer contents], out_bytes);
+        if (copy_low_outputs) {
+            first_low.assign(count, 0.0f);
+            second_low.assign(count, 0.0f);
+            std::memcpy(first_low.data(), [first_work_buffer contents], bytes);
+            std::memcpy(second_low.data(), [second_work_buffer contents], bytes);
+        } else {
+            first_low.clear();
+            second_low.clear();
+        }
+        ctx->cached_first_plane = first_buffer;
+        ctx->cached_second_plane = second_buffer;
+        ctx->cached_guide_plane = guide_buffer;
+        ctx->cached_plane_count = count;
+        ctx->cached_first_low = first_work_buffer;
+        ctx->cached_second_low = second_work_buffer;
+        ctx->cached_low_count = count;
+        ctx->cached_first_coarse = first_coarse_buffer;
+        ctx->cached_second_coarse = second_coarse_buffer;
+        ctx->cached_coarse_count = out_count;
+        ctx->cached_first_high = nil;
+        ctx->cached_second_high = nil;
+        ctx->cached_high_count = 0;
+        metal_trace("guided-downsample completed");
+        return true;
+    }
+}
+
 bool metal_copy_cached_low_pair(
     std::size_t count,
     std::vector<float>& first_low,
@@ -1457,6 +1924,7 @@ bool metal_visual_guard(
     const std::vector<float>& cg_coarse,
     const std::vector<float>& co_high,
     const std::vector<float>& cg_high,
+    const std::vector<float>& source_display_luma,
     bool use_cached_guide,
     bool use_cached_coarse_pair,
     bool use_cached_high_pass,
@@ -1497,6 +1965,11 @@ bool metal_visual_guard(
         params.high_bits = config.high_bits;
         params.anchor_bits = config.anchor_bits;
         params.visual_guard_dilate_radius = config.visual_guard_dilate_radius;
+        const bool use_source_luma =
+            config.visual_guard_dilate_radius == 0
+            && config.visual_guard_rgb_threshold <= 0.0f
+            && source_display_luma.size() == count;
+        params.use_source_luma = use_source_luma ? 1u : 0u;
         params.visual_guard_luma_threshold = config.visual_guard_luma_threshold;
         params.visual_guard_rgb_threshold = config.visual_guard_rgb_threshold;
         params.visual_guard_white = config.visual_guard_white;
@@ -1519,7 +1992,12 @@ bool metal_visual_guard(
         params.base_log_hi2 = config.base_log_hi[2];
         const std::size_t full_float_bytes = std::size_t(count) * sizeof(float);
         const std::size_t low_float_bytes = low_count * sizeof(float);
-        id<MTLBuffer> raw_buffer = make_buffer_with_bytes(ctx->device, raw, raw_size);
+        id<MTLBuffer> raw_buffer = use_source_luma
+            ? make_buffer_with_bytes(
+                ctx->device,
+                source_display_luma.data(),
+                std::size_t(count) * sizeof(float))
+            : make_buffer_with_bytes(ctx->device, raw, raw_size);
         id<MTLBuffer> base_route_buffer =
             make_buffer_with_bytes(ctx->device, base_route_mask.data(), base_route_mask.size());
         id<MTLBuffer> base_high_buffer =

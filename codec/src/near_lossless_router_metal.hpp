@@ -49,6 +49,23 @@ bool metal_guided_low_pair(
     std::vector<float>& first_low,
     std::vector<float>& second_low) noexcept;
 
+bool metal_guided_low_downsample_pair(
+    const std::vector<float>& first_plane,
+    const std::vector<float>& second_plane,
+    const std::vector<float>& guide,
+    std::uint32_t width,
+    std::uint32_t height,
+    std::uint8_t radius,
+    float eps,
+    std::uint8_t scale,
+    bool copy_low_outputs,
+    std::vector<float>& first_low,
+    std::vector<float>& second_low,
+    std::uint32_t& out_w,
+    std::uint32_t& out_h,
+    std::vector<float>& first_coarse,
+    std::vector<float>& second_coarse) noexcept;
+
 bool metal_copy_cached_low_pair(
     std::size_t count,
     std::vector<float>& first_low,
@@ -93,6 +110,7 @@ bool metal_visual_guard(
     const std::vector<float>& cg_coarse,
     const std::vector<float>& co_high,
     const std::vector<float>& cg_high,
+    const std::vector<float>& source_display_luma,
     bool use_cached_guide,
     bool use_cached_coarse_pair,
     bool use_cached_high_pass,

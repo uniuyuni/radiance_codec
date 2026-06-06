@@ -114,6 +114,12 @@ bool router_rans0_byte_streams_enabled() noexcept {
     return enabled;
 }
 
+bool router_force_route_all_enabled() noexcept {
+    static const bool enabled =
+        std::getenv("RADIANCE_CODEC_ROUTER_FORCE_ROUTE_ALL") != nullptr;
+    return enabled;
+}
+
 std::uint8_t router_mask_tile_size() noexcept {
     const char* raw = std::getenv("RADIANCE_CODEC_ROUTER_MASK_TILE_SIZE");
     if (!raw || !*raw) return 8;
@@ -130,6 +136,29 @@ std::uint8_t router_cpu_guided_scale() noexcept {
     const long value = std::strtol(raw, &end, 10);
     if (end == raw || value < 1 || value > 8) return 2;
     return static_cast<std::uint8_t>(value);
+}
+
+std::uint8_t router_env_u8(const char* name, std::uint8_t fallback, long min_value, long max_value) noexcept {
+    const char* raw = std::getenv(name);
+    if (!raw || !*raw) return fallback;
+    char* end = nullptr;
+    const long value = std::strtol(raw, &end, 10);
+    if (end == raw || value < min_value || value > max_value) return fallback;
+    return static_cast<std::uint8_t>(value);
+}
+
+std::uint8_t effective_anchor_bits(
+    std::uint8_t base_bits,
+    std::uint64_t route_count,
+    std::uint64_t pixel_count) noexcept {
+    const auto forced = router_env_u8("RADIANCE_CODEC_ROUTER_ANCHOR_BITS", base_bits, 1, 16);
+    if (forced != base_bits) return forced;
+    if (pixel_count == 0) return base_bits;
+    const double route_rate = double(route_count) / double(pixel_count);
+    if (route_rate >= 0.95) {
+        return std::max<std::uint8_t>(base_bits, 12);
+    }
+    return base_bits;
 }
 
 float env_float_or(const char* name, float fallback) noexcept {
@@ -2271,22 +2300,46 @@ Status NearLosslessRouterStage::encode(
     const std::vector<std::uint8_t> base_route_mask = route_mask;
 
     std::vector<float> co_low, cg_low;
+    std::uint32_t low_w = 0, low_h = 0;
+    std::vector<float> co_coarse, cg_coarse;
     bool used_metal_guided = false;
+    bool used_metal_downsample = false;
 #ifdef RADIANCE_CODEC_HAS_METAL
     if (metal_guided_enabled()) {
         const bool keep_guided_on_gpu =
             metal_downsample_enabled() && metal_high_pass_enabled();
-        used_metal_guided = metal_guided_low_pair(
-            co_plane,
-            cg_plane,
-            y_plane,
-            meta.width,
-            meta.height,
-            params_.guide_radius,
-            params_.guide_eps,
-            !keep_guided_on_gpu,
-            co_low,
-            cg_low);
+        if (metal_downsample_enabled()) {
+            used_metal_downsample = metal_guided_low_downsample_pair(
+                co_plane,
+                cg_plane,
+                y_plane,
+                meta.width,
+                meta.height,
+                params_.guide_radius,
+                params_.guide_eps,
+                params_.low_scale,
+                !keep_guided_on_gpu,
+                co_low,
+                cg_low,
+                low_w,
+                low_h,
+                co_coarse,
+                cg_coarse);
+            used_metal_guided = used_metal_downsample;
+        }
+        if (!used_metal_guided) {
+            used_metal_guided = metal_guided_low_pair(
+                co_plane,
+                cg_plane,
+                y_plane,
+                meta.width,
+                meta.height,
+                params_.guide_radius,
+                params_.guide_eps,
+                !keep_guided_on_gpu,
+                co_low,
+                cg_low);
+        }
     }
 #endif
     if (!used_metal_guided) {
@@ -2415,9 +2468,6 @@ Status NearLosslessRouterStage::encode(
             cg_low = std::move(low_full.second);
         }
     }
-    std::uint32_t low_w = 0, low_h = 0;
-    std::vector<float> co_coarse, cg_coarse;
-    bool used_metal_downsample = false;
     auto ensure_low_materialized = [&]() -> bool {
         if (co_low.size() == pixels && cg_low.size() == pixels) return true;
 #ifdef RADIANCE_CODEC_HAS_METAL
@@ -2429,7 +2479,7 @@ Status NearLosslessRouterStage::encode(
         return false;
     };
 #ifdef RADIANCE_CODEC_HAS_METAL
-    if (metal_downsample_enabled()) {
+    if (metal_downsample_enabled() && !used_metal_downsample) {
         used_metal_downsample = metal_block_mean_downsample_pair(
             co_low,
             cg_low,
@@ -2633,6 +2683,24 @@ Status NearLosslessRouterStage::encode(
         };
 #ifdef RADIANCE_CODEC_HAS_METAL
         if (metal_visual_guard_enabled()) {
+            std::vector<float> source_display_luma;
+            if (params_.visual_guard_dilate_radius == 0
+                && params_.visual_guard_rgb_threshold <= 0.0f) {
+                source_display_luma.assign(pixels, 0.0f);
+#ifdef RADIANCE_CODEC_HAS_OPENMP
+#pragma omp parallel for schedule(static) if(pixels > (8u << 20))
+#endif
+                for (std::int64_t si = 0; si < static_cast<std::int64_t>(pixels); ++si) {
+                    const auto i = static_cast<std::size_t>(si);
+                    const auto base_byte = i * meta.channels * 4;
+                    source_display_luma[i] = display_luma_lut(
+                        read_f32(in.data() + base_byte + 0),
+                        read_f32(in.data() + base_byte + 4),
+                        read_f32(in.data() + base_byte + 8),
+                        params_.visual_guard_white,
+                        display_lut);
+                }
+            }
             MetalVisualGuardConfig config;
             config.width = meta.width;
             config.height = meta.height;
@@ -2674,6 +2742,7 @@ Status NearLosslessRouterStage::encode(
                 cg_coarse,
                 co_high,
                 cg_high,
+                source_display_luma,
                 used_metal_guided,
                 used_metal_downsample,
                 used_metal_high_pass,
@@ -2702,6 +2771,10 @@ Status NearLosslessRouterStage::encode(
         }
     }
     trace.lap(used_metal_visual_guard ? "visual-metal" : "visual-guard");
+    if (router_force_route_all_enabled()) {
+        std::fill(route_mask.begin(), route_mask.end(), std::uint8_t{1});
+        trace.lap("force-route-all");
+    }
 
     Range y_range;
     y_range.lo = std::numeric_limits<float>::infinity();
@@ -2827,6 +2900,10 @@ Status NearLosslessRouterStage::encode(
             r.hi = 0.0f;
         }
     }
+    const auto route_count_for_anchor =
+        std::accumulate(route_mask.begin(), route_mask.end(), std::uint64_t(0));
+    const auto anchor_bits =
+        effective_anchor_bits(params_.anchor_bits, route_count_for_anchor, pixels);
 
     std::vector<std::uint16_t> y_idx(pixels, 0), co_high_idx(pixels, 0), cg_high_idx(pixels, 0);
     std::array<std::vector<std::uint16_t>, 3> signed_idx;
@@ -2859,7 +2936,7 @@ Status NearLosslessRouterStage::encode(
             for (std::uint8_t c = 0; c < 3; ++c) {
                 const float v = read_f32(in.data() + base + 4 * c);
                 signed_idx[c][i2] = static_cast<std::uint16_t>(signed_log_index(
-                    v, params_.anchor_bits, log_ranges[c].lo, log_ranges[c].hi));
+                    v, anchor_bits, log_ranges[c].lo, log_ranges[c].hi));
             }
         }
     }
@@ -2888,6 +2965,20 @@ Status NearLosslessRouterStage::encode(
     const float dark_refine_diff_threshold = env_float_or(
         "RADIANCE_CODEC_DARK_REFINE_DIFF_THRESHOLD",
         kDarkRefineDisplayDiffThreshold);
+    auto dark_refine_channel_skip = [&](float weight) {
+        if (weight <= 0.0f || dark_refine_luma_max <= 0.0f) {
+            return std::numeric_limits<float>::infinity();
+        }
+        const float display_threshold = dark_refine_luma_max / weight;
+        if (display_threshold >= 1.0f) {
+            return std::numeric_limits<float>::infinity();
+        }
+        return params_.visual_guard_white
+            * std::pow(display_threshold, params_.visual_guard_gamma);
+    };
+    const float dark_refine_r_skip = dark_refine_channel_skip(0.2126f);
+    const float dark_refine_g_skip = dark_refine_channel_skip(0.7152f);
+    const float dark_refine_b_skip = dark_refine_channel_skip(0.0722f);
     std::vector<std::uint8_t> dark_refine_mask(pixels, 0);
     Range dark_refine_range;
     dark_refine_range.lo = std::numeric_limits<float>::infinity();
@@ -2907,6 +2998,11 @@ Status NearLosslessRouterStage::encode(
                 const float r = read_f32(in.data() + base_byte + 0);
                 const float g = read_f32(in.data() + base_byte + 4);
                 const float b = read_f32(in.data() + base_byte + 8);
+                if (r >= dark_refine_r_skip
+                    || g >= dark_refine_g_skip
+                    || b >= dark_refine_b_skip) {
+                    continue;
+                }
                 const float source_luma =
                     display_luma_lut(r, g, b, params_.visual_guard_white, display_lut);
                 if (source_luma >= dark_refine_luma_max) continue;
@@ -2914,11 +3010,11 @@ Status NearLosslessRouterStage::encode(
                 float cr = 0.0f, cg = 0.0f, cb = 0.0f;
                 if (route_mask[i2]) {
                     cr = signed_log_dequantize(
-                        signed_idx[0][i2], params_.anchor_bits, log_ranges[0].lo, log_ranges[0].hi);
+                        signed_idx[0][i2], anchor_bits, log_ranges[0].lo, log_ranges[0].hi);
                     cg = signed_log_dequantize(
-                        signed_idx[1][i2], params_.anchor_bits, log_ranges[1].lo, log_ranges[1].hi);
+                        signed_idx[1][i2], anchor_bits, log_ranges[1].lo, log_ranges[1].hi);
                     cb = signed_log_dequantize(
-                        signed_idx[2][i2], params_.anchor_bits, log_ranges[2].lo, log_ranges[2].hi);
+                        signed_idx[2][i2], anchor_bits, log_ranges[2].lo, log_ranges[2].hi);
                 } else {
                     const float yq = dequantize_index(y_idx[i2], params_.y_bits, y_range);
                     const auto yy = std::min<std::uint32_t>(low_h - 1, y / params_.low_scale);
@@ -2983,6 +3079,11 @@ Status NearLosslessRouterStage::encode(
             const float r = read_f32(in.data() + base_byte + 0);
             const float g = read_f32(in.data() + base_byte + 4);
             const float b = read_f32(in.data() + base_byte + 8);
+            if (r >= dark_refine_r_skip
+                || g >= dark_refine_g_skip
+                || b >= dark_refine_b_skip) {
+                continue;
+            }
             const float source_luma =
                 display_luma_lut(r, g, b, params_.visual_guard_white, display_lut);
             if (source_luma >= dark_refine_luma_max) continue;
@@ -2990,11 +3091,11 @@ Status NearLosslessRouterStage::encode(
             float cr = 0.0f, cg = 0.0f, cb = 0.0f;
             if (route_mask[i2]) {
                 cr = signed_log_dequantize(
-                    signed_idx[0][i2], params_.anchor_bits, log_ranges[0].lo, log_ranges[0].hi);
+                    signed_idx[0][i2], anchor_bits, log_ranges[0].lo, log_ranges[0].hi);
                 cg = signed_log_dequantize(
-                    signed_idx[1][i2], params_.anchor_bits, log_ranges[1].lo, log_ranges[1].hi);
+                    signed_idx[1][i2], anchor_bits, log_ranges[1].lo, log_ranges[1].hi);
                 cb = signed_log_dequantize(
-                    signed_idx[2][i2], params_.anchor_bits, log_ranges[2].lo, log_ranges[2].hi);
+                    signed_idx[2][i2], anchor_bits, log_ranges[2].lo, log_ranges[2].hi);
             } else {
                 const float yq = dequantize_index(y_idx[i2], params_.y_bits, y_range);
                 const auto yy = std::min<std::uint32_t>(low_h - 1, y / params_.low_scale);
@@ -3084,7 +3185,7 @@ Status NearLosslessRouterStage::encode(
     append_u8(out, params_.y_bits);
     append_u8(out, params_.chroma_low_bits);
     append_u8(out, params_.high_bits);
-    append_u8(out, params_.anchor_bits);
+    append_u8(out, anchor_bits);
     append_u8(out, params_.low_scale);
     append_u32(out, low_w);
     append_u32(out, low_h);
@@ -3226,19 +3327,19 @@ Status NearLosslessRouterStage::encode(
     auto sr_future = std::async(std::launch::async, [&]() {
         return timed_payload("signed_r", [&]() {
             return symbol_payload_positions(
-                signed_idx[0], route_mask, route_positions, meta.width, params_.anchor_bits);
+                signed_idx[0], route_mask, route_positions, meta.width, anchor_bits);
         });
     });
     auto sg_future = std::async(std::launch::async, [&]() {
         return timed_payload("signed_g", [&]() {
             return symbol_payload_positions(
-                signed_idx[1], route_mask, route_positions, meta.width, params_.anchor_bits);
+                signed_idx[1], route_mask, route_positions, meta.width, anchor_bits);
         });
     });
     auto sb_future = std::async(std::launch::async, [&]() {
         return timed_payload("signed_b", [&]() {
             return symbol_payload_positions(
-                signed_idx[2], route_mask, route_positions, meta.width, params_.anchor_bits);
+                signed_idx[2], route_mask, route_positions, meta.width, anchor_bits);
         });
     });
     auto dark_refine_mask_future = std::async(std::launch::async, [&]() {
