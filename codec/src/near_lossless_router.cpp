@@ -108,6 +108,12 @@ bool router_tiled_masks_enabled() noexcept {
     return enabled;
 }
 
+bool router_rans0_byte_streams_enabled() noexcept {
+    static const bool enabled =
+        std::getenv("RADIANCE_CODEC_ROUTER_RANS0_BYTE_STREAMS") != nullptr;
+    return enabled;
+}
+
 std::uint8_t router_mask_tile_size() noexcept {
     const char* raw = std::getenv("RADIANCE_CODEC_ROUTER_MASK_TILE_SIZE");
     if (!raw || !*raw) return 8;
@@ -1207,6 +1213,33 @@ bool append_order1_or_raw_stream(
         ? std::span<const std::uint8_t>(compressed)
         : plain;
     append_u8(out, use_rans1 ? kStreamRansOrder1 : kStreamRaw);
+    if (selected.size() > 0xffffffffu) return false;
+    append_u32(out, static_cast<std::uint32_t>(selected.size()));
+    out.insert(out.end(), selected.begin(), selected.end());
+    return true;
+}
+
+bool append_order0_or_raw_stream(
+    std::vector<std::uint8_t>& out,
+    std::span<const std::uint8_t> plain) {
+    if (plain.empty()) {
+        append_u8(out, kStreamRaw);
+        append_u32(out, 0);
+        return true;
+    }
+    std::vector<std::uint8_t> compressed;
+    ImageMeta dummy;
+    dummy.width = static_cast<std::uint32_t>(std::min<std::size_t>(plain.size(), 0xffffffffu));
+    dummy.height = 1;
+    dummy.channels = 1;
+    dummy.format = PixelFormat::Float32;
+    RansStage rans0(RansMode::Order0);
+    const auto status = rans0.encode(plain, dummy, compressed);
+    const bool use_rans0 = status == Status::Ok && compressed.size() < plain.size();
+    const auto selected = use_rans0
+        ? std::span<const std::uint8_t>(compressed)
+        : plain;
+    append_u8(out, use_rans0 ? kStreamRansOrder0 : kStreamRaw);
     if (selected.size() > 0xffffffffu) return false;
     append_u32(out, static_cast<std::uint32_t>(selected.size()));
     out.insert(out.end(), selected.begin(), selected.end());
@@ -3015,7 +3048,9 @@ Status NearLosslessRouterStage::encode(
         const auto sample_count = std::uint64_t(width) * height;
         const bool large_image = sample_count >= (8ull << 20);
         const bool ok = large_image
-            ? append_order1_or_raw_stream(payload, stream)
+            ? (router_rans0_byte_streams_enabled()
+                ? append_order0_or_raw_stream(payload, stream)
+                : append_order1_or_raw_stream(payload, stream))
             : append_index_stream(payload, stream, bits);
         if (!ok) {
             payload.clear();

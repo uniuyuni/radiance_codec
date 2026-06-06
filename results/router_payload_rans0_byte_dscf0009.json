@@ -1,0 +1,235 @@
+{
+  "image": "sample_DSCF0009.EXR",
+  "rows": [
+    {
+      "outer_header_bytes": 24,
+      "version": 2,
+      "channels": 3,
+      "shape": [
+        5152,
+        7728,
+        3
+      ],
+      "params": {
+        "y_bits": 8,
+        "chroma_low_bits": 8,
+        "high_bits": 5,
+        "anchor_bits": 10,
+        "low_scale": 2,
+        "low_w": 3864,
+        "low_h": 2576,
+        "dark_refine_bits": 9
+      },
+      "header_bytes": 116,
+      "streams": [
+        {
+          "label": "route_mask",
+          "method": "mask_tiled",
+          "payload_bytes": 929922,
+          "framed_bytes": 929927,
+          "delta_vs_cpu_scale2_bytes": 0
+        },
+        {
+          "label": "high_mask",
+          "method": "mask_tiled",
+          "payload_bytes": 1756652,
+          "framed_bytes": 1756657,
+          "delta_vs_cpu_scale2_bytes": 0
+        },
+        {
+          "label": "y",
+          "method": "rans1",
+          "payload_bytes": 7649234,
+          "framed_bytes": 7649239,
+          "delta_vs_cpu_scale2_bytes": 0
+        },
+        {
+          "label": "co_low",
+          "method": "index_symbol_rans",
+          "payload_bytes": 1321836,
+          "framed_bytes": 1321841,
+          "delta_vs_cpu_scale2_bytes": 0
+        },
+        {
+          "label": "cg_low",
+          "method": "index_symbol_rans",
+          "payload_bytes": 1621914,
+          "framed_bytes": 1621919,
+          "delta_vs_cpu_scale2_bytes": 0
+        },
+        {
+          "label": "co_high",
+          "method": "index_symbol_rans",
+          "payload_bytes": 563664,
+          "framed_bytes": 563669,
+          "delta_vs_cpu_scale2_bytes": 0
+        },
+        {
+          "label": "cg_high",
+          "method": "index_symbol_rans",
+          "payload_bytes": 667418,
+          "framed_bytes": 667423,
+          "delta_vs_cpu_scale2_bytes": 0
+        },
+        {
+          "label": "signed_r",
+          "method": "index_symbol_rans",
+          "payload_bytes": 3252482,
+          "framed_bytes": 3252487,
+          "delta_vs_cpu_scale2_bytes": 0
+        },
+        {
+          "label": "signed_g",
+          "method": "index_symbol_rans",
+          "payload_bytes": 2611397,
+          "framed_bytes": 2611402,
+          "delta_vs_cpu_scale2_bytes": 0
+        },
+        {
+          "label": "signed_b",
+          "method": "index_symbol_rans",
+          "payload_bytes": 2924362,
+          "framed_bytes": 2924367,
+          "delta_vs_cpu_scale2_bytes": 0
+        },
+        {
+          "label": "dark_refine_mask",
+          "method": "mask_binary",
+          "payload_bytes": 193848,
+          "framed_bytes": 193853,
+          "delta_vs_cpu_scale2_bytes": 0
+        },
+        {
+          "label": "dark_refine_g",
+          "method": "index_symbol_rans",
+          "payload_bytes": 239224,
+          "framed_bytes": 239229,
+          "delta_vs_cpu_scale2_bytes": 0
+        }
+      ],
+      "extras": [],
+      "image": "sample_DSCF0009.EXR",
+      "mode": "metal_guided",
+      "encoded_bytes": 23732129,
+      "encoded_mib": 22.63272190093994,
+      "ratio": 20.132027429987424,
+      "encode_s": 4.3495497920084745,
+      "delta_vs_cpu_scale2_bytes": 0
+    },
+    {
+      "outer_header_bytes": 24,
+      "version": 2,
+      "channels": 3,
+      "shape": [
+        5152,
+        7728,
+        3
+      ],
+      "params": {
+        "y_bits": 8,
+        "chroma_low_bits": 8,
+        "high_bits": 5,
+        "anchor_bits": 10,
+        "low_scale": 2,
+        "low_w": 3864,
+        "low_h": 2576,
+        "dark_refine_bits": 9
+      },
+      "header_bytes": 116,
+      "streams": [
+        {
+          "label": "route_mask",
+          "method": "mask_tiled",
+          "payload_bytes": 929922,
+          "framed_bytes": 929927,
+          "delta_vs_cpu_scale2_bytes": 0
+        },
+        {
+          "label": "high_mask",
+          "method": "mask_tiled",
+          "payload_bytes": 1756652,
+          "framed_bytes": 1756657,
+          "delta_vs_cpu_scale2_bytes": 0
+        },
+        {
+          "label": "y",
+          "method": "rans0",
+          "payload_bytes": 8071312,
+          "framed_bytes": 8071317,
+          "delta_vs_cpu_scale2_bytes": 422078
+        },
+        {
+          "label": "co_low",
+          "method": "index_symbol_rans",
+          "payload_bytes": 1321836,
+          "framed_bytes": 1321841,
+          "delta_vs_cpu_scale2_bytes": 0
+        },
+        {
+          "label": "cg_low",
+          "method": "index_symbol_rans",
+          "payload_bytes": 1621914,
+          "framed_bytes": 1621919,
+          "delta_vs_cpu_scale2_bytes": 0
+        },
+        {
+          "label": "co_high",
+          "method": "index_symbol_rans",
+          "payload_bytes": 563664,
+          "framed_bytes": 563669,
+          "delta_vs_cpu_scale2_bytes": 0
+        },
+        {
+          "label": "cg_high",
+          "method": "index_symbol_rans",
+          "payload_bytes": 667418,
+          "framed_bytes": 667423,
+          "delta_vs_cpu_scale2_bytes": 0
+        },
+        {
+          "label": "signed_r",
+          "method": "index_symbol_rans",
+          "payload_bytes": 3252482,
+          "framed_bytes": 3252487,
+          "delta_vs_cpu_scale2_bytes": 0
+        },
+        {
+          "label": "signed_g",
+          "method": "index_symbol_rans",
+          "payload_bytes": 2611397,
+          "framed_bytes": 2611402,
+          "delta_vs_cpu_scale2_bytes": 0
+        },
+        {
+          "label": "signed_b",
+          "method": "index_symbol_rans",
+          "payload_bytes": 2924362,
+          "framed_bytes": 2924367,
+          "delta_vs_cpu_scale2_bytes": 0
+        },
+        {
+          "label": "dark_refine_mask",
+          "method": "mask_binary",
+          "payload_bytes": 193848,
+          "framed_bytes": 193853,
+          "delta_vs_cpu_scale2_bytes": 0
+        },
+        {
+          "label": "dark_refine_g",
+          "method": "index_symbol_rans",
+          "payload_bytes": 239224,
+          "framed_bytes": 239229,
+          "delta_vs_cpu_scale2_bytes": 0
+        }
+      ],
+      "extras": [],
+      "image": "sample_DSCF0009.EXR",
+      "mode": "metal_guided_rans0_byte",
+      "encoded_bytes": 24154207,
+      "encoded_mib": 23.03524684906006,
+      "ratio": 19.780234225863843,
+      "encode_s": 3.071753834025003,
+      "delta_vs_cpu_scale2_bytes": 422078
+    }
+  ]
+}
