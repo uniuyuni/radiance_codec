@@ -1,97 +1,109 @@
 {
   "notes": [
-    "Metal guided/downsample/high-pass/visual-guard enabled.",
+    "Metal guided/downsample/high-pass/visual-guard paths are supported when available; this run used CPU fallback because no Metal default device was available.",
     "default uses 8x8 tiled route/high masks for decode speed.",
     "default tiled mask modes use packed 2-bit mode streams.",
+    "encode-speed default uses 2x CPU guided estimation; set RADIANCE_CODEC_ROUTER_CPU_GUIDED_SCALE=1 for full-resolution CPU guided.",
+    "display-space visual checks use an encode-side gamma LUT for speed.",
     "timings are single-run wall clock samples and can vary with system load.",
-    "context_size_mode is available with RADIANCE_CODEC_ROUTER_CONTEXT_MASKS=1 when minimum size is preferred."
+    "context-size minimum-size mode should be rebenchmarked separately after the speed-priority CPU changes."
   ],
   "default_tiled_speed": [
     {
-      "image": "sample_1920\\u00d71280.exr",
-      "encoded_mib": 2.721155,
+      "image": "sample_1920×1280.exr",
+      "shape": [
+        1280,
+        1920,
+        3
+      ],
+      "encoded_mib": 2.720942,
       "ratio": 10.336,
-      "encode_s": 0.4,
-      "decode_s": 0.101
+      "encode_s": 0.443,
+      "decode_s": 0.102
     },
     {
       "image": "sample_DSCF0009.EXR",
-      "encoded_mib": 22.678617,
-      "ratio": 20.091,
-      "encode_s": 4.688,
-      "decode_s": 1.132
-    },
-    {
-      "image": "sample_DSCF0009_denoise.exr",
-      "encoded_mib": 37.273726,
-      "ratio": 12.552,
-      "encode_s": 4.494,
-      "decode_s": 1.165
-    },
-    {
-      "image": "sample_bright_park.EXR",
-      "encoded_mib": 22.211626,
-      "ratio": 20.514,
-      "encode_s": 6.51,
-      "decode_s": 1.695
-    },
-    {
-      "image": "sample_hilberts-mill-conference-room_2K.exr",
-      "encoded_mib": 1.499251,
-      "ratio": 21.344,
-      "encode_s": 0.457,
-      "decode_s": 0.088
-    },
-    {
-      "image": "sample_middle_flower.EXR",
-      "encoded_mib": 18.566085,
-      "ratio": 24.542,
-      "encode_s": 5.523,
-      "decode_s": 1.728
-    }
-  ],
-  "context_size_mode": [
-    {
-      "image": "sample_1920\\u00d71280.exr",
-      "encoded_mib": 2.732368,
-      "ratio": 10.293,
-      "encode_s": 0.392,
-      "decode_s": 0.129
-    },
-    {
-      "image": "sample_DSCF0009.EXR",
-      "encoded_mib": 22.53931,
-      "ratio": 20.215,
-      "encode_s": 3.762,
-      "decode_s": 1.43
-    },
-    {
-      "image": "sample_DSCF0009_denoise.exr",
-      "encoded_mib": 37.206079,
-      "ratio": 12.574,
-      "encode_s": 4.215,
-      "decode_s": 1.382
+      "shape": [
+        5152,
+        7728,
+        3
+      ],
+      "encoded_mib": 22.924754,
+      "ratio": 19.876,
+      "encode_s": 3.134,
+      "decode_s": 1.04
     },
     {
       "image": "sample_bright_park.EXR",
-      "encoded_mib": 22.068728,
-      "ratio": 20.647,
-      "encode_s": 3.209,
-      "decode_s": 1.53
+      "shape": [
+        5152,
+        7728,
+        3
+      ],
+      "encoded_mib": 21.637939,
+      "ratio": 21.058,
+      "encode_s": 2.947,
+      "decode_s": 1.153
+    },
+    {
+      "image": "sample_cat_noisy.EXR",
+      "shape": [
+        5152,
+        7728,
+        3
+      ],
+      "encoded_mib": 54.093385,
+      "ratio": 8.423,
+      "encode_s": 3.647,
+      "decode_s": 1.332
     },
     {
       "image": "sample_hilberts-mill-conference-room_2K.exr",
-      "encoded_mib": 1.481643,
-      "ratio": 21.598,
-      "encode_s": 0.335,
-      "decode_s": 0.109
+      "shape": [
+        1024,
+        2048,
+        4
+      ],
+      "encoded_mib": 1.499049,
+      "ratio": 21.347,
+      "encode_s": 0.407,
+      "decode_s": 0.084
+    },
+    {
+      "image": "sample_light_snow.EXR",
+      "shape": [
+        4000,
+        6000,
+        3
+      ],
+      "encoded_mib": 10.791146,
+      "ratio": 25.452,
+      "encode_s": 1.817,
+      "decode_s": 0.675
     },
     {
       "image": "sample_middle_flower.EXR",
-      "encoded_mib": 18.561809,
-      "ratio": 24.547,
-      "encode_s": 2.932,
-      "decode_s": 1.542
+      "shape": [
+        7728,
+        5152,
+        3
+      ],
+      "encoded_mib": 17.651114,
+      "ratio": 25.814,
+      "encode_s": 3.011,
+      "decode_s": 1.125
+    },
+    {
+      "image": "sample_night_city.EXR",
+      "shape": [
+        6225,
+        8278,
+        3
+      ],
+      "encoded_mib": 29.551679,
+      "ratio": 19.956,
+      "encode_s": 5.238,
+      "decode_s": 1.368
     }
   ]
 }

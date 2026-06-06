@@ -117,6 +117,15 @@ std::uint8_t router_mask_tile_size() noexcept {
     return static_cast<std::uint8_t>(value);
 }
 
+std::uint8_t router_cpu_guided_scale() noexcept {
+    const char* raw = std::getenv("RADIANCE_CODEC_ROUTER_CPU_GUIDED_SCALE");
+    if (!raw || !*raw) return 2;
+    char* end = nullptr;
+    const long value = std::strtol(raw, &end, 10);
+    if (end == raw || value < 1 || value > 8) return 2;
+    return static_cast<std::uint8_t>(value);
+}
+
 float env_float_or(const char* name, float fallback) noexcept {
     const char* raw = std::getenv(name);
     if (!raw || !*raw) return fallback;
@@ -552,16 +561,39 @@ float signed_log_dequantize(std::uint32_t q, std::uint8_t bits, float lo, float 
     return std::signbit(rec_t) ? -rec : rec;
 }
 
-float display_component(float v, float white, float gamma) noexcept {
-    if (!std::isfinite(v) || !(white > 0.0f) || !(gamma > 0.0f)) return 0.0f;
-    const float normalized = std::clamp(v / white, 0.0f, 1.0f);
-    return std::pow(normalized, 1.0f / gamma);
+std::vector<float> build_display_lut(float white, float gamma) {
+    constexpr std::size_t kSize = 16384;
+    std::vector<float> lut(kSize + 1, 0.0f);
+    if (!(white > 0.0f) || !(gamma > 0.0f)) return lut;
+    for (std::size_t i = 0; i <= kSize; ++i) {
+        const float normalized = float(i) / float(kSize);
+        lut[i] = std::pow(normalized, 1.0f / gamma);
+    }
+    return lut;
 }
 
-float display_luma(float r, float g, float b, float white, float gamma) noexcept {
-    const float dr = display_component(r, white, gamma);
-    const float dg = display_component(g, white, gamma);
-    const float db = display_component(b, white, gamma);
+float display_component_lut(
+    float v,
+    float white,
+    const std::vector<float>& lut) noexcept {
+    if (!std::isfinite(v) || !(white > 0.0f) || lut.empty()) return 0.0f;
+    const float normalized = std::clamp(v / white, 0.0f, 1.0f);
+    const float pos = normalized * float(lut.size() - 1);
+    const auto lo = static_cast<std::size_t>(pos);
+    const auto hi = std::min<std::size_t>(lo + 1, lut.size() - 1);
+    const float t = pos - float(lo);
+    return lut[lo] * (1.0f - t) + lut[hi] * t;
+}
+
+float display_luma_lut(
+    float r,
+    float g,
+    float b,
+    float white,
+    const std::vector<float>& lut) noexcept {
+    const float dr = display_component_lut(r, white, lut);
+    const float dg = display_component_lut(g, white, lut);
+    const float db = display_component_lut(b, white, lut);
     return 0.2126f * dr + 0.7152f * dg + 0.0722f * db;
 }
 
@@ -2216,53 +2248,130 @@ Status NearLosslessRouterStage::encode(
     }
 #endif
     if (!used_metal_guided) {
-        std::vector<double> guide(pixels);
-        for (std::size_t i = 0; i < pixels; ++i) guide[i] = y_plane[i];
-        std::vector<double> guide_sq(pixels);
+        auto guided_pair = [&](
+            const std::vector<float>& co_input,
+            const std::vector<float>& cg_input,
+            const std::vector<float>& guide,
+            std::uint32_t width,
+            std::uint32_t height) {
+            const auto count = guide.size();
+            std::vector<float> guide_sq(count);
 #ifdef RADIANCE_CODEC_HAS_OPENMP
-#pragma omp parallel for schedule(static) if(pixels > (8u << 20))
+#pragma omp parallel for schedule(static) if(count > (8u << 20))
 #endif
-        for (std::size_t i = 0; i < pixels; ++i) guide_sq[i] = guide[i] * guide[i];
-        const auto guide_moments =
-            box_mean_reflect_pair(guide, guide_sq, meta.width, meta.height, params_.guide_radius);
-        const auto& guide_mean = guide_moments.first;
-        const auto& guide_sq_mean = guide_moments.second;
+            for (std::size_t i = 0; i < count; ++i) guide_sq[i] = guide[i] * guide[i];
+            const auto guide_moments =
+                box_mean_reflect_pair_f32(
+                    guide,
+                    guide_sq,
+                    width,
+                    height,
+                    params_.guide_radius);
+            const auto& guide_mean = guide_moments.first;
+            const auto& guide_sq_mean = guide_moments.second;
 
-        auto guided_low = [&](const std::vector<float>& plane) {
-            std::vector<double> p(pixels), ip(pixels);
+            auto guided_low = [&](const std::vector<float>& plane) {
+                std::vector<float> ip(count);
 #ifdef RADIANCE_CODEC_HAS_OPENMP
-#pragma omp parallel for schedule(static) if(pixels > (8u << 20))
+#pragma omp parallel for schedule(static) if(count > (8u << 20))
 #endif
-            for (std::size_t i = 0; i < pixels; ++i) {
-                p[i] = plane[i];
-                ip[i] = guide[i] * p[i];
-            }
-            auto p_mean = box_mean_reflect(p, meta.width, meta.height, params_.guide_radius);
-            auto ip_mean = box_mean_reflect(ip, meta.width, meta.height, params_.guide_radius);
-            std::vector<double> a(pixels), b(pixels);
+                for (std::size_t i = 0; i < count; ++i) {
+                    ip[i] = guide[i] * plane[i];
+                }
+                auto plane_moments =
+                    box_mean_reflect_pair_f32(
+                        plane,
+                        ip,
+                        width,
+                        height,
+                        params_.guide_radius);
+                const auto& p_mean = plane_moments.first;
+                const auto& ip_mean = plane_moments.second;
+                std::vector<float> a(count), b(count);
 #ifdef RADIANCE_CODEC_HAS_OPENMP
-#pragma omp parallel for schedule(static) if(pixels > (8u << 20))
+#pragma omp parallel for schedule(static) if(count > (8u << 20))
 #endif
-            for (std::size_t i = 0; i < pixels; ++i) {
-                const double var_i = guide_sq_mean[i] - guide_mean[i] * guide_mean[i];
-                const double cov_ip = ip_mean[i] - guide_mean[i] * p_mean[i];
-                a[i] = cov_ip / (var_i + params_.guide_eps);
-                b[i] = p_mean[i] - a[i] * guide_mean[i];
-            }
-            auto a_mean = box_mean_reflect(a, meta.width, meta.height, params_.guide_radius);
-            auto b_mean = box_mean_reflect(b, meta.width, meta.height, params_.guide_radius);
-            std::vector<float> low(pixels);
+                for (std::size_t i = 0; i < count; ++i) {
+                    const float var_i = guide_sq_mean[i] - guide_mean[i] * guide_mean[i];
+                    const float cov_ip = ip_mean[i] - guide_mean[i] * p_mean[i];
+                    a[i] = cov_ip / (var_i + params_.guide_eps);
+                    b[i] = p_mean[i] - a[i] * guide_mean[i];
+                }
+                auto ab_mean =
+                    box_mean_reflect_pair_f32(
+                        a,
+                        b,
+                        width,
+                        height,
+                        params_.guide_radius);
+                const auto& a_mean = ab_mean.first;
+                const auto& b_mean = ab_mean.second;
+                std::vector<float> low(count);
 #ifdef RADIANCE_CODEC_HAS_OPENMP
-#pragma omp parallel for schedule(static) if(pixels > (8u << 20))
+#pragma omp parallel for schedule(static) if(count > (8u << 20))
 #endif
-            for (std::size_t i = 0; i < pixels; ++i) {
-                low[i] = static_cast<float>(a_mean[i] * guide[i] + b_mean[i]);
-            }
-            return low;
+                for (std::size_t i = 0; i < count; ++i) {
+                    low[i] = a_mean[i] * guide[i] + b_mean[i];
+                }
+                return low;
+            };
+
+            return std::pair<std::vector<float>, std::vector<float>>{
+                guided_low(co_input),
+                guided_low(cg_input)};
         };
 
-        co_low = guided_low(co_plane);
-        cg_low = guided_low(cg_plane);
+        const auto cpu_guided_scale = router_cpu_guided_scale();
+        if (cpu_guided_scale > 1 && pixels >= (8ull << 20)) {
+            std::uint32_t guided_w = 0, guided_h = 0;
+            std::uint32_t tmp_w = 0, tmp_h = 0;
+            auto guide_small =
+                block_mean_downsample(
+                    y_plane,
+                    meta.width,
+                    meta.height,
+                    cpu_guided_scale,
+                    guided_w,
+                    guided_h);
+            auto co_small =
+                block_mean_downsample(
+                    co_plane,
+                    meta.width,
+                    meta.height,
+                    cpu_guided_scale,
+                    tmp_w,
+                    tmp_h);
+            auto cg_small =
+                block_mean_downsample(
+                    cg_plane,
+                    meta.width,
+                    meta.height,
+                    cpu_guided_scale,
+                    tmp_w,
+                    tmp_h);
+            auto low_small =
+                guided_pair(co_small, cg_small, guide_small, guided_w, guided_h);
+            co_low.assign(pixels, 0.0f);
+            cg_low.assign(pixels, 0.0f);
+#ifdef RADIANCE_CODEC_HAS_OPENMP
+#pragma omp parallel for schedule(static) if(pixels > (8u << 20))
+#endif
+            for (std::uint32_t y = 0; y < meta.height; ++y) {
+                const auto yy = std::min<std::uint32_t>(guided_h - 1, y / cpu_guided_scale);
+                for (std::uint32_t x = 0; x < meta.width; ++x) {
+                    const auto xx = std::min<std::uint32_t>(guided_w - 1, x / cpu_guided_scale);
+                    const auto src = idx2(guided_w, yy, xx);
+                    const auto dst = idx2(meta.width, y, x);
+                    co_low[dst] = low_small.first[src];
+                    cg_low[dst] = low_small.second[src];
+                }
+            }
+        } else {
+            auto low_full =
+                guided_pair(co_plane, cg_plane, y_plane, meta.width, meta.height);
+            co_low = std::move(low_full.first);
+            cg_low = std::move(low_full.second);
+        }
     }
     std::uint32_t low_w = 0, low_h = 0;
     std::vector<float> co_coarse, cg_coarse;
@@ -2332,15 +2441,8 @@ Status NearLosslessRouterStage::encode(
             co_high[i] = co_plane[i] - co_low[i];
             cg_high[i] = cg_plane[i] - cg_low[i];
         }
-        auto robust_threshold = [&](const std::vector<float>& values) {
-            std::vector<float> tmp = values;
-            const float med = percentile(tmp, 50.0);
-            for (auto& v : tmp) v = std::fabs(v - med);
-            const float mad = percentile(std::move(tmp), 50.0);
-            return std::max(1.4826f * mad * params_.threshold_mult, 1.0e-12f);
-        };
-        const float co_thr = robust_threshold(co_high);
-        const float cg_thr = robust_threshold(cg_high);
+        const float co_thr = sampled_residual_threshold(co_plane, co_low);
+        const float cg_thr = sampled_residual_threshold(cg_plane, cg_low);
 #ifdef RADIANCE_CODEC_HAS_OPENMP
 #pragma omp parallel for schedule(static) if(pixels > (8u << 20))
 #endif
@@ -2351,6 +2453,9 @@ Status NearLosslessRouterStage::encode(
         for (std::size_t i = 0; i < pixels; ++i) cg_high[i] = shrink(cg_high[i], cg_thr);
     }
     trace.lap(used_metal_high_pass ? "high-pass-metal" : "high-pass");
+
+    const auto display_lut =
+        build_display_lut(params_.visual_guard_white, params_.visual_guard_gamma);
 
     auto build_high_mask = [&](const std::vector<std::uint8_t>& mask) {
         std::vector<std::uint8_t> out_mask(pixels, 0);
@@ -2387,7 +2492,6 @@ Status NearLosslessRouterStage::encode(
         const auto base_log_ranges = params_.visual_guard_dilate_radius > 0
             ? masked_signed_log_ranges(in, meta, base_route_mask)
             : std::array<Range, 3>{};
-        const auto safe_log_ranges = full_signed_log_ranges(in, meta);
 
         std::vector<std::uint8_t> guard(pixels, 0);
         auto compute_visual_guard_hit = [&](std::uint32_t y, std::uint32_t x) -> bool {
@@ -2399,12 +2503,7 @@ Status NearLosslessRouterStage::encode(
             float safe[3] = {};
             float cand[3] = {};
             for (std::uint8_t c = 0; c < 3; ++c) {
-                const float original = read_f32(in.data() + base_byte + 4 * c);
-                safe[c] = signed_log_quantize(
-                    original,
-                    params_.anchor_bits,
-                    safe_log_ranges[c].lo,
-                    safe_log_ranges[c].hi);
+                safe[c] = read_f32(in.data() + base_byte + 4 * c);
             }
             if (base_route_mask[i2]) {
                 for (std::uint8_t c = 0; c < 3; ++c) {
@@ -2441,14 +2540,26 @@ Status NearLosslessRouterStage::encode(
                 cand[2] = vst_inverse(tb);
             }
             const float luma_diff = std::fabs(
-                display_luma(cand[0], cand[1], cand[2], params_.visual_guard_white, params_.visual_guard_gamma)
-                - display_luma(safe[0], safe[1], safe[2], params_.visual_guard_white, params_.visual_guard_gamma));
+                display_luma_lut(
+                    cand[0],
+                    cand[1],
+                    cand[2],
+                    params_.visual_guard_white,
+                    display_lut)
+                - display_luma_lut(
+                    safe[0],
+                    safe[1],
+                    safe[2],
+                    params_.visual_guard_white,
+                    display_lut));
             bool hit = luma_diff >= params_.visual_guard_luma_threshold;
             if (!hit && params_.visual_guard_rgb_threshold > 0.0f) {
                 float max_rgb = 0.0f;
                 for (std::uint8_t c = 0; c < 3; ++c) {
-                    const float dc = display_component(cand[c], params_.visual_guard_white, params_.visual_guard_gamma);
-                    const float ds = display_component(safe[c], params_.visual_guard_white, params_.visual_guard_gamma);
+                    const float dc =
+                        display_component_lut(cand[c], params_.visual_guard_white, display_lut);
+                    const float ds =
+                        display_component_lut(safe[c], params_.visual_guard_white, display_lut);
                     max_rgb = std::max(max_rgb, std::fabs(dc - ds));
                 }
                 hit = max_rgb >= params_.visual_guard_rgb_threshold;
@@ -2457,6 +2568,7 @@ Status NearLosslessRouterStage::encode(
         };
 #ifdef RADIANCE_CODEC_HAS_METAL
         if (metal_visual_guard_enabled()) {
+            const auto safe_log_ranges = full_signed_log_ranges(in, meta);
             MetalVisualGuardConfig config;
             config.width = meta.width;
             config.height = meta.height;
@@ -2733,7 +2845,7 @@ Status NearLosslessRouterStage::encode(
                 const float g = read_f32(in.data() + base_byte + 4);
                 const float b = read_f32(in.data() + base_byte + 8);
                 const float source_luma =
-                    display_luma(r, g, b, params_.visual_guard_white, params_.visual_guard_gamma);
+                    display_luma_lut(r, g, b, params_.visual_guard_white, display_lut);
                 if (source_luma >= dark_refine_luma_max) continue;
 
                 float cr = 0.0f, cg = 0.0f, cb = 0.0f;
@@ -2769,18 +2881,20 @@ Status NearLosslessRouterStage::encode(
                     cb = vst_inverse(tb);
                 }
 
-                const float source_lift = display_luma(
-                    r * dark_refine_lift,
-                    g * dark_refine_lift,
-                    b * dark_refine_lift,
-                    params_.visual_guard_white,
-                    params_.visual_guard_gamma);
-                const float cand_lift = display_luma(
-                    cr * dark_refine_lift,
-                    cg * dark_refine_lift,
-                    cb * dark_refine_lift,
-                    params_.visual_guard_white,
-                    params_.visual_guard_gamma);
+                const float source_lift =
+                    display_luma_lut(
+                        r * dark_refine_lift,
+                        g * dark_refine_lift,
+                        b * dark_refine_lift,
+                        params_.visual_guard_white,
+                        display_lut);
+                const float cand_lift =
+                    display_luma_lut(
+                        cr * dark_refine_lift,
+                        cg * dark_refine_lift,
+                        cb * dark_refine_lift,
+                        params_.visual_guard_white,
+                        display_lut);
                 if (std::fabs(cand_lift - source_lift) < dark_refine_diff_threshold) {
                     continue;
                 }
@@ -2807,7 +2921,7 @@ Status NearLosslessRouterStage::encode(
             const float g = read_f32(in.data() + base_byte + 4);
             const float b = read_f32(in.data() + base_byte + 8);
             const float source_luma =
-                display_luma(r, g, b, params_.visual_guard_white, params_.visual_guard_gamma);
+                display_luma_lut(r, g, b, params_.visual_guard_white, display_lut);
             if (source_luma >= dark_refine_luma_max) continue;
 
             float cr = 0.0f, cg = 0.0f, cb = 0.0f;
@@ -2843,18 +2957,20 @@ Status NearLosslessRouterStage::encode(
                 cb = vst_inverse(tb);
             }
 
-            const float source_lift = display_luma(
-                r * dark_refine_lift,
-                g * dark_refine_lift,
-                b * dark_refine_lift,
-                params_.visual_guard_white,
-                params_.visual_guard_gamma);
-            const float cand_lift = display_luma(
-                cr * dark_refine_lift,
-                cg * dark_refine_lift,
-                cb * dark_refine_lift,
-                params_.visual_guard_white,
-                params_.visual_guard_gamma);
+            const float source_lift =
+                display_luma_lut(
+                    r * dark_refine_lift,
+                    g * dark_refine_lift,
+                    b * dark_refine_lift,
+                    params_.visual_guard_white,
+                    display_lut);
+            const float cand_lift =
+                display_luma_lut(
+                    cr * dark_refine_lift,
+                    cg * dark_refine_lift,
+                    cb * dark_refine_lift,
+                    params_.visual_guard_white,
+                    display_lut);
             if (std::fabs(cand_lift - source_lift) < dark_refine_diff_threshold) {
                 continue;
             }
