@@ -1951,6 +1951,7 @@ Status reconstruct_near_lossless_router_v1(
             meta.height,
             params.guide_radius,
             params.guide_eps,
+            true,
             co_low,
             cg_low);
     }
@@ -2239,6 +2240,8 @@ Status NearLosslessRouterStage::encode(
     bool used_metal_guided = false;
 #ifdef RADIANCE_CODEC_HAS_METAL
     if (metal_guided_enabled()) {
+        const bool keep_guided_on_gpu =
+            metal_downsample_enabled() && metal_high_pass_enabled();
         used_metal_guided = metal_guided_low_pair(
             co_plane,
             cg_plane,
@@ -2247,6 +2250,7 @@ Status NearLosslessRouterStage::encode(
             meta.height,
             params_.guide_radius,
             params_.guide_eps,
+            !keep_guided_on_gpu,
             co_low,
             cg_low);
     }
@@ -2380,6 +2384,16 @@ Status NearLosslessRouterStage::encode(
     std::uint32_t low_w = 0, low_h = 0;
     std::vector<float> co_coarse, cg_coarse;
     bool used_metal_downsample = false;
+    auto ensure_low_materialized = [&]() -> bool {
+        if (co_low.size() == pixels && cg_low.size() == pixels) return true;
+#ifdef RADIANCE_CODEC_HAS_METAL
+        if (used_metal_guided
+            && metal_copy_cached_low_pair(pixels, co_low, cg_low)) {
+            return true;
+        }
+#endif
+        return false;
+    };
 #ifdef RADIANCE_CODEC_HAS_METAL
     if (metal_downsample_enabled()) {
         used_metal_downsample = metal_block_mean_downsample_pair(
@@ -2396,6 +2410,7 @@ Status NearLosslessRouterStage::encode(
     }
 #endif
     if (!used_metal_downsample) {
+        if (!ensure_low_materialized()) return Status::DecompressFailed;
         co_coarse = block_mean_downsample(co_low, meta.width, meta.height, params_.low_scale, low_w, low_h);
         cg_coarse = block_mean_downsample(cg_low, meta.width, meta.height, params_.low_scale, low_w, low_h);
     }
@@ -2423,8 +2438,19 @@ Status NearLosslessRouterStage::encode(
     };
 #ifdef RADIANCE_CODEC_HAS_METAL
     if (metal_high_pass_enabled()) {
-        const float co_thr = sampled_residual_threshold(co_plane, co_low);
-        const float cg_thr = sampled_residual_threshold(cg_plane, cg_low);
+        float co_thr = 0.0f;
+        float cg_thr = 0.0f;
+        const bool used_cached_thresholds = used_metal_guided
+            && metal_cached_residual_threshold_pair(
+                pixels,
+                params_.threshold_mult,
+                co_thr,
+                cg_thr);
+        if (!used_cached_thresholds) {
+            if (!ensure_low_materialized()) return Status::DecompressFailed;
+            co_thr = sampled_residual_threshold(co_plane, co_low);
+            cg_thr = sampled_residual_threshold(cg_plane, cg_low);
+        }
         used_metal_high_pass = metal_high_pass_shrink_pair(
             co_plane,
             cg_plane,
@@ -2438,6 +2464,7 @@ Status NearLosslessRouterStage::encode(
     }
 #endif
     if (!used_metal_high_pass) {
+        if (!ensure_low_materialized()) return Status::DecompressFailed;
 #ifdef RADIANCE_CODEC_HAS_OPENMP
 #pragma omp parallel for schedule(static) if(pixels > (8u << 20))
 #endif
@@ -2613,6 +2640,7 @@ Status NearLosslessRouterStage::encode(
                 cg_coarse,
                 co_high,
                 cg_high,
+                used_metal_guided,
                 used_metal_downsample,
                 used_metal_high_pass,
                 config,

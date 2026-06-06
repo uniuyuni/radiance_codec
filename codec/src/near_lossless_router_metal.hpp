@@ -45,8 +45,20 @@ bool metal_guided_low_pair(
     std::uint32_t height,
     std::uint8_t radius,
     float eps,
+    bool copy_outputs,
     std::vector<float>& first_low,
     std::vector<float>& second_low) noexcept;
+
+bool metal_copy_cached_low_pair(
+    std::size_t count,
+    std::vector<float>& first_low,
+    std::vector<float>& second_low) noexcept;
+
+bool metal_cached_residual_threshold_pair(
+    std::size_t count,
+    float threshold_mult,
+    float& first_threshold,
+    float& second_threshold) noexcept;
 
 bool metal_high_pass_shrink_pair(
     const std::vector<float>& first_plane,
@@ -81,6 +93,7 @@ bool metal_visual_guard(
     const std::vector<float>& cg_coarse,
     const std::vector<float>& co_high,
     const std::vector<float>& cg_high,
+    bool use_cached_guide,
     bool use_cached_coarse_pair,
     bool use_cached_high_pass,
     const MetalVisualGuardConfig& config,
