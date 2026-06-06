@@ -795,21 +795,42 @@ float display_luma_metal(float3 rgb, float white, float gamma) {
     return 0.2126f * r + 0.7152f * g + 0.0722f * b;
 }
 
+float display_component_lut_metal(float v, float white, device const float* display_lut) {
+    if (!isfinite(v) || !(white > 0.0f)) return 0.0f;
+    constexpr uint kDisplayLutSize = 16384u;
+    const float normalized = clamp(v / white, 0.0f, 1.0f);
+    const float pos = normalized * float(kDisplayLutSize);
+    const uint lo = min(uint(pos), kDisplayLutSize);
+    const uint hi = min(lo + 1u, kDisplayLutSize);
+    const float t = pos - float(lo);
+    return display_lut[lo] * (1.0f - t) + display_lut[hi] * t;
+}
+
+float display_luma_lut_metal(float3 rgb, float white, device const float* display_lut) {
+    const float r = display_component_lut_metal(rgb.x, white, display_lut);
+    const float g = display_component_lut_metal(rgb.y, white, display_lut);
+    const float b = display_component_lut_metal(rgb.z, white, display_lut);
+    return 0.2126f * r + 0.7152f * g + 0.0722f * b;
+}
+
 kernel void visual_guard_kernel(
     device const float* raw_or_source_luma [[buffer(0)]],
     device const uchar* base_route_mask [[buffer(1)]],
-    device const uchar* base_high_mask [[buffer(2)]],
-    device const float* y_plane [[buffer(3)]],
-    device const float* co_coarse [[buffer(4)]],
-    device const float* cg_coarse [[buffer(5)]],
-    device const float* co_high [[buffer(6)]],
-    device const float* cg_high [[buffer(7)]],
-    device uchar* guard [[buffer(8)]],
-    constant VisualGuardParams& params [[buffer(9)]],
+    device const float* y_plane [[buffer(2)]],
+    device const float* co_coarse [[buffer(3)]],
+    device const float* cg_coarse [[buffer(4)]],
+    device const float* co_high [[buffer(5)]],
+    device const float* cg_high [[buffer(6)]],
+    device uchar* guard [[buffer(7)]],
+    constant VisualGuardParams& params [[buffer(8)]],
+    device const float* display_lut [[buffer(9)]],
     uint gid [[thread_position_in_grid]]) {
     if (gid >= params.count) return;
+    if (base_route_mask[gid] && params.visual_guard_dilate_radius == 0) {
+        guard[gid] = 1;
+        return;
+    }
     guard[gid] = 0;
-    if (base_route_mask[gid] && params.visual_guard_dilate_radius == 0) return;
 
     const uint x = gid % params.width;
     const uint y = gid / params.width;
@@ -840,11 +861,12 @@ kernel void visual_guard_kernel(
             co_coarse[li], params.chroma_low_bits, params.base_co_low_lo, params.base_co_low_hi);
         const float cg_low_q = quantize_value_metal(
             cg_coarse[li], params.chroma_low_bits, params.base_cg_low_lo, params.base_cg_low_hi);
-        const float co_h = base_high_mask[gid]
+        const bool has_high = co_high[gid] != 0.0f || cg_high[gid] != 0.0f;
+        const float co_h = has_high
             ? quantize_value_metal(
                 co_high[gid], params.high_bits, params.base_co_high_lo, params.base_co_high_hi)
             : 0.0f;
-        const float cg_h = base_high_mask[gid]
+        const float cg_h = has_high
             ? quantize_value_metal(
                 cg_high[gid], params.high_bits, params.base_cg_high_lo, params.base_cg_high_hi)
             : 0.0f;
@@ -858,24 +880,18 @@ kernel void visual_guard_kernel(
 
     const float safe_luma = params.use_source_luma
         ? raw_or_source_luma[gid]
-        : display_luma_metal(safe, params.visual_guard_white, params.visual_guard_gamma);
+        : display_luma_lut_metal(safe, params.visual_guard_white, display_lut);
     const float luma_diff = fabs(
-        display_luma_metal(cand, params.visual_guard_white, params.visual_guard_gamma)
+        display_luma_lut_metal(cand, params.visual_guard_white, display_lut)
         - safe_luma);
     bool hit = luma_diff >= params.visual_guard_luma_threshold;
     if (!hit && params.visual_guard_rgb_threshold > 0.0f) {
-        const float dc0 = display_component_metal(
-            cand.x, params.visual_guard_white, params.visual_guard_gamma);
-        const float ds0 = display_component_metal(
-            safe.x, params.visual_guard_white, params.visual_guard_gamma);
-        const float dc1 = display_component_metal(
-            cand.y, params.visual_guard_white, params.visual_guard_gamma);
-        const float ds1 = display_component_metal(
-            safe.y, params.visual_guard_white, params.visual_guard_gamma);
-        const float dc2 = display_component_metal(
-            cand.z, params.visual_guard_white, params.visual_guard_gamma);
-        const float ds2 = display_component_metal(
-            safe.z, params.visual_guard_white, params.visual_guard_gamma);
+        const float dc0 = display_component_lut_metal(cand.x, params.visual_guard_white, display_lut);
+        const float ds0 = display_component_lut_metal(safe.x, params.visual_guard_white, display_lut);
+        const float dc1 = display_component_lut_metal(cand.y, params.visual_guard_white, display_lut);
+        const float ds1 = display_component_lut_metal(safe.y, params.visual_guard_white, display_lut);
+        const float dc2 = display_component_lut_metal(cand.z, params.visual_guard_white, display_lut);
+        const float ds2 = display_component_lut_metal(safe.z, params.visual_guard_white, display_lut);
         const float max_rgb = max(max(fabs(dc0 - ds0), fabs(dc1 - ds1)), fabs(dc2 - ds2));
         hit = max_rgb >= params.visual_guard_rgb_threshold;
     }
@@ -935,6 +951,11 @@ struct MetalGuidedContext {
     __strong id<MTLBuffer> guided_guide_plane1 = nil;
     __strong id<MTLBuffer> guided_guide_plane0_mean = nil;
     __strong id<MTLBuffer> guided_guide_plane1_mean = nil;
+    __strong id<MTLBuffer> visual_raw_or_luma = nil;
+    __strong id<MTLBuffer> visual_route_mask = nil;
+    __strong id<MTLBuffer> visual_guard_mask = nil;
+    __strong id<MTLBuffer> visual_params_buffer = nil;
+    __strong id<MTLBuffer> visual_display_lut = nil;
     bool ok = false;
 
     MetalGuidedContext() {
@@ -1340,8 +1361,6 @@ bool metal_guided_low_pair(
         ctx->cached_first_coarse = nil;
         ctx->cached_second_coarse = nil;
         ctx->cached_coarse_count = 0;
-        ctx->cached_first_high = nil;
-        ctx->cached_second_high = nil;
         ctx->cached_high_count = 0;
         metal_trace("guided-low completed");
         return true;
@@ -1438,8 +1457,10 @@ bool metal_guided_low_downsample_pair(
             reusable_buffer(ctx->device, ctx->cached_first_low, bytes);
         id<MTLBuffer> second_work_buffer =
             reusable_buffer(ctx->device, ctx->cached_second_low, bytes);
-        id<MTLBuffer> first_coarse_buffer = make_buffer(ctx->device, out_bytes);
-        id<MTLBuffer> second_coarse_buffer = make_buffer(ctx->device, out_bytes);
+        id<MTLBuffer> first_coarse_buffer =
+            reusable_buffer(ctx->device, ctx->cached_first_coarse, out_bytes);
+        id<MTLBuffer> second_coarse_buffer =
+            reusable_buffer(ctx->device, ctx->cached_second_coarse, out_bytes);
         if (!params_buffer || !down_params_buffer || !guide_buffer
             || (!use_structured_r2 && !guide_sq_buffer)
             || !guide_mean || !guide_sq_mean || !tmp0 || !tmp1 || !tmp2 || !tmp3
@@ -1637,8 +1658,6 @@ bool metal_guided_low_downsample_pair(
         ctx->cached_first_coarse = first_coarse_buffer;
         ctx->cached_second_coarse = second_coarse_buffer;
         ctx->cached_coarse_count = out_count;
-        ctx->cached_first_high = nil;
-        ctx->cached_second_high = nil;
         ctx->cached_high_count = 0;
         metal_trace("guided-downsample completed");
         return true;
@@ -1757,8 +1776,10 @@ bool metal_high_pass_shrink_pair(
         id<MTLBuffer> second_low_buffer = can_use_cached_low
             ? ctx->cached_second_low
             : make_buffer_with_bytes(ctx->device, second_low.data(), bytes);
-        id<MTLBuffer> first_high_buffer = make_buffer(ctx->device, bytes);
-        id<MTLBuffer> second_high_buffer = make_buffer(ctx->device, bytes);
+        id<MTLBuffer> first_high_buffer =
+            reusable_buffer(ctx->device, ctx->cached_first_high, bytes);
+        id<MTLBuffer> second_high_buffer =
+            reusable_buffer(ctx->device, ctx->cached_second_high, bytes);
         id<MTLBuffer> params_buffer = make_buffer_with_bytes(ctx->device, &params, sizeof(params));
         if (!first_plane_buffer || !second_plane_buffer || !first_low_buffer || !second_low_buffer
             || !first_high_buffer || !second_high_buffer || !params_buffer) {
@@ -1918,13 +1939,13 @@ bool metal_visual_guard(
     const std::uint8_t* raw,
     std::size_t raw_size,
     const std::vector<std::uint8_t>& base_route_mask,
-    const std::vector<std::uint8_t>& base_high_mask,
     const std::vector<float>& y_plane,
     const std::vector<float>& co_coarse,
     const std::vector<float>& cg_coarse,
     const std::vector<float>& co_high,
     const std::vector<float>& cg_high,
     const std::vector<float>& source_display_luma,
+    const std::vector<float>& display_lut,
     bool use_cached_guide,
     bool use_cached_coarse_pair,
     bool use_cached_high_pass,
@@ -1938,12 +1959,14 @@ bool metal_visual_guard(
     const auto count = config.count;
     if (std::uint64_t(config.width) * config.height != count) return false;
     if (raw_size < std::size_t(count) * config.channels * sizeof(float)) return false;
-    if (base_route_mask.size() != count || base_high_mask.size() != count
-        || y_plane.size() != count || co_high.size() != count || cg_high.size() != count) {
+    if (base_route_mask.size() != count || y_plane.size() != count
+        || co_high.size() != count || cg_high.size() != count) {
         return false;
     }
     const auto low_count = std::size_t(config.low_w) * config.low_h;
     if (co_coarse.size() != low_count || cg_coarse.size() != low_count) return false;
+    constexpr std::size_t kExpectedDisplayLutSize = 16385;
+    if (display_lut.size() != kExpectedDisplayLutSize) return false;
 
     MetalGuidedContext* ctx = context();
     if (!ctx) {
@@ -1993,15 +2016,18 @@ bool metal_visual_guard(
         const std::size_t full_float_bytes = std::size_t(count) * sizeof(float);
         const std::size_t low_float_bytes = low_count * sizeof(float);
         id<MTLBuffer> raw_buffer = use_source_luma
-            ? make_buffer_with_bytes(
+            ? reusable_buffer_with_bytes(
                 ctx->device,
+                ctx->visual_raw_or_luma,
                 source_display_luma.data(),
                 std::size_t(count) * sizeof(float))
-            : make_buffer_with_bytes(ctx->device, raw, raw_size);
+            : reusable_buffer_with_bytes(ctx->device, ctx->visual_raw_or_luma, raw, raw_size);
         id<MTLBuffer> base_route_buffer =
-            make_buffer_with_bytes(ctx->device, base_route_mask.data(), base_route_mask.size());
-        id<MTLBuffer> base_high_buffer =
-            make_buffer_with_bytes(ctx->device, base_high_mask.data(), base_high_mask.size());
+            reusable_buffer_with_bytes(
+                ctx->device,
+                ctx->visual_route_mask,
+                base_route_mask.data(),
+                base_route_mask.size());
         const bool can_use_cached_guide = use_cached_guide
             && ctx->cached_guide_plane
             && ctx->cached_plane_count == count;
@@ -2028,11 +2054,17 @@ bool metal_visual_guard(
         id<MTLBuffer> cg_high_buffer = can_use_cached_high
             ? ctx->cached_second_high
             : make_buffer_with_bytes(ctx->device, cg_high.data(), full_float_bytes);
-        id<MTLBuffer> guard_buffer = make_buffer(ctx->device, count);
-        id<MTLBuffer> params_buffer = make_buffer_with_bytes(ctx->device, &params, sizeof(params));
-        if (!raw_buffer || !base_route_buffer || !base_high_buffer || !y_buffer
+        id<MTLBuffer> guard_buffer = reusable_buffer(ctx->device, ctx->visual_guard_mask, count);
+        id<MTLBuffer> params_buffer = reusable_buffer_with_bytes(
+            ctx->device, ctx->visual_params_buffer, &params, sizeof(params));
+        id<MTLBuffer> display_lut_buffer = reusable_buffer_with_bytes(
+            ctx->device,
+            ctx->visual_display_lut,
+            display_lut.data(),
+            display_lut.size() * sizeof(float));
+        if (!raw_buffer || !base_route_buffer || !y_buffer
             || !co_coarse_buffer || !cg_coarse_buffer || !co_high_buffer
-            || !cg_high_buffer || !guard_buffer || !params_buffer) {
+            || !cg_high_buffer || !guard_buffer || !params_buffer || !display_lut_buffer) {
             metal_trace("visual-guard buffer allocation failed");
             return false;
         }
@@ -2049,14 +2081,14 @@ bool metal_visual_guard(
         }
         [encoder setBuffer:raw_buffer offset:0 atIndex:0];
         [encoder setBuffer:base_route_buffer offset:0 atIndex:1];
-        [encoder setBuffer:base_high_buffer offset:0 atIndex:2];
-        [encoder setBuffer:y_buffer offset:0 atIndex:3];
-        [encoder setBuffer:co_coarse_buffer offset:0 atIndex:4];
-        [encoder setBuffer:cg_coarse_buffer offset:0 atIndex:5];
-        [encoder setBuffer:co_high_buffer offset:0 atIndex:6];
-        [encoder setBuffer:cg_high_buffer offset:0 atIndex:7];
-        [encoder setBuffer:guard_buffer offset:0 atIndex:8];
-        [encoder setBuffer:params_buffer offset:0 atIndex:9];
+        [encoder setBuffer:y_buffer offset:0 atIndex:2];
+        [encoder setBuffer:co_coarse_buffer offset:0 atIndex:3];
+        [encoder setBuffer:cg_coarse_buffer offset:0 atIndex:4];
+        [encoder setBuffer:co_high_buffer offset:0 atIndex:5];
+        [encoder setBuffer:cg_high_buffer offset:0 atIndex:6];
+        [encoder setBuffer:guard_buffer offset:0 atIndex:7];
+        [encoder setBuffer:params_buffer offset:0 atIndex:8];
+        [encoder setBuffer:display_lut_buffer offset:0 atIndex:9];
         dispatch(encoder, ctx->visual_guard, count);
         [encoder endEncoding];
         [command commit];
@@ -2066,7 +2098,7 @@ bool metal_visual_guard(
             return false;
         }
 
-        guard.assign(count, 0);
+        guard.resize(count);
         std::memcpy(guard.data(), [guard_buffer contents], count);
         metal_trace("visual-guard completed");
         return true;

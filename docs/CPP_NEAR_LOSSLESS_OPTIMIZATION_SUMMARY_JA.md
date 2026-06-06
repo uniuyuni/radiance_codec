@@ -37,6 +37,7 @@ visual guard` 系を維持し、容量よりエンコード速度を優先して
 | current payload opt | 23,704,128 B / 22.61 MiB | 20.16x | 4.02s | - | 測定時に裏作業あり、容量は改善 |
 | guided/downsample fused | 23,704,285 B / 22.61 MiB | 20.16x | 4.40s | - | guided と downsample を同一command化 |
 | guided r2 structural | 23,704,278 B / 22.61 MiB | 20.16x | 2.79s | - | radius=2構造変更、dispatch削減 |
+| 2s target push | 23,704,758 B / 22.61 MiB | 20.16x | 2.20s warm / 2.02s C++ trace | - | visual/payload/buffer再利用、安定2秒切りは未達 |
 
 注意: encode/decode 時間は単発 wall time で、Metal 初期化、システム負荷、裏タスクの影響を受ける。
 容量と stream method は安定値として扱える。
@@ -318,6 +319,68 @@ DSCF trace の代表値:
 
 `sample_light_snow.exr` は最終版で encode/decode を確認済み。
 decode結果は shape `(4000, 6000, 3)`、全値finite。
+
+## 2秒目標への追加push
+
+`visual-metal` が単発で1秒前後に見える回があり、DSCF全体を
+「きれいに走って2秒」へ寄せる目的で、さらにhot pathを削った。
+
+採用した変更:
+
+- Metal visual guard の表示輝度計算を `pow()` からCPUと同じ display LUT 補間へ変更。
+- `base_high_mask` のCPU生成とMetal転送をやめ、kernel内で
+  `co_high != 0 || cg_high != 0` を判定。
+- `visual_guard_dilate_radius == 0` では、Metalからguard差分ではなく最終 `route_mask`
+  を直接返し、CPU側のdilate/OR mergeを飛ばす。
+- `source_display_luma` をvisual guard直前の全画素再スキャンではなく、
+  最初のRGB読み取り/plane生成パスで作る。
+- `indices` 生成で、route画素の signed-log index を別ループにせず、
+  `Y/high` index 生成ループへ融合。
+- `Y` payloadのorder1 rANS用histogramを、予測残差byte stream生成と同時に作り、
+  rANS側の追加histogram passを省く。
+- Metalのcoarse/high/visual guard系bufferを再利用し、連続実行時のbuffer確保揺れを減らす。
+- dark refine候補maskを最初のRGB読み取りパスで作り、dark refine本体では
+  候補外画素のRGB再読を避ける。
+
+DSCFの到達点:
+
+| condition | encoded | encode |
+|---|---:|---:|
+| traceなし 6連続、温まり後best | 23,704,758 B / 22.6066 MiB | 2.20-2.25s |
+| traceあり温まり後best | 23,704,758 B / 22.6066 MiB | C++ internal 2.016s / Python wall 2.258s |
+| 連続実行の典型レンジ | 同上 | 約2.2-3.2s、負荷が乗ると4s級 |
+
+light_snowの到達点:
+
+| condition | encoded | encode |
+|---|---:|---:|
+| traceあり | 11,484,097 B / 10.9521 MiB | C++ internal 1.256s / Python wall 1.398s |
+
+観察:
+
+- サイズはguided r2構造変更時点からDSCFで `+480 B`、light_snowで `+12 B`。
+  LUT補間とroute mergeの境界差によるもので、容量影響は無視できる範囲。
+- `visual-metal` はlight_snowで約 `151ms`、DSCFの良い回で約 `257-297ms`。
+  以前の「1秒前後」の主因はvisual kernel単体というより、Metal/CPUスケジューリングと
+  buffer確保/メモリ帯域の揺れが重なったものと見る。
+- 2秒切りはC++内部ではほぼ到達したが、Python API境界とbytes生成込みのwall timeでは
+  まだ安定して切れていない。
+
+試したが採用しなかった速度優先案:
+
+- `RADIANCE_CODEC_ROUTER_RANS0_BYTE_STREAMS=1`
+  - DSCFで `23.01 MiB` まで増える。
+  - 温まり後でも約 `2.21-2.29s` で、2秒切りの決定打ではなかった。
+- `Y` を `index_symbol_rans` 化する実験
+  - DSCFでほぼ同じく `23.01 MiB` 級に増える。
+  - payload `y` も速くならず、戻した。
+
+次の本命:
+
+- `Y` payloadの形式は維持したまま、order1 rANS encode自体を速くする。
+- もしくは `Y` 専用の軽い2D予測/entropy形式を追加し、`+0.4 MiB` より小さい容量増で
+  payload時間を200ms以上削る。
+- API境界のbytes copyを減らせるなら、C++内部2.0sとPython wall 2.2sの差も詰められる。
 
 ## 試したが戻したもの
 
