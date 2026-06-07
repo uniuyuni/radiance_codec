@@ -18,6 +18,9 @@
 - `results/router_speed_guided_downsample_fused_dscf0009.json`
 - `results/router_speed_guided_struct_r2_dscf0009.json`
 - `results/router_speed_guided_struct_r2_light_snow.json`
+- `results/sample_near_lossless_router_current_best_20260607_repeat3.json`
+- `results/router_dark_smooth_bypass_baseline_20260607.json`
+- `results/router_dark_smooth_bypass_t0003_20260607.json`
 
 ## 現在の結論
 
@@ -381,6 +384,73 @@ light_snowの到達点:
 - もしくは `Y` 専用の軽い2D予測/entropy形式を追加し、`+0.4 MiB` より小さい容量増で
   payload時間を200ms以上削る。
 - API境界のbytes copyを減らせるなら、C++内部2.0sとPython wall 2.2sの差も詰められる。
+
+## sample_* 再計測と dark smooth bypass
+
+2026-06-07 に、現行 `metal_all_current_best` を全 `sample_*` EXRで再計測した。
+計測ポリシーは「1 warm-up + 3 timed runs」の中央値で、結果は
+`results/sample_near_lossless_router_current_best_20260607_repeat3.json` に保存した。
+
+| image | encoded | ratio | encode median | encode min-max | decode median |
+|---|---:|---:|---:|---:|---:|
+| `sample_1920×1280.exr` | 2.721 MiB | 10.34x | 0.273s | 0.267-0.298s | 0.102s |
+| `sample_DSCF0009.EXR` | 22.607 MiB | 20.16x | 2.415s | 2.361-2.707s | 1.027s |
+| `sample_bright_park.EXR` | 22.210 MiB | 20.52x | 2.299s | 2.297-2.299s | 1.128s |
+| `sample_cat_noisy.EXR` | 54.182 MiB | 8.41x | 2.833s | 2.832-2.868s | 1.249s |
+| `sample_hilberts-mill-conference-room_2K.exr` | 1.500 MiB | 21.34x | 0.287s | 0.282-0.289s | 0.087s |
+| `sample_light_snow.EXR` | 10.952 MiB | 25.08x | 1.219s | 1.185-1.270s | 0.647s |
+| `sample_middle_flower.EXR` | 18.565 MiB | 24.54x | 2.124s | 2.107-2.219s | 1.099s |
+| `sample_night_city.EXR` | 28.524 MiB | 20.67x | 4.020s | 3.335-4.346s | 1.381s |
+
+観察:
+
+- `sample_night_city.EXR` は暗くてノイズが少ない素直な画像だが、
+  raw size が約589.7 MiBと大きく、さらに route/signed 系のstreamが重く出た。
+- `sample_cat_noisy.EXR` は暗さではなく高周波ノイズが支配的で、
+  encoded size も54 MiB級まで膨らむ。
+- 「暗い画像」と一括りにするより、暗さと local noise/highpass を分ける方が
+  routerの判断に合う。
+
+簡易 highpass 統計では、`night_city` と `cat_noisy` は輝度中央値が近い一方で、
+local highpass median は `cat_noisy` が約4倍大きい。
+このため、暗部判定にlocal noise strengthを入れる小実験を行った。
+
+追加した実験用スイッチ:
+
+- `RADIANCE_CODEC_ROUTER_DARK_SMOOTH_BYPASS=1`
+- `RADIANCE_CODEC_ROUTER_DARK_NOISE_THRESHOLD=<float>`、今回の採用候補は `0.003`
+
+動作:
+
+- 既存の `dark_mask && smooth` は、暗くてsmoothな領域をanchor route側に入れる。
+- bypass有効時は、暗くてsmoothかつ4近傍log-luma highpassが閾値以下の画素を
+  anchor routeから外し、通常のlow/high経路へ戻す。
+- highpassが大きい暗部ノイズは従来通り保護側へ残すため、
+  `sample_cat_noisy.EXR` にはほぼ影響しない。
+
+3枚での比較:
+
+| image | baseline encoded | bypass t=0.003 encoded | baseline encode | bypass encode | note |
+|---|---:|---:|---:|---:|---|
+| `sample_night_city.EXR` | 28.524 MiB / 20.67x | 20.146 MiB / 29.27x | 4.051s | 3.610s | 大幅に軽量化、視覚差は縮小previewでは小さい |
+| `sample_cat_noisy.EXR` | 54.182 MiB / 8.41x | 54.171 MiB / 8.41x | 2.903s | 2.740s | ほぼ不変、ノイズ画像を追加で崩さない |
+| `sample_DSCF0009.EXR` | 22.607 MiB / 20.16x | 18.379 MiB / 24.79x | 2.399s | 2.383s | 容量改善、暗い床cropには軽い誤差増加あり |
+
+`RADIANCE_CODEC_ROUTER_DARK_NOISE_THRESHOLD=0.006` も試したが、
+`night_city` は `19.247 MiB / 2.804s` まで速くなる一方、
+DSCFの暗い床cropでザラつきがやや見えたため、現時点では `0.003` の方がバランスが良い。
+
+視覚確認:
+
+- `scripts/diagnose_router_artifacts.py` を追加し、巨大PNGではなく縮小previewと512px cropだけを生成する。
+- `outputs/previews/router_dark_smooth_bypass/contact_sheets/` に、採用候補 `t=0.003` のcontact sheetだけを残した。
+- 古い `outputs/previews` はgit管理外かつ再生成可能だったため、cleanupで削除した。
+
+次の判断:
+
+- `dark smooth bypass` はdefaultにはまだしない。
+- DSCF暗部の軽い誤差増加をもう少し見る必要がある。
+- ただし、暗さだけでなくノイズ強度で分岐する方針は有望。
 
 ## 試したが戻したもの
 

@@ -79,6 +79,12 @@ bool fast_outliers_enabled() noexcept {
     return enabled;
 }
 
+bool router_dark_smooth_bypass_enabled() noexcept {
+    static const bool enabled =
+        std::getenv("RADIANCE_CODEC_ROUTER_DARK_SMOOTH_BYPASS") != nullptr;
+    return enabled;
+}
+
 bool router_order1_streams_enabled() noexcept {
     static const bool enabled = std::getenv("RADIANCE_CODEC_ROUTER_NO_ORDER1_STREAMS") == nullptr;
     return enabled;
@@ -2023,6 +2029,29 @@ Status reconstruct_near_lossless_router_v1(
         box_mean_reflect_pair(luma_log, luma_log_sq, meta.width, meta.height, params.mask_radius);
     const auto& mean = luma_moments.first;
     const auto& mean_sq = luma_moments.second;
+    const bool dark_smooth_bypass = router_dark_smooth_bypass_enabled();
+    const double dark_noise_threshold = env_float_or(
+        "RADIANCE_CODEC_ROUTER_DARK_NOISE_THRESHOLD",
+        0.006f);
+    std::vector<double> dark_noise;
+    if (dark_smooth_bypass) {
+        dark_noise.assign(pixels, 0.0);
+#ifdef RADIANCE_CODEC_HAS_OPENMP
+#pragma omp parallel for schedule(static) if(pixels > (8u << 20))
+#endif
+        for (std::int64_t yy = 1; yy < static_cast<std::int64_t>(meta.height) - 1; ++yy) {
+            const auto y = static_cast<std::uint32_t>(yy);
+            for (std::uint32_t x = 1; x + 1 < meta.width; ++x) {
+                const auto i2 = idx2(meta.width, y, x);
+                const double neighbor_avg =
+                    (luma_log[idx2(meta.width, y - 1, x)]
+                     + luma_log[idx2(meta.width, y + 1, x)]
+                     + luma_log[idx2(meta.width, y, x - 1)]
+                     + luma_log[idx2(meta.width, y, x + 1)]) * 0.25;
+                dark_noise[i2] = std::fabs(luma_log[i2] - neighbor_avg);
+            }
+        }
+    }
     std::uint64_t dark_count = 0;
 #ifdef RADIANCE_CODEC_HAS_OPENMP
 #pragma omp parallel for reduction(+:dark_count) schedule(static) if(pixels > (8u << 20))
@@ -2030,7 +2059,11 @@ Status reconstruct_near_lossless_router_v1(
     for (std::size_t i = 0; i < pixels; ++i) {
         const double var = std::max(0.0, mean_sq[i] - mean[i] * mean[i]);
         const bool smooth = std::sqrt(var) <= params.smooth_threshold;
-        if (dark_mask[i] && smooth) {
+        const bool bypass_smooth_dark =
+            dark_smooth_bypass
+            && smooth
+            && dark_noise[i] <= dark_noise_threshold;
+        if (dark_mask[i] && smooth && !bypass_smooth_dark) {
             route_mask[i] = 1;
             ++dark_count;
         }
@@ -2370,12 +2403,40 @@ Status NearLosslessRouterStage::encode(
         box_mean_reflect_pair_f32(luma_log, luma_log_sq, meta.width, meta.height, params_.mask_radius);
     const auto& mean = luma_moments.first;
     const auto& mean_sq = luma_moments.second;
+    const bool dark_smooth_bypass = router_dark_smooth_bypass_enabled();
+    const float dark_noise_threshold = env_float_or(
+        "RADIANCE_CODEC_ROUTER_DARK_NOISE_THRESHOLD",
+        0.006f);
+    std::vector<float> dark_noise;
+    if (dark_smooth_bypass) {
+        dark_noise.assign(pixels, 0.0f);
+#ifdef RADIANCE_CODEC_HAS_OPENMP
+#pragma omp parallel for schedule(static) if(pixels > (8u << 20))
+#endif
+        for (std::int64_t yy = 1; yy < static_cast<std::int64_t>(meta.height) - 1; ++yy) {
+            const auto y = static_cast<std::uint32_t>(yy);
+            for (std::uint32_t x = 1; x + 1 < meta.width; ++x) {
+                const auto i2 = idx2(meta.width, y, x);
+                const float neighbor_avg =
+                    (luma_log[idx2(meta.width, y - 1, x)]
+                     + luma_log[idx2(meta.width, y + 1, x)]
+                     + luma_log[idx2(meta.width, y, x - 1)]
+                     + luma_log[idx2(meta.width, y, x + 1)]) * 0.25f;
+                dark_noise[i2] = std::fabs(luma_log[i2] - neighbor_avg);
+            }
+        }
+    }
 #ifdef RADIANCE_CODEC_HAS_OPENMP
 #pragma omp parallel for schedule(static) if(pixels > (8u << 20))
 #endif
     for (std::size_t i = 0; i < pixels; ++i) {
         const float var = std::max(0.0f, mean_sq[i] - mean[i] * mean[i]);
-        if (dark_mask[i] && std::sqrt(var) <= params_.smooth_threshold) {
+        const bool smooth = std::sqrt(var) <= params_.smooth_threshold;
+        const bool bypass_smooth_dark =
+            dark_smooth_bypass
+            && smooth
+            && dark_noise[i] <= dark_noise_threshold;
+        if (dark_mask[i] && smooth && !bypass_smooth_dark) {
             route_mask[i] = 1;
         }
     }
