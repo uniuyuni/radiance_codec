@@ -8,6 +8,8 @@ set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+include(GNUInstallDirs)
+include(CMakePackageConfigHelpers)
 
 # Warnings
 if(CMAKE_CXX_COMPILER_ID MATCHES "Clang|GNU")
@@ -38,12 +40,14 @@ add_library(radiance_codec SHARED
     src/near_lossless_router.cpp
     src/c_api.cpp
 )
+target_compile_features(radiance_codec PUBLIC cxx_std_20)
 find_path(ZSTD_INCLUDE_DIR zstd.h)
 find_library(ZSTD_LIBRARY zstd)
 find_package(OpenMP)
 target_include_directories(radiance_codec
     PUBLIC
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+        $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
     PRIVATE
         ${CMAKE_CURRENT_SOURCE_DIR}/src
 )
@@ -74,6 +78,7 @@ endif()
 set_target_properties(radiance_codec PROPERTIES
     OUTPUT_NAME "radiance_codec"
     VERSION ${PROJECT_VERSION}
+    SOVERSION ${PROJECT_VERSION_MAJOR}
 )
 
 # ─── round-trip test executable ───
@@ -125,7 +130,35 @@ target_include_directories(test_near_lossless_router PRIVATE
 
 # ─── install ───
 install(TARGETS radiance_codec
-    LIBRARY DESTINATION lib
-    ARCHIVE DESTINATION lib
+    EXPORT radiance_codecTargets
+    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+    ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
+    RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+    INCLUDES DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
 )
-install(DIRECTORY include/ DESTINATION include)
+install(DIRECTORY include/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
+
+set(radiance_codec_INSTALL_CMAKEDIR
+    ${CMAKE_INSTALL_LIBDIR}/cmake/radiance_codec)
+
+configure_package_config_file(
+    ${CMAKE_CURRENT_SOURCE_DIR}/cmake/radiance_codecConfig.cmake.in
+    ${CMAKE_CURRENT_BINARY_DIR}/radiance_codecConfig.cmake
+    INSTALL_DESTINATION ${radiance_codec_INSTALL_CMAKEDIR}
+)
+write_basic_package_version_file(
+    ${CMAKE_CURRENT_BINARY_DIR}/radiance_codecConfigVersion.cmake
+    VERSION ${PROJECT_VERSION}
+    COMPATIBILITY SameMajorVersion
+)
+install(
+    EXPORT radiance_codecTargets
+    NAMESPACE radiance_codec::
+    DESTINATION ${radiance_codec_INSTALL_CMAKEDIR}
+)
+install(
+    FILES
+        ${CMAKE_CURRENT_BINARY_DIR}/radiance_codecConfig.cmake
+        ${CMAKE_CURRENT_BINARY_DIR}/radiance_codecConfigVersion.cmake
+    DESTINATION ${radiance_codec_INSTALL_CMAKEDIR}
+)

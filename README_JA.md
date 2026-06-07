@@ -4,7 +4,27 @@
 現在の主な入力は IEEE 754 binary32 の interleaved float32 画像データです。
 
 このリポジトリでは、完全 lossless の `GroupedDelta` と、低 mantissa bit を
-制御して圧縮率を上げる near-lossless mode を実装しています。
+制御して圧縮率を上げる near-lossless mode、HDR写真向けの visual near-lossless
+router を実装しています。
+
+## 概要
+
+- C++20 の shared library として `libradiance_codec` をビルドする。
+- C++ API、C ABI、Python ctypes binding から利用できる。
+- 入力は主に `(height, width, channels)` の interleaved float32 HDR画像。
+- 完全lossless、mantissa near-lossless、visual near-lossless router を切り替えて使う。
+- Apple/Metal 環境では router の guided/downsample/high-pass/visual-guard が
+  デフォルトで有効になる。非Metal環境ではCPU fallbackを使う。
+
+## ドキュメント案内
+
+| 文書 | 内容 |
+|---|---|
+| `README_JA.md` | 導入、ビルド、APIの最短ガイド。 |
+| `docs/DETAILED_DESIGN_JA.md` | 全体設計、公開API、frame format、stage構成、運用上の注意。 |
+| `docs/CPP_NEAR_LOSSLESS_OPTIMIZATION_SUMMARY_JA.md` | C++ near-lossless router の最適化ログと現行default。 |
+| `docs/NEAR_LOSSLESS_QUALITY_CRITERIA_JA.md` | near-lossless の品質基準と監査方針。 |
+| `docs/LOSSLESS_RESEARCH_REBOOT.md` | lossless 系研究の大きな流れ。 |
 
 ## 何をするライブラリか
 
@@ -25,6 +45,7 @@ float32 の構造を使います。
 | 最大寄り lossless | `StageGroupedDelta`, `effort=12` |
 | 品質重視 near-lossless | `low_bits=12`, `effort=11` |
 | 圧縮率重視 near-lossless | `low_bits=15`, `effort=11` |
+| 視覚品質重視のHDR写真 near-lossless | `StageNearLosslessRouter`, `effort=11` |
 
 near-lossless は完全復元ではありません。decode 結果は元画像ではなく、
 低 mantissa bit を 0 にした量子化後画像になります。
@@ -133,6 +154,34 @@ Python から使う場合は、まず `pixi run build` してから、このリ�
 PYTHONPATH=codec/python pixi run python your_script.py
 ```
 
+Python package としてインストールする場合は、リポジトリrootで次を実行します。
+
+```bash
+pixi run install-python
+```
+
+wheel を作る場合:
+
+```bash
+pixi run wheel
+```
+
+`setup.py` は CMake/Ninja で `libradiance_codec` をビルドし、Python module と同じ場所へ
+共有ライブラリを同梱します。既にビルド済みのライブラリを使いたい場合は以下を使えます。
+
+```bash
+RADIANCE_CODEC_SKIP_CMAKE_BUILD=1 pixi run python -m pip install .
+RADIANCE_CODEC_LIBRARY=/path/to/libradiance_codec.dylib python your_script.py
+```
+
+開発中の editable install は、共有ライブラリ探索の都合上、先に `pixi run build` してから
+使ってください。
+
+```bash
+pixi run build
+pixi run install-python-editable
+```
+
 ## Python での使い方
 
 ### 完全 lossless
@@ -190,6 +239,44 @@ assert decoded.tobytes() == expected.tobytes()
 `low_bits` は `0..23` です。値を大きくすると圧縮率は上がりやすくなりますが、
 数値誤差も大きくなります。
 
+### Visual near-lossless router
+
+HDR写真向けの現行主力 near-lossless route は `encode_near_lossless_router_v1` です。
+decode 結果は元画像ではなく、router が再構成した候補画像になります。
+
+```python
+import sys
+import numpy as np
+
+sys.path.insert(0, "codec/python")
+import radiance_codec
+
+pixels = np.random.default_rng(2).standard_normal((128, 128, 3)).astype(np.float32)
+
+encoded = radiance_codec.encode_near_lossless_router_v1(pixels, effort=11)
+decoded = radiance_codec.decode(encoded, pixels.shape)
+
+assert decoded.shape == pixels.shape
+assert decoded.dtype == np.float32
+```
+
+現行の Metal guided / downsample / high-pass / visual-guard と dark smooth bypass は
+デフォルトで有効です。比較用に戻す場合は以下を使えます。
+
+```bash
+RADIANCE_CODEC_NO_METAL_GUIDED=1
+RADIANCE_CODEC_NO_METAL_DOWNSAMPLE=1
+RADIANCE_CODEC_NO_METAL_HIGHPASS=1
+RADIANCE_CODEC_NO_METAL_VISUAL_GUARD=1
+RADIANCE_CODEC_ROUTER_NO_DARK_SMOOTH_BYPASS=1
+```
+
+Python binding は未指定時に `OMP_WAIT_POLICY=PASSIVE` / `KMP_BLOCKTIME=0` を設定し、
+OpenMP worker の待機スピンによる encode 時間の揺れを抑えます。
+
+圧縮せずに router の再構成候補と report だけを見るには
+`reconstruct_near_lossless_router_v1(...)` を使います。
+
 ## C++ での使い方
 
 `codec.hpp` を include して、raw float32 bytes を渡します。
@@ -243,6 +330,20 @@ int main() {
 }
 ```
 
+visual near-lossless router を直接使う場合は、stage を
+`StageNearLosslessRouter` にします。
+
+```cpp
+radiance_codec::PipelineConfig cfg{
+    .stages = radiance_codec::StageNearLosslessRouter,
+    .effort = 11,
+    .rans_mode = 1,
+};
+```
+
+現在の frame header には stage/meta が入りますが、decode API には caller 側でも
+`ImageMeta` を渡します。ヘッダと caller meta が一致しない場合は decode に失敗します。
+
 インストール先が `./dist/radiance_codec` の場合、macOS では例えば次のように
 ビルドできます。
 
@@ -257,6 +358,14 @@ c++ -std=c++20 example.cpp \
 
 実行ファイルの場所によって `rpath` は調整してください。開発中は
 `codec/build` を直接指定しても構いません。
+
+CMake project からは install prefix を `CMAKE_PREFIX_PATH` に渡すと
+`find_package` できます。
+
+```cmake
+find_package(radiance_codec CONFIG REQUIRED)
+target_link_libraries(your_target PRIVATE radiance_codec::radiance_codec)
+```
 
 ```bash
 c++ -std=c++20 example.cpp \
@@ -280,6 +389,7 @@ Swift や他言語 FFI 用に C ABI もあります。
 ```c
 radiance_codec_encode(...)
 radiance_codec_decode(...)
+radiance_codec_near_lossless_router_v1_reconstruct(...)
 radiance_codec_buffer_free(...)
 radiance_codec_version()
 ```
@@ -294,10 +404,13 @@ radiance_codec_version()
 | `StageNone` | passthrough / 動作確認 |
 | `StageGroupedDelta` | 現在の主力 lossless codec |
 | `StageMantissaQuantize` | near-lossless 用の前段量子化 |
+| `StageLinearIndex` | transform-index near-lossless 実験 |
+| `StageNearLosslessRouter` | HDR写真向け visual near-lossless router |
 | `StageStructuralContext` | 旧系統の structural context 実験 |
 
 near-lossless では `StageMantissaQuantize | StageGroupedDelta` の組み合わせを使います。
 Python では `encode_near_lossless` がこの組み合わせを内部で指定します。
+visual near-lossless router は `StageNearLosslessRouter` 単独で使います。
 
 ## 注意点
 
@@ -306,7 +419,8 @@ Python では `encode_near_lossless` がこの組み合わせを内部で指定�
   フレームヘッダにも meta は入っていますが、現在の API は caller 側の meta と
   cross-check します。
 - near-lossless は bit-exact ではありません。用途に応じて `low_bits` を選んでください。
-- Python binding はまだパッケージ化されていません。開発ツリー内で使う想定です。
+- Python wheel は CMake build で作った共有ライブラリを同梱します。
+- CMake install は `find_package(radiance_codec CONFIG)` 用の package config も入れます。
 
 ## 関連ドキュメント
 

@@ -413,6 +413,14 @@ def main() -> int:
                 "RADIANCE_CODEC_USE_METAL_DOWNSAMPLE",
                 "RADIANCE_CODEC_USE_METAL_HIGHPASS",
                 "RADIANCE_CODEC_USE_METAL_VISUAL_GUARD",
+                "RADIANCE_CODEC_NO_METAL_GUIDED",
+                "RADIANCE_CODEC_NO_METAL_DOWNSAMPLE",
+                "RADIANCE_CODEC_NO_METAL_HIGHPASS",
+                "RADIANCE_CODEC_NO_METAL_VISUAL_GUARD",
+                "RADIANCE_CODEC_ROUTER_NO_DARK_SMOOTH_BYPASS",
+                "RADIANCE_CODEC_ROUTER_DARK_NOISE_THRESHOLD",
+                "OMP_WAIT_POLICY",
+                "KMP_BLOCKTIME",
             )
         },
         "timing": {

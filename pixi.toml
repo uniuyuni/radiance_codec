@@ -34,6 +34,10 @@ constriction = "*"
 
 [tasks]
 build = { cmd = "cmake -G Ninja -S codec -B codec/build -DCMAKE_BUILD_TYPE=Release && cmake --build codec/build", description = "Build the C++ codec library" }
+install-cmake-local = { cmd = "cmake --install codec/build --prefix dist/radiance_codec", depends-on = ["build"], description = "Install C/C++ headers, library, and CMake package config into dist/radiance_codec" }
+wheel = { cmd = "python -m pip wheel . --no-deps -w dist", description = "Build a Python wheel containing radiance_codec.py and the native shared library" }
+install-python = { cmd = "python -m pip install .", description = "Install the Python package and native shared library into the active environment" }
+install-python-editable = { cmd = "python -m pip install -e .", depends-on = ["build"], description = "Install the Python binding in editable mode using codec/build for the native library" }
 test-codec = { cmd = "codec/build/test_codec", depends-on = ["build"] }
 ml-fetch  = "python ml/fetch_extra_data.py"
 ml-prep   = "python ml/prepare_training_data.py"

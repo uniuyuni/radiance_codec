@@ -53,24 +53,63 @@ bool router_trace_enabled() noexcept {
     return enabled;
 }
 
+bool env_bool_or(const char* name, bool fallback) noexcept {
+    const char* raw = std::getenv(name);
+    if (!raw || !*raw) return fallback;
+    if (raw[0] == '0' || raw[0] == 'n' || raw[0] == 'N'
+        || raw[0] == 'f' || raw[0] == 'F') {
+        return false;
+    }
+    return true;
+}
+
+bool env_default_enabled(const char* legacy_enable_name, const char* disable_name) noexcept {
+    if (env_bool_or(disable_name, false)) return false;
+    return env_bool_or(legacy_enable_name, true);
+}
+
+void configure_router_runtime_defaults() noexcept {
+#ifdef RADIANCE_CODEC_HAS_OPENMP
+    static const bool configured = []() noexcept {
+#if !defined(_WIN32)
+        if (std::getenv("OMP_WAIT_POLICY") == nullptr) {
+            ::setenv("OMP_WAIT_POLICY", "PASSIVE", 0);
+        }
+        if (std::getenv("KMP_BLOCKTIME") == nullptr) {
+            ::setenv("KMP_BLOCKTIME", "0", 0);
+        }
+#endif
+        return true;
+    }();
+    (void)configured;
+#endif
+}
+
 bool metal_guided_enabled() noexcept {
-    static const bool enabled = std::getenv("RADIANCE_CODEC_USE_METAL_GUIDED") != nullptr;
+    static const bool enabled = env_default_enabled(
+        "RADIANCE_CODEC_USE_METAL_GUIDED",
+        "RADIANCE_CODEC_NO_METAL_GUIDED");
     return enabled;
 }
 
 bool metal_visual_guard_enabled() noexcept {
-    static const bool enabled =
-        std::getenv("RADIANCE_CODEC_USE_METAL_VISUAL_GUARD") != nullptr;
+    static const bool enabled = env_default_enabled(
+        "RADIANCE_CODEC_USE_METAL_VISUAL_GUARD",
+        "RADIANCE_CODEC_NO_METAL_VISUAL_GUARD");
     return enabled;
 }
 
 bool metal_high_pass_enabled() noexcept {
-    static const bool enabled = std::getenv("RADIANCE_CODEC_USE_METAL_HIGHPASS") != nullptr;
+    static const bool enabled = env_default_enabled(
+        "RADIANCE_CODEC_USE_METAL_HIGHPASS",
+        "RADIANCE_CODEC_NO_METAL_HIGHPASS");
     return enabled;
 }
 
 bool metal_downsample_enabled() noexcept {
-    static const bool enabled = std::getenv("RADIANCE_CODEC_USE_METAL_DOWNSAMPLE") != nullptr;
+    static const bool enabled = env_default_enabled(
+        "RADIANCE_CODEC_USE_METAL_DOWNSAMPLE",
+        "RADIANCE_CODEC_NO_METAL_DOWNSAMPLE");
     return enabled;
 }
 
@@ -81,7 +120,8 @@ bool fast_outliers_enabled() noexcept {
 
 bool router_dark_smooth_bypass_enabled() noexcept {
     static const bool enabled =
-        std::getenv("RADIANCE_CODEC_ROUTER_DARK_SMOOTH_BYPASS") != nullptr;
+        !env_bool_or("RADIANCE_CODEC_ROUTER_NO_DARK_SMOOTH_BYPASS", false)
+        && env_bool_or("RADIANCE_CODEC_ROUTER_DARK_SMOOTH_BYPASS", true);
     return enabled;
 }
 
@@ -1265,6 +1305,95 @@ bool append_stream(
     return true;
 }
 
+struct EncodeByteModel {
+    std::array<std::uint32_t, 256> freq{};
+    std::array<std::uint32_t, 256> cum{};
+};
+
+void finalize_encode_model(EncodeByteModel& model) noexcept {
+    std::uint32_t c = 0;
+    for (std::uint32_t s = 0; s < 256; ++s) {
+        model.cum[s] = c;
+        c += model.freq[s];
+    }
+}
+
+void build_uniform_encode_model(EncodeByteModel& model) noexcept {
+    constexpr std::uint32_t per_symbol = rans::PROB_SCALE / 256;
+    for (auto& f : model.freq) f = per_symbol;
+    finalize_encode_model(model);
+}
+
+void build_encode_model_from_hist(
+    EncodeByteModel& model,
+    const std::array<std::uint64_t, 256>& hist) noexcept {
+    std::uint64_t total = 0;
+    for (const auto count : hist) total += count;
+    if (total == 0) {
+        build_uniform_encode_model(model);
+        return;
+    }
+
+    std::uint64_t assigned = 0;
+    for (std::uint32_t s = 0; s < 256; ++s) {
+        if (hist[s] == 0) {
+            model.freq[s] = 0;
+            continue;
+        }
+        std::uint64_t f =
+            (hist[s] * std::uint64_t(rans::PROB_SCALE) + total / 2) / total;
+        if (f == 0) f = 1;
+        if (f > rans::PROB_SCALE - 1) f = rans::PROB_SCALE - 1;
+        model.freq[s] = static_cast<std::uint32_t>(f);
+        assigned += f;
+    }
+
+    while (assigned > rans::PROB_SCALE) {
+        std::uint32_t best = 0;
+        for (std::uint32_t s = 1; s < 256; ++s) {
+            if (model.freq[s] > model.freq[best]) best = s;
+        }
+        if (model.freq[best] <= 1) break;
+        --model.freq[best];
+        --assigned;
+    }
+    while (assigned < rans::PROB_SCALE) {
+        std::uint32_t best = 0;
+        for (std::uint32_t s = 1; s < 256; ++s) {
+            if (model.freq[s] > model.freq[best]) best = s;
+        }
+        ++model.freq[best];
+        ++assigned;
+    }
+    finalize_encode_model(model);
+}
+
+std::size_t encode_order1_range_payload_inplace(
+    std::span<const std::uint8_t> plain,
+    std::size_t begin,
+    std::size_t end_index,
+    const std::vector<EncodeByteModel>& models,
+    std::vector<std::uint8_t>& buf) {
+    buf.assign((end_index - begin) * 2 + 32, 0);
+    std::uint8_t* end = buf.data() + buf.size();
+    std::uint8_t* write_ptr = end;
+    std::uint32_t state = rans::RANS_L;
+    for (std::size_t i = end_index; i-- > begin;) {
+        const std::uint8_t s = plain[i];
+        const std::uint8_t prev = (i == 0) ? 0 : plain[i - 1];
+        const auto& model = models[prev];
+        const auto freq = model.freq[s];
+        const auto x_max = ((rans::RANS_L >> rans::PROB_BITS) << 8) * freq;
+        while (state >= x_max) {
+            *(--write_ptr) = static_cast<std::uint8_t>(state & 0xffu);
+            state >>= 8;
+        }
+        state = ((state / freq) << rans::PROB_BITS) + (state % freq) + model.cum[s];
+    }
+    rans::encode_flush(state, write_ptr);
+    return static_cast<std::size_t>(write_ptr - buf.data());
+}
+
 bool append_order1_or_raw_stream_with_hist(
     std::vector<std::uint8_t>& out,
     std::span<const std::uint8_t> plain,
@@ -1276,47 +1405,41 @@ bool append_order1_or_raw_stream_with_hist(
     }
     if (hist.size() != 256) return false;
 
-    std::vector<rans::ByteModel> models(256);
+    std::vector<EncodeByteModel> models(256);
     for (std::uint32_t c = 0; c < 256; ++c) {
-        models[c].build_from_histogram(hist[c]);
+        build_encode_model_from_hist(models[c], hist[c]);
     }
 
-    std::vector<std::uint8_t> buf(plain.size() * 2 + 32);
-    std::uint8_t* end = buf.data() + buf.size();
-    std::uint8_t* write_ptr = end;
-    std::uint32_t state = rans::RANS_L;
-    for (std::size_t i = plain.size(); i-- > 0;) {
-        const std::uint8_t s = plain[i];
-        const std::uint8_t prev = (i == 0) ? 0 : plain[i - 1];
-        rans::encode_renorm_and_put(
-            state,
-            write_ptr,
-            models[prev].cum[s],
-            models[prev].freq[s]);
+    std::vector<std::uint8_t> payload_buf;
+    const auto payload_offset =
+        encode_order1_range_payload_inplace(plain, 0, plain.size(), models, payload_buf);
+    const auto payload_size = payload_buf.size() - payload_offset;
+    const auto compressed_size = std::size_t(1 + 4 + 4 + 256 * 256 * 2) + payload_size;
+    if (compressed_size >= plain.size()) {
+        append_u8(out, kStreamRaw);
+        if (plain.size() > 0xffffffffu) return false;
+        append_u32(out, static_cast<std::uint32_t>(plain.size()));
+        out.reserve(out.size() + plain.size());
+        out.insert(out.end(), plain.begin(), plain.end());
+        return true;
     }
-    rans::encode_flush(state, write_ptr);
-    const auto payload_size = static_cast<std::size_t>(end - write_ptr);
 
-    std::vector<std::uint8_t> compressed;
-    compressed.reserve(1 + 4 + 4 + 256 * 256 * 2 + payload_size);
-    append_u8(compressed, static_cast<std::uint8_t>(RansMode::Order1));
-    append_u32(compressed, static_cast<std::uint32_t>(payload_size));
-    append_u32(compressed, static_cast<std::uint32_t>(plain.size()));
+    out.reserve(out.size() + 1 + 4 + compressed_size);
+    append_u8(out, kStreamRansOrder1);
+    if (compressed_size > 0xffffffffu) return false;
+    append_u32(out, static_cast<std::uint32_t>(compressed_size));
+    append_u8(out, static_cast<std::uint8_t>(RansMode::Order1));
+    append_u32(out, static_cast<std::uint32_t>(payload_size));
+    append_u32(out, static_cast<std::uint32_t>(plain.size()));
     for (std::uint32_t c = 0; c < 256; ++c) {
         for (std::uint32_t s = 0; s < 256; ++s) {
-            append_u16(compressed, static_cast<std::uint16_t>(models[c].freq[s]));
+            append_u16(out, static_cast<std::uint16_t>(models[c].freq[s]));
         }
     }
-    compressed.insert(compressed.end(), write_ptr, end);
-
-    const bool use_rans1 = compressed.size() < plain.size();
-    const auto selected = use_rans1
-        ? std::span<const std::uint8_t>(compressed)
-        : plain;
-    append_u8(out, use_rans1 ? kStreamRansOrder1 : kStreamRaw);
-    if (selected.size() > 0xffffffffu) return false;
-    append_u32(out, static_cast<std::uint32_t>(selected.size()));
-    out.insert(out.end(), selected.begin(), selected.end());
+    out.insert(
+        out.end(),
+        payload_buf.begin() + static_cast<std::ptrdiff_t>(payload_offset),
+        payload_buf.end());
     return true;
 }
 
@@ -1456,6 +1579,38 @@ ByteStreamWithOrder1Hist encode_index_stream_with_order1_hist(
     result.stream.reserve(indices.size() * bytes);
     result.hist.resize(256);
     std::uint8_t prev = 0;
+    if (bytes == 1) {
+        for (std::uint32_t y = 0; y < height; ++y) {
+            const auto row = std::size_t(y) * width;
+            const auto up_row = y > 0 ? row - width : row;
+            for (std::uint32_t x = 0; x < width; ++x) {
+                const auto i = row + x;
+                if (!selected[i]) continue;
+                const bool has_left = x > 0 && selected[i - 1];
+                const bool has_up = y > 0 && selected[up_row + x];
+                const bool has_diag = x > 0 && y > 0 && selected[up_row + x - 1];
+                const auto a = has_left ? static_cast<std::uint32_t>(indices[i - 1]) : 0u;
+                const auto b = has_up ? static_cast<std::uint32_t>(indices[up_row + x]) : a;
+                const auto c = has_diag ? static_cast<std::uint32_t>(indices[up_row + x - 1]) : a;
+                std::uint32_t pred = 0;
+                if (!has_left && !has_up) {
+                    pred = 0;
+                } else if (!has_left) {
+                    pred = b;
+                } else if (!has_up) {
+                    pred = a;
+                } else {
+                    pred = med_predictor(a, b, c);
+                }
+                const auto residual = (indices[i] + mask + 1u - pred) & mask;
+                const auto byte = static_cast<std::uint8_t>(residual & 0xffu);
+                ++result.hist[prev][byte];
+                result.stream.push_back(byte);
+                prev = byte;
+            }
+        }
+        return result;
+    }
     auto append_byte = [&](std::uint8_t b) {
         ++result.hist[prev][b];
         result.stream.push_back(b);
@@ -1985,6 +2140,7 @@ Status reconstruct_near_lossless_router_v1(
     const NearLosslessRouterParams& params,
     std::vector<std::uint8_t>& out,
     NearLosslessRouterReport* report) noexcept {
+    configure_router_runtime_defaults();
     if (meta.format != PixelFormat::Float32) return Status::UnsupportedFormat;
     if (meta.channels < 3 || meta.channels > 4) return Status::UnsupportedFormat;
     if (raw.size() != meta.raw_size()) return Status::SizeMismatch;
@@ -2032,7 +2188,7 @@ Status reconstruct_near_lossless_router_v1(
     const bool dark_smooth_bypass = router_dark_smooth_bypass_enabled();
     const double dark_noise_threshold = env_float_or(
         "RADIANCE_CODEC_ROUTER_DARK_NOISE_THRESHOLD",
-        0.006f);
+        0.003f);
     std::vector<double> dark_noise;
     if (dark_smooth_bypass) {
         dark_noise.assign(pixels, 0.0);
@@ -2304,6 +2460,7 @@ Status NearLosslessRouterStage::encode(
     std::span<const std::uint8_t> in,
     const ImageMeta& meta,
     std::vector<std::uint8_t>& out) noexcept {
+    configure_router_runtime_defaults();
     if (meta.format != PixelFormat::Float32) return Status::UnsupportedFormat;
     if (meta.channels < 3 || meta.channels > 4) return Status::UnsupportedFormat;
     if (in.size() != meta.raw_size()) return Status::SizeMismatch;
@@ -2406,7 +2563,7 @@ Status NearLosslessRouterStage::encode(
     const bool dark_smooth_bypass = router_dark_smooth_bypass_enabled();
     const float dark_noise_threshold = env_float_or(
         "RADIANCE_CODEC_ROUTER_DARK_NOISE_THRESHOLD",
-        0.006f);
+        0.003f);
     std::vector<float> dark_noise;
     if (dark_smooth_bypass) {
         dark_noise.assign(pixels, 0.0f);
@@ -3598,6 +3755,7 @@ Status NearLosslessRouterStage::decode(
     std::span<const std::uint8_t> in,
     const ImageMeta& meta,
     std::vector<std::uint8_t>& out) noexcept {
+    configure_router_runtime_defaults();
     if (meta.format != PixelFormat::Float32) return Status::UnsupportedFormat;
     if (meta.channels < 3 || meta.channels > 4) return Status::UnsupportedFormat;
     const auto pixels = std::size_t(meta.width) * meta.height;

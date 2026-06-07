@@ -440,6 +440,20 @@ local highpass median は `cat_noisy` が約4倍大きい。
 `night_city` は `19.247 MiB / 2.804s` まで速くなる一方、
 DSCFの暗い床cropでザラつきがやや見えたため、現時点では `0.003` の方がバランスが良い。
 
+2026-06-07 追記:
+
+- Metal guided/downsample/high-pass/visual-guard はデフォルトONにした。
+- dark smooth bypass もデフォルトONにし、既定の
+  `RADIANCE_CODEC_ROUTER_DARK_NOISE_THRESHOLD` は `0.003` にした。
+- OpenMP worker の待機スピンが `std::async` payload と競合してencode時間が揺れたため、
+  未指定時は `OMP_WAIT_POLICY=PASSIVE` / `KMP_BLOCKTIME=0` を既定適用する。
+- 比較・退避用のopt-out:
+  `RADIANCE_CODEC_NO_METAL_GUIDED=1`,
+  `RADIANCE_CODEC_NO_METAL_DOWNSAMPLE=1`,
+  `RADIANCE_CODEC_NO_METAL_HIGHPASS=1`,
+  `RADIANCE_CODEC_NO_METAL_VISUAL_GUARD=1`,
+  `RADIANCE_CODEC_ROUTER_NO_DARK_SMOOTH_BYPASS=1`。
+
 視覚確認:
 
 - `scripts/diagnose_router_artifacts.py` を追加し、巨大PNGではなく縮小previewと512px cropだけを生成する。

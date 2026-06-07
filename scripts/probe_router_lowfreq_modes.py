@@ -40,24 +40,45 @@ STREAM_METHODS = {
 
 MODES = {
     "cpu_scale1": {
+        "RADIANCE_CODEC_NO_METAL_GUIDED": "1",
+        "RADIANCE_CODEC_NO_METAL_DOWNSAMPLE": "1",
+        "RADIANCE_CODEC_NO_METAL_HIGHPASS": "1",
+        "RADIANCE_CODEC_NO_METAL_VISUAL_GUARD": "1",
         "RADIANCE_CODEC_ROUTER_CPU_GUIDED_SCALE": "1",
     },
     "cpu_scale2": {
+        "RADIANCE_CODEC_NO_METAL_GUIDED": "1",
+        "RADIANCE_CODEC_NO_METAL_DOWNSAMPLE": "1",
+        "RADIANCE_CODEC_NO_METAL_HIGHPASS": "1",
+        "RADIANCE_CODEC_NO_METAL_VISUAL_GUARD": "1",
         "RADIANCE_CODEC_ROUTER_CPU_GUIDED_SCALE": "2",
     },
     "cpu_scale2_no_order1": {
+        "RADIANCE_CODEC_NO_METAL_GUIDED": "1",
+        "RADIANCE_CODEC_NO_METAL_DOWNSAMPLE": "1",
+        "RADIANCE_CODEC_NO_METAL_HIGHPASS": "1",
+        "RADIANCE_CODEC_NO_METAL_VISUAL_GUARD": "1",
         "RADIANCE_CODEC_ROUTER_CPU_GUIDED_SCALE": "2",
         "RADIANCE_CODEC_ROUTER_NO_ORDER1_STREAMS": "1",
     },
     "metal_guided": {
         "RADIANCE_CODEC_USE_METAL_GUIDED": "1",
+        "RADIANCE_CODEC_NO_METAL_DOWNSAMPLE": "1",
+        "RADIANCE_CODEC_NO_METAL_HIGHPASS": "1",
+        "RADIANCE_CODEC_NO_METAL_VISUAL_GUARD": "1",
     },
     "metal_guided_no_order1": {
         "RADIANCE_CODEC_USE_METAL_GUIDED": "1",
+        "RADIANCE_CODEC_NO_METAL_DOWNSAMPLE": "1",
+        "RADIANCE_CODEC_NO_METAL_HIGHPASS": "1",
+        "RADIANCE_CODEC_NO_METAL_VISUAL_GUARD": "1",
         "RADIANCE_CODEC_ROUTER_NO_ORDER1_STREAMS": "1",
     },
     "metal_guided_rans0_byte": {
         "RADIANCE_CODEC_USE_METAL_GUIDED": "1",
+        "RADIANCE_CODEC_NO_METAL_DOWNSAMPLE": "1",
+        "RADIANCE_CODEC_NO_METAL_HIGHPASS": "1",
+        "RADIANCE_CODEC_NO_METAL_VISUAL_GUARD": "1",
         "RADIANCE_CODEC_ROUTER_RANS0_BYTE_STREAMS": "1",
     },
     "metal_all": {
@@ -195,10 +216,21 @@ def worker(args: argparse.Namespace) -> int:
 
 def run_mode(args: argparse.Namespace, mode: str, env_updates: dict[str, str]) -> dict:
     env = os.environ.copy()
-    for key in list(MODES["metal_all"]) + [
+    for key in [
+        "RADIANCE_CODEC_USE_METAL_GUIDED",
+        "RADIANCE_CODEC_USE_METAL_DOWNSAMPLE",
+        "RADIANCE_CODEC_USE_METAL_HIGHPASS",
+        "RADIANCE_CODEC_USE_METAL_VISUAL_GUARD",
+        "RADIANCE_CODEC_NO_METAL_GUIDED",
+        "RADIANCE_CODEC_NO_METAL_DOWNSAMPLE",
+        "RADIANCE_CODEC_NO_METAL_HIGHPASS",
+        "RADIANCE_CODEC_NO_METAL_VISUAL_GUARD",
         "RADIANCE_CODEC_ROUTER_CPU_GUIDED_SCALE",
         "RADIANCE_CODEC_ROUTER_NO_ORDER1_STREAMS",
         "RADIANCE_CODEC_ROUTER_RANS0_BYTE_STREAMS",
+        "RADIANCE_CODEC_ROUTER_DARK_SMOOTH_BYPASS",
+        "RADIANCE_CODEC_ROUTER_NO_DARK_SMOOTH_BYPASS",
+        "RADIANCE_CODEC_ROUTER_DARK_NOISE_THRESHOLD",
     ]:
         env.pop(key, None)
     env.update(env_updates)

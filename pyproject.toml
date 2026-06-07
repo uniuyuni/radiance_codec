@@ -1,0 +1,22 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "radiance-codec"
+version = "0.0.1"
+description = "Research codec for float32 HDR image compression"
+readme = "README_JA.md"
+requires-python = ">=3.11"
+dependencies = ["numpy"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "Programming Language :: C++",
+    "Programming Language :: Python :: 3",
+    "Topic :: Multimedia :: Graphics",
+]
+
+[tool.setuptools]
+py-modules = ["radiance_codec"]
+package-dir = {"" = "codec/python"}

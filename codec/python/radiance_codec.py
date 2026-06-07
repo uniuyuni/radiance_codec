@@ -14,7 +14,11 @@ from __future__ import annotations
 
 import ctypes
 import enum
+import os
 from pathlib import Path
+
+os.environ.setdefault("OMP_WAIT_POLICY", "PASSIVE")
+os.environ.setdefault("KMP_BLOCKTIME", "0")
 
 import numpy as np
 
@@ -22,12 +26,18 @@ import numpy as np
 # ─── locate the shared library ─────────────────────────────────────
 
 def _find_lib() -> Path:
+    module_dir = Path(__file__).resolve().parent
+    env_path = os.environ.get("RADIANCE_CODEC_LIBRARY")
     candidates = [
-        Path(__file__).resolve().parent.parent / "build" / "libradiance_codec.dylib",
-        Path(__file__).resolve().parent.parent / "build" / "libradiance_codec.so",
+        Path(env_path) if env_path else None,
+        module_dir / "libradiance_codec.dylib",
+        module_dir / "libradiance_codec.so",
+        module_dir / "radiance_codec.dll",
+        module_dir.parent / "build" / "libradiance_codec.dylib",
+        module_dir.parent / "build" / "libradiance_codec.so",
     ]
     for p in candidates:
-        if p.exists():
+        if p is not None and p.exists():
             return p
     raise FileNotFoundError(
         "libradiance_codec not found. Run `pixi run build` first. "

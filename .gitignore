@@ -20,7 +20,7 @@ __pycache__/
 .env.*
 
 # Large local research samples / generated previews
-data/sample_*.EXR
+data/
 outputs/
 
 # ML/generated artifacts
