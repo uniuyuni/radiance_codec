@@ -1967,16 +1967,20 @@ std::vector<Record> choose_records(
     for (auto& payload : payloads) {
         payload.assign(ordered.size(), 0);
     }
-    tail_selectors.clear();
     const auto reserve_tiles_x = (meta.width + kTileSize - 1) / kTileSize;
     const auto reserve_tiles_y = (meta.height + kTileSize - 1) / kTileSize;
-    tail_selectors.reserve(std::size_t(reserve_tiles_x) * reserve_tiles_y);
+    const auto tile_count = std::size_t(reserve_tiles_x) * reserve_tiles_y;
+    tail_selectors.assign(tile_count, 0);
     tail_values.assign(ordered.size(), 0);
 
-    std::vector<Record> records;
+    std::vector<Record> records(tile_count * kGroupCount);
     const KtCostCache kt_costs(kTileSize * kTileSize * meta.channels);
-    for (std::uint32_t y = 0; y < meta.height; y += kTileSize) {
-        for (std::uint32_t x = 0; x < meta.width; x += kTileSize) {
+    const auto process_tile = [&](std::size_t tile_i) {
+            const std::uint32_t tile_y = static_cast<std::uint32_t>(tile_i / reserve_tiles_x);
+            const std::uint32_t tile_x = static_cast<std::uint32_t>(tile_i % reserve_tiles_x);
+            const std::uint32_t y = tile_y * kTileSize;
+            const std::uint32_t x = tile_x * kTileSize;
+            const std::size_t record_base = tile_i * kGroupCount;
             const std::uint32_t tile_h = std::min<std::uint32_t>(
                 kTileSize, meta.height - y);
             const std::uint32_t tile_w = std::min<std::uint32_t>(
@@ -1991,9 +1995,10 @@ std::vector<Record> choose_records(
             bool tile_body_half = false;
 
             for (Group group : {Group::Body, Group::Sign}) {
+                const auto group_index = static_cast<std::size_t>(group);
                 if (group == Group::Sign && tile_body_half) {
-                    records.push_back(
-                        Record{y, x, tile_h, tile_w, group, Mode::XorZero});
+                    records[record_base + group_index] =
+                        Record{y, x, tile_h, tile_w, group, Mode::XorZero};
                     continue;
                 }
                 const auto keep_count = refine_candidate_count(effort);
@@ -2035,12 +2040,12 @@ std::vector<Record> choose_records(
                         best,
                         meta,
                         payloads[static_cast<std::size_t>(group)]);
-                    records.push_back(best);
+                    records[record_base + group_index] = best;
                     if (group == Group::Body && mode_is_half_body(best)) {
                         tile_body_half = true;
                     }
                     if (group == Group::Body) {
-                        tail_selectors.push_back(0);
+                        tail_selectors[tile_i] = 0;
                     }
                     continue;
                 }
@@ -2413,15 +2418,21 @@ std::vector<Record> choose_records(
                     final_record,
                     meta,
                     payloads[static_cast<std::size_t>(group)]);
-                records.push_back(final_record);
+                records[record_base + group_index] = final_record;
                 if (group == Group::Body) {
-                    tail_selectors.push_back(tail_selector);
+                    tail_selectors[tile_i] = tail_selector;
                 }
                 if (group == Group::Body && mode_is_half_body(final_record)) {
                     tile_body_half = true;
                 }
             }
-        }
+    };
+
+#ifdef RADIANCE_CODEC_HAS_OPENMP
+#pragma omp parallel for schedule(dynamic) if(tile_count > 4)
+#endif
+    for (std::int64_t tile_i = 0; tile_i < static_cast<std::int64_t>(tile_count); ++tile_i) {
+        process_tile(static_cast<std::size_t>(tile_i));
     }
     return records;
 }
@@ -2525,13 +2536,6 @@ std::size_t expected_body_tile_count(const ImageMeta& meta) noexcept {
     const auto tiles_x = (meta.width + kTileSize - 1) / kTileSize;
     const auto tiles_y = (meta.height + kTileSize - 1) / kTileSize;
     return std::size_t(tiles_x) * tiles_y;
-}
-
-std::size_t expected_context_family_count(const ImageMeta& meta) noexcept {
-    const auto tiles_x = (meta.width + kTileSize - 1) / kTileSize;
-    const auto tiles_y = (meta.height + kTileSize - 1) / kTileSize;
-    return std::size_t(tiles_x) * tiles_y
-        * (group_bit_count(Group::Body) + group_bit_count(Group::Sign));
 }
 
 std::vector<std::size_t> context_family_offsets(
@@ -3580,9 +3584,15 @@ std::vector<FamilyChoice> choose_context_families(
     const ImageMeta& meta,
     std::uint8_t effort) {
     const KtCostCache kt_costs(kTileSize * kTileSize * meta.channels);
-    std::vector<FamilyChoice> families;
-    families.reserve(expected_context_family_count(meta));
-    for (const Record& record : records) {
+    const auto offsets = context_family_offsets(records);
+    std::vector<FamilyChoice> families(offsets.back());
+#ifdef RADIANCE_CODEC_HAS_OPENMP
+#pragma omp parallel for schedule(dynamic) if(records.size() > 8)
+#endif
+    for (std::int64_t ri = 0; ri < static_cast<std::int64_t>(records.size()); ++ri) {
+        const auto record_index = static_cast<std::size_t>(ri);
+        const Record& record = records[record_index];
+        const auto family_offset = offsets[record_index];
         const auto bit_count = record_bit_count(record);
         for (std::uint8_t bi = 0; bi < bit_count; ++bi) {
             const auto bit = record_bit_at(record, bi);
@@ -3601,7 +3611,7 @@ std::vector<FamilyChoice> choose_context_families(
                     context_family_candidates(record.group, bit, effort),
                     effort);
             }
-            families.push_back(choice);
+            families[family_offset + bi] = choice;
         }
     }
     return families;

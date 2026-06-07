@@ -50,6 +50,12 @@ float32 の構造を使います。
 near-lossless は完全復元ではありません。decode 結果は元画像ではなく、
 低 mantissa bit を 0 にした量子化後画像になります。
 
+codec の方式選択は環境変数ではなく API オプションで行います。Python では
+`radiance_codec.encode(..., stages=..., effort=..., rans_mode=...)`、
+C++ では `PipelineConfig` の `stages` / `effort` / `rans_mode` を指定します。
+環境変数は `OMP_NUM_THREADS` などのスレッド数調整や、実験的な内部挙動の
+切り替えに使います。
+
 ## 必要なもの
 
 推奨環境は pixi です。`pixi.toml` に CMake、Ninja、Python、OpenImageIO、
@@ -260,15 +266,16 @@ assert decoded.shape == pixels.shape
 assert decoded.dtype == np.float32
 ```
 
-現行の Metal guided / downsample / high-pass / visual-guard と dark smooth bypass は
-デフォルトで有効です。比較用に戻す場合は以下を使えます。
+現行の Metal guided / downsample / high-pass / visual-guard はデフォルトで有効です。
+dark smooth bypass は暗部階調に影響しやすいためデフォルトでは無効で、比較実験時だけ
+明示的に有効化します。
 
 ```bash
 RADIANCE_CODEC_NO_METAL_GUIDED=1
 RADIANCE_CODEC_NO_METAL_DOWNSAMPLE=1
 RADIANCE_CODEC_NO_METAL_HIGHPASS=1
 RADIANCE_CODEC_NO_METAL_VISUAL_GUARD=1
-RADIANCE_CODEC_ROUTER_NO_DARK_SMOOTH_BYPASS=1
+RADIANCE_CODEC_ROUTER_DARK_SMOOTH_BYPASS=1
 ```
 
 Python binding は未指定時に `OMP_WAIT_POLICY=PASSIVE` / `KMP_BLOCKTIME=0` を設定し、
@@ -402,6 +409,8 @@ radiance_codec_version()
 | Stage | 用途 |
 |---|---|
 | `StageNone` | passthrough / 動作確認 |
+| `StageRans` | byte stream rANS。`rans_mode` で order0/order1 を選ぶ |
+| `StageBitshuffle | StageRans` | bitshuffle 後に rANS |
 | `StageGroupedDelta` | 現在の主力 lossless codec |
 | `StageMantissaQuantize` | near-lossless 用の前段量子化 |
 | `StageLinearIndex` | transform-index near-lossless 実験 |

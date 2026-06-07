@@ -70,9 +70,14 @@ header と caller meta が一致しない場合は `SizeMismatch` になる。
 推奨例:
 
 - lossless: `StageGroupedDelta`, `effort=11` または `12`
+- lightweight lossless smoke: `StageRans`、または `StageBitshuffle | StageRans`
+  と `rans_mode`
 - mantissa near-lossless: `StageMantissaQuantize | StageGroupedDelta`
 - visual near-lossless: `StageNearLosslessRouter`
 - transform-index near-lossless: `StageLinearIndex`
+
+codec の方式選択は API オプションで行う。環境変数は `OMP_NUM_THREADS` などの
+OpenMP runtime調整や、研究用の内部feature flagに限定する。
 
 ### C ABI
 
@@ -317,22 +322,25 @@ HDR写真向け visual near-lossless router。内部 frame magic は `NLR1`。
 - Metal downsample: ON
 - Metal high-pass: ON
 - Metal visual-guard: ON
-- dark smooth bypass: ON
+- dark smooth bypass: OFF。暗部階調の品質回帰を避けるため、実験時のみ
+  `RADIANCE_CODEC_ROUTER_DARK_SMOOTH_BYPASS=1` で有効化する。
 - dark noise threshold: `0.003`
 - tiled masks: ON
 - order1 byte streams: ON
 - OpenMP wait policy: passive/blocktime 0 if unset
+- OpenMP thread count: runtime側の `OMP_NUM_THREADS` で調整する
 
-主な opt-out:
+主な環境変数:
 
 ```bash
 RADIANCE_CODEC_NO_METAL_GUIDED=1
 RADIANCE_CODEC_NO_METAL_DOWNSAMPLE=1
 RADIANCE_CODEC_NO_METAL_HIGHPASS=1
 RADIANCE_CODEC_NO_METAL_VISUAL_GUARD=1
-RADIANCE_CODEC_ROUTER_NO_DARK_SMOOTH_BYPASS=1
+RADIANCE_CODEC_ROUTER_DARK_SMOOTH_BYPASS=1
 RADIANCE_CODEC_ROUTER_NO_TILED_MASKS=1
 RADIANCE_CODEC_ROUTER_NO_ORDER1_STREAMS=1
+OMP_NUM_THREADS=4
 ```
 
 Metal 実装は Apple/Metal framework が見つかった時のみ `RADIANCE_CODEC_HAS_METAL`

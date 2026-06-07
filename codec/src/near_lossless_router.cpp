@@ -121,7 +121,7 @@ bool fast_outliers_enabled() noexcept {
 bool router_dark_smooth_bypass_enabled() noexcept {
     static const bool enabled =
         !env_bool_or("RADIANCE_CODEC_ROUTER_NO_DARK_SMOOTH_BYPASS", false)
-        && env_bool_or("RADIANCE_CODEC_ROUTER_DARK_SMOOTH_BYPASS", true);
+        && env_bool_or("RADIANCE_CODEC_ROUTER_DARK_SMOOTH_BYPASS", false);
     return enabled;
 }
 

@@ -385,6 +385,30 @@ light_snowの到達点:
   payload時間を200ms以上削る。
 - API境界のbytes copyを減らせるなら、C++内部2.0sとPython wall 2.2sの差も詰められる。
 
+## Lossless GROUPED_DELTA のOpenMP化
+
+near-lossless router にはOpenMPを入れていたが、lossless主力の
+`GROUPED_DELTA` には未導入だった。encodeで重い処理はtileごとのmode searchと
+context family選択なので、以下を並列化した。
+
+- `choose_records`: tile数ぶん先に `records` / `tail_selectors` を確保し、
+  tile単位で `#pragma omp parallel for`。
+- `choose_context_families`: recordごとの出力offsetを先に計算し、record単位で
+  `#pragma omp parallel for`。
+
+crop 512 の bit-exact smoke:
+
+| sample | threads | encoded | ratio | encode | decode |
+|---:|---|---:|---:|---:|---:|
+| 1 | 1 | 440,528 B | 7.14x | 22.12s | 0.16s |
+| 1 | default | 440,528 B | 7.14x | 6.57s | 0.26s |
+| 2 | 1 | 1,997,094 B | 2.10x | 16.64s | 0.28s |
+| 2 | default | 1,997,094 B | 2.10x | 4.25s | 0.28s |
+
+小さめフル入力でも `GROUPED_DELTA effort=11` は bit-exactで戻り、
+encode `56.92s` / decode `1.43s`。まだ速いとは言えないが、前回の
+120秒timeoutからは抜けた。
+
 ## sample_* 再計測と dark smooth bypass
 
 2026-06-07 に、現行 `metal_all_current_best` を全 `sample_*` EXRで再計測した。
@@ -443,16 +467,17 @@ DSCFの暗い床cropでザラつきがやや見えたため、現時点では `0
 2026-06-07 追記:
 
 - Metal guided/downsample/high-pass/visual-guard はデフォルトONにした。
-- dark smooth bypass もデフォルトONにし、既定の
-  `RADIANCE_CODEC_ROUTER_DARK_NOISE_THRESHOLD` は `0.003` にした。
+- dark smooth bypass はDSCFの+3EVシャドウでノイズ感悪化、階調崩れ、黄色のまだらな
+  変色が出たため、defaultにはしない。
+- 実験を続ける場合だけ `RADIANCE_CODEC_ROUTER_DARK_SMOOTH_BYPASS=1` で有効化し、
+  既定の `RADIANCE_CODEC_ROUTER_DARK_NOISE_THRESHOLD` は `0.003` を使う。
 - OpenMP worker の待機スピンが `std::async` payload と競合してencode時間が揺れたため、
   未指定時は `OMP_WAIT_POLICY=PASSIVE` / `KMP_BLOCKTIME=0` を既定適用する。
 - 比較・退避用のopt-out:
   `RADIANCE_CODEC_NO_METAL_GUIDED=1`,
   `RADIANCE_CODEC_NO_METAL_DOWNSAMPLE=1`,
   `RADIANCE_CODEC_NO_METAL_HIGHPASS=1`,
-  `RADIANCE_CODEC_NO_METAL_VISUAL_GUARD=1`,
-  `RADIANCE_CODEC_ROUTER_NO_DARK_SMOOTH_BYPASS=1`。
+  `RADIANCE_CODEC_NO_METAL_VISUAL_GUARD=1`。
 
 視覚確認:
 
