@@ -1,0 +1,161 @@
+{
+  "scope": "full",
+  "preset": "fast",
+  "stage": "BYTEPLANE_RANS",
+  "variant": "filtered-high-byte-west-north",
+  "count": 8,
+  "all_ok": true,
+  "raw_bytes_sum": 2880515720,
+  "encoded_bytes_sum": 2024821880,
+  "ratio_total": 1.4226020315426462,
+  "encode_s_sum": 14.988498040016566,
+  "decode_s_sum": 4.530211333993066,
+  "encode_s_median": 2.28868979100298,
+  "decode_s_median": 0.7270216044962581,
+  "rows": [
+    {
+      "scope": "full",
+      "sample_no": 1,
+      "shape": [
+        1280,
+        1920,
+        3
+      ],
+      "preset": "fast",
+      "stage": "BYTEPLANE_RANS",
+      "effort": 5,
+      "ok": true,
+      "raw_bytes": 29491200,
+      "encoded_bytes": 8052413,
+      "ratio": 3.662405293916246,
+      "encode_s": 0.13715591600339394,
+      "decode_s": 0.030854999997245613
+    },
+    {
+      "scope": "full",
+      "sample_no": 2,
+      "shape": [
+        5152,
+        7728,
+        3
+      ],
+      "preset": "fast",
+      "stage": "BYTEPLANE_RANS",
+      "effort": 5,
+      "ok": true,
+      "raw_bytes": 477775872,
+      "encoded_bytes": 347283750,
+      "ratio": 1.3757507283309398,
+      "encode_s": 2.2076449160013,
+      "decode_s": 0.7487311669974588
+    },
+    {
+      "scope": "full",
+      "sample_no": 3,
+      "shape": [
+        5152,
+        7728,
+        3
+      ],
+      "preset": "fast",
+      "stage": "BYTEPLANE_RANS",
+      "effort": 5,
+      "ok": true,
+      "raw_bytes": 477775872,
+      "encoded_bytes": 338312803,
+      "ratio": 1.4122311297808023,
+      "encode_s": 2.591972000001988,
+      "decode_s": 0.8620196670017322
+    },
+    {
+      "scope": "full",
+      "sample_no": 4,
+      "shape": [
+        5152,
+        7728,
+        3
+      ],
+      "preset": "fast",
+      "stage": "BYTEPLANE_RANS",
+      "effort": 5,
+      "ok": true,
+      "raw_bytes": 477775872,
+      "encoded_bytes": 367101581,
+      "ratio": 1.3014813793460618,
+      "encode_s": 2.3697346660046605,
+      "decode_s": 0.7570249589989544
+    },
+    {
+      "scope": "full",
+      "sample_no": 5,
+      "shape": [
+        1024,
+        2048,
+        4
+      ],
+      "preset": "fast",
+      "stage": "BYTEPLANE_RANS",
+      "effort": 5,
+      "ok": true,
+      "raw_bytes": 33554432,
+      "encoded_bytes": 19395256,
+      "ratio": 1.7300329523879447,
+      "encode_s": 0.18233175000204938,
+      "decode_s": 0.05939783299982082
+    },
+    {
+      "scope": "full",
+      "sample_no": 6,
+      "shape": [
+        4000,
+        6000,
+        3
+      ],
+      "preset": "fast",
+      "stage": "BYTEPLANE_RANS",
+      "effort": 5,
+      "ok": true,
+      "raw_bytes": 288000000,
+      "encoded_bytes": 190577519,
+      "ratio": 1.511196081842161,
+      "encode_s": 1.4061521670009824,
+      "decode_s": 0.44236637499852804
+    },
+    {
+      "scope": "full",
+      "sample_no": 7,
+      "shape": [
+        7728,
+        5152,
+        3
+      ],
+      "preset": "fast",
+      "stage": "BYTEPLANE_RANS",
+      "effort": 5,
+      "ok": true,
+      "raw_bytes": 477775872,
+      "encoded_bytes": 326449708,
+      "ratio": 1.4635512309908392,
+      "encode_s": 2.5475152080034604,
+      "decode_s": 0.7053120419950574
+    },
+    {
+      "scope": "full",
+      "sample_no": 8,
+      "shape": [
+        6225,
+        8278,
+        3
+      ],
+      "preset": "fast",
+      "stage": "BYTEPLANE_RANS",
+      "effort": 5,
+      "ok": true,
+      "raw_bytes": 618366600,
+      "encoded_bytes": 427648850,
+      "ratio": 1.4459681114540586,
+      "encode_s": 3.5459914169987314,
+      "decode_s": 0.9245042910042685
+    }
+  ]
+}

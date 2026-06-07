@@ -1,0 +1,18 @@
+{
+  "scope": "full",
+  "sample_no": 2,
+  "shape": [
+    5152,
+    7728,
+    3
+  ],
+  "preset": "fast",
+  "stage": "BYTEPLANE_RANS",
+  "effort": 5,
+  "ok": true,
+  "raw_bytes": 477775872,
+  "encoded_bytes": 347283750,
+  "ratio": 1.3757507283309398,
+  "encode_s": 2.8241002499999013,
+  "decode_s": 0.7162277500028722
+}

@@ -29,6 +29,7 @@ add_library(radiance_codec SHARED
     src/rans.cpp
     src/rans_binary.cpp
     src/rans_models.cpp
+    src/byteplane_rans.cpp
     src/bitshuffle.cpp
     src/predictor.cpp
     src/color_transform.cpp
@@ -109,6 +110,11 @@ add_executable(test_grouped_delta
     tests/test_grouped_delta.cpp
 )
 target_link_libraries(test_grouped_delta PRIVATE radiance_codec)
+
+add_executable(test_byteplane_rans
+    tests/test_byteplane_rans.cpp
+)
+target_link_libraries(test_byteplane_rans PRIVATE radiance_codec)
 
 add_executable(test_bitshuffle
     tests/test_bitshuffle.cpp

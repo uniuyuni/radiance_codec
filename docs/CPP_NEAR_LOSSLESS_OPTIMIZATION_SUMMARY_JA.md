@@ -427,6 +427,78 @@ crop 512 の bit-exact smoke:
 小さめフル入力では encode `56.92s -> 12.79s`、encoded
 `5,715,551 B -> 5,844,062 B`。bit-exactは維持。
 
+### Fast lossless preset
+
+中期対応として、名前付きlossless presetを追加した。
+Python API は `encode_lossless(..., preset=...)` を追加し、C++ API は従来通り
+`PipelineConfig` の `stages` / `effort` / `rans_mode` で指定する。
+
+| preset | stage | effort | 位置づけ |
+|---|---|---:|---|
+| `fast` | `StageByteplaneRans` | 5 | full画像の高速lossless |
+| `balanced` | `StageGroupedDelta` | 10 | 速度と容量の中間 |
+| `quality` | `StageGroupedDelta` | 11 | 実用default |
+| `max` | `StageGroupedDelta` | 12 | 最大寄り探索 |
+
+crop 512 の effort sweep:
+
+| effort | sample1 encoded / encode | sample2 encoded / encode |
+|---:|---:|---:|
+| 7 | 461,579 B / 0.52s | 2,029,969 B / 0.84s |
+| 10 | 440,601 B / 1.52s | 2,022,406 B / 2.14s |
+| 11 | 442,151 B / 1.59s | 2,011,021 B / 2.29s |
+| 12 | 438,313 B / 14.77s | 1,996,517 B / 19.21s |
+
+最初の `StageRans` order1 fast は速度だけを見ると小さめフル入力で
+encode `0.21s` / ratio `3.48x` だったが、全 `sample_*` full では
+total ratio `1.14x` / encode median `3.56s` / decode median `7.89s` まで落ちた。
+decodeが特に重く、圧縮率も弱かったため、採用せず比較対象として残す。
+
+代わりに `StageByteplaneRans = 0x0400` を追加した。raw float32 を value chunk に分け、
+各 chunk の4 byteplaneを独立streamにし、streamごとに rANS order0 / Zstd / raw fallback
+から小さいものを選ぶ。byte2/byte3 では west/north spatial delta filter も候補に入れる。
+stream単位でOpenMP並列化する。
+
+DSCF full の 2x exact lossless 可能性も確認した。raw `477,775,872 B` に対して
+2x budget は `238,887,936 B`。一方で低16 mantissa だけの entropy bound が
+`238,881,668 B` あり、残りは約 `6 KB` しかない。さらに exponent だけでも
+entropy bound は `48.86 MB`。低16 mantissa は west/up/channel residual でも
+ほぼ `16.0 bit/sample` のままだったため、DSCF exact で 2x は情報量下限上ほぼ不可能。
+
+全 `sample_*` crop 512 の preset benchmark:
+
+| preset | total encoded | total ratio | encode sum | encode median | decode sum |
+|---|---:|---:|---:|---:|---:|
+| `fast` | 16,411,673 B | 1.60x | 0.138s | 0.017s | 0.042s |
+| `balanced` | 15,191,103 B | 1.73x | 13.36s | 1.60s | 1.97s |
+| `quality` | 15,166,817 B | 1.73x | 14.12s | 1.74s | 1.89s |
+
+小さめフル入力の preset benchmark:
+
+| preset | encoded | ratio | encode | decode |
+|---|---:|---:|---:|---:|
+| `fast` | 8,054,840 B | 3.66x | 0.137s | 0.031s |
+| `balanced` | 5,831,078 B | 5.06x | 14.60s | 1.40s |
+| `quality` | 5,844,062 B | 5.05x | 12.78s | 1.37s |
+
+全 `sample_*` full の `StageByteplaneRans` benchmark:
+
+| No. | raw | encoded | ratio | encode | decode |
+|---:|---:|---:|---:|---:|---:|
+| 1 | 29.49 MB | 8.05 MB | 3.66x | 0.137s | 0.031s |
+| 2 | 477.78 MB | 347.28 MB | 1.38x | 2.208s | 0.749s |
+| 3 | 477.78 MB | 338.31 MB | 1.41x | 2.592s | 0.862s |
+| 4 | 477.78 MB | 367.10 MB | 1.30x | 2.370s | 0.757s |
+| 5 | 33.55 MB | 19.40 MB | 1.73x | 0.182s | 0.059s |
+| 6 | 288.00 MB | 190.58 MB | 1.51x | 1.406s | 0.442s |
+| 7 | 477.78 MB | 326.45 MB | 1.46x | 2.548s | 0.705s |
+| 8 | 618.37 MB | 427.65 MB | 1.45x | 3.546s | 0.925s |
+
+summary: total ratio `1.42x`, encode median `2.29s`, decode median `0.73s`。
+filter なしの ByteplaneRans は total ratio `1.31x` / encode median `1.24s` だったため、
+圧縮率優先の fast backend としては filter 版を採用する。最大入力は encode `3.55s` で、
+1秒級ではなくなったが、decode は1秒未満を維持した。
+
 ## sample_* 再計測と dark smooth bypass
 
 2026-06-07 に、現行 `metal_all_current_best` を全 `sample_*` EXRで再計測した。

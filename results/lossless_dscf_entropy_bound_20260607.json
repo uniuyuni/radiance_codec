@@ -1,0 +1,24 @@
+{
+  "scope": "full",
+  "sample_no": 2,
+  "shape": [5152, 7728, 3],
+  "raw_bytes": 477775872,
+  "two_x_budget_bytes": 238887936,
+  "byteplane_order0_bound_bytes": 392519615,
+  "byteplane_chunk_order0_bound_bytes": 388003242,
+  "byteplane_order1_bound_bytes": 378582972,
+  "sign_rate": 0.0,
+  "exponent_entropy_bits_per_value": 3.2724273910053654,
+  "exponent_bound_bytes": 48858964,
+  "mantissa_low16_entropy_bits_per_value": 15.999580163648789,
+  "mantissa_low16_bound_bytes": 238881668,
+  "two_x_margin_after_low16_bytes": 6268,
+  "low16_spatial_residual_entropy_bits_per_value": {
+    "raw": 15.999580,
+    "xor_left": 15.999605,
+    "sub_left": 15.999605,
+    "xor_up": 15.999607,
+    "sub_up": 15.999602
+  },
+  "conclusion": "Exact 2x on this image is effectively ruled out by the low-16-mantissa entropy alone; high mantissa/exponent data would exceed the remaining budget."
+}

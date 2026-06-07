@@ -17,9 +17,10 @@
 // Decoding runs the inverse stages in reverse order.
 //
 // Stages can be individually enabled/disabled via PipelineConfig.stages,
-// which is essential for ablation studies. StageGroupedDelta and
-// StageStructuralContext are self-contained research codecs and should normally
-// be used as alternatives to the classic transform stack.
+// which is essential for ablation studies. StageGroupedDelta,
+// StageByteplaneRans, and StageStructuralContext are self-contained research
+// codecs and should normally be used as alternatives to the classic transform
+// stack.
 
 #pragma once
 
@@ -58,6 +59,7 @@ enum Stage : uint32_t {
     StageMantissaQuantize = 0x0080,
     StageLinearIndex    = 0x0100,
     StageNearLosslessRouter = 0x0200,
+    StageByteplaneRans = 0x0400,
 
     // Convenience presets
     StageAll = StageColorTransform | StageLogMagnitude

@@ -9,6 +9,7 @@
 #include "mantissa_quantize.hpp"
 #include "linear_index.hpp"
 #include "near_lossless_router.hpp"
+#include "byteplane_rans.hpp"
 
 #include <cstdlib>
 #include <limits>
@@ -95,6 +96,11 @@ std::vector<std::unique_ptr<IStage>> build_pipeline(
     // entropy coding, so keep them otherwise exclusive.
     if (config.stages & StageGroupedDelta) {
         stages.emplace_back(std::make_unique<GroupedDeltaStage>(config.effort));
+        return stages;
+    }
+
+    if (config.stages & StageByteplaneRans) {
+        stages.emplace_back(std::make_unique<ByteplaneRansStage>(config.effort));
         return stages;
     }
 

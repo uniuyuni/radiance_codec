@@ -1,0 +1,113 @@
+{
+  "scope": "crop512",
+  "rows": [
+    {
+      "sample_no": 1,
+      "effort": 7,
+      "ok": true,
+      "encoded_bytes": 461579,
+      "ratio": 6.815145403062098,
+      "encode_s": 0.5230316669985768,
+      "decode_s": 0.16667150000284892
+    },
+    {
+      "sample_no": 2,
+      "effort": 7,
+      "ok": true,
+      "encoded_bytes": 2029969,
+      "ratio": 2.066191158584195,
+      "encode_s": 0.8437887499967474,
+      "decode_s": 0.3258634170051664
+    },
+    {
+      "sample_no": 1,
+      "effort": 8,
+      "ok": true,
+      "encoded_bytes": 461579,
+      "ratio": 6.815145403062098,
+      "encode_s": 0.5226317089982331,
+      "decode_s": 0.16725845800101524
+    },
+    {
+      "sample_no": 2,
+      "effort": 8,
+      "ok": true,
+      "encoded_bytes": 2029969,
+      "ratio": 2.066191158584195,
+      "encode_s": 0.8528392080042977,
+      "decode_s": 0.326477332993818
+    },
+    {
+      "sample_no": 1,
+      "effort": 9,
+      "ok": true,
+      "encoded_bytes": 461579,
+      "ratio": 6.815145403062098,
+      "encode_s": 0.5640574999997625,
+      "decode_s": 0.1684990830035531
+    },
+    {
+      "sample_no": 2,
+      "effort": 9,
+      "ok": true,
+      "encoded_bytes": 2029969,
+      "ratio": 2.066191158584195,
+      "encode_s": 0.8337845829955768,
+      "decode_s": 0.32375962500373134
+    },
+    {
+      "sample_no": 1,
+      "effort": 10,
+      "ok": true,
+      "encoded_bytes": 440601,
+      "ratio": 7.139629733023757,
+      "encode_s": 1.5246486659962102,
+      "decode_s": 0.14765262499713572
+    },
+    {
+      "sample_no": 2,
+      "effort": 10,
+      "ok": true,
+      "encoded_bytes": 2022406,
+      "ratio": 2.073917897791047,
+      "encode_s": 2.1353265830039163,
+      "decode_s": 0.25248179199843435
+    },
+    {
+      "sample_no": 1,
+      "effort": 11,
+      "ok": true,
+      "encoded_bytes": 442151,
+      "ratio": 7.114601120431708,
+      "encode_s": 1.5897655000007944,
+      "decode_s": 0.1395048750055139
+    },
+    {
+      "sample_no": 2,
+      "effort": 11,
+      "ok": true,
+      "encoded_bytes": 2011021,
+      "ratio": 2.0856589762115862,
+      "encode_s": 2.293908833002206,
+      "decode_s": 0.2754546249998384
+    },
+    {
+      "sample_no": 1,
+      "effort": 12,
+      "ok": true,
+      "encoded_bytes": 438313,
+      "ratio": 7.17689870024389,
+      "encode_s": 14.768359540998063,
+      "decode_s": 0.15567833399836672
+    },
+    {
+      "sample_no": 2,
+      "effort": 12,
+      "ok": true,
+      "encoded_bytes": 1996517,
+      "ratio": 2.1008105615930144,
+      "encode_s": 19.208618083001056,
+      "decode_s": 0.2788669170040521
+    }
+  ]
+}

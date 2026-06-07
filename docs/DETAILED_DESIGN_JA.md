@@ -69,7 +69,10 @@ header と caller meta が一致しない場合は `SizeMismatch` になる。
 
 推奨例:
 
-- lossless: `StageGroupedDelta`, `effort=11` または `12`
+- fast lossless: `StageByteplaneRans`, `effort=5`
+- balanced lossless: `StageGroupedDelta`, `effort=10`
+- quality lossless: `StageGroupedDelta`, `effort=11`
+- max lossless: `StageGroupedDelta`, `effort=12`
 - lightweight lossless smoke: `StageRans`、または `StageBitshuffle | StageRans`
   と `rans_mode`
 - mantissa near-lossless: `StageMantissaQuantize | StageGroupedDelta`
@@ -78,6 +81,10 @@ header と caller meta が一致しない場合は `SizeMismatch` になる。
 
 codec の方式選択は API オプションで行う。環境変数は `OMP_NUM_THREADS` などの
 OpenMP runtime調整や、研究用の内部feature flagに限定する。
+Python binding では `encode_lossless(..., preset="fast" | "balanced" | "quality" | "max")`
+が上記 API 設定への薄い wrapper になっている。
+`encode_lossless(pixels)` の既定は `preset="quality"` で、full画像の反応速度を
+優先する場合にだけ `preset="fast"` を明示する。
 
 ### C ABI
 
@@ -198,9 +205,10 @@ public:
 2. `StageNearLosslessRouter` があれば router stage 単独で返す。
 3. `StageMantissaQuantize` があれば前段として追加する。
 4. `StageGroupedDelta` があれば grouped-delta stage を追加し、そこで打ち切る。
-5. `StageStructuralContext` があれば structural-context stage を追加し、そこで打ち切る。
-6. classic stack: color transform / predictor / bitshuffle / RANS。
-7. stageなしなら passthrough。
+5. `StageByteplaneRans` があれば byteplane-rANS stage を追加し、そこで打ち切る。
+6. `StageStructuralContext` があれば structural-context stage を追加し、そこで打ち切る。
+7. classic stack: color transform / predictor / bitshuffle / RANS。
+8. stageなしなら passthrough。
 
 このため `StageNearLosslessRouter` や `StageLinearIndex` は、他stageと組み合わせる
 通常のfilterではなく、自己完結 codec として扱う。
@@ -275,6 +283,24 @@ body bitplane と sign payload を decoder-safe adaptive binary rANS で符号�
 - `effort` で探索量/方式を調整
 - half-like / source precision / grouped tail などの研究成果を多く含む
 - public API からは `StageGroupedDelta` として使う
+
+### ByteplaneRans
+
+実装: `codec/src/byteplane_rans.cpp`
+
+full画像の高速 exact lossless preset 用 codec。raw float32 を value chunk に分け、
+各 chunk の 4 byteplane を独立streamとして扱う。低 byteplane は raw のまま、高
+byteplane は west/north spatial delta filter も候補に入れ、rANS order0 / Zstd /
+raw fallback から小さいものを選ぶ。stream 単位で OpenMP 並列化し、`StageGroupedDelta`
+より圧縮率は浅いが、decode を含めた full画像の反応速度を優先する。
+
+内部 frame magic は `BPR1`。
+
+特徴:
+
+- 完全 lossless
+- `encode_lossless(..., preset="fast")` の backend
+- Zstd が build にある場合は byteplane stream の候補として使う
 
 ### StructuralContext
 
@@ -458,6 +484,7 @@ lib/libradiance_codec.dylib or .so
 - `codec/build/test_predictor`
 - `codec/build/test_structural_context`
 - `codec/build/test_grouped_delta`
+- `codec/build/test_byteplane_rans`
 - `codec/build/test_near_lossless_router`
 
 よく使う検証:

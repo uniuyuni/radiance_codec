@@ -96,6 +96,13 @@ class LinearIndexPreset(enum.Enum):
     QUALITY_PLUS = "quality_plus"
 
 
+class LosslessPreset(enum.Enum):
+    FAST = "fast"
+    BALANCED = "balanced"
+    QUALITY = "quality"
+    MAX = "max"
+
+
 class _Buffer(ctypes.Structure):
     _fields_ = [
         ("data", ctypes.POINTER(ctypes.c_uint8)),
@@ -189,6 +196,7 @@ class Stage(enum.IntFlag):
     MANTISSA_QUANTIZE = 0x0080
     LINEAR_INDEX    = 0x0100
     NEAR_LOSSLESS_ROUTER = 0x0200
+    BYTEPLANE_RANS = 0x0400
     ALL = (COLOR_TRANSFORM | LOG_MAGNITUDE | SPATIAL_PREDICT
            | BITSHUFFLE | RANS)
 
@@ -296,6 +304,42 @@ def decode(compressed: bytes,
 
     arr = np.frombuffer(raw, dtype=np.float32)
     return arr.reshape(shape)
+
+
+def lossless_effort_for_preset(preset: LosslessPreset | str) -> int:
+    """Return the effort value used by a named exact-lossless preset."""
+    preset = LosslessPreset(preset)
+    return {
+        LosslessPreset.FAST: 5,
+        LosslessPreset.BALANCED: 10,
+        LosslessPreset.QUALITY: 11,
+        LosslessPreset.MAX: 12,
+    }[preset]
+
+
+def lossless_stage_for_preset(preset: LosslessPreset | str) -> tuple[Stage, RansMode]:
+    """Return the stage and rANS mode used by a named exact-lossless preset."""
+    preset = LosslessPreset(preset)
+    if preset is LosslessPreset.FAST:
+        return Stage.BYTEPLANE_RANS, RansMode.ORDER0
+    return Stage.GROUPED_DELTA, RansMode.ORDER0
+
+
+def encode_lossless(pixels: np.ndarray,
+                    preset: LosslessPreset | str = LosslessPreset.QUALITY,
+                    effort: int | None = None) -> bytes:
+    """Encode with a named exact-lossless route.
+
+    ``preset="fast"`` uses the chunked byteplane-rANS route for fast full-image
+    coding. Other presets use the grouped-delta route with increasing search.
+    """
+    stages, rans_mode = lossless_stage_for_preset(preset)
+    return encode(
+        pixels,
+        stages=stages,
+        effort=lossless_effort_for_preset(preset) if effort is None else effort,
+        rans_mode=rans_mode,
+    )
 
 
 def encode_near_lossless(pixels: np.ndarray,

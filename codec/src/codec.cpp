@@ -84,7 +84,7 @@ SignClass classify_sign_bits(std::span<const std::uint8_t> raw) noexcept {
 } // namespace
 
 const char* version() noexcept {
-    return "radiance_codec 0.0.1 (research: passthrough/rANS/structural-context/grouped-delta/mantissa-quantize/linear-index/near-lossless-router)";
+    return "radiance_codec 0.0.1 (research: passthrough/rANS/byteplane-rANS/structural-context/grouped-delta/mantissa-quantize/linear-index/near-lossless-router)";
 }
 
 Status encode(std::span<const std::uint8_t> raw,

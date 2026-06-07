@@ -41,8 +41,9 @@ float32 の構造を使います。
 
 | 用途 | 推奨 |
 |---|---|
-| 完全 lossless | `StageGroupedDelta`, `effort=11` |
-| 最大寄り lossless | `StageGroupedDelta`, `effort=12` |
+| 高速 lossless | `encode_lossless(..., preset="fast")` / `StageByteplaneRans` |
+| 実用 lossless | `encode_lossless(..., preset="quality")` / `StageGroupedDelta`, `effort=11` |
+| 最大寄り lossless | `encode_lossless(..., preset="max")` / `StageGroupedDelta`, `effort=12` |
 | 品質重視 near-lossless | `low_bits=12`, `effort=11` |
 | 圧縮率重視 near-lossless | `low_bits=15`, `effort=11` |
 | 視覚品質重視のHDR写真 near-lossless | `StageNearLosslessRouter`, `effort=11` |
@@ -51,8 +52,9 @@ near-lossless は完全復元ではありません。decode 結果は元画像�
 低 mantissa bit を 0 にした量子化後画像になります。
 
 codec の方式選択は環境変数ではなく API オプションで行います。Python では
-`radiance_codec.encode(..., stages=..., effort=..., rans_mode=...)`、
-C++ では `PipelineConfig` の `stages` / `effort` / `rans_mode` を指定します。
+`radiance_codec.encode(..., stages=..., effort=..., rans_mode=...)`、または
+lossless 用の `encode_lossless(..., preset=...)` を使います。C++ では
+`PipelineConfig` の `stages` / `effort` / `rans_mode` を指定します。
 環境変数は `OMP_NUM_THREADS` などのスレッド数調整や、実験的な内部挙動の
 切り替えに使います。
 
@@ -201,11 +203,7 @@ import radiance_codec
 
 pixels = np.random.default_rng(0).standard_normal((128, 128, 3)).astype(np.float32)
 
-encoded = radiance_codec.encode(
-    pixels,
-    stages=radiance_codec.Stage.GROUPED_DELTA,
-    effort=11,
-)
+encoded = radiance_codec.encode_lossless(pixels, preset="quality")
 
 decoded = radiance_codec.decode(encoded, pixels.shape)
 assert decoded.dtype == np.float32
@@ -213,6 +211,17 @@ assert decoded.tobytes() == pixels.tobytes()
 
 print(f"{pixels.nbytes} -> {len(encoded)} bytes")
 ```
+
+lossless preset は以下の API 設定に対応します。
+`encode_lossless(pixels)` の既定は `preset="quality"` です。full画像の反応速度を
+優先する場合だけ `preset="fast"` を明示します。
+
+| preset | stage | effort | 目安 |
+|---|---|---:|---|
+| `fast` | `StageByteplaneRans` | 5 | full画像の高速 lossless。byteplane chunk + spatial filter + rANS/Zstd |
+| `balanced` | `StageGroupedDelta` | 10 | 速度と容量の中間 |
+| `quality` | `StageGroupedDelta` | 11 | 実用default |
+| `max` | `StageGroupedDelta` | 12 | 最大寄り探索、かなり重い |
 
 入力 shape は `(height, width, channels)` または `(height, width)` です。
 channels は `1..4` に対応しています。
@@ -411,6 +420,7 @@ radiance_codec_version()
 | `StageNone` | passthrough / 動作確認 |
 | `StageRans` | byte stream rANS。`rans_mode` で order0/order1 を選ぶ |
 | `StageBitshuffle | StageRans` | bitshuffle 後に rANS |
+| `StageByteplaneRans` | float32 byteplane を chunk 並列で spatial filter + rANS/Zstd 符号化する高速 lossless codec |
 | `StageGroupedDelta` | 現在の主力 lossless codec |
 | `StageMantissaQuantize` | near-lossless 用の前段量子化 |
 | `StageLinearIndex` | transform-index near-lossless 実験 |
