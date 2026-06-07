@@ -1876,7 +1876,7 @@ double mode_search_cost_for_tile(
 
 std::uint8_t refine_candidate_count(std::uint8_t effort) noexcept {
     if (effort >= 12) return 5;
-    if (effort >= 11) return 3;
+    if (effort >= 11) return 2;
     if (effort >= 10) return 2;
     return 1;
 }
@@ -2053,7 +2053,7 @@ std::vector<Record> choose_records(
                 std::vector<CandidateRecord> candidates;
                 candidates.reserve(keep_count + 1);
                 const bool allow_channel_mode_split =
-                    effort >= 11 && group == Group::Body && meta.channels > 1;
+                    effort >= 12 && group == Group::Body && meta.channels > 1;
                 std::vector<CandidateRecord> all_candidates;
                 if (allow_channel_mode_split) {
                     all_candidates.reserve(kBodyFullModes.size() + 1);

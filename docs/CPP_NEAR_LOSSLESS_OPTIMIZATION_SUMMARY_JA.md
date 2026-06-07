@@ -409,6 +409,24 @@ crop 512 の bit-exact smoke:
 encode `56.92s` / decode `1.43s`。まだ速いとは言えないが、前回の
 120秒timeoutからは抜けた。
 
+### GROUPED_DELTA effort=11 短期高速化
+
+OpenMP化後も `effort=11` は探索が重かったため、短期改善として以下を変更した。
+
+- `effort=11` の refined candidate count を `3 -> 2` に削減。
+- channel mode split は `effort=12` 以上へ寄せ、`effort=11` では省く。
+- tail split はサイズへの寄与が残るため `effort=11` に残す。
+
+crop 512 の bit-exact smoke:
+
+| sample | before | after | encoded before | encoded after |
+|---:|---:|---:|---:|---:|
+| 1 | 6.57s | 1.55s | 440,528 B | 442,151 B |
+| 2 | 4.25s | 2.46s | 1,997,094 B | 2,011,021 B |
+
+小さめフル入力では encode `56.92s -> 12.79s`、encoded
+`5,715,551 B -> 5,844,062 B`。bit-exactは維持。
+
 ## sample_* 再計測と dark smooth bypass
 
 2026-06-07 に、現行 `metal_all_current_best` を全 `sample_*` EXRで再計測した。
