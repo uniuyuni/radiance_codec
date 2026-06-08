@@ -41,7 +41,8 @@ float32 の構造を使います。
 
 | 用途 | 推奨 |
 |---|---|
-| 高速 lossless | `encode_lossless(..., preset="fast")` / `StageByteplaneRans` |
+| 高速 lossless | `encode_lossless(..., preset="fast")` / `StageByteplaneRans`, `effort=5` |
+| 高速・圧縮率寄り lossless | `encode_lossless(..., preset="compact")` / `StageByteplaneRans`, `effort=6` |
 | 実用 lossless | `encode_lossless(..., preset="quality")` / `StageGroupedDelta`, `effort=11` |
 | 最大寄り lossless | `encode_lossless(..., preset="max")` / `StageGroupedDelta`, `effort=12` |
 | 品質重視 near-lossless | `low_bits=12`, `effort=11` |
@@ -214,11 +215,12 @@ print(f"{pixels.nbytes} -> {len(encoded)} bytes")
 
 lossless preset は以下の API 設定に対応します。
 `encode_lossless(pixels)` の既定は `preset="quality"` です。full画像の反応速度を
-優先する場合だけ `preset="fast"` を明示します。
+優先する場合は `preset="fast"`、少し圧縮率寄りにする場合は `preset="compact"` を明示します。
 
 | preset | stage | effort | 目安 |
 |---|---|---:|---|
 | `fast` | `StageByteplaneRans` | 5 | full画像の高速 lossless。byteplane chunk + entropy gate + spatial filter + rANS/Zstd |
+| `compact` | `StageByteplaneRans` | 6 | fastより少し圧縮率寄り。high byteplane filterを実圧縮で探索 |
 | `balanced` | `StageGroupedDelta` | 10 | 速度と容量の中間 |
 | `quality` | `StageGroupedDelta` | 11 | 実用default |
 | `max` | `StageGroupedDelta` | 12 | 最大寄り探索、かなり重い |

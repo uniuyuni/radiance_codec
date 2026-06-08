@@ -1,0 +1,58 @@
+[
+  {
+    "scope": "full",
+    "sample_no": 2,
+    "preset": "fast",
+    "stage": "BYTEPLANE_RANS",
+    "effort": 5,
+    "note": "Timing may include background task noise. Profile component times are summed across worker threads.",
+    "ok": true,
+    "shape": [
+      5152,
+      7728,
+      3
+    ],
+    "raw_bytes": 477775872,
+    "encoded_bytes": 347283750,
+    "ratio": 1.3757507283309398,
+    "encode_s": 2.7486087920005957,
+    "decode_s": 1.1139692079996166,
+    "profile": {
+      "total_s": 1.773378,
+      "gather_s": 0.266124,
+      "filter_entropy_s": 6.91294,
+      "rans_s": 4.371847,
+      "zstd_s": 1.103077,
+      "assembly_s": 0.163018,
+      "component_times_are_worker_sums": true
+    }
+  },
+  {
+    "scope": "full",
+    "sample_no": 2,
+    "preset": "compact",
+    "stage": "BYTEPLANE_RANS",
+    "effort": 6,
+    "note": "Timing may include background task noise. Profile component times are summed across worker threads.",
+    "ok": true,
+    "shape": [
+      5152,
+      7728,
+      3
+    ],
+    "raw_bytes": 477775872,
+    "encoded_bytes": 347283750,
+    "ratio": 1.3757507283309398,
+    "encode_s": 3.5859563750018424,
+    "decode_s": 1.194352374997834,
+    "profile": {
+      "total_s": 2.600729,
+      "gather_s": 0.133948,
+      "filter_entropy_s": 5.83617,
+      "rans_s": 10.771699,
+      "zstd_s": 2.455315,
+      "assembly_s": 0.128759,
+      "component_times_are_worker_sums": true
+    }
+  }
+]

@@ -11,9 +11,13 @@
 
 #include <algorithm>
 #include <array>
+#include <atomic>
 #include <cmath>
+#include <chrono>
 #include <cstddef>
 #include <cstdint>
+#include <cstdio>
+#include <cstdlib>
 #include <cstring>
 #include <limits>
 #include <span>
@@ -25,7 +29,6 @@ namespace {
 using radiance_codec::rans::ByteModel;
 using radiance_codec::rans::PROB_SCALE;
 using radiance_codec::rans::RANS_L;
-using radiance_codec::rans::compute_histogram;
 using radiance_codec::rans::decode_get_slot;
 using radiance_codec::rans::decode_init;
 using radiance_codec::rans::encode_flush;
@@ -43,6 +46,8 @@ constexpr std::uint32_t kDefaultChunkValues = 1u << 18;
 constexpr std::size_t kStreamHeaderSize = 1 + 1 + 4 + 4;
 constexpr std::size_t kFreqTableSize = 256 * 2;
 constexpr std::size_t kEntropyGateSlackBytes = 64;
+
+using ByteHistogram = std::array<std::uint32_t, 256>;
 
 template <typename T>
 void put_le(std::vector<std::uint8_t>& dst, T value) {
@@ -78,6 +83,13 @@ int zstd_level_for_effort(std::uint8_t effort) noexcept {
     return 1;
 }
 
+#ifdef RADIANCE_CODEC_HAS_ZSTD
+ZSTD_CCtx* thread_zstd_cctx() noexcept {
+    thread_local ZSTD_CCtx* cctx = ZSTD_createCCtx();
+    return cctx;
+}
+#endif
+
 struct EncodedStream {
     std::uint8_t method = kMethodRaw;
     std::uint8_t filter = kFilterRaw;
@@ -98,15 +110,111 @@ struct StreamRef {
 struct FilterCandidate {
     std::uint8_t filter = kFilterRaw;
     std::vector<std::uint8_t> data;
-    std::array<std::uint64_t, 256> hist{};
+    ByteHistogram hist{};
     std::size_t entropy_bytes = 0;
 };
 
+struct EncodeByteModel {
+    std::array<std::uint32_t, 256> freq{};
+    std::array<std::uint32_t, 256> cum{};
+};
+
+struct EncodeProfile {
+    bool enabled = false;
+    std::atomic<std::uint64_t> gather_ns{0};
+    std::atomic<std::uint64_t> filter_entropy_ns{0};
+    std::atomic<std::uint64_t> rans_ns{0};
+    std::atomic<std::uint64_t> zstd_ns{0};
+    std::atomic<std::uint64_t> assembly_ns{0};
+};
+
+std::uint64_t profile_now_ns() noexcept {
+    return static_cast<std::uint64_t>(
+        std::chrono::duration_cast<std::chrono::nanoseconds>(
+            std::chrono::steady_clock::now().time_since_epoch()).count());
+}
+
+void profile_add(std::atomic<std::uint64_t>& target,
+                 std::uint64_t start_ns) noexcept {
+    target.fetch_add(
+        profile_now_ns() - start_ns,
+        std::memory_order_relaxed);
+}
+
+bool byteplane_profile_enabled() noexcept {
+    const char* raw = std::getenv("RADIANCE_CODEC_BYTEPLANE_PROFILE");
+    return raw && *raw && raw[0] != '0';
+}
+
+double profile_seconds(const std::atomic<std::uint64_t>& value) noexcept {
+    return static_cast<double>(value.load(std::memory_order_relaxed)) / 1.0e9;
+}
+
+void finalize_encode_model(EncodeByteModel& model) noexcept {
+    std::uint32_t cumulative = 0;
+    for (std::uint32_t s = 0; s < 256; ++s) {
+        model.cum[s] = cumulative;
+        cumulative += model.freq[s];
+    }
+}
+
+void build_uniform_encode_model(EncodeByteModel& model) noexcept {
+    constexpr std::uint32_t per_symbol = PROB_SCALE / 256;
+    for (auto& freq : model.freq) freq = per_symbol;
+    finalize_encode_model(model);
+}
+
+void build_encode_model_from_histogram(
+    EncodeByteModel& model,
+    const ByteHistogram& hist) noexcept {
+    std::uint64_t total = 0;
+    for (const auto count : hist) total += count;
+
+    if (total == 0) {
+        build_uniform_encode_model(model);
+        return;
+    }
+
+    std::uint64_t assigned = 0;
+    for (std::uint32_t s = 0; s < 256; ++s) {
+        if (hist[s] == 0) {
+            model.freq[s] = 0;
+            continue;
+        }
+        std::uint64_t f =
+            (hist[s] * std::uint64_t(PROB_SCALE) + total / 2) / total;
+        if (f == 0) f = 1;
+        if (f > PROB_SCALE - 1) f = PROB_SCALE - 1;
+        model.freq[s] = static_cast<std::uint32_t>(f);
+        assigned += f;
+    }
+
+    while (assigned > PROB_SCALE) {
+        std::uint32_t best = 0;
+        for (std::uint32_t s = 1; s < 256; ++s) {
+            if (model.freq[s] > model.freq[best]) best = s;
+        }
+        if (model.freq[best] <= 1) break;
+        --model.freq[best];
+        --assigned;
+    }
+    while (assigned < PROB_SCALE) {
+        std::uint32_t best = 0;
+        for (std::uint32_t s = 1; s < 256; ++s) {
+            if (model.freq[s] > model.freq[best]) best = s;
+        }
+        ++model.freq[best];
+        ++assigned;
+    }
+    finalize_encode_model(model);
+}
+
 std::vector<std::uint8_t> encode_rans_order0(
     std::span<const std::uint8_t> in,
-    const ByteModel& model) {
+    const EncodeByteModel& model) {
 
-    std::vector<std::uint8_t> buf(in.size() * 2 + 32);
+    thread_local std::vector<std::uint8_t> buf;
+    buf.resize(in.size() * 2 + 32);
     std::uint8_t* end = buf.data() + buf.size();
     std::uint8_t* write_ptr = end;
 
@@ -158,7 +266,7 @@ bool decode_rans_order0(std::span<const std::uint8_t> payload,
 }
 
 std::size_t entropy_bound_bytes(
-    const std::array<std::uint64_t, 256>& hist,
+    const ByteHistogram& hist,
     std::size_t total) noexcept {
     if (total == 0) return 0;
 
@@ -232,35 +340,37 @@ std::uint8_t predictor_for_filter(std::uint8_t filter,
     return 0;
 }
 
-std::vector<std::uint8_t> apply_filter(std::span<const std::uint8_t> values,
+FilterCandidate make_filter_candidate(std::span<const std::uint8_t> values,
                                        std::uint8_t filter,
                                        std::size_t value_start,
-                                       const ImageMeta& meta) {
-    if (filter == kFilterRaw) {
-        return std::vector<std::uint8_t>(values.begin(), values.end());
-    }
-
-    std::vector<std::uint8_t> residual(values.size());
-    for (std::size_t i = 0; i < values.size(); ++i) {
-        const std::uint64_t global_index =
-            static_cast<std::uint64_t>(value_start) + i;
-        const std::uint8_t pred = predictor_for_filter(
-            filter, values, i, global_index, meta, value_start);
-        residual[i] = static_cast<std::uint8_t>(values[i] - pred);
-    }
-    return residual;
-}
-
-FilterCandidate make_filter_candidate(std::span<const std::uint8_t> values,
-                                      std::uint8_t filter,
-                                      std::size_t value_start,
-                                      const ImageMeta& meta) {
+                                       const ImageMeta& meta,
+                                       EncodeProfile* profile) {
+    const std::uint64_t profile_start =
+        profile && profile->enabled ? profile_now_ns() : 0;
     FilterCandidate candidate;
     candidate.filter = filter;
-    candidate.data = apply_filter(values, filter, value_start, meta);
-    candidate.hist = compute_histogram(candidate.data);
+    if (filter == kFilterRaw) {
+        for (const std::uint8_t value : values) {
+            ++candidate.hist[value];
+        }
+    } else {
+        candidate.data.resize(values.size());
+        for (std::size_t i = 0; i < values.size(); ++i) {
+            const std::uint64_t global_index =
+                static_cast<std::uint64_t>(value_start) + i;
+            const std::uint8_t pred = predictor_for_filter(
+                filter, values, i, global_index, meta, value_start);
+            const std::uint8_t residual =
+                static_cast<std::uint8_t>(values[i] - pred);
+            candidate.data[i] = residual;
+            ++candidate.hist[residual];
+        }
+    }
     candidate.entropy_bytes =
-        entropy_bound_bytes(candidate.hist, candidate.data.size());
+        entropy_bound_bytes(candidate.hist, values.size());
+    if (profile && profile->enabled) {
+        profile_add(profile->filter_entropy_ns, profile_start);
+    }
     return candidate;
 }
 
@@ -281,40 +391,44 @@ bool undo_filter_in_place(std::vector<std::uint8_t>& values,
     return true;
 }
 
-EncodedStream encode_stream(std::span<const std::uint8_t> raw,
+EncodedStream encode_stream(std::span<const std::uint8_t> bytes,
                             std::size_t value_start,
-                            std::size_t value_count,
                             std::uint8_t plane,
                             const ImageMeta& meta,
-                            std::uint8_t effort) {
-    (void)effort;
-    std::vector<std::uint8_t> bytes(value_count);
-    for (std::size_t i = 0; i < value_count; ++i) {
-        bytes[i] = raw[(value_start + i) * 4 + plane];
-    }
-
+                            std::uint8_t effort,
+                            EncodeProfile* profile) {
     auto framed_size = [](const EncodedStream& stream) -> std::size_t {
         return kStreamHeaderSize
             + (stream.method == kMethodRansOrder0 ? kFreqTableSize : 0)
             + stream.payload.size();
     };
 
-    auto encode_candidate = [&](FilterCandidate&& candidate) -> EncodedStream {
+    auto encode_candidate = [&](FilterCandidate&& candidate,
+                                bool use_entropy_gate) -> EncodedStream {
+        const auto candidate_data = candidate.filter == kFilterRaw
+            ? bytes
+            : std::span<const std::uint8_t>(candidate.data);
         EncodedStream best = make_raw_stream(bytes);
-        if (!entropy_gate_allows_compression(
+        if (use_entropy_gate
+            && !entropy_gate_allows_compression(
                 candidate.entropy_bytes,
-                candidate.data.size())) {
+                candidate_data.size())) {
             return best;
         }
 
-        ByteModel model;
-        model.build_from_histogram(candidate.hist);
-        auto rans_payload = encode_rans_order0(candidate.data, model);
+        const std::uint64_t rans_start =
+            profile && profile->enabled ? profile_now_ns() : 0;
+        EncodeByteModel model;
+        build_encode_model_from_histogram(model, candidate.hist);
+        auto rans_payload = encode_rans_order0(candidate_data, model);
+        if (profile && profile->enabled) {
+            profile_add(profile->rans_ns, rans_start);
+        }
 
         EncodedStream rans_stream;
         rans_stream.method = kMethodRansOrder0;
         rans_stream.filter = candidate.filter;
-        rans_stream.plain_len = static_cast<std::uint32_t>(value_count);
+        rans_stream.plain_len = static_cast<std::uint32_t>(bytes.size());
         for (std::size_t s = 0; s < rans_stream.freq.size(); ++s) {
             rans_stream.freq[s] = static_cast<std::uint16_t>(model.freq[s]);
         }
@@ -324,25 +438,35 @@ EncodedStream encode_stream(std::span<const std::uint8_t> raw,
         }
 
 #ifdef RADIANCE_CODEC_HAS_ZSTD
-        if (!candidate.data.empty()
-            && entropy_gate_allows_compression(
+        if (!candidate_data.empty()
+            && (!use_entropy_gate
+                || entropy_gate_allows_compression(
                 candidate.entropy_bytes,
-                candidate.data.size())) {
-            const auto bound = ZSTD_compressBound(candidate.data.size());
-            std::vector<std::uint8_t> zstd_payload(bound);
-            const auto written = ZSTD_compress(
-                zstd_payload.data(),
-                zstd_payload.size(),
-                candidate.data.data(),
-                candidate.data.size(),
-                zstd_level_for_effort(effort));
+                candidate_data.size()))) {
+            const std::uint64_t zstd_start =
+                profile && profile->enabled ? profile_now_ns() : 0;
+            const auto bound = ZSTD_compressBound(candidate_data.size());
+            thread_local std::vector<std::uint8_t> zstd_scratch;
+            zstd_scratch.resize(bound);
+            ZSTD_CCtx* cctx = thread_zstd_cctx();
+            const auto written = cctx ? ZSTD_compressCCtx(
+                cctx,
+                zstd_scratch.data(),
+                zstd_scratch.size(),
+                candidate_data.data(),
+                candidate_data.size(),
+                zstd_level_for_effort(effort)) : ZSTD_error_memory_allocation;
+            if (profile && profile->enabled) {
+                profile_add(profile->zstd_ns, zstd_start);
+            }
             if (!ZSTD_isError(written)) {
-                zstd_payload.resize(written);
                 EncodedStream zstd_stream;
                 zstd_stream.method = kMethodZstd;
                 zstd_stream.filter = candidate.filter;
-                zstd_stream.plain_len = static_cast<std::uint32_t>(value_count);
-                zstd_stream.payload = std::move(zstd_payload);
+                zstd_stream.plain_len = static_cast<std::uint32_t>(bytes.size());
+                zstd_stream.payload.assign(
+                    zstd_scratch.begin(),
+                    zstd_scratch.begin() + static_cast<std::ptrdiff_t>(written));
                 if (framed_size(zstd_stream) < framed_size(best)) {
                     best = std::move(zstd_stream);
                 }
@@ -352,21 +476,46 @@ EncodedStream encode_stream(std::span<const std::uint8_t> raw,
         return best;
     };
 
+    if (effort >= 6 && plane >= 2) {
+        EncodedStream best = encode_candidate(
+            make_filter_candidate(
+                bytes, kFilterRaw, value_start, meta, profile),
+            false);
+        EncodedStream west = encode_candidate(
+            make_filter_candidate(
+                bytes, kFilterDeltaWest, value_start, meta, profile),
+            false);
+        if (framed_size(west) < framed_size(best)) {
+            best = std::move(west);
+        }
+        EncodedStream north = encode_candidate(
+            make_filter_candidate(
+                bytes, kFilterDeltaNorth, value_start, meta, profile),
+            false);
+        if (framed_size(north) < framed_size(best)) {
+            best = std::move(north);
+        }
+        return best;
+    }
+
     FilterCandidate best_candidate =
-        make_filter_candidate(bytes, kFilterRaw, value_start, meta);
+        make_filter_candidate(
+            bytes, kFilterRaw, value_start, meta, profile);
     if (plane >= 2) {
         FilterCandidate west =
-            make_filter_candidate(bytes, kFilterDeltaWest, value_start, meta);
+            make_filter_candidate(
+                bytes, kFilterDeltaWest, value_start, meta, profile);
         if (west.entropy_bytes < best_candidate.entropy_bytes) {
             best_candidate = std::move(west);
         }
         FilterCandidate north =
-            make_filter_candidate(bytes, kFilterDeltaNorth, value_start, meta);
+            make_filter_candidate(
+                bytes, kFilterDeltaNorth, value_start, meta, profile);
         if (north.entropy_bytes < best_candidate.entropy_bytes) {
             best_candidate = std::move(north);
         }
     }
-    return encode_candidate(std::move(best_candidate));
+    return encode_candidate(std::move(best_candidate), true);
 }
 
 bool parse_streams(std::span<const std::uint8_t> in,
@@ -446,23 +595,54 @@ Status ByteplaneRansStage::encode(std::span<const std::uint8_t> in,
     const std::size_t stream_count = std::size_t(chunk_count) * 4;
 
     std::vector<EncodedStream> streams(stream_count);
+    EncodeProfile profile;
+    profile.enabled = byteplane_profile_enabled();
+    const std::uint64_t profile_total_start =
+        profile.enabled ? profile_now_ns() : 0;
 
 #ifdef RADIANCE_CODEC_HAS_OPENMP
-#pragma omp parallel for schedule(dynamic) if(stream_count > 4)
+#pragma omp parallel for schedule(dynamic) if(chunk_count > 1)
 #endif
-    for (std::int64_t si = 0; si < static_cast<std::int64_t>(stream_count); ++si) {
-        const std::size_t stream_index = static_cast<std::size_t>(si);
-        const std::size_t chunk = stream_index / 4;
-        const std::uint8_t plane = static_cast<std::uint8_t>(stream_index % 4);
+    for (std::int64_t ci = 0; ci < static_cast<std::int64_t>(chunk_count); ++ci) {
+        const std::size_t chunk = static_cast<std::size_t>(ci);
         const std::size_t value_start = chunk * std::size_t(chunk_values);
         const std::size_t values =
             std::min<std::size_t>(
                 chunk_values,
                 static_cast<std::size_t>(value_count) - value_start);
-        streams[stream_index] = encode_stream(
-            in, value_start, values, plane, meta, effort_);
+        const std::uint64_t gather_start =
+            profile.enabled ? profile_now_ns() : 0;
+        std::array<std::vector<std::uint8_t>, 4> planes;
+        for (auto& plane_bytes : planes) {
+            plane_bytes.resize(values);
+        }
+        for (std::size_t i = 0; i < values; ++i) {
+            const std::uint8_t* p = in.data() + (value_start + i) * 4;
+            const std::uint8_t b0 = p[0];
+            const std::uint8_t b1 = p[1];
+            const std::uint8_t b2 = p[2];
+            const std::uint8_t b3 = p[3];
+            planes[0][i] = b0;
+            planes[1][i] = b1;
+            planes[2][i] = b2;
+            planes[3][i] = b3;
+        }
+        if (profile.enabled) {
+            profile_add(profile.gather_ns, gather_start);
+        }
+        for (std::uint8_t plane = 0; plane < 4; ++plane) {
+            streams[chunk * 4 + plane] = encode_stream(
+                planes[plane],
+                value_start,
+                plane,
+                meta,
+                effort_,
+                &profile);
+        }
     }
 
+    const std::uint64_t assembly_start =
+        profile.enabled ? profile_now_ns() : 0;
     std::size_t payload_size = 4 + 1 + 4 + 8 + 4;
     for (const auto& stream : streams) {
         std::size_t next = 0;
@@ -496,6 +676,26 @@ Status ByteplaneRansStage::encode(std::span<const std::uint8_t> in,
             }
         }
         out.insert(out.end(), stream.payload.begin(), stream.payload.end());
+    }
+    if (profile.enabled) {
+        profile_add(profile.assembly_ns, assembly_start);
+        const double total_s =
+            static_cast<double>(profile_now_ns() - profile_total_start) / 1.0e9;
+        std::fprintf(
+            stderr,
+            "[byteplane_profile] values=%llu chunks=%u effort=%u "
+            "total=%.6f gather=%.6f filter_entropy=%.6f rans=%.6f "
+            "zstd=%.6f assembly=%.6f encoded=%zu\n",
+            static_cast<unsigned long long>(value_count),
+            chunk_count,
+            static_cast<unsigned>(effort_),
+            total_s,
+            profile_seconds(profile.gather_ns),
+            profile_seconds(profile.filter_entropy_ns),
+            profile_seconds(profile.rans_ns),
+            profile_seconds(profile.zstd_ns),
+            profile_seconds(profile.assembly_ns),
+            out.size());
     }
     return Status::Ok;
 }

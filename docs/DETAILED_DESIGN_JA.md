@@ -70,6 +70,7 @@ header と caller meta が一致しない場合は `SizeMismatch` になる。
 推奨例:
 
 - fast lossless: `StageByteplaneRans`, `effort=5`
+- compact lossless: `StageByteplaneRans`, `effort=6`
 - balanced lossless: `StageGroupedDelta`, `effort=10`
 - quality lossless: `StageGroupedDelta`, `effort=11`
 - max lossless: `StageGroupedDelta`, `effort=12`
@@ -81,10 +82,10 @@ header と caller meta が一致しない場合は `SizeMismatch` になる。
 
 codec の方式選択は API オプションで行う。環境変数は `OMP_NUM_THREADS` などの
 OpenMP runtime調整や、研究用の内部feature flagに限定する。
-Python binding では `encode_lossless(..., preset="fast" | "balanced" | "quality" | "max")`
+Python binding では `encode_lossless(..., preset="fast" | "compact" | "balanced" | "quality" | "max")`
 が上記 API 設定への薄い wrapper になっている。
 `encode_lossless(pixels)` の既定は `preset="quality"` で、full画像の反応速度を
-優先する場合にだけ `preset="fast"` を明示する。
+優先する場合は `preset="fast"`、少し圧縮率寄りにする場合は `preset="compact"` を明示する。
 
 ### C ABI
 
@@ -290,18 +291,21 @@ body bitplane と sign payload を decoder-safe adaptive binary rANS で符号�
 
 full画像の高速 exact lossless preset 用 codec。raw float32 を value chunk に分け、
 各 chunk の 4 byteplane を独立streamとして扱う。低 byteplane は raw のまま、高
-byteplane は west/north spatial delta filter も候補に入れる。候補選択は histogram
+byteplane は west/north spatial delta filter も候補に入れる。`effort=5` の候補選択は histogram
 entropy 推定で行い、実際に rANS order0 / Zstd を走らせるのは選ばれたfilterだけ。
-entropy gate で縮まないstreamは圧縮器を試さず raw fallback に逃がす。stream 単位で
-OpenMP 並列化し、`StageGroupedDelta` より圧縮率は浅いが、decode を含めた full画像の
-反応速度を優先する。
+entropy gate で縮まないstreamは圧縮器を試さず raw fallback に逃がす。`effort>=6` では
+high byteplane filter を実圧縮で比較する。encode は chunk 単位で4 byteplaneを1回の
+raw scanから gather し、chunk 単位で OpenMP 並列化する。encode側は decode 用
+`slot_to_sym` を作らない encode専用 rANS model を使い、rANS scratch buffer と Zstd
+CCtx/scratch buffer は thread-local に再利用する。`StageGroupedDelta` より圧縮率は
+浅いが、decode を含めた full画像の反応速度を優先する。
 
 内部 frame magic は `BPR1`。
 
 特徴:
 
 - 完全 lossless
-- `encode_lossless(..., preset="fast")` の backend
+- `encode_lossless(..., preset="fast" | "compact")` の backend
 - Zstd が build にある場合は byteplane stream の候補として使う
 
 ### StructuralContext

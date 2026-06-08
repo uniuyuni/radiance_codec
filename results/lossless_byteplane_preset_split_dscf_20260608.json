@@ -1,0 +1,40 @@
+[
+  {
+    "scope": "full",
+    "sample_no": 2,
+    "preset": "fast",
+    "stage": "BYTEPLANE_RANS",
+    "effort": 5,
+    "note": "Timing may include background task noise.",
+    "ok": true,
+    "shape": [
+      5152,
+      7728,
+      3
+    ],
+    "raw_bytes": 477775872,
+    "encoded_bytes": 347283750,
+    "ratio": 1.3757507283309398,
+    "encode_s": 2.1672819170016737,
+    "decode_s": 0.8910978749991045
+  },
+  {
+    "scope": "full",
+    "sample_no": 2,
+    "preset": "compact",
+    "stage": "BYTEPLANE_RANS",
+    "effort": 6,
+    "note": "Timing may include background task noise.",
+    "ok": true,
+    "shape": [
+      5152,
+      7728,
+      3
+    ],
+    "raw_bytes": 477775872,
+    "encoded_bytes": 347283750,
+    "ratio": 1.3757507283309398,
+    "encode_s": 2.780641666999145,
+    "decode_s": 0.9512328749988228
+  }
+]

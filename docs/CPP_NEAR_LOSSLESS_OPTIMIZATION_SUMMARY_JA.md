@@ -436,6 +436,7 @@ Python API は `encode_lossless(..., preset=...)` を追加し、C++ API は従�
 | preset | stage | effort | 位置づけ |
 |---|---|---:|---|
 | `fast` | `StageByteplaneRans` | 5 | full画像の高速lossless |
+| `compact` | `StageByteplaneRans` | 6 | fastより少し圧縮率寄り |
 | `balanced` | `StageGroupedDelta` | 10 | 速度と容量の中間 |
 | `quality` | `StageGroupedDelta` | 11 | 実用default |
 | `max` | `StageGroupedDelta` | 12 | 最大寄り探索 |
@@ -462,6 +463,9 @@ stream単位でOpenMP並列化する。
 2026-06-08 に entropy gate と軽量filter選択を追加した。各filter候補は
 histogram entropy 推定だけで比較し、実際の rANS/Zstd は最良候補1つだけに走らせる。
 また、entropy bound が raw とほぼ同等のstreamは圧縮器を試さず raw fallback にする。
+その後、chunk単位で4 byteplaneを1回のraw scanから gather する構造に変えた。
+`fast` はこの軽量filter選択、`compact` は high byteplane filter を実圧縮で比較する
+圧縮率寄りpresetとして分けた。
 
 DSCF full の 2x exact lossless 可能性も確認した。raw `477,775,872 B` に対して
 2x budget は `238,887,936 B`。一方で低16 mantissa だけの entropy bound が
@@ -474,6 +478,7 @@ entropy bound は `48.86 MB`。低16 mantissa は west/up/channel residual で�
 | preset | total encoded | total ratio | encode sum | encode median | decode sum |
 |---|---:|---:|---:|---:|---:|
 | `fast` | 16,418,710 B | 1.60x | 0.095s | 0.011s | 0.044s |
+| `compact` | 16,411,673 B | 1.60x | 0.293s | 0.037s | - |
 | `balanced` | 15,191,103 B | 1.73x | 13.36s | 1.60s | 1.97s |
 | `quality` | 15,166,817 B | 1.73x | 14.12s | 1.74s | 1.89s |
 
@@ -503,6 +508,36 @@ filter なしの ByteplaneRans は total ratio `1.31x` / encode median `1.24s`�
 filter full-search版は total ratio `1.42x` / encode median `2.29s` だったため、
 entropy gate + 軽量filter選択で圧縮率をほぼ維持しながら encode を戻せた。
 最大入力は encode `2.00s` で、まだ1秒級ではないが、decode は1秒未満を維持した。
+
+裏タスク開始の可能性がある環境での追加確認では、DSCF full は `fast` / `compact`
+ともに `347,283,750 B` / `1.376x`。encode はそれぞれ `2.17s` / `2.78s`。
+crop512合計では `fast` が `16,418,710 B` / encode sum `0.179s`、`compact` が
+`16,411,673 B` / encode sum `0.293s`。時間は参考値だが、presetの意味分けは確認できた。
+
+さらに per-stream overhead を削るため、encode専用 rANS model を追加した。従来の
+`ByteModel::build_from_histogram()` は decode 用 `slot_to_sym` も構築するが、encodeでは
+不要なため、`freq/cum` のみを作る。あわせて rANS scratch buffer、Zstd CCtx、Zstd scratch
+buffer を thread-local に再利用し、raw filter候補では residual copy を作らず histogram
+だけを見るようにした。
+
+DSCF full profile。component time は worker合算、wall time は裏タスク影響あり:
+
+| preset | internal total | gather | filter+entropy | rANS | Zstd | assembly |
+|---|---:|---:|---:|---:|---:|---:|
+| `fast` before | 1.86s | 0.20s | 7.42s | 4.84s | 1.20s | 0.12s |
+| `fast` after | 1.77s | 0.27s | 6.91s | 4.37s | 1.10s | 0.16s |
+| `compact` before | 3.12s | 0.16s | 6.75s | 12.70s | 3.12s | 0.12s |
+| `compact` after | 2.60s | 0.13s | 5.84s | 10.77s | 2.46s | 0.13s |
+
+`compact` は full-searchで rANS/Zstd を多く叩くため、model/scratch/context再利用の効果が
+特に出た。`fast` はすでに候補削減済みなので改善は小さいが、支配項目は依然
+filter+entropy と rANS。
+
+次の追加確認では、filtered candidate の residual 生成と histogram 作成を同じloopに
+まとめた。これは west/north filter で residual buffer を作ったあとに再scanしていた
+部分を削る変更で、圧縮判断とpayloadは維持する。一方、raw byteplane histogram を
+chunk gather 中に同時作成する案も試したが、DSCF full では gather側の負荷が増えて
+wall time が悪化したため採用しない。raw histogram は従来通り candidate 評価側で作る。
 
 ## sample_* 再計測と dark smooth bypass
 

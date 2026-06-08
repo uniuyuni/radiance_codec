@@ -98,6 +98,7 @@ class LinearIndexPreset(enum.Enum):
 
 class LosslessPreset(enum.Enum):
     FAST = "fast"
+    COMPACT = "compact"
     BALANCED = "balanced"
     QUALITY = "quality"
     MAX = "max"
@@ -311,6 +312,7 @@ def lossless_effort_for_preset(preset: LosslessPreset | str) -> int:
     preset = LosslessPreset(preset)
     return {
         LosslessPreset.FAST: 5,
+        LosslessPreset.COMPACT: 6,
         LosslessPreset.BALANCED: 10,
         LosslessPreset.QUALITY: 11,
         LosslessPreset.MAX: 12,
@@ -320,7 +322,7 @@ def lossless_effort_for_preset(preset: LosslessPreset | str) -> int:
 def lossless_stage_for_preset(preset: LosslessPreset | str) -> tuple[Stage, RansMode]:
     """Return the stage and rANS mode used by a named exact-lossless preset."""
     preset = LosslessPreset(preset)
-    if preset is LosslessPreset.FAST:
+    if preset in (LosslessPreset.FAST, LosslessPreset.COMPACT):
         return Stage.BYTEPLANE_RANS, RansMode.ORDER0
     return Stage.GROUPED_DELTA, RansMode.ORDER0
 
@@ -330,8 +332,9 @@ def encode_lossless(pixels: np.ndarray,
                     effort: int | None = None) -> bytes:
     """Encode with a named exact-lossless route.
 
-    ``preset="fast"`` uses the chunked byteplane-rANS route for fast full-image
-    coding. Other presets use the grouped-delta route with increasing search.
+    ``preset="fast"`` and ``preset="compact"`` use the chunked byteplane-rANS
+    route for full-image coding. Other presets use the grouped-delta route with
+    increasing search.
     """
     stages, rans_mode = lossless_stage_for_preset(preset)
     return encode(

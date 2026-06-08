@@ -1,0 +1,40 @@
+[
+  {
+    "scope": "full",
+    "sample_no": 2,
+    "preset": "fast",
+    "stage": "BYTEPLANE_RANS",
+    "effort": 5,
+    "note": "Timing may include background task noise. Profile component times are summed across worker threads.",
+    "ok": true,
+    "shape": [
+      5152,
+      7728,
+      3
+    ],
+    "raw_bytes": 477775872,
+    "encoded_bytes": 347283750,
+    "ratio": 1.3757507283309398,
+    "encode_s": 3.288540582998394,
+    "decode_s": 1.466111333000299
+  },
+  {
+    "scope": "full",
+    "sample_no": 2,
+    "preset": "compact",
+    "stage": "BYTEPLANE_RANS",
+    "effort": 6,
+    "note": "Timing may include background task noise. Profile component times are summed across worker threads.",
+    "ok": true,
+    "shape": [
+      5152,
+      7728,
+      3
+    ],
+    "raw_bytes": 477775872,
+    "encoded_bytes": 347283750,
+    "ratio": 1.3757507283309398,
+    "encode_s": 4.942530332999013,
+    "decode_s": 1.382174500002293
+  }
+]
