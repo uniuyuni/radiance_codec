@@ -218,7 +218,7 @@ lossless preset は以下の API 設定に対応します。
 
 | preset | stage | effort | 目安 |
 |---|---|---:|---|
-| `fast` | `StageByteplaneRans` | 5 | full画像の高速 lossless。byteplane chunk + spatial filter + rANS/Zstd |
+| `fast` | `StageByteplaneRans` | 5 | full画像の高速 lossless。byteplane chunk + entropy gate + spatial filter + rANS/Zstd |
 | `balanced` | `StageGroupedDelta` | 10 | 速度と容量の中間 |
 | `quality` | `StageGroupedDelta` | 11 | 実用default |
 | `max` | `StageGroupedDelta` | 12 | 最大寄り探索、かなり重い |
@@ -420,7 +420,7 @@ radiance_codec_version()
 | `StageNone` | passthrough / 動作確認 |
 | `StageRans` | byte stream rANS。`rans_mode` で order0/order1 を選ぶ |
 | `StageBitshuffle | StageRans` | bitshuffle 後に rANS |
-| `StageByteplaneRans` | float32 byteplane を chunk 並列で spatial filter + rANS/Zstd 符号化する高速 lossless codec |
+| `StageByteplaneRans` | float32 byteplane を chunk 並列で entropy gate + spatial filter + rANS/Zstd 符号化する高速 lossless codec |
 | `StageGroupedDelta` | 現在の主力 lossless codec |
 | `StageMantissaQuantize` | near-lossless 用の前段量子化 |
 | `StageLinearIndex` | transform-index near-lossless 実験 |

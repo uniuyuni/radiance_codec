@@ -11,6 +11,7 @@
 
 #include <algorithm>
 #include <array>
+#include <cmath>
 #include <cstddef>
 #include <cstdint>
 #include <cstring>
@@ -41,6 +42,7 @@ constexpr std::uint8_t kFilterDeltaNorth = 2;
 constexpr std::uint32_t kDefaultChunkValues = 1u << 18;
 constexpr std::size_t kStreamHeaderSize = 1 + 1 + 4 + 4;
 constexpr std::size_t kFreqTableSize = 256 * 2;
+constexpr std::size_t kEntropyGateSlackBytes = 64;
 
 template <typename T>
 void put_le(std::vector<std::uint8_t>& dst, T value) {
@@ -91,6 +93,13 @@ struct StreamRef {
     const std::uint8_t* freq_table = nullptr;
     const std::uint8_t* payload = nullptr;
     std::uint32_t payload_len = 0;
+};
+
+struct FilterCandidate {
+    std::uint8_t filter = kFilterRaw;
+    std::vector<std::uint8_t> data;
+    std::array<std::uint64_t, 256> hist{};
+    std::size_t entropy_bytes = 0;
 };
 
 std::vector<std::uint8_t> encode_rans_order0(
@@ -146,6 +155,38 @@ bool decode_rans_order0(std::span<const std::uint8_t> payload,
         }
     }
     return read_ptr <= read_end;
+}
+
+std::size_t entropy_bound_bytes(
+    const std::array<std::uint64_t, 256>& hist,
+    std::size_t total) noexcept {
+    if (total == 0) return 0;
+
+    double bits = 0.0;
+    const double total_d = static_cast<double>(total);
+    for (const auto count : hist) {
+        if (count == 0) continue;
+        const double count_d = static_cast<double>(count);
+        bits += count_d * std::log2(total_d / count_d);
+    }
+    return static_cast<std::size_t>(std::ceil(bits / 8.0));
+}
+
+bool entropy_gate_allows_compression(std::size_t entropy_bytes,
+                                     std::size_t plain_size) noexcept {
+    if (plain_size == 0) return false;
+    const std::size_t raw_framed = kStreamHeaderSize + plain_size;
+    const std::size_t estimated_framed = kStreamHeaderSize + entropy_bytes;
+    return estimated_framed + kEntropyGateSlackBytes < raw_framed;
+}
+
+EncodedStream make_raw_stream(std::span<const std::uint8_t> bytes) {
+    EncodedStream stream;
+    stream.method = kMethodRaw;
+    stream.filter = kFilterRaw;
+    stream.plain_len = static_cast<std::uint32_t>(bytes.size());
+    stream.payload.assign(bytes.begin(), bytes.end());
+    return stream;
 }
 
 std::uint8_t west_predictor(std::span<const std::uint8_t> values,
@@ -210,6 +251,19 @@ std::vector<std::uint8_t> apply_filter(std::span<const std::uint8_t> values,
     return residual;
 }
 
+FilterCandidate make_filter_candidate(std::span<const std::uint8_t> values,
+                                      std::uint8_t filter,
+                                      std::size_t value_start,
+                                      const ImageMeta& meta) {
+    FilterCandidate candidate;
+    candidate.filter = filter;
+    candidate.data = apply_filter(values, filter, value_start, meta);
+    candidate.hist = compute_histogram(candidate.data);
+    candidate.entropy_bytes =
+        entropy_bound_bytes(candidate.hist, candidate.data.size());
+    return candidate;
+}
+
 bool undo_filter_in_place(std::vector<std::uint8_t>& values,
                           std::uint8_t filter,
                           std::size_t value_start,
@@ -233,6 +287,7 @@ EncodedStream encode_stream(std::span<const std::uint8_t> raw,
                             std::uint8_t plane,
                             const ImageMeta& meta,
                             std::uint8_t effort) {
+    (void)effort;
     std::vector<std::uint8_t> bytes(value_count);
     for (std::size_t i = 0; i < value_count; ++i) {
         bytes[i] = raw[(value_start + i) * 4 + plane];
@@ -244,69 +299,74 @@ EncodedStream encode_stream(std::span<const std::uint8_t> raw,
             + stream.payload.size();
     };
 
-    auto encode_filtered = [&](std::uint8_t filter) -> EncodedStream {
-        EncodedStream stream;
-        stream.filter = filter;
-        stream.plain_len = static_cast<std::uint32_t>(value_count);
-
-        auto filtered = apply_filter(bytes, filter, value_start, meta);
+    auto encode_candidate = [&](FilterCandidate&& candidate) -> EncodedStream {
+        EncodedStream best = make_raw_stream(bytes);
+        if (!entropy_gate_allows_compression(
+                candidate.entropy_bytes,
+                candidate.data.size())) {
+            return best;
+        }
 
         ByteModel model;
-        model.build_from_histogram(compute_histogram(filtered));
-        auto rans_payload = encode_rans_order0(filtered, model);
+        model.build_from_histogram(candidate.hist);
+        auto rans_payload = encode_rans_order0(candidate.data, model);
 
-        const std::size_t raw_framed = kStreamHeaderSize + filtered.size();
-        const std::size_t rans_framed =
-            kStreamHeaderSize + kFreqTableSize + rans_payload.size();
-
-        if (rans_framed < raw_framed) {
-            stream.method = kMethodRansOrder0;
-            for (std::size_t s = 0; s < stream.freq.size(); ++s) {
-                stream.freq[s] = static_cast<std::uint16_t>(model.freq[s]);
-            }
-            stream.payload = std::move(rans_payload);
-        } else {
-            stream.method = kMethodRaw;
-            stream.payload = std::move(filtered);
+        EncodedStream rans_stream;
+        rans_stream.method = kMethodRansOrder0;
+        rans_stream.filter = candidate.filter;
+        rans_stream.plain_len = static_cast<std::uint32_t>(value_count);
+        for (std::size_t s = 0; s < rans_stream.freq.size(); ++s) {
+            rans_stream.freq[s] = static_cast<std::uint16_t>(model.freq[s]);
+        }
+        rans_stream.payload = std::move(rans_payload);
+        if (framed_size(rans_stream) < framed_size(best)) {
+            best = std::move(rans_stream);
         }
 
 #ifdef RADIANCE_CODEC_HAS_ZSTD
-        if (!filtered.empty()) {
-            const auto bound = ZSTD_compressBound(filtered.size());
+        if (!candidate.data.empty()
+            && entropy_gate_allows_compression(
+                candidate.entropy_bytes,
+                candidate.data.size())) {
+            const auto bound = ZSTD_compressBound(candidate.data.size());
             std::vector<std::uint8_t> zstd_payload(bound);
             const auto written = ZSTD_compress(
                 zstd_payload.data(),
                 zstd_payload.size(),
-                filtered.data(),
-                filtered.size(),
+                candidate.data.data(),
+                candidate.data.size(),
                 zstd_level_for_effort(effort));
             if (!ZSTD_isError(written)) {
                 zstd_payload.resize(written);
-                const std::size_t zstd_framed =
-                    kStreamHeaderSize + zstd_payload.size();
-                if (zstd_framed < framed_size(stream)) {
-                    stream.method = kMethodZstd;
-                    stream.freq = {};
-                    stream.payload = std::move(zstd_payload);
+                EncodedStream zstd_stream;
+                zstd_stream.method = kMethodZstd;
+                zstd_stream.filter = candidate.filter;
+                zstd_stream.plain_len = static_cast<std::uint32_t>(value_count);
+                zstd_stream.payload = std::move(zstd_payload);
+                if (framed_size(zstd_stream) < framed_size(best)) {
+                    best = std::move(zstd_stream);
                 }
             }
         }
 #endif
-        return stream;
+        return best;
     };
 
-    EncodedStream best = encode_filtered(kFilterRaw);
+    FilterCandidate best_candidate =
+        make_filter_candidate(bytes, kFilterRaw, value_start, meta);
     if (plane >= 2) {
-        EncodedStream west = encode_filtered(kFilterDeltaWest);
-        if (framed_size(west) < framed_size(best)) {
-            best = std::move(west);
+        FilterCandidate west =
+            make_filter_candidate(bytes, kFilterDeltaWest, value_start, meta);
+        if (west.entropy_bytes < best_candidate.entropy_bytes) {
+            best_candidate = std::move(west);
         }
-        EncodedStream north = encode_filtered(kFilterDeltaNorth);
-        if (framed_size(north) < framed_size(best)) {
-            best = std::move(north);
+        FilterCandidate north =
+            make_filter_candidate(bytes, kFilterDeltaNorth, value_start, meta);
+        if (north.entropy_bytes < best_candidate.entropy_bytes) {
+            best_candidate = std::move(north);
         }
     }
-    return best;
+    return encode_candidate(std::move(best_candidate));
 }
 
 bool parse_streams(std::span<const std::uint8_t> in,

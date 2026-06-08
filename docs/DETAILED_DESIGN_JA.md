@@ -290,9 +290,11 @@ body bitplane と sign payload を decoder-safe adaptive binary rANS で符号�
 
 full画像の高速 exact lossless preset 用 codec。raw float32 を value chunk に分け、
 各 chunk の 4 byteplane を独立streamとして扱う。低 byteplane は raw のまま、高
-byteplane は west/north spatial delta filter も候補に入れ、rANS order0 / Zstd /
-raw fallback から小さいものを選ぶ。stream 単位で OpenMP 並列化し、`StageGroupedDelta`
-より圧縮率は浅いが、decode を含めた full画像の反応速度を優先する。
+byteplane は west/north spatial delta filter も候補に入れる。候補選択は histogram
+entropy 推定で行い、実際に rANS order0 / Zstd を走らせるのは選ばれたfilterだけ。
+entropy gate で縮まないstreamは圧縮器を試さず raw fallback に逃がす。stream 単位で
+OpenMP 並列化し、`StageGroupedDelta` より圧縮率は浅いが、decode を含めた full画像の
+反応速度を優先する。
 
 内部 frame magic は `BPR1`。
 

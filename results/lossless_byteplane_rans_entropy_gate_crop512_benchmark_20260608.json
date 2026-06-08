@@ -1,0 +1,129 @@
+{
+  "scope": "crop512",
+  "preset": "fast",
+  "stage": "BYTEPLANE_RANS",
+  "variant": "entropy-gate-filter-estimate",
+  "count": 8,
+  "all_ok": true,
+  "raw_bytes_sum": 26214400,
+  "encoded_bytes_sum": 16418710,
+  "ratio_total": 1.5966175174541728,
+  "encode_s_sum": 0.09549329199944623,
+  "decode_s_sum": 0.04399308200299856,
+  "encode_s_median": 0.01130770800045866,
+  "decode_s_median": 0.00554331249986717,
+  "rows": [
+    {
+      "sample_no": 1,
+      "variant": "entropy-gate-filter-estimate",
+      "shape": [
+        512,
+        512,
+        3
+      ],
+      "raw_bytes": 3145728,
+      "encoded_bytes": 731650,
+      "ratio": 4.299498394040866,
+      "encode_s": 0.013032416998612462,
+      "decode_s": 0.0038656659999105614
+    },
+    {
+      "sample_no": 2,
+      "variant": "entropy-gate-filter-estimate",
+      "shape": [
+        512,
+        512,
+        3
+      ],
+      "raw_bytes": 3145728,
+      "encoded_bytes": 2457255,
+      "ratio": 1.2801797127282273,
+      "encode_s": 0.011587042001337977,
+      "decode_s": 0.0055590410011063796
+    },
+    {
+      "sample_no": 3,
+      "variant": "entropy-gate-filter-estimate",
+      "shape": [
+        512,
+        512,
+        3
+      ],
+      "raw_bytes": 3145728,
+      "encoded_bytes": 2179173,
+      "ratio": 1.4435421143709104,
+      "encode_s": 0.011543874999915715,
+      "decode_s": 0.005304250000335742
+    },
+    {
+      "sample_no": 4,
+      "variant": "entropy-gate-filter-estimate",
+      "shape": [
+        512,
+        512,
+        3
+      ],
+      "raw_bytes": 3145728,
+      "encoded_bytes": 2374752,
+      "ratio": 1.3246553745401626,
+      "encode_s": 0.010495083002751926,
+      "decode_s": 0.005534249998163432
+    },
+    {
+      "sample_no": 5,
+      "variant": "entropy-gate-filter-estimate",
+      "shape": [
+        512,
+        512,
+        4
+      ],
+      "raw_bytes": 4194304,
+      "encoded_bytes": 2424370,
+      "ratio": 1.7300593556264101,
+      "encode_s": 0.0163507090001076,
+      "decode_s": 0.007700165999267483
+    },
+    {
+      "sample_no": 6,
+      "variant": "entropy-gate-filter-estimate",
+      "shape": [
+        512,
+        512,
+        3
+      ],
+      "raw_bytes": 3145728,
+      "encoded_bytes": 2133638,
+      "ratio": 1.4743494444699616,
+      "encode_s": 0.0103941669985943,
+      "decode_s": 0.005552375001570908
+    },
+    {
+      "sample_no": 7,
+      "variant": "entropy-gate-filter-estimate",
+      "shape": [
+        512,
+        512,
+        3
+      ],
+      "raw_bytes": 3145728,
+      "encoded_bytes": 2130060,
+      "ratio": 1.4768260049012705,
+      "encode_s": 0.011071541001001606,
+      "decode_s": 0.006197667000378715
+    },
+    {
+      "sample_no": 8,
+      "variant": "entropy-gate-filter-estimate",
+      "shape": [
+        512,
+        512,
+        3
+      ],
+      "raw_bytes": 3145728,
+      "encoded_bytes": 1987812,
+      "ratio": 1.582507802548732,
+      "encode_s": 0.011018457997124642,
+      "decode_s": 0.004279667002265342
+    }
+  ]
+}

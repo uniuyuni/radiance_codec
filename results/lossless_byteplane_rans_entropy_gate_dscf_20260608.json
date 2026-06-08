@@ -1,0 +1,19 @@
+{
+  "scope": "full",
+  "sample_no": 2,
+  "variant": "entropy-gate-filter-estimate",
+  "shape": [
+    5152,
+    7728,
+    3
+  ],
+  "preset": "fast",
+  "stage": "BYTEPLANE_RANS",
+  "effort": 5,
+  "ok": true,
+  "raw_bytes": 477775872,
+  "encoded_bytes": 347283750,
+  "ratio": 1.3757507283309398,
+  "encode_s": 1.6445088330001454,
+  "decode_s": 0.7128917499976524
+}

@@ -1,0 +1,169 @@
+{
+  "scope": "full",
+  "preset": "fast",
+  "stage": "BYTEPLANE_RANS",
+  "variant": "entropy-gate-filter-estimate",
+  "count": 8,
+  "all_ok": true,
+  "raw_bytes_sum": 2880515720,
+  "encoded_bytes_sum": 2024878182,
+  "ratio_total": 1.4225624759089828,
+  "encode_s_sum": 9.021006415998272,
+  "decode_s_sum": 4.302705250996951,
+  "encode_s_median": 1.355479062500308,
+  "decode_s_median": 0.7059108539997396,
+  "rows": [
+    {
+      "scope": "full",
+      "sample_no": 1,
+      "variant": "entropy-gate-filter-estimate",
+      "shape": [
+        1280,
+        1920,
+        3
+      ],
+      "preset": "fast",
+      "stage": "BYTEPLANE_RANS",
+      "effort": 5,
+      "ok": true,
+      "raw_bytes": 29491200,
+      "encoded_bytes": 8086458,
+      "ratio": 3.646986109369516,
+      "encode_s": 0.09563829199760221,
+      "decode_s": 0.03314312500151573
+    },
+    {
+      "scope": "full",
+      "sample_no": 2,
+      "variant": "entropy-gate-filter-estimate",
+      "shape": [
+        5152,
+        7728,
+        3
+      ],
+      "preset": "fast",
+      "stage": "BYTEPLANE_RANS",
+      "effort": 5,
+      "ok": true,
+      "raw_bytes": 477775872,
+      "encoded_bytes": 347283750,
+      "ratio": 1.3757507283309398,
+      "encode_s": 1.352117582999199,
+      "decode_s": 0.721698124998511
+    },
+    {
+      "scope": "full",
+      "sample_no": 3,
+      "variant": "entropy-gate-filter-estimate",
+      "shape": [
+        5152,
+        7728,
+        3
+      ],
+      "preset": "fast",
+      "stage": "BYTEPLANE_RANS",
+      "effort": 5,
+      "ok": true,
+      "raw_bytes": 477775872,
+      "encoded_bytes": 338312919,
+      "ratio": 1.412230645558055,
+      "encode_s": 1.9087036250020901,
+      "decode_s": 0.6901235830009682
+    },
+    {
+      "scope": "full",
+      "sample_no": 4,
+      "variant": "entropy-gate-filter-estimate",
+      "shape": [
+        5152,
+        7728,
+        3
+      ],
+      "preset": "fast",
+      "stage": "BYTEPLANE_RANS",
+      "effort": 5,
+      "ok": true,
+      "raw_bytes": 477775872,
+      "encoded_bytes": 367101581,
+      "ratio": 1.3014813793460618,
+      "encode_s": 1.4699963750026654,
+      "decode_s": 0.7329932919965358
+    },
+    {
+      "scope": "full",
+      "sample_no": 5,
+      "variant": "entropy-gate-filter-estimate",
+      "shape": [
+        1024,
+        2048,
+        4
+      ],
+      "preset": "fast",
+      "stage": "BYTEPLANE_RANS",
+      "effort": 5,
+      "ok": true,
+      "raw_bytes": 33554432,
+      "encoded_bytes": 19406340,
+      "ratio": 1.729044837924101,
+      "encode_s": 0.1244680409981811,
+      "decode_s": 0.057006209000974195
+    },
+    {
+      "scope": "full",
+      "sample_no": 6,
+      "variant": "entropy-gate-filter-estimate",
+      "shape": [
+        4000,
+        6000,
+        3
+      ],
+      "preset": "fast",
+      "stage": "BYTEPLANE_RANS",
+      "effort": 5,
+      "ok": true,
+      "raw_bytes": 288000000,
+      "encoded_bytes": 190578534,
+      "ratio": 1.5111880333805066,
+      "encode_s": 0.7147145409981022,
+      "decode_s": 0.4149454170001263
+    },
+    {
+      "scope": "full",
+      "sample_no": 7,
+      "variant": "entropy-gate-filter-estimate",
+      "shape": [
+        7728,
+        5152,
+        3
+      ],
+      "preset": "fast",
+      "stage": "BYTEPLANE_RANS",
+      "effort": 5,
+      "ok": true,
+      "raw_bytes": 477775872,
+      "encoded_bytes": 326449708,
+      "ratio": 1.4635512309908392,
+      "encode_s": 1.358840542001417,
+      "decode_s": 0.7341099999975995
+    },
+    {
+      "scope": "full",
+      "sample_no": 8,
+      "variant": "entropy-gate-filter-estimate",
+      "shape": [
+        6225,
+        8278,
+        3
+      ],
+      "preset": "fast",
+      "stage": "BYTEPLANE_RANS",
+      "effort": 5,
+      "ok": true,
+      "raw_bytes": 618366600,
+      "encoded_bytes": 427658892,
+      "ratio": 1.445934158198212,
+      "encode_s": 1.9965274169990153,
+      "decode_s": 0.9186855000007199
+    }
+  ]
+}

@@ -459,6 +459,10 @@ decodeが特に重く、圧縮率も弱かったため、採用せず比較対�
 から小さいものを選ぶ。byte2/byte3 では west/north spatial delta filter も候補に入れる。
 stream単位でOpenMP並列化する。
 
+2026-06-08 に entropy gate と軽量filter選択を追加した。各filter候補は
+histogram entropy 推定だけで比較し、実際の rANS/Zstd は最良候補1つだけに走らせる。
+また、entropy bound が raw とほぼ同等のstreamは圧縮器を試さず raw fallback にする。
+
 DSCF full の 2x exact lossless 可能性も確認した。raw `477,775,872 B` に対して
 2x budget は `238,887,936 B`。一方で低16 mantissa だけの entropy bound が
 `238,881,668 B` あり、残りは約 `6 KB` しかない。さらに exponent だけでも
@@ -469,7 +473,7 @@ entropy bound は `48.86 MB`。低16 mantissa は west/up/channel residual で�
 
 | preset | total encoded | total ratio | encode sum | encode median | decode sum |
 |---|---:|---:|---:|---:|---:|
-| `fast` | 16,411,673 B | 1.60x | 0.138s | 0.017s | 0.042s |
+| `fast` | 16,418,710 B | 1.60x | 0.095s | 0.011s | 0.044s |
 | `balanced` | 15,191,103 B | 1.73x | 13.36s | 1.60s | 1.97s |
 | `quality` | 15,166,817 B | 1.73x | 14.12s | 1.74s | 1.89s |
 
@@ -477,7 +481,7 @@ entropy bound は `48.86 MB`。低16 mantissa は west/up/channel residual で�
 
 | preset | encoded | ratio | encode | decode |
 |---|---:|---:|---:|---:|
-| `fast` | 8,054,840 B | 3.66x | 0.137s | 0.031s |
+| `fast` | 8,086,192 B | 3.65x | 0.096s | 0.033s |
 | `balanced` | 5,831,078 B | 5.06x | 14.60s | 1.40s |
 | `quality` | 5,844,062 B | 5.05x | 12.78s | 1.37s |
 
@@ -485,19 +489,20 @@ entropy bound は `48.86 MB`。低16 mantissa は west/up/channel residual で�
 
 | No. | raw | encoded | ratio | encode | decode |
 |---:|---:|---:|---:|---:|---:|
-| 1 | 29.49 MB | 8.05 MB | 3.66x | 0.137s | 0.031s |
-| 2 | 477.78 MB | 347.28 MB | 1.38x | 2.208s | 0.749s |
-| 3 | 477.78 MB | 338.31 MB | 1.41x | 2.592s | 0.862s |
-| 4 | 477.78 MB | 367.10 MB | 1.30x | 2.370s | 0.757s |
-| 5 | 33.55 MB | 19.40 MB | 1.73x | 0.182s | 0.059s |
-| 6 | 288.00 MB | 190.58 MB | 1.51x | 1.406s | 0.442s |
-| 7 | 477.78 MB | 326.45 MB | 1.46x | 2.548s | 0.705s |
-| 8 | 618.37 MB | 427.65 MB | 1.45x | 3.546s | 0.925s |
+| 1 | 29.49 MB | 8.09 MB | 3.65x | 0.096s | 0.033s |
+| 2 | 477.78 MB | 347.28 MB | 1.38x | 1.352s | 0.722s |
+| 3 | 477.78 MB | 338.31 MB | 1.41x | 1.909s | 0.690s |
+| 4 | 477.78 MB | 367.10 MB | 1.30x | 1.470s | 0.733s |
+| 5 | 33.55 MB | 19.41 MB | 1.73x | 0.124s | 0.057s |
+| 6 | 288.00 MB | 190.58 MB | 1.51x | 0.715s | 0.415s |
+| 7 | 477.78 MB | 326.45 MB | 1.46x | 1.359s | 0.734s |
+| 8 | 618.37 MB | 427.66 MB | 1.45x | 1.997s | 0.919s |
 
-summary: total ratio `1.42x`, encode median `2.29s`, decode median `0.73s`。
-filter なしの ByteplaneRans は total ratio `1.31x` / encode median `1.24s` だったため、
-圧縮率優先の fast backend としては filter 版を採用する。最大入力は encode `3.55s` で、
-1秒級ではなくなったが、decode は1秒未満を維持した。
+summary: total ratio `1.42x`, encode median `1.36s`, decode median `0.71s`。
+filter なしの ByteplaneRans は total ratio `1.31x` / encode median `1.24s`。
+filter full-search版は total ratio `1.42x` / encode median `2.29s` だったため、
+entropy gate + 軽量filter選択で圧縮率をほぼ維持しながら encode を戻せた。
+最大入力は encode `2.00s` で、まだ1秒級ではないが、decode は1秒未満を維持した。
 
 ## sample_* 再計測と dark smooth bypass
 
