@@ -114,6 +114,23 @@ constexpr std::array<ContextFamily, 15> kContextFamilies = {
     ContextFamily::ConstantZero,
 };
 
+constexpr std::array<ContextFamily, 14> kContextFamiliesWithoutConstantZero = {
+    ContextFamily::Base,
+    ContextFamily::PrevOnly,
+    ContextFamily::WNPrev,
+    ContextFamily::SpatialPrevPc,
+    ContextFamily::SpatialPrevChannel,
+    ContextFamily::SpatialHiNeighbors,
+    ContextFamily::SpatialHiChannel,
+    ContextFamily::SpatialHiPc,
+    ContextFamily::PrevXYChannel,
+    ContextFamily::HashAllXY,
+    ContextFamily::Prev4Channel,
+    ContextFamily::WNPrev4Channel,
+    ContextFamily::WNPrev4Pc,
+    ContextFamily::SpatialXY,
+};
+
 constexpr std::array<ContextFamily, 10> kContextFamiliesNoHash = {
     ContextFamily::Base,
     ContextFamily::PrevOnly,
@@ -1060,6 +1077,13 @@ std::vector<std::uint32_t> build_payload_tile(
     return payload;
 }
 
+std::uint32_t higher_bits_context(
+    std::uint32_t value,
+    std::uint8_t bit,
+    std::uint8_t count) noexcept;
+
+std::uint16_t previous_bits_context(std::uint32_t value, std::uint8_t bit) noexcept;
+
 std::uint16_t context_id_tile(
     const std::vector<std::uint32_t>& payload,
     const Record& record,
@@ -1086,14 +1110,9 @@ std::uint16_t context_id_tile(
         context |= static_cast<std::uint16_t>(
             tile_bit_at(payload, record, y - 1, x + 1, c, bit, meta) << 3);
     }
-    for (std::uint8_t offset = 1; offset <= kPreviousBits; ++offset) {
-        const std::uint8_t previous_bit = bit + offset;
-        if (previous_bit <= 31) {
-            context |= static_cast<std::uint16_t>(
-                tile_bit_at(payload, record, y, x, c, previous_bit, meta)
-                << (3 + offset));
-        }
-    }
+    const auto value = payload[tile_index_of(record, y, x, c, meta)];
+    context |= static_cast<std::uint16_t>(
+        previous_bits_context(value, bit) << 4);
     return context;
 }
 
@@ -1124,11 +1143,11 @@ std::uint16_t context_id_tile_family(
             ? tile_bit_at(payload, record, y - 1, x + 1, c, bit, meta)
             : 0;
     };
+    const auto current_value = payload[tile_index_of(record, y, x, c, meta)];
+    const auto previous_context = previous_bits_context(current_value, bit);
     auto previous = [&](std::uint8_t offset) noexcept -> std::uint16_t {
-        const std::uint8_t previous_bit = bit + offset;
-        return previous_bit <= 31
-            ? tile_bit_at(payload, record, y, x, c, previous_bit, meta)
-            : 0;
+        return static_cast<std::uint16_t>(
+            (previous_context >> (offset - 1)) & 1u);
     };
     auto previous_w = [&](std::uint8_t offset) noexcept -> std::uint16_t {
         const std::uint8_t previous_bit = bit + offset;
@@ -1607,6 +1626,11 @@ std::uint32_t higher_bits_context(
     return (value >> (bit + 1)) & ((1u << used) - 1u);
 }
 
+std::uint16_t previous_bits_context(std::uint32_t value, std::uint8_t bit) noexcept {
+    return static_cast<std::uint16_t>(
+        higher_bits_context(value, bit, kPreviousBits));
+}
+
 double base_context_cost_for_tile_fast(
     const std::vector<std::uint32_t>& payload,
     const Record& record,
@@ -1645,7 +1669,7 @@ double base_context_cost_for_tile_fast(
                         | (((northwest >> bit) & 1u) << 2)
                         | (((northeast >> bit) & 1u) << 3);
                     const std::uint32_t previous =
-                        higher_bits_context(value, bit, kPreviousBits) << 4;
+                        previous_bits_context(value, bit) << 4;
                     const auto context = spatial | previous;
                     const auto counts_index =
                         std::size_t(bi) * kBaseContextCount + context;
@@ -1744,6 +1768,14 @@ double context_cost_for_tile_channel(
     return cost;
 }
 
+std::pair<ContextFamily, double> best_context_family_for_full_payload(
+    const std::array<std::vector<std::uint32_t>, kGroupCount>& payloads,
+    const Record& record,
+    std::uint8_t bit,
+    const ImageMeta& meta,
+    const KtCostCache& kt_costs,
+    std::span<const ContextFamily> candidate_families) noexcept;
+
 double family_context_cost_for_tile_channel(
     const std::vector<std::uint32_t>& payload,
     const Record& record,
@@ -1782,18 +1814,24 @@ double family_context_cost_for_tile(
     const KtCostCache& kt_costs) noexcept {
     double cost = 0.0;
     const auto bit_count = record_bit_count(record);
+    Record local_record = record;
+    local_record.y = 0;
+    local_record.x = 0;
+    ImageMeta local_meta = meta;
+    local_meta.width = record.width;
+    local_meta.height = record.height;
+    std::array<std::vector<std::uint32_t>, kGroupCount> local_payloads;
+    local_payloads[static_cast<std::size_t>(record.group)] = payload;
     for (std::uint8_t bi = 0; bi < bit_count; ++bi) {
         const auto bit = record_bit_at(record, bi);
-        double best = context_cost_for_tile(
-            payload, record, bit, meta, ContextFamily::Base, kt_costs);
-        for (ContextFamily family : kContextFamilies) {
-            if (family == ContextFamily::Base) continue;
-            if (family == ContextFamily::ConstantZero) continue;
-            best = std::min(
-                best,
-                context_cost_for_tile(payload, record, bit, meta, family, kt_costs));
-        }
-        cost += best;
+        cost += best_context_family_for_full_payload(
+                    local_payloads,
+                    local_record,
+                    bit,
+                    local_meta,
+                    kt_costs,
+                    kContextFamiliesWithoutConstantZero)
+                    .second;
     }
     return cost;
 }
@@ -2627,8 +2665,7 @@ bool full_payload_bitplane_is_zero(
                 const std::uint32_t nw = (northwest >> bit) & 1u;
                 const std::uint32_t ne = (northeast >> bit) & 1u;
                 const auto spatial = w | (n << 1) | (nw << 2) | (ne << 3);
-                const auto previous =
-                    higher_bits_context(value, bit, kPreviousBits);
+                const auto previous = previous_bits_context(value, bit);
 
                 if (enabled[static_cast<std::size_t>(ContextFamily::Base)]) {
                     const auto context = spatial | (previous << 4);
@@ -3135,8 +3172,7 @@ FamilyChoice best_family_choice_for_full_payload(
                 const std::uint32_t nw = (northwest >> bit) & 1u;
                 const std::uint32_t ne = (northeast >> bit) & 1u;
                 const auto spatial = w | (n << 1) | (nw << 2) | (ne << 3);
-                const auto previous =
-                    higher_bits_context(value, bit, kPreviousBits);
+                const auto previous = previous_bits_context(value, bit);
 
                 if (enabled[static_cast<std::size_t>(ContextFamily::Base)]) {
                     update_family_counts(
