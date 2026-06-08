@@ -1,6 +1,6 @@
 # radiance_codec 詳細設計書
 
-最終更新: 2026-06-07
+最終更新: 2026-06-08
 
 ## 位置づけ
 
@@ -354,7 +354,7 @@ HDR写真向け visual near-lossless router。内部 frame magic は `NLR1`。
 - Metal downsample: ON
 - Metal high-pass: ON
 - Metal visual-guard: ON
-- dark smooth bypass: OFF。暗部階調の品質回帰を避けるため、実験時のみ
+- dark smooth bypass: OFF。暗部階調と色ムラの品質回帰を避けるため、実験時のみ
   `RADIANCE_CODEC_ROUTER_DARK_SMOOTH_BYPASS=1` で有効化する。
 - dark noise threshold: `0.003`
 - tiled masks: ON

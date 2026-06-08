@@ -46,6 +46,7 @@ constexpr std::uint32_t kDefaultChunkValues = 1u << 18;
 constexpr std::size_t kStreamHeaderSize = 1 + 1 + 4 + 4;
 constexpr std::size_t kFreqTableSize = 256 * 2;
 constexpr std::size_t kEntropyGateSlackBytes = 64;
+constexpr std::size_t kCompactFullSearchSlackBytes = 4096;
 
 using ByteHistogram = std::array<std::uint32_t, 256>;
 
@@ -477,21 +478,35 @@ EncodedStream encode_stream(std::span<const std::uint8_t> bytes,
     };
 
     if (effort >= 6 && plane >= 2) {
-        EncodedStream best = encode_candidate(
-            make_filter_candidate(
-                bytes, kFilterRaw, value_start, meta, profile),
-            false);
-        EncodedStream west = encode_candidate(
-            make_filter_candidate(
-                bytes, kFilterDeltaWest, value_start, meta, profile),
-            false);
+        std::array<FilterCandidate, 3> candidates;
+        candidates[0] = make_filter_candidate(
+            bytes, kFilterRaw, value_start, meta, profile);
+        candidates[1] = make_filter_candidate(
+            bytes, kFilterDeltaWest, value_start, meta, profile);
+        candidates[2] = make_filter_candidate(
+            bytes, kFilterDeltaNorth, value_start, meta, profile);
+
+        std::size_t best_index = 0;
+        std::size_t second_entropy = std::numeric_limits<std::size_t>::max();
+        for (std::size_t i = 1; i < candidates.size(); ++i) {
+            if (candidates[i].entropy_bytes < candidates[best_index].entropy_bytes) {
+                second_entropy = candidates[best_index].entropy_bytes;
+                best_index = i;
+            } else {
+                second_entropy = std::min(second_entropy, candidates[i].entropy_bytes);
+            }
+        }
+        if (candidates[best_index].entropy_bytes + kCompactFullSearchSlackBytes
+            < second_entropy) {
+            return encode_candidate(std::move(candidates[best_index]), false);
+        }
+
+        EncodedStream best = encode_candidate(std::move(candidates[0]), false);
+        EncodedStream west = encode_candidate(std::move(candidates[1]), false);
         if (framed_size(west) < framed_size(best)) {
             best = std::move(west);
         }
-        EncodedStream north = encode_candidate(
-            make_filter_candidate(
-                bytes, kFilterDeltaNorth, value_start, meta, profile),
-            false);
+        EncodedStream north = encode_candidate(std::move(candidates[2]), false);
         if (framed_size(north) < framed_size(best)) {
             best = std::move(north);
         }

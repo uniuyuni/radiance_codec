@@ -278,8 +278,8 @@ assert decoded.dtype == np.float32
 ```
 
 現行の Metal guided / downsample / high-pass / visual-guard はデフォルトで有効です。
-dark smooth bypass は暗部階調に影響しやすいためデフォルトでは無効で、比較実験時だけ
-明示的に有効化します。
+dark smooth bypass は暗部階調と色ムラに影響するためデフォルトでは無効です。
+比較実験時だけ明示的に有効化します。
 
 ```bash
 RADIANCE_CODEC_NO_METAL_GUIDED=1

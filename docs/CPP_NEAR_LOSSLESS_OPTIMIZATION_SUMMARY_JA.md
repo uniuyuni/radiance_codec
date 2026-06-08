@@ -539,6 +539,23 @@ filter+entropy と rANS。
 chunk gather 中に同時作成する案も試したが、DSCF full では gather側の負荷が増えて
 wall time が悪化したため採用しない。raw histogram は従来通り candidate 評価側で作る。
 
+2026-06-08 の追加:
+
+- `compact` の high byteplane full-search は、entropy推定で最良candidateが十分明確な
+  場合に1候補だけを実圧縮する。曖昧なchunkだけ従来通り raw/west/north を実圧縮比較する。
+- Python encode は入力 `np.ndarray` を `tobytes()` + ctypes copy せず、contiguous配列の
+  data pointerを直接 C ABI に渡す。
+
+DSCF exact lossless の代表値:
+
+| preset | encoded | ratio | encode |
+|---|---:|---:|---:|
+| `fast` | 347,283,750 B | 1.376x | 0.87s |
+| `compact` | 347,283,750 B | 1.376x | 0.97s |
+
+`compact` は以前の同条件では同サイズでも `fast` より約0.5s遅かったが、差はほぼ
+Python/C++境界と候補1つぶん程度まで縮んだ。
+
 ## sample_* 再計測と dark smooth bypass
 
 2026-06-07 に、現行 `metal_all_current_best` を全 `sample_*` EXRで再計測した。
@@ -609,6 +626,31 @@ DSCFの暗い床cropでザラつきがやや見えたため、現時点では `0
   `RADIANCE_CODEC_NO_METAL_HIGHPASS=1`,
   `RADIANCE_CODEC_NO_METAL_VISUAL_GUARD=1`。
 
+2026-06-08 追記:
+
+- dark smooth bypass を再評価したが、default ONは再び見送った。
+- 実験する場合だけ `RADIANCE_CODEC_ROUTER_DARK_SMOOTH_BYPASS=1` で有効化する。
+
+Metal/MPSが見える権限あり実行での代表値:
+
+| image | encoded | ratio | encode | +3EV display luma p99 / p999 |
+|---|---:|---:|---:|---:|
+| `sample_DSCF0009.EXR` | 19,271,836 B | 24.79x | 3.77s traceあり | 0.02173 / 0.03083 |
+| `sample_night_city.EXR` | 20,955,499 B | 29.51x | 4.84s | 0.02216 / 0.03956 |
+| `sample_cat_noisy.EXR` | 56,802,737 B | 8.41x | - | - |
+
+一度、bypassしたsmooth dark画素を `dark_refine_candidate_mask` から外す速度優先案も
+試した。DSCFは `16,857,550 B / 28.34x` まで縮む一方、ユーザー目視で暗部階調が
+崩壊したため戻した。修正版はdark-refineを残したが、それでもDSCFで黄色のまだらと
+暗部階調崩れが増えたため、dark smooth bypass全体をdefaultから外した。
+主な残項目は `guided-metal-down`、`visual-metal`、`payload y`、DSCFでは
+`dark-refine`。`night_city` は実行ごとの揺れが大きく、
+`indices` / `guided-metal-down` / payload計測のどれかが突出する回があるため、
+単一hotspotよりMetal/CPUスケジューリングとメモリ帯域の揺れとして追う。
+
+目視確認用previewは `outputs/previews/dark_smooth_bypass_*_refine_20260608/` に
+`original.png` / `candidate.png` だけを書き出した。
+
 視覚確認:
 
 - `scripts/diagnose_router_artifacts.py` を追加し、巨大PNGではなく縮小previewと512px cropだけを生成する。
@@ -617,9 +659,10 @@ DSCFの暗い床cropでザラつきがやや見えたため、現時点では `0
 
 次の判断:
 
-- `dark smooth bypass` はdefaultにはまだしない。
-- DSCF暗部の軽い誤差増加をもう少し見る必要がある。
-- ただし、暗さだけでなくノイズ強度で分岐する方針は有望。
+- `dark smooth bypass` はdefaultにはしない。
+- city/catでは許容寄りに見えるが、DSCFの暗部階調と黄色まだらに対して危険。
+- 次にやるなら、bypassではなく暗部色ムラを悪化させない別route、またはDSCFのような
+  暗部階調リスクを検出して画像単位/領域単位でbypassを禁止する方向。
 
 ## 試したが戻したもの
 

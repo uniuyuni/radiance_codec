@@ -242,7 +242,7 @@ def encode(pixels: np.ndarray,
         raise CodecError(f"channels must be 1..4, got {c}")
 
     arr = np.ascontiguousarray(pixels)
-    raw = arr.tobytes()
+    raw_size = arr.nbytes
 
     meta = _Meta(width=w, height=h, channels=c, format=1)
     if near_lossless_bits < 0 or near_lossless_bits > 23:
@@ -255,8 +255,8 @@ def encode(pixels: np.ndarray,
                   near_lossless_policy=int(policy))
     out = _Buffer()
 
-    in_ptr = (ctypes.c_uint8 * len(raw)).from_buffer_copy(raw)
-    rc = _lib.radiance_codec_encode(in_ptr, len(raw),
+    in_ptr = ctypes.cast(arr.ctypes.data, ctypes.POINTER(ctypes.c_uint8))
+    rc = _lib.radiance_codec_encode(in_ptr, raw_size,
                                     ctypes.byref(meta), ctypes.byref(cfg),
                                     ctypes.byref(out))
     if rc != 0:
