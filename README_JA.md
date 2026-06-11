@@ -308,8 +308,8 @@ pixi run python scripts/export_near_router_final_previews.py \
 出力先:
 
 ```text
-outputs/previews/<label>/original/<source-name>.png
-outputs/previews/<label>/candidate/<source-name>.png
+outputs/previews/<label>/<source-name>.original.png
+outputs/previews/<label>/<source-name>.candidate.png
 outputs/previews/<label>/manifest.json
 ```
 
