@@ -4,6 +4,7 @@
 #include "rans_internal.hpp"
 #include "rans_models.hpp"
 
+#include <array>
 #include <cstdint>
 #include <cstring>
 #include <vector>
@@ -17,6 +18,8 @@ const char* RansStage::name() const noexcept {
         case RansMode::Static: return "rans_static";
         case RansMode::Order0: return "rans_order0";
         case RansMode::Order1: return "rans_order1";
+        case RansMode::Order0Interleaved: return "rans_order0_interleaved";
+        case RansMode::Order1Interleaved: return "rans_order1_interleaved";
     }
     return "rans_unknown";
 }
@@ -51,6 +54,8 @@ T get_le(const uint8_t* p) {
 // Compresses `in` using the given model. Returns the raw rANS payload
 // bytes (state-flushed). Caller wraps with a header.
 
+constexpr std::size_t kInterleavedRansStates = 4;
+
 std::vector<uint8_t> encode_with_model(
     std::span<const uint8_t> in,
     const ByteModel& model) {
@@ -73,6 +78,28 @@ std::vector<uint8_t> encode_with_model(
     return std::vector<uint8_t>(write_ptr, end);
 }
 
+std::vector<uint8_t> encode_with_model_interleaved(
+    std::span<const uint8_t> in,
+    const ByteModel& model) {
+
+    std::vector<uint8_t> buf(in.size() * 2 + 64);
+    uint8_t* end = buf.data() + buf.size();
+    uint8_t* write_ptr = end;
+
+    std::array<uint32_t, kInterleavedRansStates> states{};
+    states.fill(RANS_L);
+    for (std::size_t i = in.size(); i-- > 0;) {
+        uint8_t s = in[i];
+        auto& state = states[i & (kInterleavedRansStates - 1)];
+        encode_renorm_and_put(state, write_ptr, model.cum[s], model.freq[s]);
+    }
+    for (std::size_t lane = kInterleavedRansStates; lane-- > 0;) {
+        encode_flush(states[lane], write_ptr);
+    }
+
+    return std::vector<uint8_t>(write_ptr, end);
+}
+
 // Decode `payload` of length `payload_len` into `out_len` bytes using `model`.
 bool decode_with_model(
     std::span<const uint8_t> payload,
@@ -92,6 +119,44 @@ bool decode_with_model(
         out[i] = s;
         decode_advance(state, read_ptr, model.cum[s], model.freq[s]);
         if (read_ptr > read_end) return false;
+    }
+    return true;
+}
+
+bool decode_with_model_interleaved(
+    std::span<const uint8_t> payload,
+    std::size_t out_len,
+    const ByteModel& model,
+    std::vector<uint8_t>& out) {
+
+    if (payload.size() < 4 * kInterleavedRansStates) return false;
+    out.assign(out_len, 0);
+    const uint8_t* read_ptr = payload.data();
+    const uint8_t* read_end = payload.data() + payload.size();
+    std::array<uint32_t, kInterleavedRansStates> states{};
+    for (auto& state : states) {
+        state = decode_init(read_ptr);
+    }
+
+    auto decode_one = [&](std::size_t i, uint32_t& state) noexcept -> bool {
+        uint32_t slot = decode_get_slot(state);
+        uint8_t s = model.slot_to_sym[slot];
+        out[i] = s;
+        decode_advance(state, read_ptr, model.cum[s], model.freq[s]);
+        return read_ptr <= read_end;
+    };
+
+    std::size_t i = 0;
+    for (; i + 4 <= out_len; i += 4) {
+        if (!decode_one(i + 0, states[0])) return false;
+        if (!decode_one(i + 1, states[1])) return false;
+        if (!decode_one(i + 2, states[2])) return false;
+        if (!decode_one(i + 3, states[3])) return false;
+    }
+    for (; i < out_len; ++i) {
+        if (!decode_one(i, states[i & (kInterleavedRansStates - 1)])) {
+            return false;
+        }
     }
     return true;
 }
@@ -159,6 +224,24 @@ Status encode_order0(std::span<const uint8_t> in,
     return Status::Ok;
 }
 
+Status encode_order0_interleaved(std::span<const uint8_t> in,
+                                 std::vector<uint8_t>& out) {
+    ByteModel m;
+    auto hist = compute_histogram(in);
+    m.build_from_histogram(hist);
+    auto payload = encode_with_model_interleaved(in, m);
+
+    out.clear();
+    out.push_back(static_cast<uint8_t>(RansMode::Order0Interleaved));
+    put_le<uint32_t>(out, static_cast<uint32_t>(payload.size()));
+    put_le<uint32_t>(out, static_cast<uint32_t>(in.size()));
+    for (uint32_t s = 0; s < 256; ++s) {
+        put_le<uint16_t>(out, static_cast<uint16_t>(m.freq[s]));
+    }
+    out.insert(out.end(), payload.begin(), payload.end());
+    return Status::Ok;
+}
+
 Status decode_order0(std::span<const uint8_t> in,
                      std::vector<uint8_t>& out) {
     constexpr std::size_t header_size = 1 + 4 + 4 + 256 * 2;
@@ -180,6 +263,34 @@ Status decode_order0(std::span<const uint8_t> in,
     m.finalize_lookup_tables();
 
     if (!decode_with_model(
+            std::span<const uint8_t>(in.data() + header_size, payload_len),
+            out_len, m, out)) {
+        return Status::DecompressFailed;
+    }
+    return Status::Ok;
+}
+
+Status decode_order0_interleaved(std::span<const uint8_t> in,
+                                 std::vector<uint8_t>& out) {
+    constexpr std::size_t header_size = 1 + 4 + 4 + 256 * 2;
+    if (in.size() < header_size) return Status::DecompressFailed;
+    if (in[0] != static_cast<uint8_t>(RansMode::Order0Interleaved)) {
+        return Status::DecompressFailed;
+    }
+    uint32_t payload_len = get_le<uint32_t>(in.data() + 1);
+    uint32_t out_len     = get_le<uint32_t>(in.data() + 5);
+    if (in.size() < header_size + payload_len) return Status::DecompressFailed;
+
+    ByteModel m;
+    uint32_t sum = 0;
+    for (uint32_t s = 0; s < 256; ++s) {
+        m.freq[s] = get_le<uint16_t>(in.data() + 9 + s * 2);
+        sum += m.freq[s];
+    }
+    if (sum != PROB_SCALE) return Status::DecompressFailed;
+    m.finalize_lookup_tables();
+
+    if (!decode_with_model_interleaved(
             std::span<const uint8_t>(in.data() + header_size, payload_len),
             out_len, m, out)) {
         return Status::DecompressFailed;
@@ -251,6 +362,56 @@ Status encode_order1(std::span<const uint8_t> in,
     return Status::Ok;
 }
 
+Status encode_order1_interleaved(std::span<const uint8_t> in,
+                                 std::vector<uint8_t>& out) {
+    std::vector<std::array<uint64_t, 256>> hist(256);
+    {
+        uint8_t prev = 0;
+        for (std::size_t i = 0; i < in.size(); ++i) {
+            ++hist[prev][in[i]];
+            prev = in[i];
+        }
+    }
+
+    std::vector<ByteModel> models(256);
+    for (uint32_t c = 0; c < 256; ++c) {
+        models[c].build_from_histogram(hist[c]);
+    }
+
+    std::vector<uint8_t> buf(in.size() * 2 + 64);
+    uint8_t* end = buf.data() + buf.size();
+    uint8_t* write_ptr = end;
+
+    std::array<uint32_t, kInterleavedRansStates> states{};
+    states.fill(RANS_L);
+    for (std::size_t i = in.size(); i-- > 0;) {
+        uint8_t s = in[i];
+        uint8_t prev = (i == 0) ? 0 : in[i - 1];
+        auto& state = states[i & (kInterleavedRansStates - 1)];
+        encode_renorm_and_put(state, write_ptr,
+                              models[prev].cum[s],
+                              models[prev].freq[s]);
+    }
+    for (std::size_t lane = kInterleavedRansStates; lane-- > 0;) {
+        encode_flush(states[lane], write_ptr);
+    }
+
+    const auto payload_size = static_cast<std::size_t>(end - write_ptr);
+
+    out.clear();
+    out.reserve(1 + 4 + 4 + 256 * 256 * 2 + payload_size);
+    out.push_back(static_cast<uint8_t>(RansMode::Order1Interleaved));
+    put_le<uint32_t>(out, static_cast<uint32_t>(payload_size));
+    put_le<uint32_t>(out, static_cast<uint32_t>(in.size()));
+    for (uint32_t c = 0; c < 256; ++c) {
+        for (uint32_t s = 0; s < 256; ++s) {
+            put_le<uint16_t>(out, static_cast<uint16_t>(models[c].freq[s]));
+        }
+    }
+    out.insert(out.end(), write_ptr, end);
+    return Status::Ok;
+}
+
 Status decode_order1(std::span<const uint8_t> in,
                      std::vector<uint8_t>& out) {
     constexpr std::size_t header_size = 1 + 4 + 4 + 256 * 256 * 2;
@@ -296,6 +457,65 @@ Status decode_order1(std::span<const uint8_t> in,
     return Status::Ok;
 }
 
+Status decode_order1_interleaved(std::span<const uint8_t> in,
+                                 std::vector<uint8_t>& out) {
+    constexpr std::size_t header_size = 1 + 4 + 4 + 256 * 256 * 2;
+    if (in.size() < header_size) return Status::DecompressFailed;
+    if (in[0] != static_cast<uint8_t>(RansMode::Order1Interleaved)) {
+        return Status::DecompressFailed;
+    }
+    uint32_t payload_len = get_le<uint32_t>(in.data() + 1);
+    uint32_t out_len     = get_le<uint32_t>(in.data() + 5);
+    if (in.size() < header_size + payload_len) return Status::DecompressFailed;
+
+    std::vector<ByteModel> models(256);
+    const uint8_t* p = in.data() + 9;
+    for (uint32_t c = 0; c < 256; ++c) {
+        uint32_t sum = 0;
+        for (uint32_t s = 0; s < 256; ++s) {
+            models[c].freq[s] = get_le<uint16_t>(p);
+            p += 2;
+            sum += models[c].freq[s];
+        }
+        if (sum != PROB_SCALE) return Status::DecompressFailed;
+        models[c].finalize_lookup_tables();
+    }
+
+    if (payload_len < 4 * kInterleavedRansStates) return Status::DecompressFailed;
+    out.assign(out_len, 0);
+    const uint8_t* read_ptr = in.data() + header_size;
+    const uint8_t* read_end = read_ptr + payload_len;
+    std::array<uint32_t, kInterleavedRansStates> states{};
+    for (auto& state : states) {
+        state = decode_init(read_ptr);
+    }
+
+    uint8_t prev = 0;
+    auto decode_one = [&](std::size_t i, uint32_t& state) noexcept -> bool {
+        const ByteModel& m = models[prev];
+        uint32_t slot = decode_get_slot(state);
+        uint8_t s = m.slot_to_sym[slot];
+        out[i] = s;
+        decode_advance(state, read_ptr, m.cum[s], m.freq[s]);
+        prev = s;
+        return read_ptr <= read_end;
+    };
+
+    std::size_t i = 0;
+    for (; i + 4 <= out_len; i += 4) {
+        if (!decode_one(i + 0, states[0])) return Status::DecompressFailed;
+        if (!decode_one(i + 1, states[1])) return Status::DecompressFailed;
+        if (!decode_one(i + 2, states[2])) return Status::DecompressFailed;
+        if (!decode_one(i + 3, states[3])) return Status::DecompressFailed;
+    }
+    for (; i < out_len; ++i) {
+        if (!decode_one(i, states[i & (kInterleavedRansStates - 1)])) {
+            return Status::DecompressFailed;
+        }
+    }
+    return Status::Ok;
+}
+
 } // namespace
 
 Status RansStage::encode(std::span<const std::uint8_t> in,
@@ -305,6 +525,8 @@ Status RansStage::encode(std::span<const std::uint8_t> in,
         case RansMode::Static: return encode_static(in, out);
         case RansMode::Order0: return encode_order0(in, out);
         case RansMode::Order1: return encode_order1(in, out);
+        case RansMode::Order0Interleaved: return encode_order0_interleaved(in, out);
+        case RansMode::Order1Interleaved: return encode_order1_interleaved(in, out);
     }
     return Status::InvalidArg;
 }
@@ -314,8 +536,22 @@ Status RansStage::decode(std::span<const std::uint8_t> in,
                           std::vector<std::uint8_t>& out) noexcept {
     switch (mode_) {
         case RansMode::Static: return decode_static(in, out);
-        case RansMode::Order0: return decode_order0(in, out);
-        case RansMode::Order1: return decode_order1(in, out);
+        case RansMode::Order0:
+            return !in.empty() && in[0] == static_cast<uint8_t>(RansMode::Order0Interleaved)
+                ? decode_order0_interleaved(in, out)
+                : decode_order0(in, out);
+        case RansMode::Order1:
+            return !in.empty() && in[0] == static_cast<uint8_t>(RansMode::Order1Interleaved)
+                ? decode_order1_interleaved(in, out)
+                : decode_order1(in, out);
+        case RansMode::Order0Interleaved:
+            return !in.empty() && in[0] == static_cast<uint8_t>(RansMode::Order0)
+                ? decode_order0(in, out)
+                : decode_order0_interleaved(in, out);
+        case RansMode::Order1Interleaved:
+            return !in.empty() && in[0] == static_cast<uint8_t>(RansMode::Order1)
+                ? decode_order1(in, out)
+                : decode_order1_interleaved(in, out);
     }
     return Status::InvalidArg;
 }

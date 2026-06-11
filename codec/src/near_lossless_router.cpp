@@ -41,6 +41,7 @@ constexpr std::uint8_t kStreamZstd = 3;
 constexpr std::uint8_t kStreamIndexSymbolRans = 4;
 constexpr std::uint8_t kStreamMaskBinary = 5;
 constexpr std::uint8_t kStreamMaskTiled = 6;
+constexpr std::uint8_t kStreamIndexSymbolContextRans = 7;
 constexpr std::uint8_t kExtraConstant = 1;
 constexpr std::uint8_t kExtraRaw = 2;
 constexpr std::uint8_t kDarkRefineBits = 9;
@@ -1905,6 +1906,140 @@ std::vector<std::uint8_t> encode_symbol_rans_symbols(
     return out;
 }
 
+std::vector<std::uint8_t> maskwn_contexts_from_positions(
+    const std::vector<std::uint8_t>& selected,
+    const std::vector<std::uint32_t>& positions,
+    std::uint32_t width) {
+    std::vector<std::uint8_t> contexts;
+    contexts.reserve(positions.size());
+    if (width == 0) return contexts;
+    for (const auto pos : positions) {
+        const auto x = pos % width;
+        const auto west = x > 0 && selected[pos - 1] ? 1u : 0u;
+        const auto north = pos >= width && selected[pos - width] ? 1u : 0u;
+        contexts.push_back(static_cast<std::uint8_t>(west | (north << 1)));
+    }
+    return contexts;
+}
+
+std::vector<std::uint8_t> maskwn_contexts_from_selected(
+    const std::vector<std::uint8_t>& selected,
+    std::uint32_t width,
+    std::uint32_t height) {
+    std::vector<std::uint8_t> contexts;
+    contexts.reserve(selected.size());
+    if (width == 0 || selected.size() != std::size_t(width) * height) {
+        return {};
+    }
+    for (std::uint32_t y = 0; y < height; ++y) {
+        for (std::uint32_t x = 0; x < width; ++x) {
+            const auto i = idx2(width, y, x);
+            if (!selected[i]) continue;
+            const auto west = x > 0 && selected[i - 1] ? 1u : 0u;
+            const auto north = y > 0 && selected[i - width] ? 1u : 0u;
+            contexts.push_back(static_cast<std::uint8_t>(west | (north << 1)));
+        }
+    }
+    return contexts;
+}
+
+std::vector<std::uint8_t> encode_symbol_context_rans_symbols(
+    const std::vector<std::uint16_t>& symbols,
+    const std::vector<std::uint8_t>& contexts,
+    std::uint8_t bits,
+    std::uint8_t context_count) {
+    if (symbols.size() != contexts.size()
+        || bits == 0
+        || bits > 14
+        || context_count == 0) {
+        return {};
+    }
+    const std::uint32_t alphabet = 1u << bits;
+    if (alphabet > rans::PROB_SCALE) return {};
+
+    std::vector<std::vector<std::uint64_t>> counts(
+        context_count,
+        std::vector<std::uint64_t>(alphabet, 0));
+    for (std::size_t i = 0; i < symbols.size(); ++i) {
+        const auto ctx = contexts[i];
+        const auto sym = symbols[i];
+        if (ctx >= context_count || sym >= alphabet) return {};
+        ++counts[ctx][sym];
+    }
+
+    std::vector<std::vector<std::uint32_t>> freq(
+        context_count,
+        std::vector<std::uint32_t>(alphabet, 0));
+    std::vector<std::vector<std::uint32_t>> cum(
+        context_count,
+        std::vector<std::uint32_t>(alphabet, 0));
+    for (std::uint8_t ctx = 0; ctx < context_count; ++ctx) {
+        std::uint64_t total = 0;
+        for (const auto c : counts[ctx]) total += c;
+        if (total == 0) {
+            freq[ctx][0] = rans::PROB_SCALE;
+        } else {
+            std::uint64_t assigned = 0;
+            for (std::uint32_t s = 0; s < alphabet; ++s) {
+                if (counts[ctx][s] == 0) continue;
+                std::uint64_t f =
+                    (counts[ctx][s] * std::uint64_t(rans::PROB_SCALE) + total / 2) / total;
+                if (f == 0) f = 1;
+                if (f > rans::PROB_SCALE - 1) f = rans::PROB_SCALE - 1;
+                freq[ctx][s] = static_cast<std::uint32_t>(f);
+                assigned += f;
+            }
+            while (assigned > rans::PROB_SCALE) {
+                std::uint32_t best = 0;
+                for (std::uint32_t s = 1; s < alphabet; ++s) {
+                    if (freq[ctx][s] > freq[ctx][best]) best = s;
+                }
+                if (freq[ctx][best] <= 1) break;
+                --freq[ctx][best];
+                --assigned;
+            }
+            while (assigned < rans::PROB_SCALE) {
+                std::uint32_t best = 0;
+                for (std::uint32_t s = 1; s < alphabet; ++s) {
+                    if (freq[ctx][s] > freq[ctx][best]) best = s;
+                }
+                ++freq[ctx][best];
+                ++assigned;
+            }
+        }
+        std::uint32_t c = 0;
+        for (std::uint32_t s = 0; s < alphabet; ++s) {
+            cum[ctx][s] = c;
+            c += freq[ctx][s];
+        }
+        if (c != rans::PROB_SCALE) return {};
+    }
+
+    std::vector<std::uint8_t> rans_payload(symbols.size() * 4 + 32);
+    std::uint8_t* end = rans_payload.data() + rans_payload.size();
+    std::uint8_t* write_ptr = end;
+    std::uint32_t state = rans::RANS_L;
+    for (std::size_t i = symbols.size(); i-- > 0;) {
+        const auto ctx = contexts[i];
+        const auto sym = symbols[i];
+        rans::encode_renorm_and_put(state, write_ptr, cum[ctx][sym], freq[ctx][sym]);
+    }
+    rans::encode_flush(state, write_ptr);
+
+    std::vector<std::uint8_t> out;
+    append_u8(out, context_count);
+    append_u32(out, static_cast<std::uint32_t>(symbols.size()));
+    for (std::uint8_t ctx = 0; ctx < context_count; ++ctx) {
+        for (std::uint32_t s = 0; s < alphabet; ++s) {
+            const auto f = static_cast<std::uint16_t>(freq[ctx][s]);
+            out.push_back(static_cast<std::uint8_t>(f & 0xffu));
+            out.push_back(static_cast<std::uint8_t>((f >> 8) & 0xffu));
+        }
+    }
+    out.insert(out.end(), write_ptr, end);
+    return out;
+}
+
 std::vector<std::uint8_t> encode_symbol_rans_index(
     const std::vector<std::uint8_t>& plain,
     std::uint8_t bits) {
@@ -1953,6 +2088,72 @@ bool decode_symbol_rans_symbols(
         if (symbol >= alphabet || freq[symbol] == 0) return false;
         symbols[i] = symbol;
         rans::decode_advance(state, read_ptr, cum[symbol], freq[symbol]);
+        if (read_ptr > read_end) return false;
+    }
+    return true;
+}
+
+bool decode_symbol_context_rans_symbols(
+    std::span<const std::uint8_t> payload,
+    const std::vector<std::uint8_t>& contexts,
+    std::uint8_t bits,
+    std::vector<std::uint16_t>& symbols) {
+    if (bits == 0 || bits > 14 || payload.size() < 5) return false;
+    const std::uint32_t alphabet = 1u << bits;
+    if (alphabet > rans::PROB_SCALE) return false;
+    const std::uint8_t* p = payload.data();
+    const std::uint8_t* end = payload.data() + payload.size();
+    std::uint8_t context_count = 0;
+    std::uint32_t symbol_count = 0;
+    if (!read_u8(p, end, context_count)
+        || !read_u32(p, end, symbol_count)
+        || context_count == 0
+        || symbol_count != contexts.size()) {
+        return false;
+    }
+    if (static_cast<std::size_t>(end - p)
+        < std::size_t(context_count) * alphabet * 2 + 4) {
+        return false;
+    }
+
+    std::vector<std::vector<std::uint32_t>> freq(
+        context_count,
+        std::vector<std::uint32_t>(alphabet, 0));
+    std::vector<std::vector<std::uint32_t>> cum(
+        context_count,
+        std::vector<std::uint32_t>(alphabet, 0));
+    std::vector<std::vector<std::uint16_t>> slot_to_sym(
+        context_count,
+        std::vector<std::uint16_t>(rans::PROB_SCALE, 0));
+    for (std::uint8_t ctx = 0; ctx < context_count; ++ctx) {
+        std::uint32_t sum = 0;
+        for (std::uint32_t s = 0; s < alphabet; ++s) {
+            freq[ctx][s] = static_cast<std::uint32_t>(p[0])
+                | (static_cast<std::uint32_t>(p[1]) << 8);
+            p += 2;
+            cum[ctx][s] = sum;
+            for (std::uint32_t i = 0; i < freq[ctx][s]; ++i) {
+                if (sum + i >= rans::PROB_SCALE) return false;
+                slot_to_sym[ctx][sum + i] = static_cast<std::uint16_t>(s);
+            }
+            sum += freq[ctx][s];
+        }
+        if (sum != rans::PROB_SCALE) return false;
+    }
+    if (p + 4 > end) return false;
+
+    symbols.assign(symbol_count, 0);
+    const std::uint8_t* read_ptr = p;
+    const std::uint8_t* read_end = end;
+    std::uint32_t state = rans::decode_init(read_ptr);
+    for (std::uint32_t i = 0; i < symbol_count; ++i) {
+        const auto ctx = contexts[i];
+        if (ctx >= context_count) return false;
+        const auto slot = rans::decode_get_slot(state);
+        const auto symbol = slot_to_sym[ctx][slot];
+        if (symbol >= alphabet || freq[ctx][symbol] == 0) return false;
+        symbols[i] = symbol;
+        rans::decode_advance(state, read_ptr, cum[ctx][symbol], freq[ctx][symbol]);
         if (read_ptr > read_end) return false;
     }
     return true;
@@ -2110,6 +2311,14 @@ bool decode_index_stream_slice(
     if (slice.method == kStreamIndexSymbolRans) {
         std::vector<std::uint16_t> symbols;
         if (!decode_symbol_rans_symbols(slice.payload, bits, symbols)) return false;
+        return decode_index_symbols(symbols, selected, width, height, bits, indices);
+    }
+    if (slice.method == kStreamIndexSymbolContextRans) {
+        const auto contexts = maskwn_contexts_from_selected(selected, width, height);
+        std::vector<std::uint16_t> symbols;
+        if (!decode_symbol_context_rans_symbols(slice.payload, contexts, bits, symbols)) {
+            return false;
+        }
         return decode_index_symbols(symbols, selected, width, height, bits, indices);
     }
     std::vector<std::uint8_t> stream;
@@ -3591,7 +3800,29 @@ Status NearLosslessRouterStage::encode(
         std::uint8_t bits) {
         std::vector<std::uint8_t> payload;
         const auto symbols = index_symbols_from_positions(indices, selected, positions, width, bits);
-        if (!append_symbol_stream(payload, symbols, bits)) {
+        std::vector<std::uint8_t> direct_payload;
+        if (append_symbol_stream(direct_payload, symbols, bits)) {
+            payload = std::move(direct_payload);
+        }
+        const auto contexts = maskwn_contexts_from_positions(selected, positions, width);
+        auto context_compressed = encode_symbol_context_rans_symbols(
+            symbols,
+            contexts,
+            bits,
+            4);
+        if (!context_compressed.empty()) {
+            std::vector<std::uint8_t> context_payload;
+            append_u8(context_payload, kStreamIndexSymbolContextRans);
+            append_u32(context_payload, static_cast<std::uint32_t>(context_compressed.size()));
+            context_payload.insert(
+                context_payload.end(),
+                context_compressed.begin(),
+                context_compressed.end());
+            if (payload.empty() || context_payload.size() < payload.size()) {
+                payload = std::move(context_payload);
+            }
+        }
+        if (payload.empty()) {
             const auto stream = encode_index_stream_from_positions(
                 indices, selected, positions, width, bits);
             if (!append_symbol_index_stream(payload, stream, bits)) payload.clear();

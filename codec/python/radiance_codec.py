@@ -74,6 +74,8 @@ class RansMode(enum.IntEnum):
     STATIC  = 0
     ORDER0  = 1
     ORDER1  = 2
+    ORDER0_INTERLEAVED = 3
+    ORDER1_INTERLEAVED = 4
 
 
 class NearLosslessPolicy(enum.IntEnum):

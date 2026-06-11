@@ -17,6 +17,8 @@ enum class RansMode : uint8_t {
     Static = 0,
     Order0 = 1,
     Order1 = 2,
+    Order0Interleaved = 3,
+    Order1Interleaved = 4,
 };
 
 class RansStage final : public IStage {

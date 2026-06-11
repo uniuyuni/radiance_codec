@@ -88,7 +88,7 @@ enum class SignClass : uint8_t {
 struct PipelineConfig {
     uint32_t stages = StageNone;    // bitmask of Stage values
     uint8_t  effort = 5;            // codec-specific search level
-    uint8_t  rans_mode = 1;         // 0=Static, 1=Order0, 2=Order1
+    uint8_t  rans_mode = 1;         // 0=Static, 1=Order0, 2=Order1, 3/4=interleaved
     uint8_t  near_lossless_bits = 0; // low mantissa bits to zero before coding
     uint8_t  near_lossless_policy =
         static_cast<uint8_t>(NearLosslessPolicy::Fixed);

@@ -79,6 +79,8 @@ int main() {
         errors += run_case("uniform", raw, meta, 0);
         errors += run_case("uniform", raw, meta, 1);
         errors += run_case("uniform", raw, meta, 2);
+        errors += run_case("uniform", raw, meta, 3);
+        errors += run_case("uniform", raw, meta, 4);
     }
 
     // Case 2: skewed (mostly zeros, occasional symbols)
@@ -94,6 +96,8 @@ int main() {
         errors += run_case("skewed", raw, meta, 0);
         errors += run_case("skewed", raw, meta, 1);
         errors += run_case("skewed", raw, meta, 2);
+        errors += run_case("skewed", raw, meta, 3);
+        errors += run_case("skewed", raw, meta, 4);
     }
 
     // Case 3: float32 gradient + noise (realistic-ish HDR pattern)
@@ -115,6 +119,8 @@ int main() {
         errors += run_case("float32", raw, meta, 0);
         errors += run_case("float32", raw, meta, 1);
         errors += run_case("float32", raw, meta, 2);
+        errors += run_case("float32", raw, meta, 3);
+        errors += run_case("float32", raw, meta, 4);
     }
 
     if (errors == 0) {

@@ -32,7 +32,7 @@ typedef struct {
 typedef struct {
     uint32_t stages;             /* bitmask of stages */
     uint8_t  effort;
-    uint8_t  rans_mode;          /* 0=Static, 1=Order0, 2=Order1 */
+    uint8_t  rans_mode;          /* 0=Static, 1=Order0, 2=Order1, 3/4=interleaved */
     uint8_t  near_lossless_bits; /* low mantissa bits or linear-index bits */
     uint8_t  near_lossless_policy; /* 0=fixed, 1=tile, 2=exponent, 3=tile+exponent, 4=linear, 5=log, 6=sqrt, 7=gamma075, 8=gamma025, 9=asinh */
 } radiance_codec_config_t;

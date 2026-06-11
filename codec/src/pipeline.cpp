@@ -130,6 +130,8 @@ std::vector<std::unique_ptr<IStage>> build_pipeline(
             case 0: mode = RansMode::Static; break;
             case 1: mode = RansMode::Order0; break;
             case 2: mode = RansMode::Order1; break;
+            case 3: mode = RansMode::Order0Interleaved; break;
+            case 4: mode = RansMode::Order1Interleaved; break;
             default: mode = RansMode::Order0; break;
         }
         stages.emplace_back(std::make_unique<RansStage>(mode));
