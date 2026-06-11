@@ -42,6 +42,7 @@ constexpr std::uint8_t kStreamIndexSymbolRans = 4;
 constexpr std::uint8_t kStreamMaskBinary = 5;
 constexpr std::uint8_t kStreamMaskTiled = 6;
 constexpr std::uint8_t kStreamIndexSymbolContextRans = 7;
+constexpr std::uint8_t kStreamIndexSymbolParityContextRans = 8;
 constexpr std::uint8_t kExtraConstant = 1;
 constexpr std::uint8_t kExtraRaw = 2;
 constexpr std::uint8_t kDarkRefineBits = 9;
@@ -894,6 +895,15 @@ bool read_stream(
     const std::uint8_t* end,
     std::vector<std::uint8_t>& plain);
 
+bool build_order0_rans_payload(
+    std::span<const std::uint8_t> plain,
+    std::vector<std::uint8_t>& payload);
+
+bool build_order1_rans_payload_with_hist(
+    std::span<const std::uint8_t> plain,
+    const std::vector<std::array<std::uint64_t, 256>>& hist,
+    std::vector<std::uint8_t>& payload);
+
 struct StreamSlice {
     std::uint8_t method = 0;
     std::span<const std::uint8_t> payload;
@@ -1242,25 +1252,25 @@ bool compress_stream(
     }
     std::vector<std::uint8_t> compressed0;
     std::vector<std::uint8_t> compressed1;
-    ImageMeta dummy;
-    dummy.width = static_cast<std::uint32_t>(std::min<std::size_t>(plain.size(), 0xffffffffu));
-    dummy.height = 1;
-    dummy.channels = 1;
-    dummy.format = PixelFormat::Float32;
-    RansStage rans0(RansMode::Order0);
-    RansStage rans1(RansMode::Order1);
-    const auto status0 = rans0.encode(plain, dummy, compressed0);
+    const auto ok0 = build_order0_rans_payload(plain, compressed0);
     const bool try_order1 = router_order1_streams_enabled();
-    const auto status1 = try_order1
-        ? rans1.encode(plain, dummy, compressed1)
-        : Status::UnsupportedFormat;
+    bool ok1 = false;
+    if (try_order1) {
+        std::vector<std::array<std::uint64_t, 256>> hist(256);
+        std::uint8_t prev = 0;
+        for (const auto b : plain) {
+            ++hist[prev][b];
+            prev = b;
+        }
+        ok1 = build_order1_rans_payload_with_hist(plain, hist, compressed1);
+    }
     std::uint8_t method = kStreamRaw;
     std::span<const std::uint8_t> selected = plain;
-    if (status0 == Status::Ok && compressed0.size() < selected.size()) {
+    if (ok0 && compressed0.size() < selected.size()) {
         method = kStreamRansOrder0;
         selected = compressed0;
     }
-    if (status1 == Status::Ok && compressed1.size() < selected.size()) {
+    if (ok1 && compressed1.size() < selected.size()) {
         method = kStreamRansOrder1;
         selected = compressed1;
     }
@@ -1395,6 +1405,83 @@ std::size_t encode_order1_range_payload_inplace(
     return static_cast<std::size_t>(write_ptr - buf.data());
 }
 
+std::size_t encode_order0_payload_inplace(
+    std::span<const std::uint8_t> plain,
+    const EncodeByteModel& model,
+    std::vector<std::uint8_t>& buf) {
+    buf.assign(plain.size() * 2 + 32, 0);
+    std::uint8_t* end = buf.data() + buf.size();
+    std::uint8_t* write_ptr = end;
+    std::uint32_t state = rans::RANS_L;
+    for (std::size_t i = plain.size(); i-- > 0;) {
+        const std::uint8_t s = plain[i];
+        rans::encode_renorm_and_put(state, write_ptr, model.cum[s], model.freq[s]);
+    }
+    rans::encode_flush(state, write_ptr);
+    return static_cast<std::size_t>(write_ptr - buf.data());
+}
+
+bool build_order0_rans_payload(
+    std::span<const std::uint8_t> plain,
+    std::vector<std::uint8_t>& payload) {
+    std::array<std::uint64_t, 256> hist{};
+    for (const auto b : plain) ++hist[b];
+    EncodeByteModel model;
+    build_encode_model_from_hist(model, hist);
+
+    std::vector<std::uint8_t> payload_buf;
+    const auto payload_offset = encode_order0_payload_inplace(plain, model, payload_buf);
+    const auto payload_size = payload_buf.size() - payload_offset;
+
+    payload.clear();
+    payload.reserve(1 + 4 + 4 + 256 * 2 + payload_size);
+    append_u8(payload, static_cast<std::uint8_t>(RansMode::Order0));
+    if (payload_size > 0xffffffffu || plain.size() > 0xffffffffu) return false;
+    append_u32(payload, static_cast<std::uint32_t>(payload_size));
+    append_u32(payload, static_cast<std::uint32_t>(plain.size()));
+    for (std::uint32_t s = 0; s < 256; ++s) {
+        append_u16(payload, static_cast<std::uint16_t>(model.freq[s]));
+    }
+    payload.insert(
+        payload.end(),
+        payload_buf.begin() + static_cast<std::ptrdiff_t>(payload_offset),
+        payload_buf.end());
+    return true;
+}
+
+bool build_order1_rans_payload_with_hist(
+    std::span<const std::uint8_t> plain,
+    const std::vector<std::array<std::uint64_t, 256>>& hist,
+    std::vector<std::uint8_t>& payload) {
+    if (hist.size() != 256) return false;
+    std::vector<EncodeByteModel> models(256);
+    for (std::uint32_t c = 0; c < 256; ++c) {
+        build_encode_model_from_hist(models[c], hist[c]);
+    }
+
+    std::vector<std::uint8_t> payload_buf;
+    const auto payload_offset =
+        encode_order1_range_payload_inplace(plain, 0, plain.size(), models, payload_buf);
+    const auto payload_size = payload_buf.size() - payload_offset;
+
+    payload.clear();
+    payload.reserve(1 + 4 + 4 + 256 * 256 * 2 + payload_size);
+    append_u8(payload, static_cast<std::uint8_t>(RansMode::Order1));
+    if (payload_size > 0xffffffffu || plain.size() > 0xffffffffu) return false;
+    append_u32(payload, static_cast<std::uint32_t>(payload_size));
+    append_u32(payload, static_cast<std::uint32_t>(plain.size()));
+    for (std::uint32_t c = 0; c < 256; ++c) {
+        for (std::uint32_t s = 0; s < 256; ++s) {
+            append_u16(payload, static_cast<std::uint16_t>(models[c].freq[s]));
+        }
+    }
+    payload.insert(
+        payload.end(),
+        payload_buf.begin() + static_cast<std::ptrdiff_t>(payload_offset),
+        payload_buf.end());
+    return true;
+}
+
 bool append_order1_or_raw_stream_with_hist(
     std::vector<std::uint8_t>& out,
     std::span<const std::uint8_t> plain,
@@ -1453,21 +1540,19 @@ bool append_order0_or_raw_stream(
         return true;
     }
     std::vector<std::uint8_t> compressed;
-    ImageMeta dummy;
-    dummy.width = static_cast<std::uint32_t>(std::min<std::size_t>(plain.size(), 0xffffffffu));
-    dummy.height = 1;
-    dummy.channels = 1;
-    dummy.format = PixelFormat::Float32;
-    RansStage rans0(RansMode::Order0);
-    const auto status = rans0.encode(plain, dummy, compressed);
-    const bool use_rans0 = status == Status::Ok && compressed.size() < plain.size();
-    const auto selected = use_rans0
-        ? std::span<const std::uint8_t>(compressed)
-        : plain;
-    append_u8(out, use_rans0 ? kStreamRansOrder0 : kStreamRaw);
-    if (selected.size() > 0xffffffffu) return false;
-    append_u32(out, static_cast<std::uint32_t>(selected.size()));
-    out.insert(out.end(), selected.begin(), selected.end());
+    if (!build_order0_rans_payload(plain, compressed)) return false;
+    if (compressed.size() >= plain.size()) {
+        append_u8(out, kStreamRaw);
+        if (plain.size() > 0xffffffffu) return false;
+        append_u32(out, static_cast<std::uint32_t>(plain.size()));
+        out.insert(out.end(), plain.begin(), plain.end());
+        return true;
+    }
+
+    append_u8(out, kStreamRansOrder0);
+    if (compressed.size() > 0xffffffffu) return false;
+    append_u32(out, static_cast<std::uint32_t>(compressed.size()));
+    out.insert(out.end(), compressed.begin(), compressed.end());
     return true;
 }
 
@@ -1922,6 +2007,24 @@ std::vector<std::uint8_t> maskwn_contexts_from_positions(
     return contexts;
 }
 
+std::vector<std::uint8_t> maskwn_parity_contexts_from_positions(
+    const std::vector<std::uint8_t>& selected,
+    const std::vector<std::uint32_t>& positions,
+    std::uint32_t width) {
+    std::vector<std::uint8_t> contexts;
+    contexts.reserve(positions.size());
+    if (width == 0) return contexts;
+    for (const auto pos : positions) {
+        const auto x = pos % width;
+        const auto y = pos / width;
+        const auto west = x > 0 && selected[pos - 1] ? 1u : 0u;
+        const auto north = pos >= width && selected[pos - width] ? 1u : 0u;
+        const auto parity = (x & 1u) | ((y & 1u) << 1);
+        contexts.push_back(static_cast<std::uint8_t>(west | (north << 1) | (parity << 2)));
+    }
+    return contexts;
+}
+
 std::vector<std::uint8_t> maskwn_contexts_from_selected(
     const std::vector<std::uint8_t>& selected,
     std::uint32_t width,
@@ -1938,6 +2041,28 @@ std::vector<std::uint8_t> maskwn_contexts_from_selected(
             const auto west = x > 0 && selected[i - 1] ? 1u : 0u;
             const auto north = y > 0 && selected[i - width] ? 1u : 0u;
             contexts.push_back(static_cast<std::uint8_t>(west | (north << 1)));
+        }
+    }
+    return contexts;
+}
+
+std::vector<std::uint8_t> maskwn_parity_contexts_from_selected(
+    const std::vector<std::uint8_t>& selected,
+    std::uint32_t width,
+    std::uint32_t height) {
+    std::vector<std::uint8_t> contexts;
+    contexts.reserve(selected.size());
+    if (width == 0 || selected.size() != std::size_t(width) * height) {
+        return {};
+    }
+    for (std::uint32_t y = 0; y < height; ++y) {
+        for (std::uint32_t x = 0; x < width; ++x) {
+            const auto i = idx2(width, y, x);
+            if (!selected[i]) continue;
+            const auto west = x > 0 && selected[i - 1] ? 1u : 0u;
+            const auto north = y > 0 && selected[i - width] ? 1u : 0u;
+            const auto parity = (x & 1u) | ((y & 1u) << 1);
+            contexts.push_back(static_cast<std::uint8_t>(west | (north << 1) | (parity << 2)));
         }
     }
     return contexts;
@@ -2038,6 +2163,52 @@ std::vector<std::uint8_t> encode_symbol_context_rans_symbols(
     }
     out.insert(out.end(), write_ptr, end);
     return out;
+}
+
+std::size_t estimate_symbol_context_rans_payload_size(
+    const std::vector<std::uint16_t>& symbols,
+    const std::vector<std::uint8_t>& contexts,
+    std::uint8_t bits,
+    std::uint8_t context_count) {
+    if (symbols.size() != contexts.size()
+        || bits == 0
+        || bits > 14
+        || context_count == 0) {
+        return std::numeric_limits<std::size_t>::max();
+    }
+    const std::uint32_t alphabet = 1u << bits;
+    if (alphabet > rans::PROB_SCALE) {
+        return std::numeric_limits<std::size_t>::max();
+    }
+
+    std::vector<std::vector<std::uint64_t>> counts(
+        context_count,
+        std::vector<std::uint64_t>(alphabet, 0));
+    for (std::size_t i = 0; i < symbols.size(); ++i) {
+        const auto ctx = contexts[i];
+        const auto sym = symbols[i];
+        if (ctx >= context_count || sym >= alphabet) {
+            return std::numeric_limits<std::size_t>::max();
+        }
+        ++counts[ctx][sym];
+    }
+
+    double entropy_bits = 0.0;
+    for (std::uint8_t ctx = 0; ctx < context_count; ++ctx) {
+        std::uint64_t total = 0;
+        for (const auto c : counts[ctx]) total += c;
+        if (total == 0) continue;
+        const double total_d = static_cast<double>(total);
+        for (const auto c : counts[ctx]) {
+            if (c == 0) continue;
+            entropy_bits += static_cast<double>(c) * std::log2(total_d / static_cast<double>(c));
+        }
+    }
+
+    const auto entropy_bytes = static_cast<std::size_t>(std::ceil(entropy_bits / 8.0));
+    const auto model_bytes = std::size_t{1} + 4 + std::size_t(context_count) * alphabet * 2;
+    constexpr std::size_t kRansStateAndEstimatorSlack = 32;
+    return model_bytes + entropy_bytes + kRansStateAndEstimatorSlack;
 }
 
 std::vector<std::uint8_t> encode_symbol_rans_index(
@@ -2315,6 +2486,14 @@ bool decode_index_stream_slice(
     }
     if (slice.method == kStreamIndexSymbolContextRans) {
         const auto contexts = maskwn_contexts_from_selected(selected, width, height);
+        std::vector<std::uint16_t> symbols;
+        if (!decode_symbol_context_rans_symbols(slice.payload, contexts, bits, symbols)) {
+            return false;
+        }
+        return decode_index_symbols(symbols, selected, width, height, bits, indices);
+    }
+    if (slice.method == kStreamIndexSymbolParityContextRans) {
+        const auto contexts = maskwn_parity_contexts_from_selected(selected, width, height);
         std::vector<std::uint16_t> symbols;
         if (!decode_symbol_context_rans_symbols(slice.payload, contexts, bits, symbols)) {
             return false;
@@ -3697,13 +3876,16 @@ Status NearLosslessRouterStage::encode(
         dark_refine_range.hi = 0.0f;
     }
     std::vector<std::uint32_t> route_positions;
+    std::vector<std::uint32_t> nonroute_positions;
     std::vector<std::uint32_t> high_positions;
     std::vector<std::uint32_t> dark_refine_positions;
     route_positions.reserve(pixels / 8);
+    nonroute_positions.reserve(pixels);
     high_positions.reserve(pixels / 8);
     dark_refine_positions.reserve(pixels / 128);
     for (std::uint32_t i = 0; i < pixels; ++i) {
         if (route_mask[i]) route_positions.push_back(i);
+        if (!route_mask[i]) nonroute_positions.push_back(i);
         if (high_mask[i]) high_positions.push_back(i);
         if (dark_refine_mask[i]) dark_refine_positions.push_back(i);
     }
@@ -3797,17 +3979,24 @@ Status NearLosslessRouterStage::encode(
         const std::vector<std::uint8_t>& selected,
         const std::vector<std::uint32_t>& positions,
         std::uint32_t width,
-        std::uint8_t bits) {
+        std::uint8_t bits,
+        bool try_parity_context = false,
+        const std::vector<std::uint8_t>* context_override = nullptr) {
         std::vector<std::uint8_t> payload;
         const auto symbols = index_symbols_from_positions(indices, selected, positions, width, bits);
         std::vector<std::uint8_t> direct_payload;
         if (append_symbol_stream(direct_payload, symbols, bits)) {
             payload = std::move(direct_payload);
         }
-        const auto contexts = maskwn_contexts_from_positions(selected, positions, width);
+        std::vector<std::uint8_t> computed_contexts;
+        const std::vector<std::uint8_t>* contexts = context_override;
+        if (contexts == nullptr) {
+            computed_contexts = maskwn_contexts_from_positions(selected, positions, width);
+            contexts = &computed_contexts;
+        }
         auto context_compressed = encode_symbol_context_rans_symbols(
             symbols,
-            contexts,
+            *contexts,
             bits,
             4);
         if (!context_compressed.empty()) {
@@ -3820,6 +4009,28 @@ Status NearLosslessRouterStage::encode(
                 context_compressed.end());
             if (payload.empty() || context_payload.size() < payload.size()) {
                 payload = std::move(context_payload);
+            }
+        }
+        if (try_parity_context) {
+            const auto parity_contexts = maskwn_parity_contexts_from_positions(
+                selected, positions, width);
+            auto parity_context_compressed = encode_symbol_context_rans_symbols(
+                symbols,
+                parity_contexts,
+                bits,
+                16);
+            if (!parity_context_compressed.empty()) {
+                std::vector<std::uint8_t> context_payload;
+                append_u8(context_payload, kStreamIndexSymbolParityContextRans);
+                append_u32(context_payload, static_cast<std::uint32_t>(
+                    parity_context_compressed.size()));
+                context_payload.insert(
+                    context_payload.end(),
+                    parity_context_compressed.begin(),
+                    parity_context_compressed.end());
+                if (payload.empty() || context_payload.size() < payload.size()) {
+                    payload = std::move(context_payload);
+                }
             }
         }
         if (payload.empty()) {
@@ -3858,6 +4069,9 @@ Status NearLosslessRouterStage::encode(
         return result;
     };
 
+    const auto route_contexts =
+        maskwn_contexts_from_positions(route_mask, route_positions, meta.width);
+
     auto route_mask_future = std::async(std::launch::async, [&]() {
         return timed_payload("route_mask", [&]() {
             return mask_payload(route_mask, router_packed_route_mask_enabled());
@@ -3870,8 +4084,49 @@ Status NearLosslessRouterStage::encode(
     });
     auto y_future = std::async(std::launch::async, [&]() {
         return timed_payload("y", [&]() {
-            return byte_index_payload(
+            auto payload = byte_index_payload(
                 y_idx, nonroute_mask, meta.width, meta.height, params_.y_bits);
+            constexpr std::size_t kYContextTrialMinBytes = 12u << 20;
+            if (payload.size() >= kYContextTrialMinBytes) {
+                const auto symbols = index_symbols_from_positions(
+                    y_idx,
+                    nonroute_mask,
+                    nonroute_positions,
+                    meta.width,
+                    params_.y_bits);
+                const auto contexts = maskwn_parity_contexts_from_positions(
+                    nonroute_mask,
+                    nonroute_positions,
+                    meta.width);
+                const auto estimate = estimate_symbol_context_rans_payload_size(
+                    symbols,
+                    contexts,
+                    params_.y_bits,
+                    16);
+                constexpr std::size_t kYContextTrialMinGain = 64u << 10;
+                if (estimate + 5 + kYContextTrialMinGain < payload.size()) {
+                    auto compressed = encode_symbol_context_rans_symbols(
+                        symbols,
+                        contexts,
+                        params_.y_bits,
+                        16);
+                    if (!compressed.empty()) {
+                        std::vector<std::uint8_t> symbol_payload;
+                        append_u8(symbol_payload, kStreamIndexSymbolParityContextRans);
+                        append_u32(
+                            symbol_payload,
+                            static_cast<std::uint32_t>(compressed.size()));
+                        symbol_payload.insert(
+                            symbol_payload.end(),
+                            compressed.begin(),
+                            compressed.end());
+                        if (symbol_payload.size() < payload.size()) {
+                            payload = std::move(symbol_payload);
+                        }
+                    }
+                }
+            }
+            return payload;
         });
     });
     auto co_low_future = std::async(std::launch::async, [&]() {
@@ -3899,19 +4154,19 @@ Status NearLosslessRouterStage::encode(
     auto sr_future = std::async(std::launch::async, [&]() {
         return timed_payload("signed_r", [&]() {
             return symbol_payload_positions(
-                signed_idx[0], route_mask, route_positions, meta.width, anchor_bits);
+                signed_idx[0], route_mask, route_positions, meta.width, anchor_bits, false, &route_contexts);
         });
     });
     auto sg_future = std::async(std::launch::async, [&]() {
         return timed_payload("signed_g", [&]() {
             return symbol_payload_positions(
-                signed_idx[1], route_mask, route_positions, meta.width, anchor_bits);
+                signed_idx[1], route_mask, route_positions, meta.width, anchor_bits, false, &route_contexts);
         });
     });
     auto sb_future = std::async(std::launch::async, [&]() {
         return timed_payload("signed_b", [&]() {
             return symbol_payload_positions(
-                signed_idx[2], route_mask, route_positions, meta.width, anchor_bits);
+                signed_idx[2], route_mask, route_positions, meta.width, anchor_bits, false, &route_contexts);
         });
     });
     auto dark_refine_mask_future = std::async(std::launch::async, [&]() {
@@ -3939,18 +4194,31 @@ Status NearLosslessRouterStage::encode(
         out.insert(out.end(), result.payload.begin(), result.payload.end());
         return true;
     };
-    if (!append_payload(route_mask_future.get())
-        || !append_payload(high_mask_future.get())
-        || !append_payload(y_future.get())
-        || !append_payload(co_low_future.get())
-        || !append_payload(cg_low_future.get())
-        || !append_payload(co_high_future.get())
-        || !append_payload(cg_high_future.get())
-        || !append_payload(sr_future.get())
-        || !append_payload(sg_future.get())
-        || !append_payload(sb_future.get())
-        || !append_payload(dark_refine_mask_future.get())
-        || !append_payload(dark_refine_g_future.get())) {
+    auto route_mask_result = route_mask_future.get();
+    auto high_mask_result = high_mask_future.get();
+    auto y_result = y_future.get();
+    auto co_low_result = co_low_future.get();
+    auto cg_low_result = cg_low_future.get();
+    auto co_high_result = co_high_future.get();
+    auto cg_high_result = cg_high_future.get();
+    auto sr_result = sr_future.get();
+    auto sg_result = sg_future.get();
+    auto sb_result = sb_future.get();
+    auto dark_refine_mask_result = dark_refine_mask_future.get();
+    auto dark_refine_g_result = dark_refine_g_future.get();
+
+    if (!append_payload(std::move(route_mask_result))
+        || !append_payload(std::move(high_mask_result))
+        || !append_payload(std::move(y_result))
+        || !append_payload(std::move(co_low_result))
+        || !append_payload(std::move(cg_low_result))
+        || !append_payload(std::move(co_high_result))
+        || !append_payload(std::move(cg_high_result))
+        || !append_payload(std::move(sr_result))
+        || !append_payload(std::move(sg_result))
+        || !append_payload(std::move(sb_result))
+        || !append_payload(std::move(dark_refine_mask_result))
+        || !append_payload(std::move(dark_refine_g_result))) {
         return Status::DecompressFailed;
     }
     trace.lap("payloads");
@@ -4115,6 +4383,33 @@ Status NearLosslessRouterStage::decode(
             result.indices);
         return result;
     };
+    auto decode_index_task_with_contexts = [](
+        StreamSlice slice,
+        const std::vector<std::uint8_t>& selected,
+        const std::vector<std::uint8_t>& contexts,
+        std::uint32_t width,
+        std::uint32_t height,
+        std::uint8_t bits) {
+        IndexDecodeResult result;
+        if (slice.method == kStreamIndexSymbolContextRans) {
+            std::vector<std::uint16_t> symbols;
+            result.ok = decode_symbol_context_rans_symbols(
+                slice.payload,
+                contexts,
+                bits,
+                symbols)
+                && decode_index_symbols(symbols, selected, width, height, bits, result.indices);
+            return result;
+        }
+        result.ok = decode_index_stream_slice(
+            slice,
+            selected,
+            width,
+            height,
+            bits,
+            result.indices);
+        return result;
+    };
     auto decode_value_task = [](
         StreamSlice slice,
         const std::vector<std::uint8_t>& selected,
@@ -4164,27 +4459,32 @@ Status NearLosslessRouterStage::decode(
         slices[4],
         std::cref(high_mask),
         high_bits);
+    const auto route_contexts =
+        maskwn_contexts_from_selected(route_mask, meta.width, meta.height);
     auto sr_future = std::async(
         std::launch::async,
-        decode_index_task,
+        decode_index_task_with_contexts,
         slices[5],
         std::cref(route_mask),
+        std::cref(route_contexts),
         meta.width,
         meta.height,
         anchor_bits);
     auto sg_future = std::async(
         std::launch::async,
-        decode_index_task,
+        decode_index_task_with_contexts,
         slices[6],
         std::cref(route_mask),
+        std::cref(route_contexts),
         meta.width,
         meta.height,
         anchor_bits);
     auto sb_future = std::async(
         std::launch::async,
-        decode_index_task,
+        decode_index_task_with_contexts,
         slices[7],
         std::cref(route_mask),
+        std::cref(route_contexts),
         meta.width,
         meta.height,
         anchor_bits);

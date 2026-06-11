@@ -45,6 +45,7 @@ STREAM_METHODS = {
     5: "mask_binary",
     6: "mask_tiled",
     7: "symbol_context_rans",
+    8: "symbol_parity_context_rans",
 }
 
 
