@@ -1,0 +1,329 @@
+{
+  "generated_at": "2026-06-11T13:37:22+0900",
+  "rows": [
+    {
+      "image": "sample_DSCF0009.EXR",
+      "shape": [
+        5152,
+        7728,
+        3
+      ],
+      "raw_bytes": 477775872,
+      "encoded_bytes": 22661788,
+      "ratio": 21.08288507508763,
+      "encode_s": 2.4045755000006466,
+      "decode_s": 1.0312996249995194,
+      "route_mask_rate": 0.22136323153972626,
+      "dark_mask_rate": 0.22136323153972626,
+      "outlier_mask_rate": 0.0,
+      "outlier_active": false,
+      "y_step": 0.012116413563489914,
+      "route_mask_bytes": 929925,
+      "high_mask_bytes": 1756658,
+      "y_bytes": 7649241,
+      "signed_escape_bytes": 7760423,
+      "streams": [
+        {
+          "stream": "route_mask",
+          "method": "mask_tiled",
+          "payload_size": 929920,
+          "framed_bytes": 929925,
+          "share_of_streams": 0.04103514515610322
+        },
+        {
+          "stream": "high_mask",
+          "method": "mask_tiled",
+          "payload_size": 1756653,
+          "framed_bytes": 1756658,
+          "share_of_streams": 0.07751669867960316
+        },
+        {
+          "stream": "Y",
+          "method": "rans1",
+          "payload_size": 7649236,
+          "framed_bytes": 7649241,
+          "share_of_streams": 0.33754089283438576
+        },
+        {
+          "stream": "Co_low",
+          "method": "symbol_rans",
+          "payload_size": 1321834,
+          "framed_bytes": 1321839,
+          "share_of_streams": 0.058329279498882516
+        },
+        {
+          "stream": "Cg_low",
+          "method": "symbol_rans",
+          "payload_size": 1621914,
+          "framed_bytes": 1621919,
+          "share_of_streams": 0.071571020884955
+        },
+        {
+          "stream": "Co_high",
+          "method": "symbol_rans",
+          "payload_size": 563665,
+          "framed_bytes": 563670,
+          "share_of_streams": 0.024873275016953737
+        },
+        {
+          "stream": "Cg_high",
+          "method": "symbol_rans",
+          "payload_size": 667418,
+          "framed_bytes": 667423,
+          "share_of_streams": 0.02945162210449432
+        },
+        {
+          "stream": "SLog_R",
+          "method": "symbol_context_rans",
+          "payload_size": 2885242,
+          "framed_bytes": 2885247,
+          "share_of_streams": 0.1273183637994584
+        },
+        {
+          "stream": "SLog_G",
+          "method": "symbol_context_rans",
+          "payload_size": 2274719,
+          "framed_bytes": 2274724,
+          "share_of_streams": 0.10037758908521842
+        },
+        {
+          "stream": "SLog_B",
+          "method": "symbol_context_rans",
+          "payload_size": 2600447,
+          "framed_bytes": 2600452,
+          "share_of_streams": 0.11475110927384352
+        },
+        {
+          "stream": "dark_refine_mask",
+          "method": "mask_tiled",
+          "payload_size": 166496,
+          "framed_bytes": 166501,
+          "share_of_streams": 0.0073472513413838135
+        },
+        {
+          "stream": "dark_refine_G",
+          "method": "symbol_context_rans",
+          "payload_size": 224068,
+          "framed_bytes": 224073,
+          "share_of_streams": 0.009887752324718141
+        }
+      ]
+    },
+    {
+      "image": "sample_cat_noisy.EXR",
+      "shape": [
+        5152,
+        7728,
+        3
+      ],
+      "raw_bytes": 477775872,
+      "encoded_bytes": 53864522,
+      "ratio": 8.869954735697831,
+      "encode_s": 3.2730618749992573,
+      "decode_s": 1.2636838750004245,
+      "route_mask_rate": 0.9998270273208618,
+      "dark_mask_rate": 0.00022544461535289884,
+      "outlier_mask_rate": 0.9996015429496765,
+      "outlier_active": true,
+      "y_step": 0.0,
+      "route_mask_bytes": 3539222,
+      "high_mask_bytes": 569252,
+      "y_bytes": 16484748,
+      "signed_escape_bytes": 24129397,
+      "streams": [
+        {
+          "stream": "route_mask",
+          "method": "mask_tiled",
+          "payload_size": 3539217,
+          "framed_bytes": 3539222,
+          "share_of_streams": 0.06570613625628768
+        },
+        {
+          "stream": "high_mask",
+          "method": "mask_tiled",
+          "payload_size": 569247,
+          "framed_bytes": 569252,
+          "share_of_streams": 0.010568240555739164
+        },
+        {
+          "stream": "Y",
+          "method": "symbol_parity_context_rans",
+          "payload_size": 16484743,
+          "framed_bytes": 16484748,
+          "share_of_streams": 0.30604158152231364
+        },
+        {
+          "stream": "Co_low",
+          "method": "symbol_rans",
+          "payload_size": 4226151,
+          "framed_bytes": 4226156,
+          "share_of_streams": 0.07845915909663981
+        },
+        {
+          "stream": "Cg_low",
+          "method": "symbol_rans",
+          "payload_size": 4205483,
+          "framed_bytes": 4205488,
+          "share_of_streams": 0.07807545487459752
+        },
+        {
+          "stream": "Co_high",
+          "method": "symbol_rans",
+          "payload_size": 181655,
+          "framed_bytes": 181660,
+          "share_of_streams": 0.0033725425283627933
+        },
+        {
+          "stream": "Cg_high",
+          "method": "symbol_rans",
+          "payload_size": 80028,
+          "framed_bytes": 80033,
+          "share_of_streams": 0.0014858234953895157
+        },
+        {
+          "stream": "SLog_R",
+          "method": "symbol_context_rans",
+          "payload_size": 8434901,
+          "framed_bytes": 8434906,
+          "share_of_streams": 0.15659517344347954
+        },
+        {
+          "stream": "SLog_G",
+          "method": "symbol_context_rans",
+          "payload_size": 7518512,
+          "framed_bytes": 7518517,
+          "share_of_streams": 0.13958228742000794
+        },
+        {
+          "stream": "SLog_B",
+          "method": "symbol_context_rans",
+          "payload_size": 8175969,
+          "framed_bytes": 8175974,
+          "share_of_streams": 0.15178806575904688
+        },
+        {
+          "stream": "dark_refine_mask",
+          "method": "mask_tiled",
+          "payload_size": 191782,
+          "framed_bytes": 191787,
+          "share_of_streams": 0.003560551656320131
+        },
+        {
+          "stream": "dark_refine_G",
+          "method": "symbol_context_rans",
+          "payload_size": 256658,
+          "framed_bytes": 256663,
+          "share_of_streams": 0.004764983391815367
+        }
+      ]
+    },
+    {
+      "image": "sample_night_city.EXR",
+      "shape": [
+        6225,
+        8278,
+        3
+      ],
+      "raw_bytes": 618366600,
+      "encoded_bytes": 28738534,
+      "ratio": 21.516984826017918,
+      "encode_s": 3.8237022499997693,
+      "decode_s": 1.3039070830018318,
+      "route_mask_rate": 0.1596778780221939,
+      "dark_mask_rate": 0.1596778780221939,
+      "outlier_mask_rate": 0.0,
+      "outlier_active": false,
+      "y_step": 0.008994212374091148,
+      "route_mask_bytes": 1504947,
+      "high_mask_bytes": 1929391,
+      "y_bytes": 10139289,
+      "signed_escape_bytes": 9284135,
+      "streams": [
+        {
+          "stream": "route_mask",
+          "method": "mask_tiled",
+          "payload_size": 1504942,
+          "framed_bytes": 1504947,
+          "share_of_streams": 0.0523670788002318
+        },
+        {
+          "stream": "high_mask",
+          "method": "mask_tiled",
+          "payload_size": 1929386,
+          "framed_bytes": 1929391,
+          "share_of_streams": 0.06713629817758236
+        },
+        {
+          "stream": "Y",
+          "method": "rans1",
+          "payload_size": 10139284,
+          "framed_bytes": 10139289,
+          "share_of_streams": 0.3528130532446149
+        },
+        {
+          "stream": "Co_low",
+          "method": "symbol_rans",
+          "payload_size": 2178201,
+          "framed_bytes": 2178206,
+          "share_of_streams": 0.07579422082315039
+        },
+        {
+          "stream": "Cg_low",
+          "method": "symbol_rans",
+          "payload_size": 2018550,
+          "framed_bytes": 2018555,
+          "share_of_streams": 0.07023890459105996
+        },
+        {
+          "stream": "Co_high",
+          "method": "symbol_rans",
+          "payload_size": 1076643,
+          "framed_bytes": 1076648,
+          "share_of_streams": 0.037463718427367856
+        },
+        {
+          "stream": "Cg_high",
+          "method": "symbol_rans",
+          "payload_size": 575479,
+          "framed_bytes": 575484,
+          "share_of_streams": 0.020024901857854528
+        },
+        {
+          "stream": "SLog_R",
+          "method": "symbol_context_rans",
+          "payload_size": 3587561,
+          "framed_bytes": 3587566,
+          "share_of_streams": 0.12483519447730212
+        },
+        {
+          "stream": "SLog_G",
+          "method": "symbol_context_rans",
+          "payload_size": 2744750,
+          "framed_bytes": 2744755,
+          "share_of_streams": 0.09550821482240254
+        },
+        {
+          "stream": "SLog_B",
+          "method": "symbol_context_rans",
+          "payload_size": 2951809,
+          "framed_bytes": 2951814,
+          "share_of_streams": 0.10271316952798168
+        },
+        {
+          "stream": "dark_refine_mask",
+          "method": "mask_tiled",
+          "payload_size": 16351,
+          "framed_bytes": 16356,
+          "share_of_streams": 0.0005691336245439815
+        },
+        {
+          "stream": "dark_refine_G",
+          "method": "symbol_rans",
+          "payload_size": 15402,
+          "framed_bytes": 15407,
+          "share_of_streams": 0.00053611162590787
+        }
+      ]
+    }
+  ]
+}

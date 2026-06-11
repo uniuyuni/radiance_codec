@@ -752,3 +752,112 @@ order0 byte stream:
 4. Cleanup
    - 古いpreviewをarchiveし、評価対象を `near_lossless_router_gpu` と
      最新auditに絞る。
+
+## 2026-06-11 near-lossless router 最終整理
+
+直近コミット:
+
+| commit | 内容 | 判断 |
+|---|---|---|
+| `24c297e` | SLog residual を mask west/north 4-context rANS 化 | 採用。画素値を変えずに SLog stream を大幅削減 |
+| `dfe2e9e` | router 内 rANS encode 専用model、SLog context共有、Y parity context estimator | 採用。サイズ維持/改善と payload 生成速度改善 |
+
+採用したもの:
+
+- SLog_R/G/B は `route_mask` の west/north context を使う `symbol_context_rans` を採用。
+  復元画素値は変えず、SLog stream のentropy表現だけを変えた。
+- Y stream は従来byte/rANS payload が `12 MiB` 以上のときだけ、
+  x/y parityを含む16-context候補をentropy推定する。推定で `64 KiB` 以上勝つ場合だけ
+  実際に `symbol_parity_context_rans` を作る。
+- SLog_R/G/B の context列生成を1回にまとめ、3ch payload生成/復号で共有する。
+- router 内の order0/order1 rANS 候補生成は、decode用 `slot_to_sym` を作らない
+  encode専用modelに寄せた。
+
+試したが不採用:
+
+- route/high mask の反転・sparse-zero系modeは、3枚すべてまたは主要画像で悪化。
+- SLog_R/G/B の3ch shared model/group payloadは、モデル表共有より分布混合による
+  entropy悪化が大きく、しきい値を0にしても採用されなかった。
+- rANS interleaved は合成benchでは速いが、near router実画像のdefault経路では
+  decode悪化が見えたため、明示APIオプションに留めた。
+
+参照結果:
+
+- `results/near_router_slog_context_20260611.json`
+- `results/near_router_y_context_20260611.json`
+- `results/near_router_grouped_slog_20260611.json`
+- `results/near_router_rans_speed_clean_20260611.json`
+- `results/near_router_rans_speed_clean2_20260611.json`
+- `results/near_router_rans_speed_clean3_20260611.json`
+- `results/near_router_final_sample_benchmark_20260611.json`
+- `results/near_router_night_city_trace_20260611.json`
+
+コミットしない一時結果:
+
+- `results/near_router_c1_stream_budget_inverted_masks_20260609.json`
+- `results/near_router_c1_stream_budget_sparse_mask_20260609.json`
+- `results/near_router_c1_stream_budget_smoke.json`
+
+これらは「悪化したので戻した」系の確認ログで、要点は本資料へ転記済み。
+
+### 採用効果
+
+SLog context導入:
+
+| image | total before | total after | 差分 | SLog差分 |
+|---|---:|---:|---:|---:|
+| `sample_DSCF0009.EXR` | 24,022,993 | 23,080,774 | -942,219 | -937,151 |
+| `sample_cat_noisy.EXR` | 56,681,559 | 54,276,033 | -2,405,526 | -2,396,678 |
+| `sample_night_city.EXR` | 30,984,730 | 29,683,751 | -1,300,979 | -1,300,979 |
+
+Y parity context estimator導入後:
+
+| image | before | after | 差分 | Y method |
+|---|---:|---:|---:|---|
+| `sample_DSCF0009.EXR` | 23,080,774 | 23,080,774 | 0 | `rans1` |
+| `sample_cat_noisy.EXR` | 54,276,033 | 53,321,907 | -954,126 | `symbol_parity_context_rans` |
+| `sample_night_city.EXR` | 29,683,751 | 29,683,751 | 0 | `rans1` |
+
+Metalあり/権限ありのclean repeat3:
+
+| image | encoded | ratio | encode median | decode median | encode range | decode range |
+|---|---:|---:|---:|---:|---:|---:|
+| `sample_DSCF0009.EXR` | 22,661,788 | 21.08x | 2.405s | 1.007s | 2.386-3.876s | 1.001-1.031s |
+| `sample_cat_noisy.EXR` | 53,864,522 | 8.87x | 3.304s | 1.258s | 3.273-3.747s | 1.257-1.264s |
+| `sample_night_city.EXR` | 28,738,534 | 21.52x | 4.604s | 1.304s | 3.824-4.832s | 1.295-1.328s |
+
+全 `sample_*` 1回測定:
+
+| image | encoded | ratio | encode | decode | route | Y bytes | SLog bytes |
+|---|---:|---:|---:|---:|---:|---:|---:|
+| `sample_1920×1280.exr` | 2,853,307 | 10.34x | 0.670s | 0.102s | 0.00% | 1,819,024 | 23,818 |
+| `sample_DSCF0009.EXR` | 22,661,788 | 21.08x | 4.335s | 1.069s | 22.14% | 7,649,241 | 7,760,423 |
+| `sample_bright_park.EXR` | 22,986,763 | 20.78x | 2.235s | 1.148s | 5.77% | 11,499,382 | 2,788,106 |
+| `sample_cat_noisy.EXR` | 53,864,522 | 8.87x | 3.451s | 1.333s | 99.98% | 16,484,748 | 24,129,397 |
+| `sample_hilberts-mill-conference-room_2K.exr` | 1,572,445 | 21.34x | 0.413s | 0.086s | 8.46% | 863,009 | 220,548 |
+| `sample_light_snow.EXR` | 11,342,699 | 25.39x | 1.267s | 0.721s | 2.60% | 5,362,350 | 1,015,784 |
+| `sample_middle_flower.EXR` | 19,466,959 | 24.54x | 2.044s | 1.158s | 0.00% | 12,351,253 | 69,387 |
+| `sample_night_city.EXR` | 28,738,534 | 21.52x | 4.921s | 1.600s | 15.97% | 10,139,289 | 9,284,135 |
+
+### night_city trace
+
+`sample_night_city.EXR` のtrace付き単独実行では `encode total 2.980s`、
+`decode total 1.216s`。単一の大hotspotではなく、以下が積み上がる。
+
+| phase | time |
+|---|---:|
+| `payloads` | 687 ms |
+| `guided-metal-down` | 516 ms |
+| `visual-metal` | 359 ms |
+| `indices` | 343 ms |
+| `planes` | 289 ms |
+| `high-pass-metal` | 239 ms |
+
+payload内訳では `Y` が `670 ms`、SLog R/G/B が各 `363-386 ms`。
+SLog context共有により、以前のcat traceで見えた各 `2.8-3.2s` 級の
+payload生成は大きく低下した。
+
+次に触るなら、night_cityは圧縮率より速度目的で、
+`payloads` 内のY stream、`guided-metal-down`、`visual-metal`、`indices` の
+小刻みな積み上げを削る方向。ただし現時点でclean traceは3秒前後まで落ちるため、
+大きな設計変更より最終ベンチ/品質確認/配布準備に移る方がリスクは低い。
