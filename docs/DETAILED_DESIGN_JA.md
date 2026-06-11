@@ -395,6 +395,8 @@ payload: bytes
 - rANS order0
 - rANS order1
 - symbol rANS
+- symbol context rANS
+- symbol parity context rANS
 - binary/tiled mask
 - zstd実験枠
 

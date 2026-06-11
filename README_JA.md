@@ -295,6 +295,24 @@ OpenMP worker の待機スピンによる encode 時間の揺れを抑えます�
 圧縮せずに router の再構成候補と report だけを見るには
 `reconstruct_near_lossless_router_v1(...)` を使います。
 
+品質確認用のPNG previewを出す場合は、次のスクリプトを使います。
+画像ファイル名は元の basename を保ち、`original` / `candidate` に分けて出力します。
+
+```bash
+pixi run python scripts/export_near_router_final_previews.py \
+  --label near_lossless_router_final_20260611 \
+  --glob 'sample_*.EXR' \
+  --glob 'sample_*.exr'
+```
+
+出力先:
+
+```text
+outputs/previews/<label>/original/<source-name>.png
+outputs/previews/<label>/candidate/<source-name>.png
+outputs/previews/<label>/manifest.json
+```
+
 ## C++ での使い方
 
 `codec.hpp` を include して、raw float32 bytes を渡します。
