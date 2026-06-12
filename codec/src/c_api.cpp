@@ -23,6 +23,15 @@ radiance_codec::ImageMeta meta_to_cpp(const radiance_codec_meta_t& m) {
     return out;
 }
 
+radiance_codec_meta_t meta_to_c(const radiance_codec::ImageMeta& m) {
+    radiance_codec_meta_t out{};
+    out.width = m.width;
+    out.height = m.height;
+    out.channels = m.channels;
+    out.format = static_cast<std::uint8_t>(m.format);
+    return out;
+}
+
 radiance_codec::PipelineConfig config_to_cpp(const radiance_codec_config_t& c) {
     radiance_codec::PipelineConfig out;
     out.stages    = c.stages;
@@ -137,6 +146,29 @@ int radiance_codec_decode(
     if (status != radiance_codec::Status::Ok) {
         return static_cast<int>(status);
     }
+    return populate_buffer(raw, out);
+}
+
+int radiance_codec_decode_auto(
+    const uint8_t* compressed, size_t compressed_size,
+    radiance_codec_buffer_t* out,
+    radiance_codec_meta_t* meta_out) {
+
+    if (!compressed || !out) return RADIANCE_CODEC_INVALID_ARG;
+    out->data = nullptr;
+    out->size = 0;
+
+    std::vector<std::uint8_t> raw;
+    radiance_codec::ImageMeta meta;
+    auto status = radiance_codec::decode(
+        std::span<const std::uint8_t>(compressed, compressed_size),
+        raw,
+        &meta);
+
+    if (status != radiance_codec::Status::Ok) {
+        return static_cast<int>(status);
+    }
+    if (meta_out) *meta_out = meta_to_c(meta);
     return populate_buffer(raw, out);
 }
 

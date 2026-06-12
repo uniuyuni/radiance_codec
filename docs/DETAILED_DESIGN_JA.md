@@ -62,10 +62,15 @@ Status decode(std::span<const std::uint8_t> compressed,
               const ImageMeta& meta,
               const PipelineConfig& config,
               std::vector<std::uint8_t>& out) noexcept;
+
+Status decode(std::span<const std::uint8_t> compressed,
+              std::vector<std::uint8_t>& out,
+              ImageMeta* meta_out = nullptr) noexcept;
 ```
 
-`decode` は frame header 内の stage/meta を読むが、caller も `ImageMeta` を渡す。
-header と caller meta が一致しない場合は `SizeMismatch` になる。
+標準の `decode` は frame header 内の stage/meta を使うため、caller は画像サイズを
+渡さない。互換用のmeta付きoverloadでは header と caller meta が一致しない場合に
+`SizeMismatch` になる。
 
 推奨例:
 
@@ -99,6 +104,7 @@ Python binding では `encode_lossless(..., preset="fast" | "compact" | "balance
 
 - `radiance_codec_encode`
 - `radiance_codec_decode`
+- `radiance_codec_decode_auto`
 - `radiance_codec_near_lossless_router_v1_reconstruct`
 - `radiance_codec_buffer_free`
 - `radiance_codec_version`
@@ -107,6 +113,9 @@ C ABI は POD struct のみを境界に使う。`radiance_codec_encode` /
 `radiance_codec_decode` / `radiance_codec_near_lossless_router_v1_reconstruct`
 が返す `radiance_codec_buffer_t` は library 側が `malloc` し、caller が
 `radiance_codec_buffer_free` で解放する。
+新規C ABI callerは、decode時にmeta/configを渡さない `radiance_codec_decode_auto`
+を使う。`meta_out` が非nullなら、frame headerから読んだ `width` / `height` /
+`channels` / `format` を返す。
 
 `radiance_codec_near_lossless_router_v1_reconstruct` は圧縮 frame を作らず、
 router の再構成候補と report だけを返す品質監査/preview向けAPIである。
@@ -131,7 +140,7 @@ build 時に CMake/Ninja で `libradiance_codec` をビルドし、`radiance_cod
 主要関数:
 
 - `encode(pixels, stages, effort=5, ...) -> bytes`
-- `decode(compressed, shape, ...) -> np.ndarray`
+- `decode(compressed, shape=None, ...) -> np.ndarray`
 - `encode_near_lossless(pixels, low_bits, effort=11, ...) -> bytes`
 - `encode_near_lossless_router_v1(pixels, effort=11) -> bytes`
 - `reconstruct_near_lossless_router_v1(pixels, **params) -> (decoded, report)`
@@ -176,10 +185,12 @@ payload: bytes
 ```
 
 encode 時は `PipelineConfig` から stage list を構築し、front-to-back に stage を実行する。
-decode 時は header 内の stage/config を読み、同じ pipeline を構築して reverse order で
+decode 時は header 内の stage/config/meta を読み、同じ pipeline を構築して reverse order で
 decode する。
 
-`config` 引数は decode API に残っているが、実際の stage 復元は frame header に従う。
+meta/config 引数つきの decode API は old API 互換のために残っているが、
+実際の stage 復元は frame header に従う。新規コードでは frameだけでdecodeする
+overloadを使う。
 
 ## Pipeline設計
 

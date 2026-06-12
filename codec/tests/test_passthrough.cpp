@@ -157,8 +157,16 @@ int main() {
                 double(raw.size()) / double(compressed.size()));
 
     std::vector<std::uint8_t> roundtrip;
-    if (radiance_codec::decode(compressed, meta, cfg, roundtrip) != radiance_codec::Status::Ok) {
-        return fail("decode returned non-Ok");
+    radiance_codec::ImageMeta decoded_meta;
+    if (radiance_codec::decode(compressed, roundtrip, &decoded_meta)
+        != radiance_codec::Status::Ok) {
+        return fail("header-driven decode returned non-Ok");
+    }
+    if (decoded_meta.width != meta.width
+        || decoded_meta.height != meta.height
+        || decoded_meta.channels != meta.channels
+        || decoded_meta.format != meta.format) {
+        return fail("header-driven decode returned wrong meta");
     }
 
     if (roundtrip.size() != raw.size()) return fail("size mismatch");

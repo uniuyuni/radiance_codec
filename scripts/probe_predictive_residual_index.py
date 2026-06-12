@@ -201,7 +201,7 @@ def baseline_row(pixels: np.ndarray, bits: int, transform: str) -> dict:
         effort=9,
         transform=transform,
     )
-    decoded = radiance_codec.decode(encoded, pixels.shape)
+    decoded = radiance_codec.decode(encoded)
     return {
         "kind": "baseline-stage-linear-index",
         "bits": bits,

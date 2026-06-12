@@ -16,9 +16,9 @@
 //   [sign_class: u8]          (v3+, 0=mixed, 1=all sign bits 0, 2=all sign bits 1)
 //   [payload: N bytes] ← output of the encode pipeline
 //
-// The decoder uses stages+meta to reconstruct the pipeline. Width/height/
-// channels in the header MUST match the meta passed to decode (caller's
-// responsibility to pass correct meta; we cross-check).
+// The decoder uses stages+meta from the header to reconstruct the pipeline.
+// The legacy decode overload that accepts caller meta cross-checks it against
+// the header; the header-driven overload does not require caller meta.
 
 #include "radiance_codec/codec.hpp"
 #include "pipeline.hpp"
@@ -58,6 +58,87 @@ bool validate_meta(const ImageMeta& meta) {
     if (meta.channels < 1 || meta.channels > 4) return false;
     if (meta.format != PixelFormat::Float32) return false;
     return true;
+}
+
+struct FrameHeader {
+    ImageMeta meta;
+    PipelineConfig config;
+    std::size_t header_size = 0;
+};
+
+Status parse_header(std::span<const std::uint8_t> compressed,
+                    FrameHeader& header) noexcept {
+    if (compressed.size() < kHeaderSizeV1) return Status::DecompressFailed;
+
+    const std::uint8_t* p = compressed.data();
+    if (std::memcmp(p, kMagic, sizeof(kMagic)) != 0) {
+        return Status::DecompressFailed;
+    }
+    p += sizeof(kMagic);
+    const std::uint8_t version = *p++;
+    if (version < 1 || version > kFormatVersion) {
+        return Status::DecompressFailed;
+    }
+    const std::size_t header_size =
+        version == 1 ? kHeaderSizeV1
+        : version == 2 ? kHeaderSizeV2
+        : kHeaderSizeV3;
+    if (compressed.size() < header_size) return Status::DecompressFailed;
+
+    ImageMeta meta;
+    meta.width = read_le<std::uint32_t>(p); p += 4;
+    meta.height = read_le<std::uint32_t>(p); p += 4;
+    meta.channels = *p++;
+    meta.format = static_cast<PixelFormat>(*p++);
+    if (!validate_meta(meta)) return Status::DecompressFailed;
+
+    PipelineConfig config;
+    config.stages = read_le<std::uint32_t>(p); p += 4;
+    config.rans_mode = *p++;
+    config.effort = *p++;
+    config.near_lossless_bits = 0;
+    config.near_lossless_policy =
+        static_cast<std::uint8_t>(NearLosslessPolicy::Fixed);
+    if (version >= 2) {
+        config.near_lossless_bits = *p++;
+    }
+    if (version >= 3) {
+        config.near_lossless_policy = *p++;
+        const std::uint8_t sign_class = *p++;
+        if (config.near_lossless_policy
+                > static_cast<std::uint8_t>(NearLosslessPolicy::AsinhRange)
+            || sign_class > static_cast<std::uint8_t>(SignClass::AllNegative)) {
+            return Status::DecompressFailed;
+        }
+    }
+
+    header.meta = meta;
+    header.config = config;
+    header.header_size = header_size;
+    return Status::Ok;
+}
+
+Status decode_payload(std::span<const std::uint8_t> compressed,
+                      const FrameHeader& header,
+                      std::vector<std::uint8_t>& out) noexcept {
+    auto pipeline = build_pipeline(header.config);
+
+    std::vector<std::uint8_t> buf_a(
+        compressed.begin() + static_cast<std::ptrdiff_t>(header.header_size),
+        compressed.end());
+    std::vector<std::uint8_t> buf_b;
+
+    // Decode runs pipeline in reverse.
+    for (auto it = pipeline.rbegin(); it != pipeline.rend(); ++it) {
+        buf_b.clear();
+        Status s = (*it)->decode(buf_a, header.meta, buf_b);
+        if (s != Status::Ok) return s;
+        std::swap(buf_a, buf_b);
+    }
+
+    if (buf_a.size() != header.meta.raw_size()) return Status::SizeMismatch;
+    out = std::move(buf_a);
+    return Status::Ok;
 }
 
 SignClass classify_sign_bits(std::span<const std::uint8_t> raw) noexcept {
@@ -130,76 +211,27 @@ Status decode(std::span<const std::uint8_t> compressed,
     const PipelineConfig& /*config*/,
     std::vector<std::uint8_t>& out) noexcept {
     if (!validate_meta(meta)) return Status::InvalidArg;
-    if (compressed.size() < kHeaderSizeV1) return Status::DecompressFailed;
-
-    // Header
-    const std::uint8_t* p = compressed.data();
-    if (std::memcmp(p, kMagic, sizeof(kMagic)) != 0) {
-        return Status::DecompressFailed;
-    }
-    p += sizeof(kMagic);
-    const std::uint8_t version = *p++;
-    if (version < 1 || version > kFormatVersion) {
-        return Status::DecompressFailed;
-    }
-    const std::size_t header_size =
-        version == 1 ? kHeaderSizeV1
-        : version == 2 ? kHeaderSizeV2
-        : kHeaderSizeV3;
-    if (compressed.size() < header_size) return Status::DecompressFailed;
-    std::uint32_t w = read_le<std::uint32_t>(p); p += 4;
-    std::uint32_t h = read_le<std::uint32_t>(p); p += 4;
-    std::uint8_t  ch = *p++;
-    std::uint8_t  fmt = *p++;
-    std::uint32_t stages = read_le<std::uint32_t>(p); p += 4;
-    std::uint8_t  rans_mode = *p++;
-    std::uint8_t  effort    = *p++;
-    std::uint8_t  near_lossless_bits = 0;
-    std::uint8_t  near_lossless_policy =
-        static_cast<std::uint8_t>(NearLosslessPolicy::Fixed);
-    if (version >= 2) {
-        near_lossless_bits = *p++;
-    }
-    if (version >= 3) {
-        near_lossless_policy = *p++;
-        const std::uint8_t sign_class = *p++;
-        if (near_lossless_policy
-                > static_cast<std::uint8_t>(NearLosslessPolicy::AsinhRange)
-            || sign_class > static_cast<std::uint8_t>(SignClass::AllNegative)) {
-            return Status::DecompressFailed;
-        }
-    }
-
-    if (w != meta.width || h != meta.height || ch != meta.channels
-        || fmt != static_cast<std::uint8_t>(meta.format)) {
+    FrameHeader header;
+    Status status = parse_header(compressed, header);
+    if (status != Status::Ok) return status;
+    if (header.meta.width != meta.width
+        || header.meta.height != meta.height
+        || header.meta.channels != meta.channels
+        || header.meta.format != meta.format) {
         return Status::SizeMismatch;
     }
+    return decode_payload(compressed, header, out);
+}
 
-    // Reconstruct pipeline using the stages stored in the file
-    PipelineConfig cfg;
-    cfg.stages    = stages;
-    cfg.rans_mode = rans_mode;
-    cfg.effort    = effort;
-    cfg.near_lossless_bits = near_lossless_bits;
-    cfg.near_lossless_policy = near_lossless_policy;
-    auto pipeline = build_pipeline(cfg);
-
-    const std::size_t header_used = static_cast<std::size_t>(
-        p - compressed.data());
-    std::vector<std::uint8_t> buf_a(compressed.begin() + header_used,
-                                     compressed.end());
-    std::vector<std::uint8_t> buf_b;
-
-    // Decode runs pipeline in reverse
-    for (auto it = pipeline.rbegin(); it != pipeline.rend(); ++it) {
-        buf_b.clear();
-        Status s = (*it)->decode(buf_a, meta, buf_b);
-        if (s != Status::Ok) return s;
-        std::swap(buf_a, buf_b);
-    }
-
-    if (buf_a.size() != meta.raw_size()) return Status::SizeMismatch;
-    out = std::move(buf_a);
+Status decode(std::span<const std::uint8_t> compressed,
+              std::vector<std::uint8_t>& out,
+              ImageMeta* meta_out) noexcept {
+    FrameHeader header;
+    Status status = parse_header(compressed, header);
+    if (status != Status::Ok) return status;
+    status = decode_payload(compressed, header, out);
+    if (status != Status::Ok) return status;
+    if (meta_out) *meta_out = header.meta;
     return Status::Ok;
 }
 

@@ -105,6 +105,11 @@ int radiance_codec_decode(
     const radiance_codec_config_t* config,
     radiance_codec_buffer_t* out);
 
+int radiance_codec_decode_auto(
+    const uint8_t* compressed, size_t compressed_size,
+    radiance_codec_buffer_t* out,
+    radiance_codec_meta_t* meta_out);
+
 int radiance_codec_near_lossless_router_v1_reconstruct(
     const uint8_t* raw, size_t raw_size,
     const radiance_codec_meta_t* meta,

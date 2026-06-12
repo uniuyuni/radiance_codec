@@ -110,7 +110,7 @@ def measure(path: Path) -> dict[str, object]:
     t0 = time.perf_counter()
     blob = rc.encode_near_lossless_router_v1(pixels)
     t1 = time.perf_counter()
-    decoded = rc.decode(blob, pixels.shape)
+    decoded = rc.decode(blob)
     t2 = time.perf_counter()
     if not np.isfinite(decoded).all():
         raise RuntimeError(f"non-finite decode: {path.name}")

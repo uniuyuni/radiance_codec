@@ -372,7 +372,7 @@ def summarize(
     if skip_quality:
         t2 = t1
     else:
-        decoded = radiance_codec.decode(encoded, pixels.shape)
+        decoded = radiance_codec.decode(encoded)
         t2 = time.perf_counter()
         quality = error_stats(pixels, decoded)
         decode_seconds = t2 - t1

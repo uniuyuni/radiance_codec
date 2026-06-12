@@ -117,6 +117,13 @@ Status decode(std::span<const std::uint8_t> compressed,
               const PipelineConfig& config,
               std::vector<std::uint8_t>& out) noexcept;
 
+// Decode compressed buffer using the ImageMeta stored in the frame header.
+// On success returns Status::Ok, out is resized to decoded raw bytes, and
+// meta_out is populated when non-null.
+Status decode(std::span<const std::uint8_t> compressed,
+              std::vector<std::uint8_t>& out,
+              ImageMeta* meta_out = nullptr) noexcept;
+
 // Library identification
 const char* version() noexcept;
 

@@ -59,7 +59,7 @@ def main() -> int:
                         transform=transform,
                     )
                     t1 = time.perf_counter()
-                    decoded_planes = radiance_codec.decode(encoded, planes.shape)
+                    decoded_planes = radiance_codec.decode(encoded)
                     recon_rgb = inverse_color(decoded_planes, color)
                     t2 = time.perf_counter()
                     row = {

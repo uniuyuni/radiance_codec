@@ -297,7 +297,7 @@ def main() -> int:
         encode_s = time.perf_counter() - started
         encoded_bytes = len(encoded)
         started = time.perf_counter()
-        decoded = radiance_codec.decode(encoded, pixels.shape)
+        decoded = radiance_codec.decode(encoded)
         decode_s = time.perf_counter() - started
     else:
         started = time.perf_counter()

@@ -175,6 +175,13 @@ _lib.radiance_codec_decode.argtypes = [
     ctypes.POINTER(_Buffer),
 ]
 
+_lib.radiance_codec_decode_auto.restype = ctypes.c_int
+_lib.radiance_codec_decode_auto.argtypes = [
+    ctypes.POINTER(ctypes.c_uint8), ctypes.c_size_t,
+    ctypes.POINTER(_Buffer),
+    ctypes.POINTER(_Meta),
+]
+
 _lib.radiance_codec_near_lossless_router_v1_reconstruct.restype = ctypes.c_int
 _lib.radiance_codec_near_lossless_router_v1_reconstruct.argtypes = [
     ctypes.POINTER(ctypes.c_uint8), ctypes.c_size_t,
@@ -270,15 +277,31 @@ def encode(pixels: np.ndarray,
 
 
 def decode(compressed: bytes,
-           shape: tuple[int, ...],
+           shape: tuple[int, ...] | None = None,
            stages: Stage = Stage.NONE,
            effort: int = 5,
            rans_mode: RansMode = RansMode.ORDER0) -> np.ndarray:
-    """Decode bytes produced by encode. shape is (H, W, C) or (H, W).
+    """Decode bytes produced by encode.
 
-    Note: the codec stores the stage/config choices in the file header, so the
-    explicit kwargs here are ignored on decode (kept for symmetry).
+    The preferred call is ``decode(compressed)``. The image shape is read from
+    the frame header. A legacy ``shape`` argument is still accepted for
+    cross-checking older callers.
     """
+    if shape is None:
+        meta = _Meta()
+        out = _Buffer()
+        in_ptr = (ctypes.c_uint8 * len(compressed)).from_buffer_copy(compressed)
+        rc = _lib.radiance_codec_decode_auto(
+            in_ptr, len(compressed), ctypes.byref(out), ctypes.byref(meta))
+        if rc != 0:
+            raise CodecError(f"decode failed: {_STATUS_NAMES.get(rc, rc)}")
+        try:
+            raw = bytes(ctypes.string_at(out.data, out.size))
+        finally:
+            _lib.radiance_codec_buffer_free(ctypes.byref(out))
+        arr = np.frombuffer(raw, dtype=np.float32)
+        return arr.reshape((meta.height, meta.width, meta.channels))
+
     if len(shape) == 2:
         h, w = shape
         c = 1
@@ -815,6 +838,10 @@ def inspect_header(compressed: bytes) -> dict[str, int | str]:
         3: "tile_exponent",
         4: "linear_range",
         5: "log_range",
+        6: "sqrt_range",
+        7: "gamma075_range",
+        8: "gamma025_range",
+        9: "asinh_range",
     }
     return {
         "version": version,
@@ -840,7 +867,7 @@ if __name__ == "__main__":
     rng = np.random.default_rng(0)
     A = rng.standard_normal((32, 64, 3)).astype(np.float32) * 10.0
     enc = encode(A)
-    dec = decode(enc, A.shape)
+    dec = decode(enc)
     assert A.tobytes() == dec.tobytes(), "round-trip mismatch"
     print(f"encode: {A.nbytes} -> {len(enc)} bytes "
           f"(ratio {A.nbytes / len(enc):.3f}x)")

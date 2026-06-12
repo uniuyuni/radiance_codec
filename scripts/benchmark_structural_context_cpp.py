@@ -153,7 +153,7 @@ def main() -> int:
             effort=args.effort,
         )
         t1 = time.perf_counter()
-        decoded = radiance_codec.decode(encoded, pixels.shape)
+        decoded = radiance_codec.decode(encoded)
         t2 = time.perf_counter()
         ok = decoded.tobytes() == pixels.tobytes()
         if not ok:

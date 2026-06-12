@@ -403,7 +403,7 @@ def make_our_codec_method(name: str, stages_value: int,
 
         def decode():
             buf = out_path.read_bytes()
-            decoded_holder["arr"] = our_codec.decode(buf, arr.shape)
+            decoded_holder["arr"] = our_codec.decode(buf)
 
         encode_ms = time_fn(encode)
         decode_ms = time_fn(decode)

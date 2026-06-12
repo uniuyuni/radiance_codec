@@ -200,6 +200,24 @@ pixi run install-python-editable
 
 ## Python での使い方
 
+### ファイルCLI
+
+EXRなどOpenImageIOで読めるfloat画像を簡単に `.rcodec` frameへエンコードし、
+frame headerからサイズを読んでデコードするには、次のCLIを使えます。
+
+```bash
+pixi run python scripts/radiance_codec_file.py encode input.exr output.rcodec
+pixi run python scripts/radiance_codec_file.py decode output.rcodec decoded.exr
+```
+
+modeを指定する例:
+
+```bash
+pixi run python scripts/radiance_codec_file.py encode input.exr output.rcodec --mode lossless --preset quality
+pixi run python scripts/radiance_codec_file.py encode input.exr output.rcodec --mode near --low-bits 12
+pixi run python scripts/radiance_codec_file.py encode input.exr output.rcodec --mode router
+```
+
 ### 完全 lossless
 
 ```python
@@ -211,7 +229,7 @@ pixels = np.random.default_rng(0).standard_normal((128, 128, 3)).astype(np.float
 
 encoded = radiance_codec.encode_lossless(pixels, preset="quality")
 
-decoded = radiance_codec.decode(encoded, pixels.shape)
+decoded = radiance_codec.decode(encoded)
 assert decoded.dtype == np.float32
 assert decoded.tobytes() == pixels.tobytes()
 
@@ -249,7 +267,7 @@ encoded = radiance_codec.encode_near_lossless(
     effort=11,
 )
 
-decoded = radiance_codec.decode(encoded, pixels.shape)
+decoded = radiance_codec.decode(encoded)
 expected = radiance_codec.quantize_mantissa(pixels, low_bits)
 
 # near-lossless では元画像ではなく、量子化後画像と一致する。
@@ -272,7 +290,7 @@ import radiance_codec
 pixels = np.random.default_rng(2).standard_normal((128, 128, 3)).astype(np.float32)
 
 encoded = radiance_codec.encode_near_lossless_router_v1(pixels, effort=11)
-decoded = radiance_codec.decode(encoded, pixels.shape)
+decoded = radiance_codec.decode(encoded)
 
 assert decoded.shape == pixels.shape
 assert decoded.dtype == np.float32
@@ -354,10 +372,14 @@ int main() {
     }
 
     std::vector<std::uint8_t> decoded;
-    if (radiance_codec::decode(compressed, meta, cfg, decoded) != radiance_codec::Status::Ok) {
+    radiance_codec::ImageMeta decoded_meta;
+    if (radiance_codec::decode(compressed, decoded, &decoded_meta) != radiance_codec::Status::Ok) {
         return 1;
     }
 
+    if (decoded_meta.width != W || decoded_meta.height != H || decoded_meta.channels != C) {
+        return 1;
+    }
     if (decoded != raw) {
         return 1;
     }
@@ -378,8 +400,8 @@ radiance_codec::PipelineConfig cfg{
 };
 ```
 
-現在の frame header には stage/meta が入りますが、decode API には caller 側でも
-`ImageMeta` を渡します。ヘッダと caller meta が一致しない場合は decode に失敗します。
+decode は frame header の stage/meta を使うため、caller 側で画像サイズを渡す必要は
+ありません。互換用に caller meta を cross-check する overload も残しています。
 
 インストール先が `./dist/radiance_codec` の場合、macOS では例えば次のように
 ビルドできます。
@@ -426,6 +448,7 @@ Swift や他言語 FFI 用に C ABI もあります。
 ```c
 radiance_codec_encode(...)
 radiance_codec_decode(...)
+radiance_codec_decode_auto(...)
 radiance_codec_near_lossless_router_v1_reconstruct(...)
 radiance_codec_buffer_free(...)
 radiance_codec_version()
@@ -433,6 +456,8 @@ radiance_codec_version()
 
 `radiance_codec_encode` / `radiance_codec_decode` が返す buffer はライブラリ側で確保されます。
 使い終わったら必ず `radiance_codec_buffer_free` を呼んでください。
+新規コードでは、decode時にmeta/configを渡さない `radiance_codec_decode_auto` を使うのが
+基本です。必要なら `meta_out` でヘッダ内の画像サイズを受け取れます。
 
 ## Stage の目安
 
@@ -455,9 +480,8 @@ visual near-lossless router は `StageNearLosslessRouter` 単独で使います�
 ## 注意点
 
 - 現在は研究用 codec です。ファイル形式や stage id は将来変わる可能性があります。
-- decode 時も画像の width / height / channels を API に渡す必要があります。
-  フレームヘッダにも meta は入っていますが、現在の API は caller 側の meta と
-  cross-check します。
+- decode 時は frame header 内の width / height / channels / stage config を使います。
+  互換用のmeta付きdecode overloadは、caller metaとのcross-checkに使えます。
 - near-lossless は bit-exact ではありません。用途に応じて `low_bits` を選んでください。
 - Python wheel は CMake build で作った共有ライブラリを同梱します。
 - CMake install は `find_package(radiance_codec CONFIG)` 用の package config も入れます。

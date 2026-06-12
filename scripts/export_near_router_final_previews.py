@@ -48,7 +48,7 @@ def export_one(path: Path, output_dir: Path, white: float, gamma: float) -> dict
     t0 = time.perf_counter()
     encoded = radiance_codec.encode_near_lossless_router_v1(pixels)
     t1 = time.perf_counter()
-    decoded = radiance_codec.decode(encoded, pixels.shape)
+    decoded = radiance_codec.decode(encoded)
     t2 = time.perf_counter()
 
     png_name = f"{path.name}.png"

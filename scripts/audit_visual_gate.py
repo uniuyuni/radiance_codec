@@ -100,7 +100,7 @@ def decode_candidate(pixels: np.ndarray, spec: str) -> tuple[str, np.ndarray, di
             transform=transform,
         )
         t1 = time.perf_counter()
-        decoded = radiance_codec.decode(encoded, pixels.shape)
+        decoded = radiance_codec.decode(encoded)
         return (
             f"codec_{transform}_bits{bits}",
             decoded,
