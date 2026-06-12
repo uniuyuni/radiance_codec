@@ -20,6 +20,7 @@ router を実装しています。
 
 | 文書 | 内容 |
 |---|---|
+| `README.md` | 英語の導入、ビルド、APIの最短ガイド。 |
 | `README_JA.md` | 導入、ビルド、APIの最短ガイド。 |
 | `docs/DETAILED_DESIGN_JA.md` | 全体設計、公開API、frame format、stage構成、運用上の注意。 |
 | `docs/CPP_NEAR_LOSSLESS_OPTIMIZATION_SUMMARY_JA.md` | C++ near-lossless router の最適化ログと現行default。 |

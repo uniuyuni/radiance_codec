@@ -6,7 +6,7 @@ build-backend = "setuptools.build_meta"
 name = "radiance-codec"
 version = "0.0.1"
 description = "Research codec for float32 HDR image compression"
-readme = "README_JA.md"
+readme = "README.md"
 requires-python = ">=3.11"
 dependencies = ["numpy"]
 classifiers = [
