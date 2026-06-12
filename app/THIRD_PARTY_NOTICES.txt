@@ -1,0 +1,75 @@
+radiance-codec macOS CLI third-party notices
+================================================
+
+This package bundles third-party dynamic libraries so the CLI can run without
+requiring Homebrew, pixi, Python modules, or system-wide codec installs.
+
+Bundled components:
+
+- OpenEXR
+- Imath
+- zstd
+- libdeflate
+- openjph
+- LLVM OpenMP runtime (libomp)
+- LLVM libc++
+
+OpenEXR / Imath
+---------------
+
+OpenEXR and Imath are distributed under BSD-style licenses by the Academy
+Software Foundation. When redistributing this package, include the full license
+texts for the exact OpenEXR and Imath versions bundled with the package.
+
+Project home:
+https://github.com/AcademySoftwareFoundation/openexr
+https://github.com/AcademySoftwareFoundation/Imath
+
+zstd
+----
+
+zstd is distributed under a BSD license.
+
+Project home:
+https://github.com/facebook/zstd
+
+libdeflate
+----------
+
+libdeflate is distributed under the MIT license.
+
+Project home:
+https://github.com/ebiggers/libdeflate
+
+openjph
+-------
+
+OpenJPH is distributed under a BSD-style license.
+
+Project home:
+https://github.com/aous72/OpenJPH
+
+LLVM OpenMP runtime
+-------------------
+
+The LLVM OpenMP runtime is distributed as part of LLVM, primarily under the
+Apache License 2.0 with LLVM exceptions.
+
+Project home:
+https://github.com/llvm/llvm-project
+
+LLVM libc++
+-----------
+
+The bundled libc++ runtime is distributed as part of LLVM, primarily under the
+Apache License 2.0 with LLVM exceptions.
+
+Project home:
+https://github.com/llvm/llvm-project
+
+Packaging note
+--------------
+
+This notice file is a short placeholder suitable for local development builds.
+Before public distribution, replace or extend it with the complete license text
+copied from the exact dependency artifacts used to build the package.
