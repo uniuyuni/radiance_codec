@@ -9,6 +9,7 @@ dist/
 codec/build/
 app/build/
 app/radiance-codec-macos/
+app/releases/
 
 # Python caches
 __pycache__/

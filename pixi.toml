@@ -1,6 +1,6 @@
 [workspace]
 name = "radiance-codec"
-version = "0.1.0"
+version = "0.0.1"
 description = "Float32 HDR image compression research codec"
 channels = ["conda-forge"]
 platforms = ["osx-arm64"]

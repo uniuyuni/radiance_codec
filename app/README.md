@@ -1,5 +1,7 @@
 # radiance-codec macOS CLI package
 
+Version: 0.0.1
+
 This folder builds and packages a self-contained macOS command line app for
 EXR input/output and `.rcodec` frames.
 
