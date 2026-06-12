@@ -152,10 +152,11 @@ dist/radiance_codec/
 pixi run cmake --install codec/build --prefix /usr/local
 ```
 
-Python binding は今のところ開発ツリー用です。`codec/python/radiance_codec.py` は
-`codec/build/libradiance_codec.dylib` または `codec/build/libradiance_codec.so` を探します。
-Python から使う場合は、まず `pixi run build` してから、このリポジトリ内で
-`codec/python` を import path に追加してください。
+Python binding は、開発ツリーから直接使う方法と、Python package として
+インストールする方法の両方に対応しています。開発ツリーで使う場合、
+`codec/python/radiance_codec.py` は `codec/build/libradiance_codec.dylib` または
+`codec/build/libradiance_codec.so` を探します。まず `pixi run build` してから、
+このリポジトリ内で `codec/python` を import path に追加してください。
 
 スクリプトから使う場合は、例えば次のように実行できます。
 
@@ -183,6 +184,12 @@ RADIANCE_CODEC_SKIP_CMAKE_BUILD=1 pixi run python -m pip install .
 RADIANCE_CODEC_LIBRARY=/path/to/libradiance_codec.dylib python your_script.py
 ```
 
+Python binding の共有ライブラリ探索順は以下です。
+
+1. `RADIANCE_CODEC_LIBRARY`
+2. Python module と同じディレクトリの同梱共有ライブラリ
+3. 開発ツリーの `codec/build`
+
 開発中の editable install は、共有ライブラリ探索の都合上、先に `pixi run build` してから
 使ってください。
 
@@ -196,10 +203,8 @@ pixi run install-python-editable
 ### 完全 lossless
 
 ```python
-import sys
 import numpy as np
 
-sys.path.insert(0, "codec/python")
 import radiance_codec
 
 pixels = np.random.default_rng(0).standard_normal((128, 128, 3)).astype(np.float32)
@@ -231,10 +236,8 @@ channels は `1..4` に対応しています。
 ### Near-lossless
 
 ```python
-import sys
 import numpy as np
 
-sys.path.insert(0, "codec/python")
 import radiance_codec
 
 pixels = np.random.default_rng(1).standard_normal((128, 128, 3)).astype(np.float32)
@@ -262,10 +265,8 @@ HDR写真向けの現行主力 near-lossless route は `encode_near_lossless_rou
 decode 結果は元画像ではなく、router が再構成した候補画像になります。
 
 ```python
-import sys
 import numpy as np
 
-sys.path.insert(0, "codec/python")
 import radiance_codec
 
 pixels = np.random.default_rng(2).standard_normal((128, 128, 3)).astype(np.float32)
@@ -308,8 +309,8 @@ pixi run python scripts/export_near_router_final_previews.py \
 出力先:
 
 ```text
-outputs/previews/<label>/<source-name>.original.png
-outputs/previews/<label>/<source-name>.candidate.png
+outputs/previews/<label>/original/<source-name>.png
+outputs/previews/<label>/candidate/<source-name>.png
 outputs/previews/<label>/manifest.json
 ```
 
@@ -460,9 +461,12 @@ visual near-lossless router は `StageNearLosslessRouter` 単独で使います�
 - near-lossless は bit-exact ではありません。用途に応じて `low_bits` を選んでください。
 - Python wheel は CMake build で作った共有ライブラリを同梱します。
 - CMake install は `find_package(radiance_codec CONFIG)` 用の package config も入れます。
+- PyPI等へ配布する場合の platform wheel 自動生成、依存共有ライブラリ監査、
+  ABI互換ポリシーは未整備です。現状はローカル/社内配布向けの最小packagingです。
 
 ## 関連ドキュメント
 
+- 詳細設計書: `docs/DETAILED_DESIGN_JA.md`
 - 再開用ハンドオフ: `docs/HANDOFF_JA.md`
 - 結果の日本語要約: `docs/RESULTS_JA.md`
 - 詳細な研究ログ: `docs/PLAN_ML_V2.md`

@@ -4,6 +4,29 @@
 見やすくまとめたものです。詳細な研究ログは `PLAN_ML_V2.md` と
 `LOSSLESS_RESEARCH_REBOOT.md` にあります。
 
+## results/ の扱い
+
+`results/` には初期研究からの探索JSONが多く残っています。古いファイルは
+現在の性能やdefault方針と混同しやすいため、基本的には本書、詳細設計、
+near-lossless最適化サマリを優先してください。
+
+新しいbenchmarkやprobeの出力は、デフォルトではGitに追加しません。結果を
+残す場合は、要点をdocsへ転記したうえで、再現性や比較に必要なJSONだけを
+明示的に `git add -f` します。一時的な失敗ログ、smokeログ、候補悪化ログは
+コミット対象外です。
+
+## 画質確認の最新メモ
+
+visual near-lossless router は、サイズや速度だけでは採用判断しません。
+2026-06-11 のfull解像度preview確認では、以前のdark smooth bypass系候補で
+問題になった `sample_DSCF0009.EXR` の暗部階調崩れと黄色いまだらな変色は、
+現行defaultで大きく改善したと判断しました。
+
+一方で、ノイズの強い画像や暗い画像では差分が最暗部に残りやすいため、
+「暗いだけ」と決め打ちせず、暗部ノイズ強度も見ます。今後のnear-lossless
+router変更では、DSCFの+3段相当の暗部確認、強ノイズ画像での模様化、
+night系画像の最暗部を最低限の目視確認セットにします。
+
 ## 現在の結論
 
 現時点で一番筋が良い lossless 本線は `GroupedDelta / GDXB` です。

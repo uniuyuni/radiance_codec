@@ -839,6 +839,29 @@ Metalあり/権限ありのclean repeat3:
 | `sample_middle_flower.EXR` | 19,466,959 | 24.54x | 2.044s | 1.158s | 0.00% | 12,351,253 | 69,387 |
 | `sample_night_city.EXR` | 28,738,534 | 21.52x | 4.921s | 1.600s | 15.97% | 10,139,289 | 9,284,135 |
 
+### 視覚確認メモ
+
+2026-06-11 に `outputs/previews/near_lossless_router_final_20260611/` へ
+full解像度の `original/` と `candidate/` previewを出力し、主要sampleを目視確認した。
+
+判断:
+
+- `sample_DSCF0009.EXR` は以前のdark smooth bypass系候補で見えた暗部階調崩れ、
+  黄色のまだらな変色が、現行defaultでは大きく戻った。dark smooth bypassを
+  defaultから外した判断は正しい。
+- `sample_cat_noisy.EXR` は元画像のノイズが強いためcandidateとの差は分かるが、
+  破綻したノイズ除去というより、弱い整理が入った程度に見える範囲へ戻った。
+- `sample_night_city.EXR` は暗いだけの画像として扱うより、暗部ノイズ強度で
+  判断する方針が妥当。現行defaultでは最暗部に微妙な差が出うるため、今後の
+  改造ではDSCFだけでなくnight/catの暗部も確認対象にする。
+
+今後の画質確認では、圧縮率やencode時間だけでなく、少なくとも次を確認する:
+
+- +3段程度に持ち上げた暗部階調
+- 黄色/緑寄りのまだらな色変化
+- ノイズ画像での不自然な模様化
+- `original/` と `candidate/` のfull解像度preview比較
+
 ### night_city trace
 
 `sample_night_city.EXR` のtrace付き単独実行では `encode total 2.980s`、

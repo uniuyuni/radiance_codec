@@ -19,6 +19,13 @@ __pycache__/
 .env
 .env.*
 
+# Generated benchmark outputs.
+# Historical files under results/ are still tracked, but new local runs should
+# stay out of git unless they are deliberately promoted with `git add -f`.
+results/*.json
+results/*.csv
+results/*.log
+
 # Large local research samples / generated previews
 data/
 outputs/

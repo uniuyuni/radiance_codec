@@ -1,6 +1,6 @@
 # radiance_codec 詳細設計書
 
-最終更新: 2026-06-08
+最終更新: 2026-06-12
 
 ## 位置づけ
 
@@ -19,7 +19,7 @@
 | `codec/include/radiance_codec/codec.hpp` | C++公開API。`ImageMeta`, `PipelineConfig`, `encode`, `decode` を定義する。 |
 | `codec/include/radiance_codec/c_api.h` | C ABI。Python/Swift/他言語FFI向けの安定境界。 |
 | `codec/src` | codec本体。pipeline、stage実装、C ABI wrapper、Metal実装を含む。 |
-| `codec/python/radiance_codec.py` | Python ctypes binding。開発ツリー用。 |
+| `codec/python/radiance_codec.py` | Python ctypes binding。開発ツリー直使用とwheel同梱に対応する。 |
 | `codec/tests` | C++単体/回帰テスト。 |
 | `scripts` | ベンチ、品質監査、実験プローブ、preview生成。 |
 | `docs` | 研究ログ、品質基準、最適化記録、設計文書。 |
@@ -125,6 +125,8 @@ build 時に CMake/Ninja で `libradiance_codec` をビルドし、`radiance_cod
 
 開発ツリーで直接使う場合は、従来通り `codec/python` を `PYTHONPATH` に追加し、
 `codec/build/libradiance_codec.dylib` または `.so` を参照する。
+共有ライブラリ探索は `RADIANCE_CODEC_LIBRARY`、module隣接の同梱ライブラリ、
+`codec/build` の順で行う。
 
 主要関数:
 
@@ -480,6 +482,23 @@ lib/libradiance_codec.dylib or .so
 - `RADIANCE_CODEC_LIBRARY=/path/to/lib` で共有ライブラリ探索を明示上書きできる。
 - CMake install は package config を入れるため、consumer は
   `find_package(radiance_codec CONFIG REQUIRED)` を使える。
+- PyPI等へ配布するための platform wheel 自動生成、依存共有ライブラリ監査、
+  ABI互換ポリシーは未整備。現状はローカル/社内配布向けの最小packagingである。
+
+配布前の静的チェック:
+
+```bash
+python3 -m py_compile codec/python/radiance_codec.py
+git diff --check
+```
+
+build可能な環境では、以下も確認する:
+
+```bash
+pixi run build
+pixi run wheel
+pixi run cmake --install codec/build --prefix ./dist/radiance_codec
+```
 
 ## テスト
 
