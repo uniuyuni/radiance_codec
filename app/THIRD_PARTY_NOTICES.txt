@@ -4,72 +4,58 @@ radiance-codec macOS CLI third-party notices
 This package bundles third-party dynamic libraries so the CLI can run without
 requiring Homebrew, pixi, Python modules, or system-wide codec installs.
 
-Bundled components:
+The radiance_codec library and CLI code are distributed under the BSD 3-Clause
+License. See LICENSE in this package.
 
-- OpenEXR
-- Imath
-- zstd
-- libdeflate
-- openjph
-- LLVM OpenMP runtime (libomp)
-- LLVM libc++
+Bundled third-party components
+------------------------------
 
-OpenEXR / Imath
----------------
+The following dependency information matches the conda-forge packages used by
+the current macOS package script.
 
-OpenEXR and Imath are distributed under BSD-style licenses by the Academy
-Software Foundation. When redistributing this package, include the full license
-texts for the exact OpenEXR and Imath versions bundled with the package.
+Component              Version  License                         Source package
+OpenEXR                3.4.11   BSD-3-Clause                    openexr-3.4.11-hef8b857_0.conda
+Imath                  3.2.2    BSD-3-Clause                    imath-3.2.2-h3470cca_0.conda
+zstd                   1.5.7    BSD-3-Clause                    zstd-1.5.7-hbf9d68e_6.conda
+libdeflate             1.25     MIT                             libdeflate-1.25-hc11a715_0.conda
+OpenJPH                0.27.3   BSD-2-Clause                    openjph-0.27.3-h2a4d681_0.conda
+LLVM OpenMP runtime    22.1.5   Apache-2.0 WITH LLVM-exception  llvm-openmp-22.1.5-hc7d1edf_1.conda
+LLVM libc++ runtime    22.1.6   Apache-2.0 WITH LLVM-exception  libcxx-22.1.6-h55c6f16_0.conda
 
-Project home:
+Project homes and license references
+------------------------------------
+
+OpenEXR:
 https://github.com/AcademySoftwareFoundation/openexr
+
+Imath:
 https://github.com/AcademySoftwareFoundation/Imath
 
-zstd
-----
-
-zstd is distributed under a BSD license.
-
-Project home:
+zstd:
 https://github.com/facebook/zstd
 
-libdeflate
-----------
-
-libdeflate is distributed under the MIT license.
-
-Project home:
+libdeflate:
 https://github.com/ebiggers/libdeflate
 
-openjph
--------
-
-OpenJPH is distributed under a BSD-style license.
-
-Project home:
+OpenJPH:
 https://github.com/aous72/OpenJPH
 
-LLVM OpenMP runtime
+LLVM OpenMP and LLVM libc++:
+https://github.com/llvm/llvm-project
+
+conda-forge package sources:
+https://github.com/conda-forge/openexr-feedstock
+https://github.com/conda-forge/imath-feedstock
+https://github.com/conda-forge/zstd-feedstock
+https://github.com/conda-forge/libdeflate-feedstock
+https://github.com/conda-forge/openjph-feedstock
+https://github.com/conda-forge/llvm-openmp-feedstock
+https://github.com/conda-forge/libcxx-feedstock
+
+Redistribution note
 -------------------
 
-The LLVM OpenMP runtime is distributed as part of LLVM, primarily under the
-Apache License 2.0 with LLVM exceptions.
-
-Project home:
-https://github.com/llvm/llvm-project
-
-LLVM libc++
------------
-
-The bundled libc++ runtime is distributed as part of LLVM, primarily under the
-Apache License 2.0 with LLVM exceptions.
-
-Project home:
-https://github.com/llvm/llvm-project
-
-Packaging note
---------------
-
-This notice file is a short placeholder suitable for local development builds.
-Before public distribution, replace or extend it with the complete license text
-copied from the exact dependency artifacts used to build the package.
+When rebuilding the package with different dependency versions, refresh this
+file from the exact packages being bundled. The package intentionally bundles
+only runtime dynamic libraries and the notices needed to identify their
+licenses and sources.

@@ -290,6 +290,15 @@ RADIANCE_CODEC_ROUTER_DARK_SMOOTH_BYPASS=1
 The Python binding sets `OMP_WAIT_POLICY=PASSIVE` and `KMP_BLOCKTIME=0` when
 they are not already set, reducing OpenMP worker spin and encode-time jitter.
 
+## License
+
+`radiance_codec` is distributed under the BSD 3-Clause License. See
+`LICENSE`.
+
+The macOS CLI package bundles third-party dynamic libraries. See
+`app/THIRD_PARTY_NOTICES.txt` and the packaged `THIRD_PARTY_NOTICES.txt` for
+their licenses and source package references.
+
 ## C++ API
 
 Include:

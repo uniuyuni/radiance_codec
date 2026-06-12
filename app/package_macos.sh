@@ -62,6 +62,7 @@ install_name_tool -delete_rpath "$CONDA_PREFIX/lib" "$PACKAGE_DIR/bin/radiance-c
 install_name_tool -delete_rpath "$PREFIX/lib" "$PACKAGE_DIR/bin/radiance-codec" 2>/dev/null || true
 cp "$APP_DIR/THIRD_PARTY_NOTICES.txt" "$PACKAGE_DIR/"
 cp "$APP_DIR/README.md" "$PACKAGE_DIR/"
+cp "$ROOT/LICENSE" "$PACKAGE_DIR/"
 
 echo "packaged: $PACKAGE_DIR"
 "$PACKAGE_DIR/bin/radiance-codec" || true

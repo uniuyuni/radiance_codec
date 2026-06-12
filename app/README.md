@@ -17,6 +17,7 @@ The packaged CLI is written to:
 app/radiance-codec-macos/
   bin/radiance-codec
   lib/*.dylib
+  LICENSE
   THIRD_PARTY_NOTICES.txt
 ```
 
@@ -39,3 +40,7 @@ Encoding modes:
 The package bundles `libradiance_codec`, OpenEXR/Imath, zstd, libdeflate,
 openjph, libomp, and the conda-forge libc++ used by the build. macOS system
 frameworks are not bundled.
+
+`radiance_codec` is distributed under the BSD 3-Clause License. See `LICENSE`.
+Bundled third-party libraries keep their own licenses; see
+`THIRD_PARTY_NOTICES.txt`.

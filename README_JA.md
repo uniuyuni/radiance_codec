@@ -489,6 +489,14 @@ visual near-lossless router は `StageNearLosslessRouter` 単独で使います�
 - PyPI等へ配布する場合の platform wheel 自動生成、依存共有ライブラリ監査、
   ABI互換ポリシーは未整備です。現状はローカル/社内配布向けの最小packagingです。
 
+## ライセンス
+
+`radiance_codec` 本体は BSD 3-Clause License です。詳細は `LICENSE` を参照してください。
+
+macOS CLI package は third-party の dynamic library を同梱します。同梱物のライセンスと
+配布元は `app/THIRD_PARTY_NOTICES.txt` および package 内の
+`THIRD_PARTY_NOTICES.txt` を参照してください。
+
 ## 関連ドキュメント
 
 - 詳細設計書: `docs/DETAILED_DESIGN_JA.md`
